@@ -1,0 +1,29 @@
+<div class="main">
+
+  <div class="card">
+
+    <h2>User Login</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+
+      <input
+        type="email"
+        placeholder="Enter Email"
+        formControlName="userEmail"
+      >
+
+      <input
+        type="password"
+        placeholder="Enter Password"
+        formControlName="password"
+      >
+
+      <button type="submit">Login</button>
+
+    </form>
+
+    
+
+  </div>
+
+</div>

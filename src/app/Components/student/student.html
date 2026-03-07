@@ -1,0 +1,19 @@
+<div class="container">
+
+  <h2>Assigned Problem Statements</h2>
+
+  <div *ngIf="loading">
+    Loading questions...
+  </div>
+
+  <div *ngFor="let q of questions" class="card">
+
+    <h3>Question #{{q.id}}</h3>
+
+    <p>{{q.problemStatement}}</p>
+
+    <button (click)="solve(q.id)">Solve</button>
+
+  </div>
+
+</div>

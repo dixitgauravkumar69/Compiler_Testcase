@@ -1,0 +1,31 @@
+<div class="container coding-ui">
+  <h2>Add Problem & Test Cases</h2>
+
+  <!-- Step 1: Problem -->
+  <div *ngIf="!problemSaved" class="step-box">
+    <label>Problem Statement:</label>
+    <textarea [(ngModel)]="problemStatement" rows="5" class="form-control"></textarea>
+    <button (click)="saveProblem()" class="btn btn-success mt-2">Save Problem</button>
+  </div>
+
+  <!-- Step 2: Test Cases -->
+  <div *ngIf="problemSaved" class="step-box">
+    <h4>Problem ID: {{ problemId }}</h4>
+    <label>Input Data:</label>
+    <textarea [(ngModel)]="inputData" rows="3" class="form-control"></textarea>
+
+    <label class="mt-2">Expected Output:</label>
+    <textarea [(ngModel)]="expectedOutput" rows="2" class="form-control"></textarea>
+
+    <button (click)="addTestCase()" class="btn btn-primary mt-2">Add Test Case</button>
+
+    <div class="mt-3">
+      <h5>Added Test Cases:</h5>
+      <ul>
+        <li *ngFor="let tc of testCasesAdded">{{ tc }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="mt-2 text-info">{{ message }}</p>
+</div>

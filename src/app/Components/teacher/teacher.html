@@ -1,0 +1,41 @@
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <h2>Teacher Panel</h2>
+
+    <button (click)="activeSection='see'">
+      See Problem Statements
+    </button>
+
+    <button (click)="goToAddStatement()">
+      Add Problem Statement
+    </button>
+
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <h2>Problem Statements</h2>
+
+    <div class="problem-card" *ngFor="let ps of problemStatements">
+
+      <h3>Problem {{ps.id}}</h3>
+
+      <p>{{ps.problemStatement}}</p>
+
+      <button 
+      
+      (click)="assign(ps.id)">
+
+        {{ps.assigned ? 'Assigned' : 'Assign'}}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

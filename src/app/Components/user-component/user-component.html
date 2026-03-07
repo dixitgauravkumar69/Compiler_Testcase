@@ -1,0 +1,30 @@
+<div class="main">
+
+  <div class="card">
+
+    <h2>User Registration</h2>
+
+    <form [formGroup]="userForm" (ngSubmit)="registerUser()">
+
+      <input type="text" placeholder="Enter Name" formControlName="userName">
+
+      <input type="email" placeholder="Enter Email" formControlName="userEmail">
+
+      <select formControlName="userRole">
+        <option value="">Select Role</option>
+        <option value="ADMIN">Admin</option>
+        <option value="STUDENT">Student</option>
+        <option value="TEACHER">Teacher</option>
+      </select>
+
+      <input type="password" placeholder="Enter Password" formControlName="password">
+
+      <button type="submit">Register</button>
+
+    </form>
+
+    <p class="msg">{{message}}</p>
+
+  </div>
+
+</div>

@@ -35,7 +35,9 @@ export class Student implements OnInit {
   }
 
   getQuestions() {
-    this.http.get<Question[]>("http://localhost:8080/student/getQuestions")
+    this.http.get<Question[]>("http://localhost:8080/student/getQuestions",{
+      withCredentials:true
+    })
       .subscribe({
         next: (data) => {
           this.questions = data;

@@ -5,6 +5,11 @@ import { UserComponent } from './Components/user-component/user-component';
 import { LoginComponent } from './Components/login-component/login-component';
 import { Student } from './Components/student/student';
 import { Teacher } from './Components/teacher/teacher';
+import { CampusComponent } from './Components/campus-component/campus-component';
+import { FindPlacementInfo } from './Components/find-placement-info/find-placement-info';
+import { JobDescription } from './Components/job-description/job-description';
+import { Profile } from './Components/profile/profile';
+import { GenerateResume } from './Components/generate-resume/generate-resume';
 
 export const routes: Routes = [
     {path:"",component:UserComponent},
@@ -12,5 +17,11 @@ export const routes: Routes = [
     { path:"Run",component:CodeExecution},
     {path:"Statement",component:ProblemWithTestCases},
     {path:"student",component:Student},
-    {path:"teacher",component:Teacher}
+    {path:"teacher",component:Teacher},
+    {path:"campusAdd",component:CampusComponent},
+     {path:"findJobInfo",component:FindPlacementInfo},
+     {path:"jobDescription/:id",component:JobDescription},
+     {path:"profile",component:Profile},
+     {path:"generateResume",component:GenerateResume},
+    
 ];

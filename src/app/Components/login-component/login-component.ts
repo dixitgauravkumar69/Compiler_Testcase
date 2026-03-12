@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { BASE_URL } from '../../../Environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +35,7 @@ export class LoginComponent {
 
     if(this.loginForm.valid){
 
-      this.http.post<any>('http://localhost:8080/api/User/login', this.loginForm.value)
+      this.http.post<any>(`${BASE_URL}/api/User/login`, this.loginForm.value)
       .subscribe({
 
         next:(res)=>{
@@ -42,6 +43,10 @@ export class LoginComponent {
           this.success = true;
           this.cdr.detectChanges();
           alert( "Welcome " + res.userName + " 🎉 Login Successful");
+
+
+          localStorage.setItem("Usermail",res.userEmail);
+          localStorage.setItem("UserId",res.userId);
           
         if(res.userRole === "TEACHER"){
           this.router.navigate(['/teacher']);

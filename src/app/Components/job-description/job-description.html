@@ -1,0 +1,76 @@
+<div class="container" *ngIf="job">
+
+<div class="header-card">
+
+<h2>{{job.company}}</h2>
+<h3>{{job.title}}</h3>
+
+<div class="badges">
+<span>{{job.jobType}}</span>
+<span>{{job.location}}</span>
+<span>Semester {{job.semester}}</span>
+</div>
+
+<div class="package">
+  ₹ {{ job.salaryPackage }}
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h4>Eligibility</h4>
+<p>{{job.eligibility}}</p>
+
+</div>
+
+<div class="section">
+
+<h4>Skills Required</h4>
+<p>{{job.skillsRequired}}</p>
+
+</div>
+
+<div class="section">
+
+<h4>Job Description</h4>
+<p>{{job.jobDescription}}</p>
+
+</div>
+
+<div class="section">
+
+<h4>Selection Process</h4>
+<p>{{job.selectionProcess}}</p>
+
+</div>
+
+<div class="section">
+
+<h4>Bond</h4>
+<p>{{job.bond}}</p>
+
+</div>
+
+<div class="section">
+
+<h4>Last Date to Apply</h4>
+<p>{{job.registrationLastDate}}</p>
+
+</div>
+
+
+
+<div class="section" *ngIf="job.allocate">
+
+
+  <h4>Job Attachment</h4>
+  <a [href]="job.allocate" download="{{ getFileName(job.allocate) }}">
+    <button class="download-btn">Download PDF</button>
+  </a>
+</div>
+
+<button class="apply-btn">Apply Now</button>
+
+</div>

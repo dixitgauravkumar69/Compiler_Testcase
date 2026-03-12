@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { BASE_URL } from '../../Environments/environment';
 export interface RunCodeRequest {
   code: string;
   language: string;
@@ -13,7 +13,7 @@ export interface RunCodeRequest {
 })
 export class CodeExecutionService {
 
-  private baseUrl = 'http://localhost:8080/api/code'; 
+  private baseUrl = `${BASE_URL}/api/code`; 
 
   constructor(private http: HttpClient) { }
 

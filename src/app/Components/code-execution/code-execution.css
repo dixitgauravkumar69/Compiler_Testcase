@@ -1,75 +1,122 @@
-/* Container */
-.code-runner-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px 30px;
-  border-radius: 10px;
-  background-color: #1e1e1e; /* Dark coding theme */
-  color: #d4d4d4;
-  font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-/* Headings */
-.code-runner-container h2, .code-runner-container h3 {
-  color: #ffffff;
-  margin-bottom: 15px;
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f1f5f9;
 }
 
-/* Language select */
-.language-select {
-  width: 200px;
-  padding: 8px 12px;
-  border-radius: 5px;
-  border: none;
-  background-color: #2d2d2d;
-  color: #ffffff;
-  font-family: monospace;
+/* MAIN LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+padding:20px;
+gap:20px;
 }
 
-/* Code editor textarea */
-.code-editor {
-  width: 100%;
-  height: 300px;
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  border: 1px solid #3c3c3c;
-  border-radius: 6px;
-  font-family: 'Fira Code', 'Consolas', monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 12px;
-  resize: vertical;
-  outline: none;
+/* LEFT SIDE */
+
+.problem-section{
+width:35%;
 }
 
-/* Run button */
-.run-btn {
-  margin-top: 15px;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 6px;
-  background: #0fbcf9;
-  color: #ffffff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
+.problem-card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+line-height:1.6;
+height:100%;
+overflow:auto;
 }
 
-.run-btn:hover {
-  background: #00a8ff;
+.problem-card pre{
+background:#f8fafc;
+padding:12px;
+border-radius:6px;
+margin-top:10px;
 }
 
-/* Output */
-.code-output {
-  background-color: #252526;
-  color: #9cdcfe;
-  padding: 15px;
-  border-radius: 6px;
-  min-height: 100px;
-  margin-top: 15px;
-  overflow-x: auto;
-  white-space: pre-wrap; /* preserves formatting */
-  font-family: 'Fira Code', 'Consolas', monospace;
-  font-size: 14px;
+/* RIGHT SIDE */
+
+.code-runner-container{
+width:65%;
+background:white;
+border-radius:12px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+display:flex;
+flex-direction:column;
+padding:20px;
+}
+
+/* HEADER */
+
+.runner-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.language-box{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.language-box select{
+padding:6px 10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+/* RUN BUTTON */
+
+.run-btn{
+background:#2563eb;
+color:white;
+border:none;
+padding:8px 18px;
+border-radius:6px;
+font-weight:600;
+cursor:pointer;
+}
+
+.run-btn:hover{
+background:#1e40af;
+}
+
+/* BIG CODE EDITOR */
+
+.code-editor{
+flex:1;
+background:#0f172a;
+color:#e2e8f0;
+border:none;
+border-radius:8px;
+padding:18px;
+font-family:monospace;
+font-size:15px;
+resize:none;
+outline:none;
+margin-top:10px;
+}
+
+/* OUTPUT */
+
+.output-section{
+margin-top:15px;
+}
+
+.output-section pre{
+background:#020617;
+color:#22c55e;
+padding:15px;
+border-radius:6px;
+min-height:100px;
+font-family:monospace;
 }

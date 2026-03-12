@@ -1,0 +1,87 @@
+<div class="profile-container">
+
+<h2>{{user.username}}</h2>
+
+<button *ngIf="!editMode" (click)="enableEdit()">Edit Profile</button>
+
+<button *ngIf="editMode" (click)="saveProfile()">Save</button>
+<button *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
+
+
+<div class="form-grid">
+
+<div class="field">
+<label>Phone</label>
+
+<input *ngIf="editMode" [(ngModel)]="profile.phone">
+<p *ngIf="!editMode">{{profile.phone}}</p>
+
+</div>
+
+
+<div class="field">
+<label>College</label>
+
+<input *ngIf="editMode" [(ngModel)]="profile.college">
+<p *ngIf="!editMode">{{profile.college}}</p>
+</div>
+
+
+<div class="field">
+<label>Branch</label>
+
+<input *ngIf="editMode" [(ngModel)]="profile.branch">
+<p *ngIf="!editMode">{{profile.branch}}</p>
+</div>
+
+
+<div class="field">
+<label>Semester</label>
+
+<input *ngIf="editMode" [(ngModel)]="profile.semester">
+<p *ngIf="!editMode">{{profile.semester}}</p>
+</div>
+
+
+<div class="field">
+<label>CGPA</label>
+
+<input *ngIf="editMode" [(ngModel)]="profile.cgpa">
+<p *ngIf="!editMode">{{profile.cgpa}}</p>
+</div>
+
+
+<div class="field">
+<label>Skills</label>
+
+<input *ngIf="editMode" [(ngModel)]="profile.skills">
+<p *ngIf="!editMode">{{profile.skills}}</p>
+</div>
+
+
+<div class="field">
+<label>Github</label>
+
+<input *ngIf="editMode" [(ngModel)]="profile.github">
+<p *ngIf="!editMode">{{profile.github}}</p>
+</div>
+
+
+<div class="field">
+<label>Linkedin</label>
+
+<input *ngIf="editMode" [(ngModel)]="profile.linkedin">
+<p *ngIf="!editMode">{{profile.linkedin}}</p>
+</div>
+
+
+<div class="field">
+<label>Bio</label>
+
+<textarea *ngIf="editMode" [(ngModel)]="profile.bio"></textarea>
+<p *ngIf="!editMode">{{profile.bio}}</p>
+</div>
+
+</div>
+
+</div>

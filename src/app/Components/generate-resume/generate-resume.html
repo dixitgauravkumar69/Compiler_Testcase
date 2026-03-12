@@ -1,0 +1,199 @@
+<div class="resume-container">
+
+  <div class="header">
+    <h2>Resume Builder</h2>
+    <p>Fill the details and generate your professional resume</p>
+  </div>
+
+  <form class="resume-form">
+
+    <!-- Personal -->
+
+    <div class="section">
+      <h3>Personal Information</h3>
+
+      <div class="row">
+
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" [(ngModel)]="profile.username" name="name">
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <input type="text" [(ngModel)]="profile.email" name="email">
+        </div>
+
+        <div class="field">
+          <label>Phone</label>
+          <input type="text" [(ngModel)]="profile.phone" name="phone">
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Education -->
+
+    <div class="section">
+
+      <h3>Education</h3>
+
+      <div class="row">
+
+        <div class="field">
+          <label>College</label>
+          <input type="text" [(ngModel)]="profile.college" name="college">
+        </div>
+
+        <div class="field">
+          <label>Branch</label>
+          <input type="text" [(ngModel)]="profile.branch" name="branch">
+        </div>
+
+        <div class="field">
+          <label>CGPA</label>
+          <input type="text" [(ngModel)]="profile.cgpa" name="cgpa">
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Skills -->
+
+    <div class="section">
+
+      <h3>Professional Links</h3>
+
+      <div class="row">
+
+        <div class="field">
+          <label>Skills</label>
+          <input type="text" [(ngModel)]="profile.skills" name="skills">
+        </div>
+
+        <div class="field">
+          <label>Github</label>
+          <input type="text" [(ngModel)]="profile.github" name="github">
+        </div>
+
+        <div class="field">
+          <label>LinkedIn</label>
+          <input type="text" [(ngModel)]="profile.linkedin" name="linkedin">
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Projects -->
+
+    <div class="section">
+
+      <h3>Projects</h3>
+
+      <div class="row">
+
+        <div class="field full">
+          <textarea [(ngModel)]="extra.projects" name="projects"></textarea>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Internship -->
+
+    <div class="section">
+
+      <h3>Internships</h3>
+
+      <div class="row">
+
+        <div class="field full">
+          <textarea [(ngModel)]="extra.internships" name="internships"></textarea>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Summary -->
+
+    <div class="section">
+
+      <h3>Summary</h3>
+
+      <div class="row">
+
+        <div class="field full">
+          <textarea [(ngModel)]="extra.summary" name="summary"></textarea>
+        </div>
+
+      </div>
+
+
+      
+    </div>
+
+    <div class="section">
+
+      <h3>BIO</h3>
+
+      <div class="row">
+
+        <div class="field full">
+          <textarea [(ngModel)]="extra.bio" name="bio"></textarea>
+        </div>
+
+      </div>
+
+
+      
+    </div>
+
+    <div class="section">
+
+      <h3>Achievements</h3>
+
+      <div class="row">
+
+        <div class="field full">
+          <textarea [(ngModel)]="extra.achievements" name="achievements"></textarea>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="button-area">
+      <button type="button" (click)="getResume()">Get Resumes</button>
+    </div>
+    
+    <div class="button-area">
+      <button type="button" (click)="addResume()">Add Resume</button>
+    </div>
+
+  </form>
+
+  <div class="resume-cards" *ngIf="resumes.length>0">
+
+<div 
+class="resume-card"
+*ngFor="let r of resumes; let i=index"
+>
+
+<h3>{{r.name}} Resume {{i+1}}</h3>
+
+<p>{{r.bio}}</p>
+
+<button (click)="downloadResume(r.id)">
+Download Resume
+</button>
+
+</div>
+
+</div>
+
+</div>

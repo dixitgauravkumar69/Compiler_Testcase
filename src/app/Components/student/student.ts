@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { BASE_URL } from '../../../Environments/environment';
 
 interface Question {
   id: number;
@@ -14,7 +15,7 @@ interface Question {
 @Component({
   selector: 'app-student-questions',
   standalone:true,
-  imports:[ReactiveFormsModule,CommonModule],
+  imports:[ReactiveFormsModule,CommonModule,RouterLink,RouterOutlet],
   templateUrl: './student.html',
   styleUrls: ['./student.css']
 })
@@ -35,7 +36,7 @@ export class Student implements OnInit {
   }
 
   getQuestions() {
-    this.http.get<Question[]>("http://localhost:8080/student/getQuestions",{
+    this.http.get<Question[]>(`${BASE_URL}/student/getQuestions`,{
       withCredentials:true
     })
       .subscribe({
@@ -60,6 +61,7 @@ export class Student implements OnInit {
   solve(id:number)
   {
    localStorage.setItem("ProblemId",`${id}`);
+   
     this.router.navigate(['/Run']);
   }
 

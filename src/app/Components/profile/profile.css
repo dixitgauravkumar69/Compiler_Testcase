@@ -1,0 +1,265 @@
+/* Page Background */
+
+body{
+background:linear-gradient(135deg,#f6f8fc,#eef2ff);
+}
+
+
+/* Container */
+
+.profile-container{
+width:80%;
+margin:auto;
+margin-top:40px;
+font-family:'Poppins',sans-serif;
+}
+
+
+/* Header */
+
+.profile-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+background:white;
+
+padding:28px;
+
+border-radius:14px;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+
+margin-bottom:30px;
+
+transition:0.3s;
+
+}
+
+.profile-header:hover{
+transform:translateY(-2px);
+}
+
+
+/* Name */
+
+.profile-header h2{
+margin:0;
+font-size:28px;
+font-weight:600;
+color:#1e293b;
+}
+
+.profile-header p{
+margin-top:6px;
+font-size:14px;
+color:#64748b;
+}
+
+
+/* Buttons */
+
+.profile-buttons button{
+
+padding:10px 20px;
+
+border-radius:8px;
+
+border:none;
+
+cursor:pointer;
+
+font-size:14px;
+
+font-weight:500;
+
+margin-left:10px;
+
+transition:all 0.25s ease;
+
+}
+
+
+/* Edit */
+
+.edit-btn{
+background:#6366f1;
+color:white;
+}
+
+.edit-btn:hover{
+background:#4f46e5;
+transform:scale(1.05);
+}
+
+
+/* Save */
+
+.save-btn{
+background:#22c55e;
+color:white;
+}
+
+.save-btn:hover{
+background:#16a34a;
+transform:scale(1.05);
+}
+
+
+/* Cancel */
+
+.cancel-btn{
+background:#e2e8f0;
+color:#1e293b;
+}
+
+.cancel-btn:hover{
+background:#cbd5f5;
+}
+
+
+/* Form Grid */
+
+.form-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:24px;
+
+}
+
+
+/* Card Fields */
+
+.field{
+
+background:white;
+
+padding:22px;
+
+border-radius:14px;
+
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+
+transition:all 0.25s ease;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.field:hover{
+
+transform:translateY(-4px);
+
+box-shadow:0 12px 28px rgba(0,0,0,0.12);
+
+}
+
+
+/* Label */
+
+.field label{
+
+display:block;
+
+font-size:13px;
+
+font-weight:600;
+
+color:#64748b;
+
+margin-bottom:8px;
+
+letter-spacing:0.4px;
+
+}
+
+
+/* Inputs */
+
+.field input,
+.field textarea{
+
+width:100%;
+
+padding:11px 12px;
+
+border-radius:8px;
+
+border:1px solid #e2e8f0;
+
+font-size:14px;
+
+background:#f8fafc;
+
+transition:all 0.25s ease;
+
+}
+
+
+/* Focus */
+
+.field input:focus,
+.field textarea:focus{
+
+border-color:#6366f1;
+
+background:white;
+
+outline:none;
+
+box-shadow:0 0 0 3px rgba(99,102,241,0.15);
+
+}
+
+
+/* View Mode */
+
+.field p{
+
+margin:0;
+
+font-size:15px;
+
+font-weight:500;
+
+color:#334155;
+
+}
+
+
+/* Bio Field */
+
+.field textarea{
+
+min-height:100px;
+
+resize:none;
+
+}
+
+
+/* Responsive */
+
+@media(max-width:950px){
+
+.profile-container{
+width:92%;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+.profile-header{
+flex-direction:column;
+align-items:flex-start;
+gap:15px;
+}
+
+}

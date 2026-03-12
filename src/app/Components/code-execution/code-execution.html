@@ -1,20 +1,80 @@
-<div class="code-runner-container">
-  <h2>Online Code Runner</h2>
+<div class="container">
 
-  <div class="form-group">
-    <label for="language">Language:</label>
-    <select [(ngModel)]="language" id="language" class="language-select">
-      <option *ngFor="let lang of languages" [value]="lang">{{lang}}</option>
-    </select>
+  <!-- LEFT : Problem Statement -->
+  <div class="problem-section">
+
+    <h2>Problem Statement</h2>
+
+    <div class="problem-card">
+
+      <!-- TITLE -->
+      <h2>{{title}}</h2>
+
+      <!-- DESCRIPTION -->
+      <p>{{description}}</p>
+
+     <div class="testcases-container">
+  <h4>Test Cases</h4>
+  
+  <div *ngFor="let tc of testCases; let i = index" class="testcase-card">
+    <h5>Test Case {{ i + 1 }}</h5>
+    
+    <div class="tc-details">
+      <strong>Input:</strong>
+      <pre>{{ tc.inputData }}</pre>
+      
+      <strong>Expected Output:</strong>
+      <pre>{{ tc.expectedOutput }}</pre>
+    </div>
+  </div>
+</div>
+
+      <!-- EXAMPLE -->
+      <h4>Example</h4>
+
+<pre>
+Input:
+{{input}}
+
+Output:
+{{expectedOutput}}
+</pre>
+
+    </div>
+
   </div>
 
-  <div class="form-group">
-    <label for="code">Code:</label>
-    <textarea [(ngModel)]="code" id="code" class="code-editor" placeholder="Write your code here..."></textarea>
+
+  <!-- RIGHT : CODE RUNNER -->
+  <div class="code-runner-container">
+
+    <div class="runner-header">
+
+      <div class="language-box">
+        <label>Language</label>
+        <select [(ngModel)]="language">
+          <option *ngFor="let lang of languages" [value]="lang">
+            {{lang}}
+          </option>
+        </select>
+      </div>
+
+      <button (click)="runCode()" class="run-btn">▶ Run</button>
+
+    </div>
+
+    <!-- BIG CODE EDITOR -->
+    <textarea
+      [(ngModel)]="code"
+      class="code-editor"
+      placeholder="Write your code here..."
+    ></textarea>
+
+    <div class="output-section">
+      <h3>Output</h3>
+      <pre>{{output}}</pre>
+    </div>
+
   </div>
 
-  <button (click)="runCode()" class="run-btn">Run Code</button>
-
-  <h3>Output:</h3>
-  <pre class="code-output">{{output}}</pre>
 </div>

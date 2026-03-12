@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { BASE_URL } from '../../Environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ProblemStatementService {
-  private baseUrl = 'http://localhost:8080/api/faculty';
+
+
+  // private baseUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {}
 
-  addProblem(statement: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/addProblemStatement`, statement, { responseType: 'text',withCredentials:true });
+   
+
+  addProblem(statement: string,title:string): Observable<any> {
+    return this.http.post(`${BASE_URL}/api/faculty/addProblemStatement`, {statement,title}, { responseType: 'text',withCredentials:true });
   }
 }

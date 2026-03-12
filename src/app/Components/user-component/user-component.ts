@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { BASE_URL } from '../../../Environments/environment';
 @Component({
   selector: 'app-user-register',
   standalone:true,
@@ -35,7 +35,7 @@ export class UserComponent {
 
     if (this.userForm.valid) {
 
-      this.http.post("http://localhost:8080/api/User/addUser", this.userForm.value)
+      this.http.post(`${BASE_URL}/api/User/addUser`, this.userForm.value)
       .subscribe({
 
         next: (res) => {

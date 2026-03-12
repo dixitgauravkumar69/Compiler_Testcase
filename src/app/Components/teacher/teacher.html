@@ -13,27 +13,31 @@
       Add Problem Statement
     </button>
 
+    <button (click)="goToAddCampus()">
+      Add information of Campus
+    </button>
+
   </div>
 
   <!-- Content -->
   <div class="content">
 
-    <h2>Problem Statements</h2>
+    <!-- Spinner -->
+    <div *ngIf="isLoading" class="spinner-container">
+      <div class="spinner"></div>
+    </div>
 
-    <div class="problem-card" *ngFor="let ps of problemStatements">
+    <!-- Actual content -->
+    <div *ngIf="!isLoading">
+      <h2>Problem Statements</h2>
 
-      <h3>Problem {{ps.id}}</h3>
-
-      <p>{{ps.problemStatement}}</p>
-
-      <button 
-      
-      (click)="assign(ps.id)">
-
-        {{ps.assigned ? 'Assigned' : 'Assign'}}
-
-      </button>
-
+      <div class="problem-card" *ngFor="let ps of problemStatements">
+        <h3>Problem {{ps.id}}</h3>
+        <p>{{ps.problemStatement}}</p>
+        <button (click)="assign(ps.id)">
+          {{ ps.assigned ? 'Assigned' : 'Assign' }}
+        </button>
+      </div>
     </div>
 
   </div>

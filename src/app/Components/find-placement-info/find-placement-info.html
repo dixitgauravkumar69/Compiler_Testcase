@@ -1,0 +1,25 @@
+<div class="container">
+  <h2 class="title">Available Jobs</h2>
+
+  <div class="job-grid">
+    <div class="job-card" *ngFor="let job of jobs">
+      <div class="card-header">
+        <h3>{{job.company}}</h3>
+        <span class="badge">{{job.jobType}}</span>
+      </div>
+
+      <h4 class="job-title">{{job.title}}</h4>
+
+      <div class="info">
+        <p>📍 {{job.location}}</p>
+        <p>🎓 Semester {{job.semester}}</p>
+        <p>🏢 {{job.industry}}</p>
+        <p>📅 Last Date: {{job.registrationLastDate}}</p>
+      </div>
+
+      <button class="view-btn" (click)="viewDescription(job.id)">
+        View Description
+      </button>
+    </div>
+  </div>
+</div>

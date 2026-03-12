@@ -1,7 +1,15 @@
 <div class="container coding-ui">
   <h2>Add Problem & Test Cases</h2>
 
+
   <!-- Step 1: Problem -->
+
+  <div *ngIf="!problemSaved" class="step-box">
+    <label>Problem Title:</label>
+    <textarea [(ngModel)]="problemTitle" rows="5" class="form-control"></textarea>
+   
+  </div>
+
   <div *ngIf="!problemSaved" class="step-box">
     <label>Problem Statement:</label>
     <textarea [(ngModel)]="problemStatement" rows="5" class="form-control"></textarea>

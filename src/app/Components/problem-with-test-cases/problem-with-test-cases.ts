@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 
+// import { BASE_URL } from '../../../Environments/environment';
+
 @Component({
   selector: 'app-problem-with-test-cases',
   imports: [FormsModule,CommonModule],
@@ -13,6 +15,7 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class ProblemWithTestCases {
    problemStatement: string = '';
+   problemTitle:string='';
   problemId!: number;
   problemSaved: boolean = false;
 
@@ -27,6 +30,11 @@ export class ProblemWithTestCases {
     private cdr:ChangeDetectorRef
   ) {}
 
+ 
+
+
+
+
   // Step 1: Save Problem
   saveProblem() {
     if (!this.problemStatement.trim()) {
@@ -34,7 +42,7 @@ export class ProblemWithTestCases {
       return;
     }
 
-    this.problemService.addProblem(this.problemStatement).subscribe({
+    this.problemService.addProblem(this.problemStatement,this.problemTitle).subscribe({
       next: (res: string) => {
         // Assuming backend returns: "Problem saved with ID: 4"
         const match = res.match(/\d+/);

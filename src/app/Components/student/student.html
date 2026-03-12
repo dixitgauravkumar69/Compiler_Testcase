@@ -1,18 +1,40 @@
-<div class="container">
+<div class="dashboard">
 
-  <h2>Assigned Problem Statements</h2>
+  <!-- Sidebar -->
+  <div class="sidebar">
 
-  <div *ngIf="loading">
-    Loading questions...
+    <h2 class="logo">Student Panel</h2>
+
+    <ul class="menu">
+      <li><a routerLink="/profile">👤 See Profile</a></li>
+      <li><a routerLink="/generateResume">📄 Generate Resume</a></li>
+      <li><a routerLink="/findJobInfo">💼 Find job Information</a></li>
+      <li><a routerLink="/student">💻 Solve Problems</a></li>
+      <li><a routerLink="/logout">🚪 Logout</a></li>
+    </ul>
+
   </div>
 
-  <div *ngFor="let q of questions" class="card">
 
-    <h3>Question #{{q.id}}</h3>
+  <!-- Main Content -->
+  <div class="main-content">
 
-    <p>{{q.problemStatement}}</p>
+    <h2>Assigned Problem Statements</h2>
 
-    <button (click)="solve(q.id)">Solve</button>
+    
+    <div *ngIf="loading">
+      Loading questions...
+    </div>
+
+    <div *ngFor="let q of questions" class="card">
+
+      <h3>Question #{{q.id}}</h3>
+
+      <p>{{q.problemStatement}}</p>
+
+      <button (click)="solve(q.id)">Solve</button>
+
+    </div>
 
   </div>
 

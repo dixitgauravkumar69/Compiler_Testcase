@@ -1,19 +1,25 @@
 <div class="dashboard">
 
+  <!-- 📱 Mobile Header -->
+  <div class="mobile-header">
+    <span class="menu-btn" (click)="toggleSidebar()">☰</span>
+    <h3>Teacher Panel</h3>
+  </div>
+
   <!-- Sidebar -->
-  <div class="sidebar">
+  <div class="sidebar" [class.active]="isSidebarOpen">
 
     <h2>Teacher Panel</h2>
 
-    <button (click)="activeSection='see'">
+    <button (click)="activeSection='see'; closeSidebar()">
       See Problem Statements
     </button>
 
-    <button (click)="goToAddStatement()">
+    <button (click)="goToAddStatement(); closeSidebar()">
       Add Problem Statement
     </button>
 
-    <button (click)="goToAddCampus()">
+    <button (click)="goToAddCampus(); closeSidebar()">
       Add information of Campus
     </button>
 
@@ -29,15 +35,20 @@
 
     <!-- Actual content -->
     <div *ngIf="!isLoading">
+
       <h2>Problem Statements</h2>
 
       <div class="problem-card" *ngFor="let ps of problemStatements">
+
         <h3>Problem {{ps.id}}</h3>
         <p>{{ps.problemStatement}}</p>
+
         <button (click)="assign(ps.id)">
           {{ ps.assigned ? 'Assigned' : 'Assign' }}
         </button>
+
       </div>
+
     </div>
 
   </div>

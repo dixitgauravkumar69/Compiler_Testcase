@@ -138,3 +138,113 @@ background:#15803d;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+/* ================= MOBILE DASHBOARD ================= */
+
+@media (max-width: 900px){
+
+.dashboard{
+flex-direction:column;
+height:auto;
+}
+
+/* Mobile Header (top bar) */
+
+.mobile-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:linear-gradient(90deg,#1e293b,#0f172a);
+color:white;
+padding:14px 18px;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.menu-btn{
+font-size:24px;
+cursor:pointer;
+}
+
+/* Sidebar becomes drawer */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+height:100vh;
+width:260px;
+transform:translateX(-100%);
+transition:0.3s;
+z-index:1200;
+padding-top:70px;
+}
+
+.sidebar.active{
+transform:translateX(0);
+}
+
+/* Content full width */
+
+.content{
+padding:20px;
+margin:0;
+}
+
+.content h2{
+font-size:22px;
+margin-bottom:18px;
+}
+
+/* Problem Card */
+
+.problem-card{
+padding:18px;
+border-radius:14px;
+}
+
+.problem-card h3{
+font-size:17px;
+}
+
+.problem-card p{
+font-size:14px;
+}
+
+/* Button full width */
+
+.problem-card button{
+width:100%;
+padding:12px;
+font-size:15px;
+border-radius:10px;
+}
+
+/* Spinner */
+
+.spinner{
+width:50px;
+height:50px;
+border-width:6px;
+}
+
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 420px){
+
+.content{
+padding:15px;
+}
+
+.problem-card{
+padding:16px;
+}
+
+.problem-card button{
+padding:13px;
+font-size:16px;
+}
+
+}

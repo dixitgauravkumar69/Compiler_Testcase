@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterOutlet } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { BASE_URL } from '../../../Environments/environment';
+
 @Component({
   selector: 'app-teacher',
   standalone: true,
@@ -15,7 +16,10 @@ export class Teacher implements OnInit {
 
   problemStatements: any[] = [];
   activeSection = "see";
-  isLoading = false; // <-- spinner flag
+  isLoading = false;
+
+  // ⭐ Sidebar State
+  isSidebarOpen = false;
 
   constructor(
     private http: HttpClient,
@@ -27,33 +31,62 @@ export class Teacher implements OnInit {
     this.getProblemStatements();
   }
 
+  // ⭐ Sidebar Toggle
+  toggleSidebar(){
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar(){
+    this.isSidebarOpen = false;
+  }
+
+  // ⭐ Outside click close
+  @HostListener('document:click', ['$event'])
+  onClick(event: any){
+    const sidebar = document.querySelector('.sidebar');
+    const menuBtn = document.querySelector('.menu-btn');
+
+    if(this.isSidebarOpen &&
+      sidebar && !sidebar.contains(event.target) &&
+      menuBtn && !menuBtn.contains(event.target)){
+        this.closeSidebar();
+    }
+  }
+
+  // ⭐ ESC key close
+  @HostListener('document:keydown.escape')
+  onEsc(){
+    this.closeSidebar();
+  }
+
+  // ================= API =================
+
   getProblemStatements() {
-    this.isLoading = true; // start spinner
+    this.isLoading = true;
 
     this.cdr.detectChanges();
     this.http.get<any[]>(`${BASE_URL}/api/User/getProblemStatements`)
       .subscribe({
         next: (res) => {
           this.problemStatements = res;
-        
-          this.isLoading = false; // stop spinner
-            this.cdr.detectChanges();
+          this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
-          this.isLoading = false; // stop spinner even on error
+          this.isLoading = false;
         }
       });
   }
 
   assign(psID: number) {
-    this.isLoading = true; // spinner while assigning
+    this.isLoading = true;
     this.http.get<any[]>(`${BASE_URL}/teacher/assignProblem/${psID}`)
       .subscribe({
         next: (res) => {
           this.problemStatements = res;
-          this.cdr.detectChanges();
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
@@ -63,10 +96,13 @@ export class Teacher implements OnInit {
   }
 
   goToAddStatement() {
+    this.closeSidebar(); // ⭐ mobile me auto close
     this.router.navigate(['/Statement']);
   }
 
   goToAddCampus() {
+    this.closeSidebar(); // ⭐ mobile me auto close
     this.router.navigate(['/campusAdd']);
   }
+
 }

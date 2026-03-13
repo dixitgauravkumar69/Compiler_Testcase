@@ -140,3 +140,112 @@ button {
     margin-bottom: 10px;
   }
 }
+
+/* ================= TABLET ================= */
+
+@media (max-width: 768px){
+
+.coding-ui{
+margin:20px 12px;
+padding:20px;
+border-radius:14px;
+}
+
+/* Headings */
+
+.coding-ui h2{
+font-size:22px;
+margin-bottom:20px;
+}
+
+.coding-ui h4{
+font-size:16px;
+}
+
+/* Step Box */
+
+.step-box{
+padding:16px;
+border-radius:10px;
+}
+
+/* Textarea */
+
+.step-box textarea{
+font-size:15px;
+padding:14px;
+min-height:120px;
+}
+
+/* Buttons */
+
+button{
+width:100%;
+padding:14px;
+font-size:15px;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+/* Testcase List */
+
+.step-box ul{
+max-height:180px;
+}
+
+.step-box ul li{
+font-size:13px;
+padding:10px;
+}
+
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 420px){
+
+.coding-ui{
+margin:12px 8px;
+padding:16px;
+border-radius:12px;
+}
+
+/* Headings */
+
+.coding-ui h2{
+font-size:20px;
+}
+
+.coding-ui h4{
+font-size:15px;
+}
+
+/* Step Box */
+
+.step-box{
+padding:14px;
+margin-bottom:18px;
+}
+
+/* Textarea */
+
+.step-box textarea{
+font-size:15px;   /* prevent zoom */
+padding:15px;
+min-height:140px;
+}
+
+/* Buttons */
+
+button{
+padding:15px;
+font-size:16px;
+}
+
+/* Scroll List */
+
+.step-box ul{
+max-height:160px;
+}
+
+}

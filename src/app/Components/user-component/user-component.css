@@ -1,36 +1,30 @@
 .main{
-
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 background: linear-gradient(120deg,#4facfe,#00f2fe);
-
+padding:20px;
 }
 
 .card{
-
 width:350px;
 background:white;
 padding:40px;
 border-radius:10px;
 box-shadow:0 10px 25px rgba(0,0,0,0.2);
 text-align:center;
-
 }
 
 input,select{
-
 width:100%;
 padding:12px;
 margin:10px 0;
 border:1px solid #ccc;
 border-radius:5px;
-
 }
 
 button{
-
 width:100%;
 padding:12px;
 background:#4facfe;
@@ -39,7 +33,6 @@ color:white;
 font-size:16px;
 border-radius:5px;
 cursor:pointer;
-
 }
 
 button:hover{
@@ -49,4 +42,46 @@ background:#2a8cff;
 .msg{
 margin-top:15px;
 font-weight:bold;
+}
+
+
+/* ✅ MOBILE RESPONSIVE */
+
+@media (max-width:768px){
+
+.main{
+align-items:flex-start;
+padding-top:40px;
+height:auto;
+min-height:100vh;
+}
+
+.card{
+width:100%;
+max-width:420px;
+padding:25px;
+border-radius:12px;
+}
+
+input,select{
+padding:14px;
+font-size:16px;
+}
+
+button{
+padding:14px;
+font-size:17px;
+}
+
+}
+
+
+/*  EXTRA SMALL MOBILE */
+
+@media (max-width:420px){
+
+.card{
+padding:20px;
+}
+
 }

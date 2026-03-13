@@ -213,3 +213,99 @@ border-radius:6px;
 cursor:pointer;
 
 }
+/* ================= TABLET ================= */
+
+@media (max-width: 768px){
+
+.resume-container{
+width:95%;
+margin-top:15px;
+padding:18px;
+border-radius:12px;
+}
+
+.header h2{
+font-size:22px;
+}
+
+.header p{
+font-size:14px;
+}
+
+.section h3{
+font-size:16px;
+}
+
+/* Fields */
+
+input, textarea{
+font-size:16px;   /* Prevent mobile zoom */
+padding:12px;
+}
+
+/* Button */
+
+button{
+width:100%;
+padding:14px;
+font-size:16px;
+border-radius:10px;
+}
+
+/* Resume Cards */
+
+.resume-cards{
+gap:15px;
+justify-content:center;
+}
+
+.resume-card{
+width:100%;
+max-width:320px;
+padding:16px;
+}
+
+.resume-card button{
+width:100%;
+padding:10px;
+font-size:15px;
+}
+
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 420px){
+
+.resume-container{
+width:96%;
+padding:14px;
+}
+
+.header h2{
+font-size:20px;
+}
+
+.section{
+margin-bottom:18px;
+}
+
+label{
+font-size:14px;
+}
+
+input, textarea{
+padding:13px;
+font-size:16px;
+}
+
+textarea{
+min-height:80px;
+}
+
+.resume-card{
+padding:14px;
+border-radius:10px;
+}
+
+}

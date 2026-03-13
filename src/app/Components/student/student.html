@@ -1,15 +1,21 @@
 <div class="dashboard">
 
+  <!-- 📱 Mobile Header -->
+  <div class="mobile-header">
+    <span class="menu-btn" (click)="toggleSidebar()">☰</span>
+    <h3>Student Panel</h3>
+  </div>
+
   <!-- Sidebar -->
-  <div class="sidebar">
+  <div class="sidebar" [class.active]="isSidebarOpen">
 
     <h2 class="logo">Student Panel</h2>
 
     <ul class="menu">
-      <li><a routerLink="/profile">👤 See Profile</a></li>
-      <li><a routerLink="/generateResume">📄 Generate Resume</a></li>
-      <li><a routerLink="/findJobInfo">💼 Find job Information</a></li>
-      <li><a routerLink="/student">💻 Solve Problems</a></li>
+      <li><a routerLink="/profile" (click)="closeSidebar()">👤 See Profile</a></li>
+      <li><a routerLink="/generateResume" (click)="closeSidebar()">📄 Generate Resume</a></li>
+      <li><a routerLink="/findJobInfo" (click)="closeSidebar()">💼 Find Job</a></li>
+      <li><a routerLink="/student" (click)="closeSidebar()">💻 Solve Problems</a></li>
       <li><a routerLink="/logout">🚪 Logout</a></li>
     </ul>
 
@@ -21,7 +27,6 @@
 
     <h2>Assigned Problem Statements</h2>
 
-    
     <div *ngIf="loading">
       Loading questions...
     </div>

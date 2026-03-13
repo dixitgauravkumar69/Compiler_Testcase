@@ -65,4 +65,14 @@ export class Student implements OnInit {
     this.router.navigate(['/Run']);
   }
 
+
+  isSidebarOpen = false;
+
+toggleSidebar(){
+  this.isSidebarOpen = !this.isSidebarOpen;
+}
+
+closeSidebar(){
+  this.isSidebarOpen = false;
+}
 }

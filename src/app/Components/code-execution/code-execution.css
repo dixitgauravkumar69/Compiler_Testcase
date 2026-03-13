@@ -120,3 +120,110 @@ border-radius:6px;
 min-height:100px;
 font-family:monospace;
 }
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media (max-width: 900px){
+
+.container{
+flex-direction:column;
+height:auto;
+padding:12px;
+}
+
+/* Problem Section */
+
+.problem-section{
+width:100%;
+}
+
+.problem-card{
+padding:16px;
+height:auto;
+max-height:300px;
+overflow:auto;
+}
+
+/* Code Runner */
+
+.code-runner-container{
+width:100%;
+padding:14px;
+}
+
+/* Header */
+
+.runner-header{
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
+}
+
+/* Language Select */
+
+.language-box{
+width:100%;
+justify-content:space-between;
+}
+
+.language-box select{
+flex:1;
+padding:10px;
+font-size:15px;
+}
+
+/* Run Button */
+
+.run-btn{
+width:100%;
+padding:12px;
+font-size:16px;
+border-radius:10px;
+}
+
+/* Code Editor */
+
+.code-editor{
+height:280px;
+font-size:14px;
+padding:14px;
+}
+
+/* Output */
+
+.output-section pre{
+min-height:120px;
+font-size:13px;
+padding:12px;
+}
+
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px){
+
+.container{
+padding:8px;
+gap:12px;
+}
+
+.problem-card{
+padding:14px;
+max-height:250px;
+}
+
+.code-runner-container{
+padding:12px;
+}
+
+.code-editor{
+height:240px;
+font-size:13px;
+}
+
+.run-btn{
+font-size:15px;
+padding:11px;
+}
+
+}

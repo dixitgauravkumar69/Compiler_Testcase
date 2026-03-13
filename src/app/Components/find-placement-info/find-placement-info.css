@@ -101,3 +101,108 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media (max-width: 768px){
+
+.container{
+margin:20px auto;
+padding:0 14px;
+}
+
+/* Title */
+
+.title{
+font-size:24px;
+margin-bottom:20px;
+}
+
+/* Grid */
+
+.job-grid{
+grid-template-columns:1fr;
+gap:16px;
+}
+
+/* Card */
+
+.job-card{
+padding:16px;
+border-radius:14px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Header */
+
+.card-header h3{
+font-size:17px;
+}
+
+.badge{
+font-size:11px;
+padding:5px 10px;
+}
+
+/* Job title */
+
+.job-title{
+font-size:15px;
+}
+
+/* Info */
+
+.info p{
+font-size:13px;
+}
+
+/* Button */
+
+.view-btn{
+width:100%;
+padding:12px;
+font-size:15px;
+border-radius:10px;
+margin-top:12px;
+}
+
+/* Active touch effect */
+
+.view-btn:active{
+transform:scale(0.97);
+}
+
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 420px){
+
+.container{
+padding:0 10px;
+}
+
+.title{
+font-size:20px;
+}
+
+.job-card{
+padding:14px;
+}
+
+.card-header{
+flex-direction:column;
+align-items:flex-start;
+gap:6px;
+}
+
+.badge{
+align-self:flex-start;
+}
+
+.view-btn{
+padding:13px;
+font-size:14px;
+}
+
+}

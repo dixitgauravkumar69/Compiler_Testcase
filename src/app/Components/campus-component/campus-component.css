@@ -1,31 +1,31 @@
 /* Container */
 .container {
   max-width: 900px;
-  margin: 40px auto;
-  padding: 30px;
+  margin: 20px auto;
+  padding: 18px;
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  font-family: 'Segoe UI', sans-serif;
 }
 
 /* Title */
 .form-title {
   text-align: center;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 30px;
+  color: #111;
+  margin-bottom: 20px;
 }
 
-/* Grid layout */
+/* Grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
 }
 
-/* Field styles */
+/* Field */
 .field {
   display: flex;
   flex-direction: column;
@@ -33,55 +33,113 @@
 
 .field label {
   font-weight: 500;
-  margin-bottom: 6px;
-  color: #333;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #444;
 }
 
+/* Inputs */
 .field input,
 .field select,
 .field textarea {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: border 0.3s, box-shadow 0.3s;
+  padding: 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  font-size: 15px;
+  background: #fafafa;
+  transition: 0.3s;
+}
+
+.field textarea {
+  min-height: 90px;
+  resize: vertical;
 }
 
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
   border-color: #007BFF;
-  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
   outline: none;
 }
 
-/* Full width fields */
+/* Full width */
 .field.full {
   grid-column: 1 / -1;
+}
+
+/* File input */
+.field input[type="file"] {
+  padding: 10px;
+  background: #fff;
 }
 
 /* Button */
 .submit-btn {
   margin-top: 20px;
   width: 100%;
-  padding: 12px;
-  background: #007BFF;
-  color: #fff;
-  font-size: 16px;
+  padding: 14px;
+  background: linear-gradient(45deg,#007BFF,#0056b3);
+  color: white;
+  font-size: 17px;
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: 0.3s;
 }
 
 .submit-btn:hover {
-  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
 }
 
-/* Responsive */
-@media(max-width: 600px) {
+/* ================= MOBILE UI ================= */
+
+@media (max-width: 768px) {
+
+  .container {
+    margin: 10px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .form-title {
+    font-size: 20px;
+  }
+
   .grid {
     grid-template-columns: 1fr;
+    gap: 14px;
   }
+
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 16px; /* Prevent zoom on iPhone */
+    padding: 14px;
+  }
+
+  .submit-btn {
+    position: sticky;
+    bottom: 10px;
+    font-size: 18px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+}
+
+/* Small mobile */
+
+@media (max-width: 420px) {
+
+  .container {
+    padding: 14px;
+  }
+
+  .form-title {
+    font-size: 18px;
+  }
+
 }

@@ -263,3 +263,133 @@ gap:15px;
 }
 
 }
+
+/* ================= TABLET ================= */
+
+@media (max-width: 768px){
+
+.profile-container{
+width:94%;
+margin-top:20px;
+}
+
+/* Header */
+
+.profile-header{
+padding:20px;
+border-radius:16px;
+gap:14px;
+}
+
+/* Name */
+
+.profile-header h2{
+font-size:22px;
+}
+
+.profile-header p{
+font-size:13px;
+}
+
+/* Buttons */
+
+.profile-buttons{
+width:100%;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.profile-buttons button{
+flex:1;
+margin-left:0;
+padding:12px;
+font-size:15px;
+border-radius:10px;
+}
+
+/* Grid */
+
+.form-grid{
+gap:18px;
+}
+
+/* Field Card */
+
+.field{
+padding:18px;
+border-radius:16px;
+}
+
+/* Inputs */
+
+.field input,
+.field textarea{
+padding:14px;
+font-size:16px;   /* prevent zoom */
+border-radius:10px;
+}
+
+.field textarea{
+min-height:120px;
+}
+
+/* View Text */
+
+.field p{
+font-size:14px;
+}
+
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 420px){
+
+.profile-container{
+width:96%;
+margin-top:12px;
+}
+
+/* Header */
+
+.profile-header{
+padding:16px;
+}
+
+/* Name */
+
+.profile-header h2{
+font-size:20px;
+}
+
+/* Buttons stacked */
+
+.profile-buttons{
+flex-direction:column;
+}
+
+.profile-buttons button{
+width:100%;
+padding:14px;
+font-size:16px;
+}
+
+/* Field */
+
+.field{
+padding:16px;
+border-radius:14px;
+}
+
+.field label{
+font-size:12px;
+}
+
+.field input,
+.field textarea{
+padding:15px;
+font-size:16px;
+}
+
+}

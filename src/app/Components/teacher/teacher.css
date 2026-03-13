@@ -4,14 +4,20 @@ padding:0;
 box-sizing:border-box;
 }
 
-.dashboard{
-display:flex;
-height:100vh;
+body{
 font-family:'Segoe UI',sans-serif;
 background:#f8fafc;
 }
 
-/* SIDEBAR */
+/* ===== DASHBOARD LAYOUT ===== */
+
+.dashboard{
+display:flex;
+min-height:100vh;
+gap:20px;
+}
+
+/* ===== SIDEBAR ===== */
 
 .sidebar{
 width:260px;
@@ -22,6 +28,10 @@ display:flex;
 flex-direction:column;
 gap:20px;
 box-shadow:2px 0px 10px rgba(0,0,0,0.15);
+
+position:sticky;
+top:0;
+height:100vh;
 }
 
 .sidebar h2{
@@ -38,8 +48,9 @@ background:#334155;
 color:white;
 cursor:pointer;
 border-radius:8px;
-transition:all 0.3s ease;
+transition:0.3s;
 font-size:15px;
+text-align:left;
 }
 
 .sidebar button:hover{
@@ -47,13 +58,15 @@ background:#2563eb;
 transform:translateX(5px);
 }
 
-/* CONTENT */
+/* ===== CONTENT ===== */
 
 .content{
 flex:1;
 padding:35px;
 background:#f1f5f9;
 overflow:auto;
+max-width:1300px;
+margin:auto;
 }
 
 .content h2{
@@ -62,217 +75,7 @@ font-size:28px;
 color:#1e293b;
 }
 
-/* PROBLEM CARD */
-
-.problem-card{
-background:white;
-padding:22px;
-margin-bottom:18px;
-border-radius:12px;
-box-shadow:0 5px 20px rgba(0,0,0,0.08);
-transition:all 0.25s ease;
-border-left:5px solid #2563eb;
-}
-
-.problem-card:hover{
-transform:translateY(-3px);
-box-shadow:0 10px 25px rgba(0,0,0,0.12);
-}
-
-.problem-card h3{
-margin-bottom:10px;
-color:#1e293b;
-}
-
-.problem-card p{
-color:#475569;
-margin-bottom:15px;
-line-height:1.5;
-}
-
-/* BUTTON */
-
-.problem-card button{
-padding:8px 16px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-background:#2563eb;
-color:white;
-font-size:14px;
-transition:0.3s;
-}
-
-.problem-card button:hover{
-background:#1d4ed8;
-}
-
-/* ASSIGNED BUTTON */
-
-.problem-card button.assigned{
-background:#16a34a;
-}
-
-.problem-card button.assigned:hover{
-background:#15803d;
-}
-
- /* SPINNER */
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px; /* adjust karo according to content */
-}
-
-.spinner {
-  border: 8px solid #e2e8f0; /* light gray background */
-  border-top: 8px solid #2563eb; /* dashboard primary blue */
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-/* ================= MOBILE DASHBOARD ================= */
-
-@media (max-width: 900px){
-
-.dashboard{
-flex-direction:column;
-height:auto;
-}
-
-/* Mobile Header (top bar) */
-
-.mobile-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:linear-gradient(90deg,#1e293b,#0f172a);
-color:white;
-padding:14px 18px;
-position:sticky;
-top:0;
-z-index:1000;
-}
-
-.menu-btn{
-font-size:24px;
-cursor:pointer;
-}
-
-/* Sidebar becomes drawer */
-
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-height:100vh;
-width:260px;
-transform:translateX(-100%);
-transition:0.3s;
-z-index:1200;
-padding-top:70px;
-}
-
-.sidebar.active{
-transform:translateX(0);
-}
-
-/* Content full width */
-
-.content{
-padding:20px;
-margin:0;
-}
-
-.content h2{
-font-size:22px;
-margin-bottom:18px;
-}
-
-/* Problem Card */
-
-.problem-card{
-padding:18px;
-border-radius:14px;
-}
-
-.problem-card h3{
-font-size:17px;
-}
-
-.problem-card p{
-font-size:14px;
-}
-
-/* Button full width */
-
-.problem-card button{
-width:100%;
-padding:12px;
-font-size:15px;
-border-radius:10px;
-}
-
-/* Spinner */
-
-.spinner{
-width:50px;
-height:50px;
-border-width:6px;
-}
-
-}
-
-/* ================= SMALL MOBILE ================= */
-
-@media (max-width: 420px){
-
-.content{
-padding:15px;
-}
-
-.problem-card{
-padding:16px;
-}
-
-.problem-card button{
-padding:13px;
-font-size:16px;
-}
-
-}
-
-/* ================= LAPTOP UI IMPROVEMENT ================= */
-
-/* Sidebar always visible & fixed height */
-
-.sidebar{
-position:sticky;
-top:0;
-height:100vh;
-}
-
-/* Content better readable width */
-
-.content{
-max-width:1200px;
-margin:auto;
-}
-
-/* Dashboard gap */
-
-.dashboard{
-gap:20px;
-}
-
-/* Problem cards grid layout in laptop */
+/* ===== GRID FOR LAPTOP ===== */
 
 @media (min-width:1100px){
 
@@ -292,18 +95,159 @@ grid-column:1/-1;
 
 }
 
-/* ================= TABLET VIEW ================= */
+/* ===== PROBLEM CARD ===== */
 
-@media (max-width:1100px) and (min-width:901px){
+.problem-card{
+background:white;
+padding:22px;
+border-radius:12px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+transition:0.25s;
+border-left:5px solid #2563eb;
+}
+
+.problem-card:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+
+.problem-card h3{
+margin-bottom:10px;
+color:#1e293b;
+}
+
+.problem-card p{
+color:#475569;
+margin-bottom:15px;
+line-height:1.5;
+}
+
+/* ===== BUTTON ===== */
+
+.problem-card button{
+padding:9px 18px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+background:#2563eb;
+color:white;
+font-size:14px;
+transition:0.3s;
+}
+
+.problem-card button:hover{
+background:#1d4ed8;
+}
+
+.problem-card button.assigned{
+background:#16a34a;
+}
+
+.problem-card button.assigned:hover{
+background:#15803d;
+}
+
+/* ===== SPINNER ===== */
+
+.spinner-container{
+display:flex;
+justify-content:center;
+align-items:center;
+height:250px;
+}
+
+.spinner{
+border:8px solid #e2e8f0;
+border-top:8px solid #2563eb;
+border-radius:50%;
+width:60px;
+height:60px;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{ transform:rotate(360deg);}
+}
+
+/* ===== MOBILE HEADER ===== */
+
+.mobile-header{
+display:none;
+}
+
+/* ===== MOBILE VIEW ===== */
+
+@media (max-width:900px){
+
+.dashboard{
+flex-direction:column;
+gap:0;
+}
+
+.mobile-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:linear-gradient(90deg,#1e293b,#0f172a);
+color:white;
+padding:14px 18px;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.menu-btn{
+font-size:24px;
+cursor:pointer;
+}
+
+/* Sidebar Drawer */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+height:100vh;
+transform:translateX(-100%);
+transition:0.3s;
+z-index:1200;
+padding-top:70px;
+}
+
+.sidebar.active{
+transform:translateX(0);
+}
 
 .content{
-display:grid;
-grid-template-columns:1fr;
+padding:20px;
+margin:0;
+display:block;
+}
+
+.content h2{
+font-size:22px;
+}
+
+.problem-card{
+margin-bottom:18px;
+}
+
+.problem-card button{
+width:100%;
+padding:12px;
+border-radius:10px;
+font-size:15px;
+}
+
+.spinner{
+width:50px;
+height:50px;
+border-width:6px;
 }
 
 }
 
-/* ================= OVERLAY WHEN SIDEBAR OPEN (Mobile) ================= */
+/* ===== OVERLAY ===== */
 
 .overlay{
 position:fixed;
@@ -313,12 +257,4 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,0.4);
 z-index:1100;
-}
-
-/* Smooth animation */
-
-.sidebar,
-.problem-card,
-button{
-transition:all 0.3s ease;
 }

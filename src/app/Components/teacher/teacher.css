@@ -6,7 +6,7 @@ box-sizing:border-box;
 
 body{
 font-family:'Segoe UI',sans-serif;
-background:#f8fafc;
+background:#eef2f7;
 }
 
 /* ===== DASHBOARD LAYOUT ===== */
@@ -14,83 +14,71 @@ background:#f8fafc;
 .dashboard{
 display:flex;
 min-height:100vh;
-gap:20px;
 }
 
 /* ===== SIDEBAR ===== */
 
 .sidebar{
-width:260px;
-background:linear-gradient(180deg,#1e293b,#0f172a);
+width:240px;
+background:#0f172a;
 color:white;
-padding:25px 20px;
+padding:25px 18px;
 display:flex;
 flex-direction:column;
-gap:20px;
-box-shadow:2px 0px 10px rgba(0,0,0,0.15);
-
-position:sticky;
-top:0;
-height:100vh;
+gap:18px;
+box-shadow:4px 0px 25px rgba(0,0,0,0.15);
+z-index:10;
 }
 
 .sidebar h2{
 text-align:center;
-margin-bottom:20px;
-font-size:22px;
-letter-spacing:1px;
+margin-bottom:15px;
+font-size:20px;
+font-weight:600;
 }
 
 .sidebar button{
-padding:12px;
+padding:13px;
 border:none;
-background:#334155;
-color:white;
+background:#1e293b;
+color:#e2e8f0;
 cursor:pointer;
-border-radius:8px;
-transition:0.3s;
-font-size:15px;
+border-radius:10px;
+transition:.25s;
+font-size:14px;
 text-align:left;
 }
 
 .sidebar button:hover{
 background:#2563eb;
-transform:translateX(5px);
+color:white;
+transform:translateX(6px);
 }
 
 /* ===== CONTENT ===== */
 
 .content{
 flex:1;
-padding:35px;
-background:#f1f5f9;
-overflow:auto;
-max-width:1300px;
+padding:40px 50px;
+max-width:1400px;
 margin:auto;
 }
 
 .content h2{
-margin-bottom:25px;
-font-size:28px;
-color:#1e293b;
+margin-bottom:30px;
+font-size:30px;
+color:#0f172a;
+font-weight:600;
 }
 
-/* ===== GRID FOR LAPTOP ===== */
+/* ===== GRID ===== */
 
-@media (min-width:1100px){
+@media (min-width:1000px){
 
-.content{
+.problem-wrapper{
 display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:20px;
-}
-
-.content h2{
-grid-column:1/-1;
-}
-
-.spinner-container{
-grid-column:1/-1;
+grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+gap:25px;
 }
 
 }
@@ -99,40 +87,53 @@ grid-column:1/-1;
 
 .problem-card{
 background:white;
-padding:22px;
-border-radius:12px;
-box-shadow:0 5px 20px rgba(0,0,0,0.08);
-transition:0.25s;
-border-left:5px solid #2563eb;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+transition:.3s;
+position:relative;
+overflow:hidden;
+}
+
+.problem-card::before{
+content:'';
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:6px;
+background:#2563eb;
 }
 
 .problem-card:hover{
-transform:translateY(-3px);
-box-shadow:0 10px 25px rgba(0,0,0,0.12);
+transform:translateY(-6px);
+box-shadow:0 20px 40px rgba(0,0,0,0.12);
 }
 
 .problem-card h3{
 margin-bottom:10px;
-color:#1e293b;
+color:#0f172a;
+font-size:20px;
 }
 
 .problem-card p{
-color:#475569;
-margin-bottom:15px;
-line-height:1.5;
+color:#64748b;
+margin-bottom:18px;
+line-height:1.6;
 }
 
 /* ===== BUTTON ===== */
 
 .problem-card button{
-padding:9px 18px;
+padding:10px 20px;
 border:none;
-border-radius:6px;
+border-radius:25px;
 cursor:pointer;
 background:#2563eb;
 color:white;
 font-size:14px;
-transition:0.3s;
+transition:.3s;
+font-weight:500;
 }
 
 .problem-card button:hover{
@@ -147,61 +148,31 @@ background:#16a34a;
 background:#15803d;
 }
 
-/* ===== SPINNER ===== */
-
-.spinner-container{
-display:flex;
-justify-content:center;
-align-items:center;
-height:250px;
-}
-
-.spinner{
-border:8px solid #e2e8f0;
-border-top:8px solid #2563eb;
-border-radius:50%;
-width:60px;
-height:60px;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-100%{ transform:rotate(360deg);}
-}
-
 /* ===== MOBILE HEADER ===== */
 
 .mobile-header{
 display:none;
 }
 
-/* ===== MOBILE VIEW ===== */
+/* ===== MOBILE ===== */
 
 @media (max-width:900px){
 
 .dashboard{
 flex-direction:column;
-gap:0;
 }
 
 .mobile-header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:linear-gradient(90deg,#1e293b,#0f172a);
+background:#0f172a;
 color:white;
-padding:14px 18px;
+padding:15px;
 position:sticky;
 top:0;
 z-index:1000;
 }
-
-.menu-btn{
-font-size:24px;
-cursor:pointer;
-}
-
-/* Sidebar Drawer */
 
 .sidebar{
 position:fixed;
@@ -209,7 +180,7 @@ left:0;
 top:0;
 height:100vh;
 transform:translateX(-100%);
-transition:0.3s;
+transition:.3s;
 z-index:1200;
 padding-top:70px;
 }
@@ -220,41 +191,14 @@ transform:translateX(0);
 
 .content{
 padding:20px;
-margin:0;
-display:block;
-}
-
-.content h2{
-font-size:22px;
 }
 
 .problem-card{
-margin-bottom:18px;
+margin-bottom:20px;
 }
 
 .problem-card button{
 width:100%;
-padding:12px;
-border-radius:10px;
-font-size:15px;
 }
 
-.spinner{
-width:50px;
-height:50px;
-border-width:6px;
-}
-
-}
-
-/* ===== OVERLAY ===== */
-
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-z-index:1100;
 }

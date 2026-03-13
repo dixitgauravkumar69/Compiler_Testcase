@@ -47,6 +47,7 @@ export class LoginComponent {
 
           localStorage.setItem("Usermail",res.userEmail);
           localStorage.setItem("UserId",res.userId);
+          localStorage.setItem("JWT_TOKEN",res.token);
           
         if(res.userRole === "TEACHER"){
           this.router.navigate(['/teacher']);

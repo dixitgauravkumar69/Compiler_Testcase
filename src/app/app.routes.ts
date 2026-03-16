@@ -10,6 +10,9 @@ import { FindPlacementInfo } from './Components/find-placement-info/find-placeme
 import { JobDescription } from './Components/job-description/job-description';
 import { Profile } from './Components/profile/profile';
 import { GenerateResume } from './Components/generate-resume/generate-resume';
+import { AccessDenied } from './Components/access-denied/access-denied';
+import { NotFound } from './Components/not-found/not-found';
+import { Servererror } from './Components/servererror/servererror';
 
 export const routes: Routes = [
     {path:"",component:UserComponent},
@@ -23,5 +26,9 @@ export const routes: Routes = [
      {path:"jobDescription/:id",component:JobDescription},
      {path:"profile",component:Profile},
      {path:"generateResume",component:GenerateResume},
+     {path:"403",component:AccessDenied},
+     {path:"404",component:NotFound},
+     {path:"500",component:Servererror},
+
     
 ];

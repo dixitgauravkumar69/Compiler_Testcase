@@ -18,7 +18,16 @@
         formControlName="password"
       >
 
-      <button type="submit">Login</button>
+     <button 
+  type="submit"
+  [disabled]="isLoading"
+  class="login-btn">
+
+  <span *ngIf="!isLoading">Login</span>
+
+  <span *ngIf="isLoading" class="btn-loader"></span>
+
+</button>
 
     </form>
 

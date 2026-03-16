@@ -1,0 +1,22 @@
+<div class="logout-page">
+
+  <div class="logout-card">
+
+```
+  <div class="spinner"></div>
+
+  <h1 class="title" *ngIf="!done">Logging you out</h1>
+  <h1 class="title success" *ngIf="done">Logged out successfully</h1>
+
+  <p class="subtitle" *ngIf="!done">
+    Please wait while we end your secure session...
+  </p>
+
+  <p class="subtitle" *ngIf="done">
+    Redirecting to login page
+  </p>
+
+
+  </div>
+
+</div>

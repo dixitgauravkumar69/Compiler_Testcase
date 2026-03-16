@@ -227,3 +227,32 @@ padding:11px;
 }
 
 }
+
+/* TIMER */
+
+.timer{
+background:#ef4444;
+color:white;
+padding:6px 14px;
+border-radius:20px;
+font-weight:600;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* SUBMIT BUTTON */
+
+.submit-btn{
+margin-top:10px;
+background:#10b981;
+color:white;
+border:none;
+padding:10px;
+border-radius:8px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.submit-btn:hover{
+background:#059669;
+}

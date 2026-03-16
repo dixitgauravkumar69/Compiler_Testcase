@@ -13,6 +13,7 @@ import { GenerateResume } from './Components/generate-resume/generate-resume';
 import { AccessDenied } from './Components/access-denied/access-denied';
 import { NotFound } from './Components/not-found/not-found';
 import { Servererror } from './Components/servererror/servererror';
+import { LogOut } from './Components/log-out/log-out';
 
 export const routes: Routes = [
     {path:"",component:UserComponent},
@@ -29,6 +30,6 @@ export const routes: Routes = [
      {path:"403",component:AccessDenied},
      {path:"404",component:NotFound},
      {path:"500",component:Servererror},
-
-    
+     
+     {path:"logout",component:LogOut},
 ];

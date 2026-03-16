@@ -1,0 +1,55 @@
+.logout-page{
+height:100vh;
+background: linear-gradient(135deg,#4f46e5,#06b6d4);
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Segoe UI',sans-serif;
+}
+
+.logout-card{
+background: rgba(255,255,255,0.15);
+backdrop-filter: blur(12px);
+padding:50px 70px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 20px 50px rgba(0,0,0,0.25);
+color:white;
+animation:fadeIn 0.6s ease;
+}
+
+.title{
+font-size:32px;
+margin-top:25px;
+font-weight:700;
+}
+
+.success{
+color:#22c55e;
+}
+
+.subtitle{
+margin-top:10px;
+font-size:16px;
+opacity:0.9;
+}
+
+.spinner{
+width:60px;
+height:60px;
+border:6px solid rgba(255,255,255,0.3);
+border-top:6px solid white;
+border-radius:50%;
+margin:auto;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}

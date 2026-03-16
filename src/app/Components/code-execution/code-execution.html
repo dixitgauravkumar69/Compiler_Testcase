@@ -48,21 +48,30 @@ Output:
   <!-- RIGHT : CODE RUNNER -->
   <div class="code-runner-container">
 
-    <div class="runner-header">
+ <div class="runner-header">
 
-      <div class="language-box">
-        <label>Language</label>
-        <select [(ngModel)]="language">
-          <option *ngFor="let lang of languages" [value]="lang">
-            {{lang}}
-          </option>
-        </select>
-      </div>
+  <div class="language-box">
+    <label>Language</label>
+    <select [(ngModel)]="language">
+      <option *ngFor="let lang of languages" [value]="lang">
+        {{lang}}
+      </option>
+    </select>
+  </div>
 
-      <button (click)="runCode()" class="run-btn">▶ Run</button>
+  <div class="timer">
+    ⏱ {{minutes}}:{{seconds < 10 ? '0'+seconds : seconds}}
+  </div>
 
-    </div>
+  <button (click)="runCode()" class="run-btn">▶ Run</button>
 
+</div>
+
+<!-- ADD THIS BELOW EDITOR OR BELOW RUN BUTTON -->
+
+<button (click)="submitCode()" class="submit-btn">
+  🚀 Submit Code
+</button>
     <!-- BIG CODE EDITOR -->
     <textarea
       [(ngModel)]="code"

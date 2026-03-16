@@ -142,4 +142,9 @@ export class Teacher implements OnInit {
     this.closeSidebar(); //  mobile me auto close
     this.router.navigate(['/campusAdd']);
   }
+
+  logout()
+  {
+    this.router.navigate(['/logout']);
+  }
 }

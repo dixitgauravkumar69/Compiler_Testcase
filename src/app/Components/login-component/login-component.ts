@@ -18,6 +18,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   message = "";
   success = false;
+  isLoading!: boolean;
 
   constructor(private fb: FormBuilder, private http: HttpClient,
     private cdr:ChangeDetectorRef,
@@ -33,45 +34,46 @@ export class LoginComponent {
 
   loginUser(){
 
-    if(this.loginForm.valid){
+  if(this.loginForm.valid){
 
-      this.http.post<any>(`${BASE_URL}/api/User/login`, this.loginForm.value)
-      .subscribe({
+    this.isLoading = true;
 
-        next:(res)=>{
+    this.http.post<any>(`${BASE_URL}/api/User/login`, this.loginForm.value)
+    .subscribe({
 
-          this.success = true;
-          this.cdr.detectChanges();
-          alert( "Welcome " + res.userName + " 🎉 Login Successful");
+      next:(res)=>{
 
+        localStorage.setItem("Usermail",res.userEmail);
+        localStorage.setItem("UserId",res.userId);
+        localStorage.setItem("JWT_TOKEN",res.token);
 
-          localStorage.setItem("Usermail",res.userEmail);
-          localStorage.setItem("UserId",res.userId);
-          localStorage.setItem("JWT_TOKEN",res.token);
-          
-        if(res.userRole === "TEACHER"){
-          this.router.navigate(['/teacher']);
-        }
+        // success screen
+        this.success = true;
+        this.message = "Login Successful";
 
-        else if(res.userRole === "STUDENT"){
-          this.router.navigate(['/student']);
-        }
+        setTimeout(()=>{
 
+          if(res.userRole === "TEACHER"){
+            this.router.navigate(['/teacher']);
+          }
+          else{
+            this.router.navigate(['/student']);
+          }
 
-        },
+        },1000);
 
-        error:(err)=>{
+      },
 
-          this.success = false;
-            this.cdr.detectChanges();
-          alert("Invalid Email or Password");
+      error:(err)=>{
+        this.isLoading = false;
+        this.message = "Invalid Email or Password";
+        
+      }
 
-        }
-
-      });
-
-    }
+    });
 
   }
+
+}
 
 }

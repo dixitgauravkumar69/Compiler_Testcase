@@ -25,22 +25,38 @@
   <!-- Main Content -->
   <div class="main-content">
 
-    <h2>Assigned Problem Statements</h2>
+   <div class="main-content">
 
-    <div *ngIf="loading">
-      Loading questions...
-    </div>
+  <h2>Assigned Problem Statements</h2>
 
-    <div *ngFor="let q of questions" class="card">
-
-      <h3>Question #{{q.id}}</h3>
-
-      <p>{{q.problemStatement}}</p>
-
-      <button (click)="solve(q.id)">Solve</button>
-
-    </div>
-
+  <div *ngIf="loading" class="loader">
+    Loading questions...
   </div>
+
+  <div *ngFor="let q of questions" class="card">
+    <h3>Question #{{q.id}}</h3>
+    <p>{{q.problemStatement}}</p>
+    <button class="solve-btn" (click)="solve(q.id)">Solve</button>
+  </div>
+
+  <div class="pagination-container" *ngIf="totalPages > 1">
+    <button 
+      class="pag-btn" 
+      [disabled]="currentPage === 0" 
+      (click)="getQuestions(currentPage - 1)">
+      &laquo; Previous
+    </button>
+
+    <span class="page-info">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+
+    <button 
+      class="pag-btn" 
+      [disabled]="currentPage >= totalPages - 1" 
+      (click)="getQuestions(currentPage + 1)">
+      Next &raquo;
+    </button>
+  </div>
+
+</div>
 
 </div>

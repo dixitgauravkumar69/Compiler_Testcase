@@ -1,43 +1,78 @@
 <div class="dashboard">
-  <!-- 📱 Mobile Header -->
   <div class="mobile-header">
     <span class="menu-btn" (click)="toggleSidebar()">☰</span>
     <h3>Teacher Panel</h3>
   </div>
 
-  <!-- Sidebar -->
   <div class="sidebar" [class.active]="isSidebarOpen">
     <h2>Teacher Panel</h2>
-
     <button (click)="activeSection = 'see'; closeSidebar()">See Problem Statements</button>
-
     <button (click)="goToAddStatement(); closeSidebar()">Add Problem Statement</button>
-
     <button (click)="goToAddCampus(); closeSidebar()">Add information of Campus</button>
     <button (click)="logout()">Logout</button>
   </div>
 
-  <!-- Content -->
   <div class="content">
-    <!-- Spinner -->
     <div *ngIf="isLoading" class="spinner-container">
       <div class="spinner"></div>
     </div>
 
-    <!-- Actual content -->
     <div *ngIf="!isLoading">
-      <h2>Problem Statements</h2>
+      
+      <div *ngIf="activeSection === 'see'">
+        <h2>Problem Statements</h2>
+        <div class="problem-wrapper">
+          <div class="problem-card" *ngFor="let ps of problemStatements">
+            <h3>Problem {{ ps.id }}</h3>
+            <p>{{ ps.problemStatement }}</p>
 
-      <div class="problem-wrapper">
-        <div class="problem-card" *ngFor="let ps of problemStatements">
-          <h3>Problem {{ ps.id }}</h3>
-          <p>{{ ps.problemStatement }}</p>
+            <div class="button-group">
+              <button [class.assigned]="ps.assigned" (click)="assign(ps.id)">
+                {{ ps.assigned ? 'Assigned' : 'Assign' }}
+              </button>
 
-          <button [class.assigned]="ps.assigned" (click)="assign(ps.id)">
-            {{ ps.assigned ? 'Assigned' : 'Assign' }}
-          </button>
+              <button class="view-btn" (click)="fetchSolvedStudents(ps.id)">
+                View Students
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div *ngIf="activeSection === 'studentsList'">
+        <div class="header-row">
+          <button class="back-btn" (click)="activeSection = 'see'">← Back</button>
+          <h2>Students who solved Problem #{{ selectedProblemId }}</h2>
+        </div>
+
+        <div class="table-container">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Marks</th>
+                <th>Time Taken</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let entry of solvedStudents">
+                <td>{{ entry.user.userid }}</td>
+                <td>{{ entry.user.username }}</td>
+                <td>{{ entry.user.userEmail }}</td>
+                <td><span class="badge">{{ entry.marks }}</span></td>
+                <td>{{ entry.takenTime }}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <div *ngIf="solvedStudents.length === 0" class="no-data">
+            Abhi tak kisi student ne ye solve nahi kiya.
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

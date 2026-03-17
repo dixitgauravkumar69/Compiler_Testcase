@@ -147,4 +147,28 @@ export class Teacher implements OnInit {
   {
     this.router.navigate(['/logout']);
   }
+
+
+  solvedStudents: any[] = [];
+selectedProblemId: number = 0;
+
+fetchSolvedStudents(problemId: number) {
+  this.isLoading = true;
+  this.selectedProblemId = problemId;
+  
+  this.http.get<any[]>(`${BASE_URL}/api/teacher/getStudents/${problemId}`).subscribe({
+    next: (data) => {
+      this.solvedStudents = data;
+      this.activeSection = 'studentsList';
+      this.isLoading = false;
+
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error(err);
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
+  });
+}
 }

@@ -12,6 +12,14 @@ interface Question {
   assigned: boolean;
 }
 
+interface PageResponse {
+  content: Question[];
+  totalPages: number;
+  totalElements: number;
+  number: number; // Current page index
+  size: number;   // Items per page
+}
+
 @Component({
   selector: 'app-student-questions',
   standalone:true,
@@ -35,54 +43,33 @@ export class Student implements OnInit {
     this.getQuestions();
   }
 
- getQuestions() {
+ // Naye variables add karein
+currentPage: number = 0;
+pageSize: number = 5;
+totalPages: number = 0;
 
-  this.http.get<Question[]>(`${BASE_URL}/student/getQuestions`,{
-      withCredentials:true,
-      observe:'response'
+getQuestions(page: number = 0) {
+  this.loading = true;
+  // URL mein page aur size parameters bhejien
+  this.http.get<PageResponse>(`${BASE_URL}/student/getQuestions?page=${page}&size=${this.pageSize}`, {
+    withCredentials: true,
+    observe: 'response'
   })
   .subscribe({
-
     next: (res) => {
-
-      if(res.status === 200){
-        alert("Questions Loaded ✅");
+      if (res.body) {
+        this.questions = res.body.content; // List 'content' ke andar hogi
+        this.totalPages = res.body.totalPages;
+        this.currentPage = res.body.number;
+        this.cdr.detectChanges();
       }
-
-      this.questions = res.body || [];
       this.loading = false;
       this.cdr.detectChanges();
     },
-
     error: (err) => {
-
-      if(err.status === 401){
-        alert("Login Required ⚠️");
-        this.router.navigate(['/login']);
-      }
-
-      else if(err.status === 403){
-        alert("Access Denied 🚫");
-        this.router.navigate(['/403']);
-      }
-
-      else if(err.status === 404){
-        alert("API Not Found ❌");
-        this.router.navigate(['/404']);
-      }
-
-      else if(err.status === 500){
-        alert("Server Error 💥");
-        this.router.navigate(['/500']);
-      }
-
-      else{
-        alert("Unknown Error 😢");
-      }
-
+      // ... aapka purana error logic ...
       this.loading = false;
     }
-
   });
 }
 

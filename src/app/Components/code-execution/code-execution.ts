@@ -40,7 +40,7 @@ export class CodeExecution implements OnInit, OnDestroy {
     private api: CodeExecutionService,
     private cdr:ChangeDetectorRef,
     private http:HttpClient,
-    private ngZone:NgZone
+    
   ) { }
 
   ngOnInit(): void {
@@ -164,6 +164,9 @@ export class CodeExecution implements OnInit, OnDestroy {
       });
 
     alert(`Code Submitted Successfully\nMarks: ${this.marks}`);
+    this.code='';
+    this.output='';
+  
 }
 
   ngOnDestroy() {

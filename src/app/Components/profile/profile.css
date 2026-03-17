@@ -88,3 +88,111 @@
 
 .fade-in { animation: fadeIn 0.5s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+
+
+
+.profile-card {
+  max-width: 1000px;
+  margin: 20px auto;
+  border-radius: 24px;
+}
+
+/* --- Mobile Specific Optimization --- */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .profile-header {
+    padding: 30px 20px;
+    flex-direction: column; /* Stack header items */
+    text-align: center;
+  }
+
+  .user-info-main {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .large-avatar {
+    width: 100px; /* Thoda bada mobile par focal point ke liye */
+    height: 100px;
+    font-size: 2.5rem;
+    border-radius: 24px;
+  }
+
+  .name-meta h1 {
+    font-size: 1.5rem;
+  }
+
+  .profile-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #eef2f6;
+    padding-top: 20px;
+  }
+
+  .btn-edit, .btn-save {
+    width: 100%; /* Full width buttons for easy tap */
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  .edit-group {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+  }
+
+  /* Form Grid: Single Column */
+  .profile-body {
+    padding: 25px 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .field.full-width {
+    grid-column: span 1;
+  }
+
+  /* Input fields for touch targets */
+  .field input, .field textarea {
+    font-size: 16px; /* 16px font prevents iOS auto-zoom on focus */
+    padding: 14px;
+  }
+
+  .link-txt {
+    word-break: break-all; /* URLs lambe ho toh line break ho jayein */
+    font-size: 0.9rem;
+  }
+
+  .cgpa-badge {
+    display: inline-block;
+    margin-top: 5px;
+  }
+}
+
+/* Extra Small Screens (iPhone SE etc.) */
+@media (max-width: 480px) {
+  .profile-header {
+    padding: 20px 15px;
+  }
+  
+  .large-avatar {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Hover disable logic for mobile taps */
+@media (hover: none) {
+  .btn-edit:active, .btn-save:active {
+    transform: scale(0.97);
+    opacity: 0.8;
+  }
+}

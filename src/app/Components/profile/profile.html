@@ -7,7 +7,11 @@
           <div class="large-avatar">{{ user.username[0] }}</div>
           <div class="name-meta">
             <h1>{{ user.username }}</h1>
-            <p><span class="badge-branch">{{ profile.branch || 'Student' }}</span> • Sem {{ profile.semester || '-' }}</p>
+            <p>
+              <span class="badge-branch">{{ profile.branch || 'Student' }}</span> 
+              <span class="meta-sep">•</span> 
+              Sem {{ profile.semester || '-' }}
+            </p>
           </div>
         </div>
         
@@ -27,7 +31,7 @@
           
           <div class="field">
             <label>Phone Number</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.phone" placeholder="Enter phone number">
+            <input *ngIf="editMode" [(ngModel)]="profile.phone" type="tel" placeholder="Enter phone number">
             <p *ngIf="!editMode" [class.empty]="!profile.phone">{{ profile.phone || 'Not added' }}</p>
           </div>
 
@@ -52,7 +56,9 @@
           <div class="field">
             <label>Current CGPA</label>
             <input *ngIf="editMode" [(ngModel)]="profile.cgpa" placeholder="e.g. 8.5">
-            <p *ngIf="!editMode"><span class="cgpa-badge">{{ profile.cgpa || '0.0' }}</span></p>
+            <div *ngIf="!editMode">
+              <span class="cgpa-badge">{{ profile.cgpa || '0.0' }}</span>
+            </div>
           </div>
 
           <div class="field">
@@ -65,7 +71,7 @@
 
           <div class="field">
             <label>GitHub URL</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.github" placeholder="github.com/your-username">
+            <input *ngIf="editMode" [(ngModel)]="profile.github" placeholder="github.com/user">
             <p *ngIf="!editMode" class="link-txt">
               <span *ngIf="profile.github">🔗 {{ profile.github }}</span>
               <span *ngIf="!profile.github" class="empty">Not added</span>
@@ -74,7 +80,7 @@
 
           <div class="field">
             <label>LinkedIn URL</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.linkedin" placeholder="linkedin.com/in/your-profile">
+            <input *ngIf="editMode" [(ngModel)]="profile.linkedin" placeholder="linkedin.com/in/user">
             <p *ngIf="!editMode" class="link-txt">
               <span *ngIf="profile.linkedin">🔗 {{ profile.linkedin }}</span>
               <span *ngIf="!profile.linkedin" class="empty">Not added</span>
@@ -84,7 +90,7 @@
           <div class="field full-width">
             <label>Professional Bio</label>
             <textarea *ngIf="editMode" [(ngModel)]="profile.bio" rows="4" placeholder="Tell us about yourself..."></textarea>
-            <p *ngIf="!editMode" class="bio-text">{{ profile.bio || 'Your bio is empty. Tell students or teachers more about yourself!' }}</p>
+            <p *ngIf="!editMode" class="bio-text">{{ profile.bio || 'Your bio is empty.' }}</p>
           </div>
 
         </div>

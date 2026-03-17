@@ -136,3 +136,105 @@ input:focus, textarea:focus {
 
 .fade-in { animation: fadeIn 0.5s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+
+
+
+
+
+.form-grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* --- Mobile Specific Tweaks --- */
+@media (max-width: 992px) {
+  .form-grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  /* Container Padding */
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .resume-builder-card {
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+
+  /* Header Shrink */
+  .builder-header {
+    padding: 25px 15px;
+    gap: 15px;
+  }
+
+  .header-icon {
+    width: 45px; height: 45px; font-size: 1.5rem;
+  }
+
+  .header-text h2 { font-size: 1.2rem; }
+  .header-text p { font-size: 0.85rem; }
+
+  /* Form Layout */
+  .resume-form-modern {
+    padding: 20px 15px;
+  }
+
+  .form-grid-responsive {
+    grid-template-columns: 1fr; /* Force single column */
+    gap: 15px;
+  }
+
+  .section-title {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: ""; flex: 1; height: 1px; background: #e2e8f0;
+  }
+
+  /* Input focus size fix for iOS */
+  input, textarea {
+    font-size: 16px; 
+    padding: 14px;
+  }
+
+  /* Action Buttons */
+  .action-footer {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px;
+    padding-top: 20px;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    padding: 16px;
+    font-size: 1rem;
+  }
+
+  /* Generated Resumes Mobile View */
+  .resume-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-mobile-flex {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .resume-premium-card {
+    padding: 15px;
+  }
+
+  .resume-icon {
+    width: 40px; height: 40px; font-size: 1.2rem;
+  }
+}

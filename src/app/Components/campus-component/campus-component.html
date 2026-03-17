@@ -5,35 +5,35 @@
       <header class="form-header">
         <div class="header-icon">💼</div>
         <div class="header-text">
-          <h2>Post Placement Opportunity</h2>
-          <p>Fill in the details to notify eligible students about new job openings.</p>
+          <h2>Post Opportunity</h2>
+          <p>Notify students about new openings.</p>
         </div>
       </header>
 
       <form (ngSubmit)="addJob()" class="modern-form">
+        
         <div class="form-section">
-          <h3 class="section-divider">Basic Information</h3>
+          <h3 class="section-divider"><span>Basic Information</span></h3>
           <div class="grid-layout">
             <div class="field">
               <label>Company Name <span class="required">*</span></label>
               <input type="text" [(ngModel)]="job.company" name="company" placeholder="e.g. Google" required>
             </div>
-
             <div class="field">
               <label>Job Title <span class="required">*</span></label>
               <input type="text" [(ngModel)]="job.title" name="title" placeholder="e.g. Software Engineer" required>
             </div>
-
             <div class="field">
               <label>Job Type</label>
-              <select [(ngModel)]="job.jobType" name="jobType">
-                <option value="">Select Type</option>
-                <option>Full Time</option>
-                <option>Internship</option>
-                <option>Contract</option>
-              </select>
+              <div class="select-wrapper">
+                <select [(ngModel)]="job.jobType" name="jobType">
+                  <option value="">Select Type</option>
+                  <option>Full Time</option>
+                  <option>Internship</option>
+                  <option>Contract</option>
+                </select>
+              </div>
             </div>
-
             <div class="field">
               <label>Industry</label>
               <input type="text" [(ngModel)]="job.industry" name="industry" placeholder="e.g. IT / Finance">
@@ -42,42 +42,32 @@
         </div>
 
         <div class="form-section">
-          <h3 class="section-divider">Package & Requirements</h3>
+          <h3 class="section-divider"><span>Package & Rules</span></h3>
           <div class="grid-layout">
             <div class="field">
               <label>Salary Package</label>
               <input type="text" [(ngModel)]="job.salaryPackage" name="salaryPackage" placeholder="e.g. 6 LPA">
             </div>
-
-            <div class="field">
-              <label>Location</label>
-              <input type="text" [(ngModel)]="job.location" name="location" placeholder="e.g. Bangalore / Remote">
-            </div>
-
             <div class="field">
               <label>Eligible Semester</label>
-              <select [(ngModel)]="job.semester" name="semester">
-                <option value="">Select Sem</option>
-                <option>5</option><option>6</option><option>7</option><option>8</option>
-              </select>
+              <div class="select-wrapper">
+                <select [(ngModel)]="job.semester" name="semester">
+                  <option value="">Select Sem</option>
+                  <option>5</option><option>6</option><option>7</option><option>8</option>
+                </select>
+              </div>
             </div>
-
             <div class="field">
               <label>Registration Last Date</label>
-              <input type="date" [(ngModel)]="job.registrationLastDate" name="registrationLastDate">
+              <input type="date" [(ngModel)]="job.registrationLastDate" name="registrationLastDate" class="date-input">
             </div>
-
             <div class="field">
-              <label>Bond Details</label>
-              <input type="text" [(ngModel)]="job.bond" name="bond" placeholder="e.g. 2 Years or None">
-            </div>
-            
-            <div class="field">
-              <label>Attachment (Official JD PDF)</label>
+              <label>Attachment (JD PDF)</label>
               <div class="file-upload-wrapper">
                 <input type="file" id="file-input" accept="application/pdf" (change)="onFileSelected($event)">
                 <label for="file-input" class="file-label">
-                  <span>📎 {{ selectedFileName || 'Choose PDF File' }}</span>
+                  <span class="file-icon">📁</span>
+                  <span class="file-text">{{ selectedFileName || 'Tap to upload PDF' }}</span>
                 </label>
               </div>
             </div>
@@ -85,32 +75,20 @@
         </div>
 
         <div class="form-section">
-          <h3 class="section-divider">Job Description & Process</h3>
-          
+          <h3 class="section-divider"><span>Descriptions</span></h3>
           <div class="field full-width">
             <label>Eligibility Criteria</label>
-            <textarea [(ngModel)]="job.eligibility" name="eligibility" rows="3" placeholder="Minimum CGPA, Backlog rules, Branch..."></textarea>
+            <textarea [(ngModel)]="job.eligibility" name="eligibility" rows="3" placeholder="CGPA, Branch..."></textarea>
           </div>
-
           <div class="field full-width">
-            <label>Skills Required</label>
-            <textarea [(ngModel)]="job.skillsRequired" name="skillsRequired" rows="3" placeholder="Java, Angular, Problem Solving..."></textarea>
-          </div>
-
-          <div class="field full-width">
-            <label>Job Description (JD)</label>
-            <textarea [(ngModel)]="job.jobDescription" name="jobDescription" rows="4" placeholder="Roles and responsibilities..."></textarea>
-          </div>
-
-          <div class="field full-width">
-            <label>Selection Process</label>
-            <textarea [(ngModel)]="job.selectionProcess" name="selectionProcess" rows="3" placeholder="e.g. 1. Aptitude Test -> 2. Technical Interview -> 3. HR"></textarea>
+            <label>Job Description</label>
+            <textarea [(ngModel)]="job.jobDescription" name="jobDescription" rows="4" placeholder="Roles..."></textarea>
           </div>
         </div>
 
         <div class="form-actions">
           <button type="button" class="btn-cancel">Discard</button>
-          <button type="submit" class="submit-btn">🚀 Post Opportunity</button>
+          <button type="submit" class="submit-btn">🚀 Post Now</button>
         </div>
 
       </form>

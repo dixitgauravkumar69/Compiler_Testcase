@@ -111,3 +111,87 @@ input:focus, select:focus {
 .status-msg { margin-top: 20px; padding: 10px; border-radius: 8px; text-align: center; }
 .status-msg.success { background: #c6f6d5; color: #2f855a; }
 .status-msg.error { background: #fed7d7; color: #c53030; }
+
+
+/* ... Aapka existing CSS yahan tak same rahega ... */
+
+/* ✅ Responsive Design Fixes */
+@media (max-width: 850px) {
+  .main {
+    padding: 10px; /* Choti screen par kam padding */
+    align-items: flex-start; /* Keyboard khulne par scroll asan ho */
+  }
+
+  .auth-container {
+    flex-direction: column;
+    max-width: 500px;
+    border-radius: 25px;
+    margin-top: 20px;
+  }
+
+  /* Info side ko hide karne ki bajaye hum use top gradient banner banayenge */
+  .info-side {
+    display: flex;
+    padding: 30px 20px;
+    text-align: center;
+    min-height: auto;
+  }
+
+  .info-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+  }
+
+  .info-content p {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+
+  .feature-list {
+    display: none; /* Mobile par features list hide kar dete hain clutter kam karne ke liye */
+  }
+
+  .form-side {
+    padding: 30px 24px;
+    border-radius: 30px 30px 0 0;
+    margin-top: -20px; /* Info side ke upar halka overlap premium feel deta hai */
+    background: white;
+  }
+
+  .header h2 {
+    font-size: 1.5rem;
+  }
+
+  /* Mobile par input fields ko bada karna (Touch targets) */
+  input, select {
+    padding: 16px;
+    font-size: 16px; /* 16px font size prevents iOS auto-zoom */
+    border-width: 1px;
+  }
+
+  .register-btn {
+    padding: 18px;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+}
+
+/* Extra Small Screens (iPhone SE etc.) */
+@media (max-width: 400px) {
+  .info-side {
+    padding: 20px 15px;
+  }
+  .form-side {
+    padding: 25px 20px;
+  }
+}
+
+/* Smooth Fade In Animation */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

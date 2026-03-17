@@ -248,3 +248,142 @@ bottom:10px;
 }
 
 }
+
+
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 0; /* Remove padding to handle mobile edges */
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* --- Header & Branding --- */
+.header-card {
+  padding: 30px;
+  background: #f8faff;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.company-brand {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.logo-placeholder {
+  width: 55px; height: 55px;
+  background: #007BFF;
+  color: white;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: 700;
+}
+
+.title-area h2 { font-size: 1.5rem; color: #1a202c; margin: 0; }
+.title-area h3 { font-size: 1rem; color: #718096; margin: 4px 0 0; }
+
+/* --- Info Chips Grid --- */
+.info-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.chip {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.chip-label { display: block; font-size: 0.7rem; text-transform: uppercase; color: #a0aec0; font-weight: 700; }
+.chip-value { font-size: 0.9rem; color: #2d3748; font-weight: 600; }
+.chip-value.highlight { color: #38a169; }
+
+/* --- Body Content --- */
+.details-body { padding: 30px; padding-bottom: 100px; } /* Space for sticky button */
+
+.section { margin-bottom: 25px; }
+.section h4 { 
+  display: flex; align-items: center; gap: 8px;
+  font-size: 1.1rem; color: #2d3748; margin-bottom: 12px; 
+}
+
+.section p { line-height: 1.7; color: #4a5568; font-size: 0.95rem; }
+
+/* --- Attachment Box --- */
+.attachment-box {
+  background: #f1f5f9;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.download-link {
+  display: inline-block;
+  color: #007BFF;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+/* --- Sticky Action Bar (Mobile) --- */
+.action-bar-mobile {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  padding: 15px 20px;
+  background: white;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+  z-index: 100;
+}
+
+.apply-btn-main {
+  width: 100%;
+  padding: 16px;
+  background: #38a169;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+/* ================= MOBILE OPTIMIZATIONS ================= */
+
+@media (max-width: 768px) {
+  .container { margin: 0; border-radius: 0; }
+  .header-card { padding: 20px; }
+  .details-body { padding: 20px 20px 100px 20px; }
+  
+  .info-chips-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 items per row on mobile too */
+  }
+
+  .title-area h2 { font-size: 1.3rem; }
+}
+
+@media (max-width: 480px) {
+  .info-chips-grid {
+    grid-template-columns: 1fr; /* Single column for very small screens */
+  }
+}
+
+/* Desktop override: Action bar normal flow */
+@media (min-width: 769px) {
+  .action-bar-mobile {
+    position: relative;
+    padding: 0;
+    box-shadow: none;
+    margin-top: 20px;
+  }
+  .apply-btn-main { border-radius: 10px; }
+}
+
+.fade-in { animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

@@ -1,114 +1,135 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CodeExecutionService } from '../../Services/code-execution-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../../Environments/environment';
 
 @Component({
   selector: 'app-code-runner',
-  standalone:true,
-  imports:[CommonModule,ReactiveFormsModule,FormsModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './code-execution.html',
   styleUrls: ['./code-execution.css']
 })
 export class CodeExecution implements OnInit, OnDestroy {
 
+  // UI State
+  activeTab: 'problem' | 'code' | 'output' = 'problem'; // Mobile tabs control
+
+  // Problem Data
   code: string = '';
   language: string = 'JAVA';
   output: string = '';
-
-  title:string='';
-  description:string='';
-  input:string='';
-  expectedOutput='';
-
-  testCases:any[]=[];
+  title: string = '';
+  description: string = '';
+  input: string = '';
+  expectedOutput = '';
+  testCases: any[] = [];
+  
+  // Configuration
   languages = ['JAVA', 'PYTHON', 'CPP'];
-  problemId:number=Number(localStorage.getItem("ProblemId"));
+  problemId: number = Number(localStorage.getItem("ProblemId"));
+  
+  // Timer Logic
+  minutes: number = 30; 
+  seconds: number = 0;
+  intervalId: any;
 
-  // TIMER
-  minutes:number = 30; // Abhi static hai jb jarurat hogi teacher se le lenge dynamic way me.......
-  seconds:number = 0;
-  intervalId:any;
-
-  marks:number=0;
-  userid!:number;
+  // Evaluation
+  marks: number = 0;
 
   constructor(
     private api: CodeExecutionService,
-    private cdr:ChangeDetectorRef,
-    private http:HttpClient,
-    
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
+    if (!this.problemId) {
+      alert("Problem ID not found!");
+      return;
+    }
+    this.fetchProblemData();
+    this.fetchTestCases();
+    this.startTimer();
+  }
 
-    // Problem Data
+  fetchProblemData() {
     this.http.get(`${BASE_URL}/api/code/getProblem/${this.problemId}`)
-      .subscribe((data: any) => {
-        this.title = data.title;
-        this.description = data.problemStatement;
-        this.cdr.detectChanges();
+      .subscribe({
+        next: (data: any) => {
+          this.title = data.title;
+          this.description = data.problemStatement;
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error("Error fetching problem:", err)
       });
+  }
 
-    // Test Cases
+  fetchTestCases() {
     this.http.get(`${BASE_URL}/api/code/getTestCases/${this.problemId}`)
-      .subscribe((data: any) => {
-        this.testCases = data;
-        this.input = data[0]?.inputData || '';
-        this.expectedOutput = data[0]?.expectedOutput || '';
-        this.cdr.detectChanges();
+      .subscribe({
+        next: (data: any) => {
+          this.testCases = data;
+          if (data.length > 0) {
+            this.input = data[0].inputData;
+            this.expectedOutput = data[0].expectedOutput;
+          }
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error("Error fetching test cases:", err)
       });
-
-    this.startTimer();   // TIMER START
   }
 
   startTimer() {
-    if(this.intervalId){
-      clearInterval(this.intervalId);
-    }
+    if (this.intervalId) clearInterval(this.intervalId);
 
-    this.intervalId = setInterval(()=>{
-      if(this.minutes === 0 && this.seconds === 0){
+    this.intervalId = setInterval(() => {
+      if (this.minutes === 0 && this.seconds === 0) {
         clearInterval(this.intervalId);
-        alert("⏰ Time Out");
+        alert("⏰ Time Out! Your code is being submitted.");
         this.submitCode();
         return;
       }
 
-      if(this.seconds === 0){
+      if (this.seconds === 0) {
         this.minutes--;
         this.seconds = 59;
       } else {
         this.seconds--;
       }
-
       this.cdr.detectChanges();
     }, 1000);
   }
 
   runCode() {
+    if (!this.code.trim()) {
+      alert("Please write some code first!");
+      return;
+    }
+
     this.output = 'Running...';
+    // Mobile par automatic output tab par le jaye
+    if (window.innerWidth <= 768) {
+      this.activeTab = 'output';
+    }
 
     this.api.runCode(this.code, this.language, this.problemId).subscribe({
-     next: (res: any) => {
-  // Check karein agar res string hai toh parse karein
-  let data = typeof res === 'string' ? JSON.parse(res) : res;   // response is in json string type
-
-  console.log("PARSED DATA:", data);
-  console.log("MARKS:", data.marks);
-
-  if (data.testCases && Array.isArray(data.testCases)) {
-    this.output = data.testCases.join('\n');
-  }
-  
-  this.marks = data.marks ?? 0;
-  this.cdr.detectChanges();
-},
+      next: (res: any) => {
+        let data = typeof res === 'string' ? JSON.parse(res) : res;
+        
+        if (data.testCases && Array.isArray(data.testCases)) {
+          this.output = data.testCases.join('\n');
+        } else {
+          this.output = data.output || 'No output received.';
+        }
+        
+        this.marks = data.marks ?? 0;
+        this.cdr.detectChanges();
+      },
       error: (err) => {
-        this.output = 'Error: ' + err.message;
+        this.output = 'Error: ' + (err.error?.message || err.message);
         this.cdr.detectChanges();
       }
     });
@@ -117,59 +138,49 @@ export class CodeExecution implements OnInit, OnDestroy {
   submitCode() {
     clearInterval(this.intervalId);
 
-    const totalTime = 30 * 60;
-    const remainingTime = (this.minutes * 60) + this.seconds;
-    const usedTime = totalTime - remainingTime;
-
-    const usedMin = Math.floor(usedTime / 60);
-    const usedSec = usedTime % 60;
-
-    const timeString = `${usedMin.toString().padStart(2, '0')}:${usedSec.toString().padStart(2, '0')}`;
-
-
-    console.log(timeString);
-
     const uId = Number(localStorage.getItem('UserId'));
     const pId = this.problemId;
-    // 1. Data Object (Body) taiyar karein
-    const body = {
-        marks: this.marks,
-        takenTime:timeString,
-        userId:uId,
-        problemId:pId
-        
-    };
-
-    // 2. ID ko number mein convert karein aur check karein
-    
 
     if (!uId || !pId) {
-        alert("User ID ya Problem ID missing hai!");
-        return;
+      alert("User ID ya Problem ID missing hai!");
+      return;
     }
 
-    console.log("Sending Data:", body);
+    // Calculate Taken Time
+    const totalSeconds = (30 * 60) - ((this.minutes * 60) + this.seconds);
+    const usedMin = Math.floor(totalSeconds / 60);
+    const usedSec = totalSeconds % 60;
+    const timeString = `${usedMin.toString().padStart(2, '0')}:${usedSec.toString().padStart(2, '0')}`;
 
-    // 3. GET ki jagah POST use karein
+    const body = {
+      marks: this.marks,
+      takenTime: timeString,
+      userId: uId,
+      problemId: pId
+    };
+
     this.http.post(`${BASE_URL}/api/student/SaveStudentCodeInfo/${uId}/${pId}`, body, { responseType: 'text' })
       .subscribe({
-        next: (data: any) => {
-            alert("Success: " + data);
-            this.cdr.detectChanges();
+        next: (response: any) => {
+          alert(`🚀 Code Submitted!\nMarks Secured: ${this.marks}\nTime Taken: ${timeString}`);
+          this.resetForm();
         },
         error: (err) => {
-            console.error("Error:"+err);
-            alert("Database mein save nahi ho paya!");
+          console.error("Submission Error:", err);
+          alert("Database sync failed, but your session is recorded.");
         }
       });
+  }
 
-    alert(`Code Submitted Successfully\nMarks: ${this.marks}`);
-    this.code='';
-    this.output='';
-  
-}
+  resetForm() {
+    this.code = '';
+    this.output = '';
+    this.marks = 0;
+    this.activeTab = 'problem'; // Reset to description
+    this.cdr.detectChanges();
+  }
 
   ngOnDestroy() {
-    clearInterval(this.intervalId);   
+    if (this.intervalId) clearInterval(this.intervalId);
   }
 }

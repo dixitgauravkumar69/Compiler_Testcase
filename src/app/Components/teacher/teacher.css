@@ -176,3 +176,95 @@
 
 .fade-in { animation: fadeIn 0.4s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+
+@media (max-width: 768px) {
+  .desktop-only { display: none; }
+  .mobile-only { display: block; }
+}
+
+/* --- Mobile Header Burger Icon --- */
+.header-left { display: flex; align-items: center; gap: 15px; }
+.burger-icon {
+  display: block; width: 20px; height: 2px; background: #1e293b; position: relative;
+}
+.burger-icon::before, .burger-icon::after {
+  content: ''; position: absolute; width: 20px; height: 2px; background: #1e293b; left: 0;
+}
+.burger-icon::before { top: -6px; }
+.burger-icon::after { top: 6px; }
+
+/* --- Mobile Card Footer Actions --- */
+.card-footer-actions {
+  display: flex; gap: 10px; margin-top: 15px;
+}
+.card-footer-actions button {
+  flex: 1; padding: 12px; font-size: 0.9rem; border-radius: 10px;
+}
+
+/* --- Mobile Result Cards --- */
+.student-result-card {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #eef2f6;
+}
+
+.res-left { display: flex; gap: 12px; align-items: center; }
+.avatar { 
+  width: 40px; height: 40px; background: #4f46e5; color: white;
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-weight: bold;
+}
+
+.res-info h4 { margin: 0; font-size: 0.95rem; color: #1e293b; }
+.res-info p { margin: 2px 0 0; font-size: 0.75rem; color: #64748b; }
+
+.res-right { text-align: right; display: flex; flex-direction: column; gap: 5px; }
+.res-right small { font-size: 0.7rem; color: #94a3b8; }
+
+/* --- Mobile Responsive (992px) --- */
+@media (max-width: 992px) {
+  .mobile-header {
+    display: flex; position: fixed; top: 0; left: 0; right: 0;
+    height: 65px; background: white; padding: 0 20px;
+    align-items: center; border-bottom: 1px solid #eef2f6; z-index: 1000;
+  }
+
+  .sidebar {
+    width: 280px; position: fixed; left: 0; 
+    transform: translateX(-100%); z-index: 1001;
+    border-radius: 0 20px 20px 0;
+  }
+  .sidebar.active { transform: translateX(0); }
+
+  .main-content { padding: 85px 15px 20px; } /* Header space */
+  
+  .section-title h2 { font-size: 1.5rem; }
+  
+  .problem-grid {
+    grid-template-columns: 1fr; /* Single column on mobile */
+  }
+
+  .modern-card { padding: 20px; }
+  
+  .truncate-text {
+    display: -webkit-box;
+    
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* --- Status Badges --- */
+.status-badge {
+  font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 5px;
+  background: #f1f5f9; color: #64748b;
+}
+.status-badge.active { background: #ecfdf5; color: #10b981; }

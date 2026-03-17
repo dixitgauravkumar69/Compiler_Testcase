@@ -1,76 +1,67 @@
-<div class="container" *ngIf="job">
+<div class="container fade-in" *ngIf="job">
 
-<div class="header-card">
+  <div class="header-card">
+    <div class="company-brand">
+      <div class="logo-placeholder">{{ job.company[0] }}</div>
+      <div class="title-area">
+        <h2>{{job.company}}</h2>
+        <h3>{{job.title}}</h3>
+      </div>
+    </div>
 
-<h2>{{job.company}}</h2>
-<h3>{{job.title}}</h3>
+    <div class="info-chips-grid">
+      <div class="chip">
+        <span class="chip-label">Type</span>
+        <span class="chip-value">{{job.jobType}}</span>
+      </div>
+      <div class="chip">
+        <span class="chip-label">Location</span>
+        <span class="chip-value">📍 {{job.location}}</span>
+      </div>
+      <div class="chip">
+        <span class="chip-label">Package</span>
+        <span class="chip-value highlight">{{ job.salaryPackage }} LPA</span>
+      </div>
+      <div class="chip">
+        <span class="chip-label">Eligibility</span>
+        <span class="chip-value">🎓 Sem {{job.semester}}</span>
+      </div>
+    </div>
+  </div>
 
-<div class="badges">
-<span>{{job.jobType}}</span>
-<span>{{job.location}}</span>
-<span>Semester {{job.semester}}</span>
-</div>
+  <div class="details-body">
+    <div class="section">
+      <h4><span class="icon">📝</span> Job Description</h4>
+      <p>{{job.jobDescription}}</p>
+    </div>
 
-<div class="package">
-   {{ job.salaryPackage }} LPA
-</div>
+    <div class="section">
+      <h4><span class="icon">⚙️</span> Skills Required</h4>
+      <div class="skills-wrapper">
+        <p>{{job.skillsRequired}}</p>
+      </div>
+    </div>
 
-</div>
+    <div class="section">
+      <h4><span class="icon">🚀</span> Selection Process</h4>
+      <p>{{job.selectionProcess}}</p>
+    </div>
 
+    <div class="section danger-zone" *ngIf="job.registrationLastDate">
+      <h4><span class="icon">⏰</span> Deadline</h4>
+      <p>Apply before: <strong>{{ job.registrationLastDate | date:'fullDate' }}</strong></p>
+    </div>
 
-<div class="section">
+    <div class="section attachment-box" *ngIf="job.allocate">
+      <h4>Job Attachment</h4>
+      <a [href]="job.allocate" [download]="getFileName(job.allocate)" class="download-link">
+        <span class="icon">📄</span> Download Detailed PDF
+      </a>
+    </div>
+  </div>
 
-<h4>Eligibility</h4>
-<p>{{job.eligibility}}</p>
-
-</div>
-
-<div class="section">
-
-<h4>Skills Required</h4>
-<p>{{job.skillsRequired}}</p>
-
-</div>
-
-<div class="section">
-
-<h4>Job Description</h4>
-<p>{{job.jobDescription}}</p>
-
-</div>
-
-<div class="section">
-
-<h4>Selection Process</h4>
-<p>{{job.selectionProcess}}</p>
-
-</div>
-
-<div class="section">
-
-<h4>Bond</h4>
-<p>{{job.bond}}</p>
-
-</div>
-
-<div class="section">
-
-<h4>Last Date to Apply</h4>
-<p>{{job.registrationLastDate}}</p>
-
-</div>
-
-
-
-<div class="section" *ngIf="job.allocate">
-
-
-  <h4>Job Attachment</h4>
-  <a [href]="job.allocate" download="{{ getFileName(job.allocate) }}">
-    <button class="download-btn">Download PDF</button>
-  </a>
-</div>
-
-<button class="apply-btn">Apply Now</button>
+  <div class="action-bar-mobile">
+    <button class="apply-btn-main">Apply Now</button>
+  </div>
 
 </div>

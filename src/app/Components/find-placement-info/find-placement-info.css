@@ -211,3 +211,105 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+.job-portal-container {
+  padding: 40px 20px;
+}
+
+/* --- Mobile Specific Optimization --- */
+@media (max-width: 768px) {
+  .job-portal-container {
+    padding: 20px 15px; /* Kam padding taki content ko space mile */
+  }
+
+  .portal-header {
+    margin-bottom: 30px;
+    text-align: left; /* Mobile par left-align zyada clean dikhta hai */
+  }
+
+  .portal-header h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+
+  .portal-header p {
+    font-size: 0.95rem;
+  }
+
+  /* Grid: Force 1 column on mobile */
+  .job-grid {
+    grid-template-columns: 1fr; 
+    gap: 20px;
+  }
+
+  .job-card {
+    padding: 20px;
+    border-radius: 20px; /* Slightly smaller radius for small screens */
+  }
+
+  .job-role {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+
+  /* Job Meta: Icon spacing fix */
+  .meta-item {
+    font-size: 0.85rem;
+    gap: 8px;
+  }
+
+  /* Highlight Box: Stack items on very small screens */
+  .highlight-box {
+    padding: 12px;
+  }
+
+  .highlight-item .label {
+    font-size: 0.65rem;
+  }
+
+  .highlight-item .value {
+    font-size: 0.9rem;
+  }
+
+  .view-details-btn {
+    padding: 12px;
+    font-size: 0.95rem;
+    /* Active state (tap effect) for mobile */
+  }
+  
+  .view-details-btn:active {
+    transform: scale(0.98);
+    background: #4338ca;
+  }
+}
+
+/* --- Extra Small Screens (iPhone SE etc.) --- */
+@media (max-width: 480px) {
+  .card-top {
+    margin-bottom: 15px;
+  }
+
+  .company-logo {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+  }
+
+  .type-tag {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+  }
+
+  /* Package aur Deadline ko ek ke niche ek dikhane ke liye (Optional) */
+  /* Agar space kam pade toh divider hide karke flex-direction column kar sakte hain */
+  /* .highlight-box { flex-direction: column; align-items: flex-start; gap: 10px; } */
+  /* .divider { display: none; } */
+}
+
+/* --- Hover disable for touch devices to avoid double-tap issues --- */
+@media (hover: none) {
+  .job-card:hover {
+    transform: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+}

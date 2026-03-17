@@ -151,3 +151,145 @@ input:focus, select:focus, textarea:focus {
 
 .fade-in { animation: fadeIn 0.5s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+
+
+
+
+
+
+
+
+/* Modern Select Wrapper for better arrow */
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper::after {
+  content: '▼';
+  font-size: 0.7rem;
+  position: absolute;
+  right: 15px;
+  color: #64748b;
+  pointer-events: none;
+}
+
+select {
+  width: 100%;
+  appearance: none; /* Default arrow hide */
+}
+
+/* Date input focus fix for mobile */
+.date-input {
+  min-height: 48px;
+}
+
+/* Improved File Upload for Mobile */
+.file-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 8px;
+  border: 2px dashed #4f46e5;
+  background: #f5f7ff;
+  border-radius: 16px;
+  color: #4f46e5;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.file-icon { font-size: 1.5rem; }
+.file-text { font-size: 0.9rem; text-align: center; }
+
+/* ================= MOBILE OPTIMIZATION (BREAKPOINT) ================= */
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .job-card-container {
+    border-radius: 16px; /* Slightly less round on mobile */
+    border: none;
+    box-shadow: none; /* Use a flat look or very light shadow */
+  }
+
+  .form-header {
+    padding: 25px 20px;
+    flex-direction: row; /* Keep icon and text side by side */
+    gap: 15px;
+  }
+
+  .header-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .header-text h2 { font-size: 1.3rem; }
+  .header-text p { font-size: 0.85rem; }
+
+  .modern-form {
+    padding: 20px;
+  }
+
+  .section-divider {
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+  }
+
+  .grid-layout {
+    grid-template-columns: 1fr; /* Stack all fields vertically */
+    gap: 15px;
+  }
+
+  .field label {
+    font-size: 0.85rem;
+  }
+
+  input, select, textarea {
+    padding: 14px; /* Bigger touch area */
+    font-size: 16px; /* Prevent iOS zoom on focus */
+    border-radius: 10px;
+  }
+
+  .form-actions {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 15px 0;
+    margin-top: 20px;
+    z-index: 10;
+    border-top: 1px solid #f1f5f9;
+    flex-direction: row; /* Side by side buttons */
+    gap: 10px;
+  }
+
+  .btn-cancel {
+    flex: 1;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .submit-btn {
+    flex: 2; /* Post button is more prominent */
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Small Screen Adjustments */
+@media (max-width: 480px) {
+  .form-header {
+    padding: 20px 15px;
+  }
+  
+  .header-icon {
+    display: none; /* Hide icon on very small screens to save space */
+  }
+}

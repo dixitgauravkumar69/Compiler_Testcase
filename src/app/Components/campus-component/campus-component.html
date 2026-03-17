@@ -1,94 +1,120 @@
-<div class="container">
-  <h2 class="form-title">Add Placement Opportunity</h2>
+<div class="dashboard-container">
+  <div class="content-wrapper">
+    
+    <div class="job-card-container fade-in">
+      <header class="form-header">
+        <div class="header-icon">💼</div>
+        <div class="header-text">
+          <h2>Post Placement Opportunity</h2>
+          <p>Fill in the details to notify eligible students about new job openings.</p>
+        </div>
+      </header>
 
-  <form (ngSubmit)="addJob()" class="job-form">
+      <form (ngSubmit)="addJob()" class="modern-form">
+        <div class="form-section">
+          <h3 class="section-divider">Basic Information</h3>
+          <div class="grid-layout">
+            <div class="field">
+              <label>Company Name <span class="required">*</span></label>
+              <input type="text" [(ngModel)]="job.company" name="company" placeholder="e.g. Google" required>
+            </div>
 
-    <div class="grid">
+            <div class="field">
+              <label>Job Title <span class="required">*</span></label>
+              <input type="text" [(ngModel)]="job.title" name="title" placeholder="e.g. Software Engineer" required>
+            </div>
 
-      <div class="field">
-        <label>Company Name</label>
-        <input type="text" [(ngModel)]="job.company" name="company" required>
-      </div>
+            <div class="field">
+              <label>Job Type</label>
+              <select [(ngModel)]="job.jobType" name="jobType">
+                <option value="">Select Type</option>
+                <option>Full Time</option>
+                <option>Internship</option>
+                <option>Contract</option>
+              </select>
+            </div>
 
-      <div class="field">
-        <label>Job Title</label>
-        <input type="text" [(ngModel)]="job.title" name="title" required>
-      </div>
+            <div class="field">
+              <label>Industry</label>
+              <input type="text" [(ngModel)]="job.industry" name="industry" placeholder="e.g. IT / Finance">
+            </div>
+          </div>
+        </div>
 
-      <div class="field">
-        <label>Job Type</label>
-        <select [(ngModel)]="job.jobType" name="jobType">
-          <option value="">Select</option>
-          <option>Full Time</option>
-          <option>Internship</option>
-          <option>Contract</option>
-        </select>
-      </div>
+        <div class="form-section">
+          <h3 class="section-divider">Package & Requirements</h3>
+          <div class="grid-layout">
+            <div class="field">
+              <label>Salary Package</label>
+              <input type="text" [(ngModel)]="job.salaryPackage" name="salaryPackage" placeholder="e.g. 6 LPA">
+            </div>
 
-      <div class="field">
-        <label>Industry</label>
-        <input type="text" [(ngModel)]="job.industry" name="industry">
-      </div>
+            <div class="field">
+              <label>Location</label>
+              <input type="text" [(ngModel)]="job.location" name="location" placeholder="e.g. Bangalore / Remote">
+            </div>
 
-      <div class="field">
-        <label>Location</label>
-        <input type="text" [(ngModel)]="job.location" name="location">
-      </div>
+            <div class="field">
+              <label>Eligible Semester</label>
+              <select [(ngModel)]="job.semester" name="semester">
+                <option value="">Select Sem</option>
+                <option>5</option><option>6</option><option>7</option><option>8</option>
+              </select>
+            </div>
 
-      <div class="field">
-        <label>Eligible Semester</label>
-        <select [(ngModel)]="job.semester" name="semester">
-          <option value="">Select</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-        </select>
-      </div>
+            <div class="field">
+              <label>Registration Last Date</label>
+              <input type="date" [(ngModel)]="job.registrationLastDate" name="registrationLastDate">
+            </div>
 
-      <div class="field">
-        <label>Salary Package</label>
-        <input type="text" [(ngModel)]="job.salaryPackage" name="salaryPackage" placeholder="e.g. 6 LPA">
-      </div>
+            <div class="field">
+              <label>Bond Details</label>
+              <input type="text" [(ngModel)]="job.bond" name="bond" placeholder="e.g. 2 Years or None">
+            </div>
+            
+            <div class="field">
+              <label>Attachment (Official JD PDF)</label>
+              <div class="file-upload-wrapper">
+                <input type="file" id="file-input" accept="application/pdf" (change)="onFileSelected($event)">
+                <label for="file-input" class="file-label">
+                  <span>📎 {{ selectedFileName || 'Choose PDF File' }}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div class="field">
-        <label>Bond</label>
-        <input type="text" [(ngModel)]="job.bond" name="bond" placeholder="e.g. 2 years">
-      </div>
+        <div class="form-section">
+          <h3 class="section-divider">Job Description & Process</h3>
+          
+          <div class="field full-width">
+            <label>Eligibility Criteria</label>
+            <textarea [(ngModel)]="job.eligibility" name="eligibility" rows="3" placeholder="Minimum CGPA, Backlog rules, Branch..."></textarea>
+          </div>
 
-      <div class="field">
-        <label>Registration Last Date</label>
-        <input type="date" [(ngModel)]="job.registrationLastDate" name="registrationLastDate">
-      </div>
+          <div class="field full-width">
+            <label>Skills Required</label>
+            <textarea [(ngModel)]="job.skillsRequired" name="skillsRequired" rows="3" placeholder="Java, Angular, Problem Solving..."></textarea>
+          </div>
 
+          <div class="field full-width">
+            <label>Job Description (JD)</label>
+            <textarea [(ngModel)]="job.jobDescription" name="jobDescription" rows="4" placeholder="Roles and responsibilities..."></textarea>
+          </div>
+
+          <div class="field full-width">
+            <label>Selection Process</label>
+            <textarea [(ngModel)]="job.selectionProcess" name="selectionProcess" rows="3" placeholder="e.g. 1. Aptitude Test -> 2. Technical Interview -> 3. HR"></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel">Discard</button>
+          <button type="submit" class="submit-btn">🚀 Post Opportunity</button>
+        </div>
+
+      </form>
     </div>
 
-    <div class="field full">
-      <label>Eligibility</label>
-      <textarea [(ngModel)]="job.eligibility" name="eligibility" placeholder="Minimum CGPA, Branch etc"></textarea>
-    </div>
-
-    <div class="field full">
-      <label>Skills Required</label>
-      <textarea [(ngModel)]="job.skillsRequired" name="skillsRequired" placeholder="Java, Spring Boot, Angular etc"></textarea>
-    </div>
-
-    <div class="field full">
-      <label>Job Description (JD)</label>
-      <textarea [(ngModel)]="job.jobDescription" name="jobDescription"></textarea>
-    </div>
-
-    <div class="field full">
-      <label>Selection Process</label>
-      <textarea [(ngModel)]="job.selectionProcess" name="selectionProcess" placeholder="Aptitude → Technical → HR"></textarea>
-    </div>
-
-    <div class="field full">
-      <label>Attachment (PDF)</label>
-      <input type="file" accept="application/pdf" (change)="onFileSelected($event)">
-    </div>
-
-    <button type="submit" class="submit-btn">Post Job</button>
-
-  </form>
+  </div>
 </div>

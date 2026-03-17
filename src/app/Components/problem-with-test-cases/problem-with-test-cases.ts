@@ -1,21 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProblemStatementService } from '../../Services/problem-statement-service';
 import { TestCaseDTO, TestCaseService } from '../../Services/test-case-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 
-// import { BASE_URL } from '../../../Environments/environment';
-
 @Component({
   selector: 'app-problem-with-test-cases',
-  imports: [FormsModule,CommonModule],
+  standalone: true, // Agar aap Angular 17+ use kar rahe hain
+  imports: [FormsModule, CommonModule],
   templateUrl: './problem-with-test-cases.html',
   styleUrl: './problem-with-test-cases.css',
 })
 export class ProblemWithTestCases {
-   problemStatement: string = '';
-   problemTitle:string='';
+  // Navigation ke liye logic
+  @Input() activeSection: string = 'add'; // Default section
+  @Output() sectionChange = new EventEmitter<string>(); // Dashboard ko batane ke liye ki section badalna hai
+
+  problemStatement: string = '';
+  problemTitle: string = '';
   problemId!: number;
   problemSaved: boolean = false;
 
@@ -27,34 +30,32 @@ export class ProblemWithTestCases {
   constructor(
     private problemService: ProblemStatementService,
     private testCaseService: TestCaseService,
-    private cdr:ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {}
-
- 
-
-
-
 
   // Step 1: Save Problem
   saveProblem() {
-    if (!this.problemStatement.trim()) {
-      this.message = "Enter Problem Statement!";
+    if (!this.problemTitle.trim() || !this.problemStatement.trim()) {
+      this.message = "Title and Statement are required!";
       return;
     }
 
-    this.problemService.addProblem(this.problemStatement,this.problemTitle).subscribe({
+    this.problemService.addProblem(this.problemStatement, this.problemTitle).subscribe({
       next: (res: string) => {
-        // Assuming backend returns: "Problem saved with ID: 4"
+        // Backend se ID extract karna
         const match = res.match(/\d+/);
         if (match) {
           this.problemId = +match[0];
           this.problemSaved = true;
           this.message = `Problem saved! ID: ${this.problemId}. Now add test cases.`;
+        } else {
+          // Agar res sirf "Success" type ka string hai toh alternative handle karein
+          this.problemSaved = true;
+          this.message = "Problem saved successfully!";
         }
-
         this.cdr.detectChanges();
       },
-      error: (err) => this.message = "Error: " + err.message
+      error: (err) => (this.message = "Error: " + err.message),
     });
   }
 
@@ -68,21 +69,29 @@ export class ProblemWithTestCases {
     const testCase: TestCaseDTO = {
       problemId: this.problemId,
       inputData: this.inputData,
-      expectedOutput: this.expectedOutput
+      expectedOutput: this.expectedOutput,
     };
 
     this.testCaseService.addTestCase(testCase).subscribe({
       next: () => {
-        this.testCasesAdded.push(`Input: ${this.inputData} | Output: ${this.expectedOutput}`);
+        this.testCasesAdded.push(`In: ${this.inputData} → Out: ${this.expectedOutput}`);
         this.inputData = '';
         this.expectedOutput = '';
-        this.message = "Test case added!";
-
+        this.message = "Test case added successfully!";
         this.cdr.detectChanges();
       },
-
-
-      error: (err) => this.message = "Error: " + err.message
+      error: (err) => (this.message = "Error: " + err.message),
     });
+  }
+
+  // Dashboard par wapas jaane ke liye (See Problems section)
+  finishAndGoBack() {
+    this.sectionChange.emit('see'); // Ye parent component (Dashboard) ko signal dega
+  }
+
+  // Problem edit mode par wapas jaane ke liye
+  resetSteps() {
+    this.problemSaved = false;
+    this.message = "Edit mode enabled.";
   }
 }

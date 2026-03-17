@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { BASE_URL } from '../../../Environments/environment';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-register',
   standalone:true,
@@ -15,9 +16,11 @@ export class UserComponent {
 
   userForm: FormGroup;
   message = "";
+  isSuccess: boolean = false;
 
   constructor(private fb: FormBuilder, private http: HttpClient,
-    private cdr:ChangeDetectorRef
+    private cdr:ChangeDetectorRef,
+    private router:Router
   ) {
 
     this.userForm = this.fb.group({
@@ -40,8 +43,10 @@ export class UserComponent {
 
         next: (res) => {
 
+       
           this.cdr.detectChanges();
         alert("User Registered Successfully");
+          this.isSuccess = true;
           this.userForm.reset();
 
 
@@ -56,5 +61,10 @@ export class UserComponent {
     }
 
   }
+
+
+  goToLogin() {
+  this.router.navigate(['/login']); // Apne login path ke hisab se change karein
+}
 
 }

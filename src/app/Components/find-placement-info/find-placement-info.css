@@ -1,208 +1,213 @@
 /* Container */
-.container {
+.job-portal-container {
   max-width: 1200px;
-  margin: 40px auto;
-  padding: 0 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: #f8fafc;
+  min-height: 100vh;
 }
 
-/* Title */
-.title {
+/* Header Section */
+.portal-header {
   text-align: center;
-  font-size: 32px;
-  font-weight: 600;
-  margin-bottom: 30px;
-  color: #1a1a1a;
+  margin-bottom: 50px;
 }
 
-/* Job grid */
+.top-badge {
+  background: #eef2ff;
+  color: #4f46e5;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.portal-header h1 {
+  font-size: 2.5rem;
+  color: #1e293b;
+  margin: 15px 0;
+  font-weight: 800;
+}
+
+.portal-header p {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+/* Grid Layout */
 .job-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
 }
 
-/* Job card */
+/* Job Card Styling */
 .job-card {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 24px;
+  padding: 28px;
+  border: 1px solid #eef2f6;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .job-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #4f46e5;
 }
 
-/* Card header */
-.card-header {
+/* Card Top Elements */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.company-logo {
+  width: 50px;
+  height: 50px;
+  background: #4f46e5;
+  color: white;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.type-tag {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.type-tag.full-time { background: #ecfdf5; color: #059669; }
+.type-tag.internship { background: #eff6ff; color: #2563eb; }
+
+/* Card Body */
+.company-name {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 600;
+  margin: 0;
+}
+
+.job-role {
+  font-size: 1.4rem;
+  color: #1e293b;
+  margin: 5px 0 15px 0;
+  font-weight: 700;
+}
+
+.job-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+/* Highlight Box */
+.highlight-box {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-top: auto;
 }
 
-.card-header h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #007BFF;
+.highlight-item {
+  display: flex;
+  flex-direction: column;
 }
 
-.badge {
-  background: #007BFF;
-  color: #fff;
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-weight: 500;
+.highlight-item .label {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
-/* Job title */
-.job-title {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 12px;
-  color: #333;
+.highlight-item .value {
+  font-size: 1rem;
+  color: #1e293b;
+  font-weight: 700;
 }
 
-/* Info section */
-.info p {
-  font-size: 14px;
-  color: #555;
-  margin: 4px 0;
+.highlight-item .value.date { color: #e11d48; }
+
+.divider {
+  width: 1px;
+  height: 30px;
+  background: #e2e8f0;
 }
 
-/* Button */
-.view-btn {
-  margin-top: 15px;
-  padding: 10px 15px;
-  background: #007BFF;
-  color: #fff;
-  font-weight: 500;
+/* Button Styling */
+.card-footer {
+  margin-top: 25px;
+}
+
+.view-details-btn {
+  width: 100%;
+  padding: 14px;
+  background: #4f46e5;
+  color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s;
 }
 
-.view-btn:hover {
-  background: #0056b3;
-  transform: translateY(-2px);
+.view-details-btn:hover {
+  background: #4338ca;
 }
 
-/* Responsive adjustments */
-@media(max-width: 600px) {
-  .job-grid {
-    grid-template-columns: 1fr;
-  }
+.view-details-btn .arrow {
+  transition: transform 0.2s;
 }
 
-/* ================= MOBILE RESPONSIVE ================= */
-
-@media (max-width: 768px){
-
-.container{
-margin:20px auto;
-padding:0 14px;
+.view-details-btn:hover .arrow {
+  transform: translateX(5px);
 }
 
-/* Title */
-
-.title{
-font-size:24px;
-margin-bottom:20px;
+/* Responsive */
+@media (max-width: 768px) {
+  .portal-header h1 { font-size: 1.8rem; }
+  .job-grid { grid-template-columns: 1fr; }
+  .job-card { padding: 20px; }
 }
 
-/* Grid */
-
-.job-grid{
-grid-template-columns:1fr;
-gap:16px;
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
 }
 
-/* Card */
-
-.job-card{
-padding:16px;
-border-radius:14px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-}
-
-/* Header */
-
-.card-header h3{
-font-size:17px;
-}
-
-.badge{
-font-size:11px;
-padding:5px 10px;
-}
-
-/* Job title */
-
-.job-title{
-font-size:15px;
-}
-
-/* Info */
-
-.info p{
-font-size:13px;
-}
-
-/* Button */
-
-.view-btn{
-width:100%;
-padding:12px;
-font-size:15px;
-border-radius:10px;
-margin-top:12px;
-}
-
-/* Active touch effect */
-
-.view-btn:active{
-transform:scale(0.97);
-}
-
-}
-
-/* ================= SMALL MOBILE ================= */
-
-@media (max-width: 420px){
-
-.container{
-padding:0 10px;
-}
-
-.title{
-font-size:20px;
-}
-
-.job-card{
-padding:14px;
-}
-
-.card-header{
-flex-direction:column;
-align-items:flex-start;
-gap:6px;
-}
-
-.badge{
-align-self:flex-start;
-}
-
-.view-btn{
-padding:13px;
-font-size:14px;
-}
-
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

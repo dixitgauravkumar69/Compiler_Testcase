@@ -1,87 +1,113 @@
-.main{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background: linear-gradient(120deg,#4facfe,#00f2fe);
-padding:20px;
+/* ✅ Layout Base */
+.main {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f2f5;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
 }
 
-.card{
-width:350px;
-background:white;
-padding:40px;
-border-radius:10px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-text-align:center;
+/* ✅ Container: Flexbox for Split Screen */
+.auth-container {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  overflow: hidden; /* Taaki border-radius corners par dikhe */
 }
 
-input,select{
-width:100%;
-padding:12px;
-margin:10px 0;
-border:1px solid #ccc;
-border-radius:5px;
+/* ✅ Left Side (Info Area) */
+.info-side {
+  flex: 1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-button{
-width:100%;
-padding:12px;
-background:#4facfe;
-border:none;
-color:white;
-font-size:16px;
-border-radius:5px;
-cursor:pointer;
+.info-content h1 { font-size: 3rem; margin-bottom: 20px; }
+.info-content p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 30px; }
+
+.feature-item {
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+.feature-item span { margin-right: 10px; color: #4facfe; }
+
+/* ✅ Right Side (Form Area) */
+.form-side {
+  flex: 1.2;
+  padding: 50px 40px;
+  background: white;
 }
 
-button:hover{
-background:#2a8cff;
+.header h2 { font-size: 1.8rem; color: #2d3748; margin-bottom: 8px; }
+.header p { color: #718096; font-size: 0.95rem; }
+
+.link {
+  color: #667eea;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.link:hover { text-decoration: underline; }
+
+/* ✅ Inputs */
+.input-box { margin-bottom: 20px; }
+
+input, select {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #edf2f7;
+  border-radius: 12px;
+  background: #f7fafc;
+  font-size: 1rem;
+  transition: all 0.3s;
+  box-sizing: border-box;
 }
 
-.msg{
-margin-top:15px;
-font-weight:bold;
+input:focus, select:focus {
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  outline: none;
 }
 
-
-/* ✅ MOBILE RESPONSIVE */
-
-@media (max-width:768px){
-
-.main{
-align-items:flex-start;
-padding-top:40px;
-height:auto;
-min-height:100vh;
+/* ✅ Button */
+.register-btn {
+  width: 100%;
+  padding: 15px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
 }
 
-.card{
-width:100%;
-max-width:420px;
-padding:25px;
-border-radius:12px;
+.register-btn:hover:not(:disabled) {
+  background: #5a67d8;
+  transform: translateY(-2px);
 }
 
-input,select{
-padding:14px;
-font-size:16px;
+.register-btn:disabled { background: #cbd5e0; cursor: not-allowed; }
+
+/* ✅ Responsive Design */
+@media (max-width: 850px) {
+  .auth-container { flex-direction: column; max-width: 450px; }
+  .info-side { display: none; } /* Mobile par info side hide kar rahe hain */
+  .form-side { padding: 30px 20px; }
 }
 
-button{
-padding:14px;
-font-size:17px;
-}
-
-}
-
-
-/*  EXTRA SMALL MOBILE */
-
-@media (max-width:420px){
-
-.card{
-padding:20px;
-}
-
-}
+/* ✅ Status Messages */
+.status-msg { margin-top: 20px; padding: 10px; border-radius: 8px; text-align: center; }
+.status-msg.success { background: #c6f6d5; color: #2f855a; }
+.status-msg.error { background: #fed7d7; color: #c53030; }

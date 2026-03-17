@@ -1,89 +1,82 @@
-<div class="container">
+<div class="arena-container">
+  <aside class="problem-pane fade-in">
+    <div class="pane-header">
+      <span class="difficulty-badge">Medium</span>
+      <div class="timer-chip">
+        <span class="icon">⏱️</span> {{minutes}}:{{seconds < 10 ? '0'+seconds : seconds}}
+      </div>
+    </div>
 
-  <!-- LEFT : Problem Statement -->
-  <div class="problem-section">
-
-    <h2>Problem Statement</h2>
-
-    <div class="problem-card">
-
-      <!-- TITLE -->
-      <h2>{{title}}</h2>
-
-      <!-- DESCRIPTION -->
-      <p>{{description}}</p>
-
-     <div class="testcases-container">
-  <h4>Test Cases</h4>
-  
-  <div *ngFor="let tc of testCases; let i = index" class="testcase-card">
-    <h5>Test Case {{ i + 1 }}</h5>
-    
-    <div class="tc-details">
-      <strong>Input:</strong>
-      <pre>{{ tc.inputData }}</pre>
+    <div class="problem-content">
+      <h1 class="problem-title">{{title || 'Problem Title'}}</h1>
       
-      <strong>Expected Output:</strong>
-      <pre>{{ tc.expectedOutput }}</pre>
+      <div class="description-text">
+        <p>{{description}}</p>
+      </div>
+
+      <div class="example-box">
+        <h4><span class="icon">💡</span> Example 1</h4>
+        <div class="example-content">
+          <div class="ex-line"><strong>Input:</strong> <code>{{input}}</code></div>
+          <div class="ex-line"><strong>Output:</strong> <code>{{expectedOutput}}</code></div>
+        </div>
+      </div>
+
+      <div class="testcases-section">
+        <h3><span class="icon">🧪</span> Test Cases</h3>
+        <div class="tc-grid">
+          <div *ngFor="let tc of testCases; let i = index" class="tc-card">
+            <header>Case {{ i + 1 }}</header>
+            <div class="tc-body">
+              <label>Input</label>
+              <pre>{{ tc.inputData }}</pre>
+              <label>Expected</label>
+              <pre class="success-pre">{{ tc.expectedOutput }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </aside>
 
-      <!-- EXAMPLE -->
-      <h4>Example</h4>
+  <main class="editor-pane">
+    <header class="editor-header">
+      <div class="lang-selector">
+        <label>Language:</label>
+        <select [(ngModel)]="language">
+          <option *ngFor="let lang of languages" [value]="lang">{{lang}}</option>
+        </select>
+      </div>
+      
+      <div class="action-btns">
+        <button (click)="runCode()" class="btn-run">
+          <span class="icon">▶</span> Run
+        </button>
+        <button (click)="submitCode()" class="btn-submit">
+          <span class="icon">🚀</span> Submit
+        </button>
+      </div>
+    </header>
 
-<pre>
-Input:
-{{input}}
-
-Output:
-{{expectedOutput}}
-</pre>
-
-    </div>
-
-  </div>
-
-
-  <!-- RIGHT : CODE RUNNER -->
-  <div class="code-runner-container">
-
- <div class="runner-header">
-
-  <div class="language-box">
-    <label>Language</label>
-    <select [(ngModel)]="language">
-      <option *ngFor="let lang of languages" [value]="lang">
-        {{lang}}
-      </option>
-    </select>
-  </div>
-
-  <div class="timer">
-    ⏱ {{minutes}}:{{seconds < 10 ? '0'+seconds : seconds}}
-  </div>
-
-  <button (click)="runCode()" class="run-btn">▶ Run</button>
-
-</div>
-
-<!-- ADD THIS BELOW EDITOR OR BELOW RUN BUTTON -->
-
-<button (click)="submitCode()" class="submit-btn">
-  🚀 Submit Code
-</button>
-    <!-- BIG CODE EDITOR -->
-    <textarea
-      [(ngModel)]="code"
-      class="code-editor"
-      placeholder="Write your code here..."
-    ></textarea>
-
-    <div class="output-section">
-      <h3>Output</h3>
-      <pre>{{output}}</pre>
+    <div class="editor-wrapper">
+      
+      <textarea
+        [(ngModel)]="code"
+        class="code-editor"
+        placeholder="// Write your logic here..."
+        spellcheck="false"
+      ></textarea>
     </div>
 
-  </div>
-
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <span>Terminal Output</span>
+        <button class="clear-btn" (click)="output = ''">Clear</button>
+      </div>
+      <div class="terminal-body">
+        <pre *ngIf="output" class="fade-in">{{output}}</pre>
+        <div *ngIf="!output" class="empty-terminal">Run your code to see results...</div>
+      </div>
+    </div>
+  </main>
 </div>

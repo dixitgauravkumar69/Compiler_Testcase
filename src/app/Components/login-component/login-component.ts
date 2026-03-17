@@ -8,72 +8,80 @@ import { BASE_URL } from '../../../Environments/environment';
 
 @Component({
   selector: 'app-login',
-  standalone:true,
-  imports :[ReactiveFormsModule,CommonModule],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login-component.html',
   styleUrls: ['./login-component.css']
 })
 export class LoginComponent {
 
   loginForm: FormGroup;
-  message = "";
+  message = "";       // Success message ke liye
+  errorMessage = "";  // Error message handling ke liye 👈
   success = false;
-  isLoading!: boolean;
+  isLoading: boolean = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient,
-    private cdr:ChangeDetectorRef,
-    private router:Router
+  constructor(
+    private fb: FormBuilder, 
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {
-
     this.loginForm = this.fb.group({
       userEmail: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-
   }
 
-  loginUser(){
+  loginUser() {
+    if (this.loginForm.valid) {
+      this.isLoading = true;
+      this.errorMessage = ""; // Naye attempt par purana error clear karein
+      this.message = "";
 
-  if(this.loginForm.valid){
+      this.http.post<any>(`${BASE_URL}/api/User/login`, this.loginForm.value)
+        .subscribe({
+          next: (res) => {
+            // Token aur User details store karna
+            localStorage.setItem("Usermail", res.userEmail);
+            localStorage.setItem("UserId", res.userId);
+            localStorage.setItem("JWT_TOKEN", res.token);
 
-    this.isLoading = true;
+            this.success = true;
+            this.message = "Login Successful! Redirecting...";
+            
+            // UI refresh ke liye
+            this.cdr.detectChanges();
 
-    this.http.post<any>(`${BASE_URL}/api/User/login`, this.loginForm.value)
-    .subscribe({
-
-      next:(res)=>{
-
-        localStorage.setItem("Usermail",res.userEmail);
-        localStorage.setItem("UserId",res.userId);
-        localStorage.setItem("JWT_TOKEN",res.token);
-
-        // success screen
-        this.success = true;
-        this.message = "Login Successful";
-
-        setTimeout(()=>{
-
-          if(res.userRole === "TEACHER"){
-            this.router.navigate(['/teacher']);
+            setTimeout(() => {
+              this.isLoading = false;
+              if (res.userRole === "TEACHER") {
+                this.router.navigate(['/teacher']);
+              } else {
+                this.router.navigate(['/student']);
+              }
+            }, 1500);
+          },
+          error: (err) => {
+            this.isLoading = false;
+            this.success = false;
+            
+            // Backend error handle karna
+            if (err.status === 401 || err.status === 403) {
+              this.errorMessage = "Invalid Email or Password. Please try again.";
+            } else {
+              this.errorMessage = "Server error or Connection failed. Try later.";
+            }
+            this.cdr.detectChanges();
           }
-          else{
-            this.router.navigate(['/student']);
-          }
-
-        },1000);
-
-      },
-
-      error:(err)=>{
-        this.isLoading = false;
-        this.message = "Invalid Email or Password";
-        
-      }
-
-    });
-
+        });
+    } else {
+      this.errorMessage = "Please fill all fields correctly.";
+    }
   }
 
-}
-
+  // Signup page par jaane ke liye logic
+  goToSignup() {
+    this.router.navigate(['/']);
+  }
 }

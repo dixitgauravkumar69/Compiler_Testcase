@@ -1,62 +1,94 @@
-<div class="dashboard">
+<div class="dashboard-container">
+  
+  <header class="mobile-header">
+    <button class="menu-trigger" (click)="toggleSidebar()">☰</button>
+    <h3>Student Portal</h3>
+    <div class="user-avatar-sm">S</div>
+  </header>
 
-  <!-- 📱 Mobile Header -->
-  <div class="mobile-header">
-    <span class="menu-btn" (click)="toggleSidebar()">☰</span>
-    <h3>Student Panel</h3>
-  </div>
+  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="toggleSidebar()"></div>
 
-  <!-- Sidebar -->
-  <div class="sidebar" [class.active]="isSidebarOpen">
+  <aside class="sidebar" [class.active]="isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="logo-box">S</div>
+        <span>Student Hub</span>
+      </div>
+      <p class="sidebar-subtitle">Learning Management</p>
+    </div>
 
-    <h2 class="logo">Student Panel</h2>
+    <nav class="nav-links">
+      <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">👤</span> <span class="text">My Profile</span>
+      </a>
+      <a routerLink="/generateResume" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">📄</span> <span class="text">Resume Builder</span>
+      </a>
+      <a routerLink="/findJobInfo" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">💼</span> <span class="text">Placement Info</span>
+      </a>
+      <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">💻</span> <span class="text">Coding Arena</span>
+      </a>
+    </nav>
 
-    <ul class="menu">
-      <li><a routerLink="/profile" (click)="closeSidebar()">👤 See Profile</a></li>
-      <li><a routerLink="/generateResume" (click)="closeSidebar()">📄 Generate Resume</a></li>
-      <li><a routerLink="/findJobInfo" (click)="closeSidebar()">💼 Find Job</a></li>
-      <li><a routerLink="/student" (click)="closeSidebar()">💻 Solve Problems</a></li>
-      <li><a routerLink="/logout">🚪 Logout</a></li>
-    </ul>
+    <div class="sidebar-footer">
+      <a routerLink="/logout" class="logout-btn">
+        <span class="icon">🚪</span> Logout
+      </a>
+    </div>
+  </aside>
 
-  </div>
+  <main class="main-content">
+    
+    <div class="content-header">
+      <div class="title-section">
+        <h2>Coding Challenges</h2>
+        <p>Sharpen your skills by solving assigned problems.</p>
+      </div>
+      <div class="stats-mini" *ngIf="!loading">
+        Total Tasks: <strong>{{ questions.length }}</strong>
+      </div>
+    </div>
 
+    <div *ngIf="loading" class="loader-container">
+      <div class="spinner"></div>
+      <p>Fetching your challenges...</p>
+    </div>
 
-  <!-- Main Content -->
-  <div class="main-content">
+    <div class="problems-grid" *ngIf="!loading">
+      <div *ngFor="let q of questions" class="problem-card">
+        <div class="card-tag">#{{q.id}}</div>
+        <div class="card-content">
+          <h3>Algorithm Challenge</h3>
+          <p>{{q.problemStatement}}</p>
+        </div>
+        <div class="card-footer">
+          <button class="solve-btn" (click)="solve(q.id)">
+            Solve Now <span>→</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
-   <div class="main-content">
+    <div *ngIf="!loading && questions.length === 0" class="empty-state">
+      <div class="empty-icon">📂</div>
+      <p>No problems assigned yet. Take a rest!</p>
+    </div>
 
-  <h2>Assigned Problem Statements</h2>
+    <div class="pagination-wrapper" *ngIf="totalPages > 1">
+      <button class="pag-btn" [disabled]="currentPage === 0" (click)="getQuestions(currentPage - 1)">
+        &laquo; Previous
+      </button>
 
-  <div *ngIf="loading" class="loader">
-    Loading questions...
-  </div>
+      <div class="page-numbers">
+        Page <strong>{{ currentPage + 1 }}</strong> of {{ totalPages }}
+      </div>
 
-  <div *ngFor="let q of questions" class="card">
-    <h3>Question #{{q.id}}</h3>
-    <p>{{q.problemStatement}}</p>
-    <button class="solve-btn" (click)="solve(q.id)">Solve</button>
-  </div>
+      <button class="pag-btn" [disabled]="currentPage >= totalPages - 1" (click)="getQuestions(currentPage + 1)">
+        Next &raquo;
+      </button>
+    </div>
 
-  <div class="pagination-container" *ngIf="totalPages > 1">
-    <button 
-      class="pag-btn" 
-      [disabled]="currentPage === 0" 
-      (click)="getQuestions(currentPage - 1)">
-      &laquo; Previous
-    </button>
-
-    <span class="page-info">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
-
-    <button 
-      class="pag-btn" 
-      [disabled]="currentPage >= totalPages - 1" 
-      (click)="getQuestions(currentPage + 1)">
-      Next &raquo;
-    </button>
-  </div>
-
-</div>
-
+  </main>
 </div>

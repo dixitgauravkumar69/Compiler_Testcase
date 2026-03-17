@@ -1,30 +1,57 @@
 <div class="main">
+  <div class="auth-container">
+    
+    <div class="info-side">
+      <div class="info-content">
+        <h1>Welcome!</h1>
+        <p>Join our community of developers and start solving challenges today.</p>
+        <div class="feature-list">
+          <div class="feature-item"><span>✓</span> Multi-language Compiler</div>
+          <div class="feature-item"><span>✓</span> Real-time Performance Stats</div>
+          <div class="feature-item"><span>✓</span> Track Your Progress</div>
+        </div>
+      </div>
+    </div>
 
-  <div class="card">
+    <div class="form-side">
+      <div class="form-wrapper">
+        <div class="header">
+          <h2>Create Account</h2>
+          <p>Already have an account? <a (click)="goToLogin()" class="link">Login here</a></p>
+        </div>
 
-    <h2>User Registration</h2>
+        <form [formGroup]="userForm" (ngSubmit)="registerUser()">
+          <div class="input-box">
+            <input type="text" placeholder="Full Name" formControlName="userName" required>
+          </div>
 
-    <form [formGroup]="userForm" (ngSubmit)="registerUser()">
+          <div class="input-box">
+            <input type="email" placeholder="Email Address" formControlName="userEmail" required>
+          </div>
 
-      <input type="text" placeholder="Enter Name" formControlName="userName">
+          <div class="input-box">
+            <select formControlName="userRole">
+              <option value="" disabled selected>Select Your Role</option>
+              <option value="ADMIN">Admin</option>
+              <option value="STUDENT">Student</option>
+              <option value="TEACHER">Teacher</option>
+            </select>
+          </div>
 
-      <input type="email" placeholder="Enter Email" formControlName="userEmail">
+          <div class="input-box">
+            <input type="password" placeholder="Password" formControlName="password" required>
+          </div>
 
-      <select formControlName="userRole">
-        <option value="">Select Role</option>
-        <option value="ADMIN">Admin</option>
-        <option value="STUDENT">Student</option>
-        <option value="TEACHER">Teacher</option>
-      </select>
+          <button type="submit" class="register-btn" [disabled]="!userForm.valid">
+            Get Started
+          </button>
+        </form>
 
-      <input type="password" placeholder="Enter Password" formControlName="password">
-
-      <button type="submit">Register</button>
-
-    </form>
-
-    <p class="msg">{{message}}</p>
+        <p class="status-msg" [ngClass]="{'success': isSuccess, 'error': !isSuccess}" *ngIf="message">
+          {{message}}
+        </p>
+      </div>
+    </div>
 
   </div>
-
 </div>

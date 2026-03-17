@@ -1,38 +1,53 @@
 <div class="main">
-
-  <div class="card">
-
-    <h2>User Login</h2>
-
-    <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
-
-      <input
-        type="email"
-        placeholder="Enter Email"
-        formControlName="userEmail"
-      >
-
-      <input
-        type="password"
-        placeholder="Enter Password"
-        formControlName="password"
-      >
-
-     <button 
-  type="submit"
-  [disabled]="isLoading"
-  class="login-btn">
-
-  <span *ngIf="!isLoading">Login</span>
-
-  <span *ngIf="isLoading" class="btn-loader"></span>
-
-</button>
-
-    </form>
-
+  <div class="auth-container">
     
+    <div class="info-side">
+      <div class="info-content">
+        <h1>Welcome Back!</h1>
+        <p>Log in to continue your coding journey and access your personalized dashboard.</p>
+        <div class="illustration-box">
+          <div class="code-badge"><span>&lt;/&gt;</span> Keep Coding</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-side">
+      <div class="form-wrapper">
+        <div class="header">
+          <h2>User Login</h2>
+          <p>Don't have an account? <a (click)="goToSignup()" class="link">Create one here</a></p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+          <div class="input-box">
+            <label>Email Address</label>
+            <input 
+              type="email" 
+              placeholder="example@mail.com" 
+              formControlName="userEmail" 
+              required
+            >
+          </div>
+
+          <div class="input-box">
+            <label>Password</label>
+            <input 
+              type="password" 
+              placeholder="••••••••" 
+              formControlName="password" 
+              required
+            >
+          </div>
+
+          <button type="submit" class="login-btn" [disabled]="isLoading || !loginForm.valid">
+            <span *ngIf="!isLoading">Login</span>
+            <span *ngIf="isLoading" class="btn-loader"></span>
+          </button>
+        </form>
+
+        <p class="status-msg error" *ngIf="errorMessage">{{errorMessage}}</p>
+      </div>
+    </div>
 
   </div>
-
 </div>

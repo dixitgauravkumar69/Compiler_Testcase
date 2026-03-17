@@ -1,78 +1,118 @@
-<div class="dashboard">
-  <div class="mobile-header">
-    <span class="menu-btn" (click)="toggleSidebar()">☰</span>
-    <h3>Teacher Panel</h3>
-  </div>
+<div class="dashboard-container">
+  <header class="mobile-header">
+    <button class="menu-trigger" (click)="toggleSidebar()">☰</button>
+    <h3>POD Panel</h3>
+    <div class="user-avatar-sm">T</div>
+  </header>
 
-  <div class="sidebar" [class.active]="isSidebarOpen">
-    <h2>Teacher Panel</h2>
-    <button (click)="activeSection = 'see'; closeSidebar()">See Problem Statements</button>
-    <button (click)="goToAddStatement(); closeSidebar()">Add Problem Statement</button>
-    <button (click)="goToAddCampus(); closeSidebar()">Add information of Campus</button>
-    <button (click)="logout()">Logout</button>
-  </div>
+  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="toggleSidebar()"></div>
 
-  <div class="content">
-    <div *ngIf="isLoading" class="spinner-container">
+  <aside class="sidebar" [class.active]="isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="logo-box">P</div>
+        <span>POD Panel</span>
+      </div>
+      <p class="sidebar-subtitle">Teacher Dashboard</p>
+    </div>
+
+    <nav class="nav-links">
+      <button [class.active]="activeSection === 'see'" (click)="activeSection = 'see'; closeSidebar()">
+        <span class="icon">📝</span> 
+        <span class="text">Problems List</span>
+      </button>
+      <button (click)="goToAddStatement(); closeSidebar()">
+        <span class="icon">➕</span> 
+        <span class="text">Add Statement</span>
+      </button>
+      <button (click)="goToAddCampus(); closeSidebar()">
+        <span class="icon">🏛️</span> 
+        <span class="text">Campus Info</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    
+    <div *ngIf="isLoading" class="loader-box">
       <div class="spinner"></div>
     </div>
 
-    <div *ngIf="!isLoading">
+    <div class="content-wrapper" *ngIf="!isLoading">
       
-      <div *ngIf="activeSection === 'see'">
-        <h2>Problem Statements</h2>
-        <div class="problem-wrapper">
-          <div class="problem-card" *ngFor="let ps of problemStatements">
-            <h3>Problem {{ ps.id }}</h3>
-            <p>{{ ps.problemStatement }}</p>
+      <section *ngIf="activeSection === 'see'" class="fade-in">
+        <div class="section-title">
+          <h2>Problem Repository</h2>
+          <p>Assign and track coding challenges for your students.</p>
+        </div>
 
-            <div class="button-group">
-              <button [class.assigned]="ps.assigned" (click)="assign(ps.id)">
-                {{ ps.assigned ? 'Assigned' : 'Assign' }}
+        <div class="problem-grid">
+          <div class="modern-card" *ngFor="let ps of problemStatements">
+            <div class="card-header">
+              <span class="id-tag">#{{ ps.id }}</span>
+              <span class="status-dot" [class.active]="ps.assigned"></span>
+            </div>
+            
+            <div class="card-body">
+              <h3>Problem Statement</h3>
+              <p>{{ ps.problemStatement }}</p>
+            </div>
+
+            <div class="card-footer">
+              <button class="btn-assign" [class.is-assigned]="ps.assigned" (click)="assign(ps.id)">
+                {{ ps.assigned ? '✅ Assigned' : 'Assign' }}
               </button>
-
-              <button class="view-btn" (click)="fetchSolvedStudents(ps.id)">
-                View Students
+              <button class="btn-view" (click)="fetchSolvedStudents(ps.id)">
+                View Results
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div *ngIf="activeSection === 'studentsList'">
+      <section *ngIf="activeSection === 'studentsList'" class="fade-in">
         <div class="header-row">
-          <button class="back-btn" (click)="activeSection = 'see'">← Back</button>
-          <h2>Students who solved Problem #{{ selectedProblemId }}</h2>
-        </div>
-
-        <div class="table-container">
-          <table class="styled-table">
-            <thead>
-              <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Marks</th>
-                <th>Time Taken</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let entry of solvedStudents">
-                <td>{{ entry.user.userid }}</td>
-                <td>{{ entry.user.username }}</td>
-                <td>{{ entry.user.userEmail }}</td>
-                <td><span class="badge">{{ entry.marks }}</span></td>
-                <td>{{ entry.takenTime }}</td>
-              </tr>
-            </tbody>
-          </table>
-          
-          <div *ngIf="solvedStudents.length === 0" class="no-data">
-            Abhi tak kisi student ne ye solve nahi kiya.
+          <button class="back-pill" (click)="activeSection = 'see'">← Back</button>
+          <div class="header-text">
+            <h2>Submissions for #{{ selectedProblemId }}</h2>
+            <p>List of students who completed this challenge.</p>
           </div>
         </div>
-      </div>
+
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="modern-table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Email</th>
+                  <th>Marks</th>
+                  <th>Time Taken</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let entry of solvedStudents">
+                  <td class="user-cell">
+                    <div class="avatar">{{ entry.user.username[0] }}</div>
+                    <span>{{ entry.user.username }}</span>
+                  </td>
+                  <td>{{ entry.user.userEmail }}</td>
+                  <td><span class="badge-marks">{{ entry.marks }}</span></td>
+                  <td class="time-txt">🕒 {{ entry.takenTime }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="solvedStudents.length === 0" class="empty-msg">
+            No submissions found for this problem.
+          </div>
+        </div>
+      </section>
 
     </div>
-  </div>
+  </main>
 </div>

@@ -12,8 +12,8 @@ import { BASE_URL } from '../../../Environments/environment';
   styleUrl: './campus-component.css',
 })
 export class CampusComponent {
-
   selectedFile: File | null = null;
+  selectedFileName: string = ''; // 👈 File name store karne ke liye
 
   job: any = {
     company: '',
@@ -33,13 +33,23 @@ export class CampusComponent {
 
   constructor(private http: HttpClient) {}
 
-  //  File select
+  // File select logic with validation
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type === 'application/pdf') {
+        this.selectedFile = file;
+        this.selectedFileName = file.name; // 👈 UI mein naam dikhane ke liye
+      } else {
+        alert('Please select a PDF file only.');
+        event.target.value = ''; // Input clear karein
+        this.selectedFileName = '';
+        this.selectedFile = null;
+      }
+    }
   }
 
   addJob() {
-
     const formData = new FormData();
 
     // JSON object send karne ke liye
@@ -55,28 +65,38 @@ export class CampusComponent {
 
     this.http
       .post(`${BASE_URL}/placement/addJob`, formData)
-      .subscribe((res) => {
-        alert('Job Added Successfully');
- 
-        console.log(res);
-        this.job = {
-          company: '',
-          title: '',
-          jobType: '',
-          industry: '',
-          location: '',
-          semester: '',
-          salaryPackage: '',
-          eligibility: '',
-          bond: '',
-          skillsRequired: '',
-          jobDescription: '',
-          selectionProcess: '',
-          registrationLastDate: '',
+      .subscribe({
+        next: (res) => {
+          alert('Job Added Successfully');
+          console.log(res);
           
-        };
-
-        this.selectedFile = null;
+          // Form reset logic
+          this.resetForm();
+        },
+        error: (err) => {
+          alert('Error adding job: ' + err.message);
+        }
       });
+  }
+
+  // Form ko reset karne ka cleaner tarika
+  resetForm() {
+    this.job = {
+      company: '',
+      title: '',
+      jobType: '',
+      industry: '',
+      location: '',
+      semester: '',
+      salaryPackage: '',
+      eligibility: '',
+      bond: '',
+      skillsRequired: '',
+      jobDescription: '',
+      selectionProcess: '',
+      registrationLastDate: '',
+    };
+    this.selectedFile = null;
+    this.selectedFileName = ''; 
   }
 }

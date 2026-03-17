@@ -1,258 +1,194 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+:host {
+  --sidebar-bg: #ffffff;
+  --editor-bg: #0d1117;
+  --accent-blue: #2563eb;
+  --accent-green: #10b981;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
 }
 
-body{
-font-family:'Segoe UI',sans-serif;
-background:#f1f5f9;
+.arena-container {
+  display: flex;
+  height: 100vh;
+  background: #f8fafc;
+  overflow: hidden;
 }
 
-/* MAIN LAYOUT */
-
-.container{
-display:flex;
-height:100vh;
-padding:20px;
-gap:20px;
+/* --- Left Pane (Problem) --- */
+.problem-pane {
+  width: 40%;
+  background: var(--sidebar-bg);
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
 }
 
-/* LEFT SIDE */
-
-.problem-section{
-width:35%;
+.pane-header {
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.problem-card{
-background:white;
-padding:25px;
-border-radius:12px;
-box-shadow:0 6px 20px rgba(0,0,0,0.08);
-line-height:1.6;
-height:100%;
-overflow:auto;
+.difficulty-badge {
+  background: #fef3c7;
+  color: #d97706;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
-.problem-card pre{
-background:#f8fafc;
-padding:12px;
-border-radius:6px;
-margin-top:10px;
+.timer-chip {
+  background: #fee2e2;
+  color: #ef4444;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-family: monospace;
 }
 
-/* RIGHT SIDE */
-
-.code-runner-container{
-width:65%;
-background:white;
-border-radius:12px;
-box-shadow:0 6px 20px rgba(0,0,0,0.08);
-display:flex;
-flex-direction:column;
-padding:20px;
+.problem-content {
+  padding: 30px;
+  overflow-y: auto;
+  flex: 1;
 }
 
-/* HEADER */
-
-.runner-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
+.problem-title {
+  font-size: 1.8rem;
+  color: var(--text-main);
+  margin-bottom: 20px;
 }
 
-.language-box{
-display:flex;
-gap:10px;
-align-items:center;
+.description-text {
+  line-height: 1.7;
+  color: #334155;
+  font-size: 1.05rem;
 }
 
-.language-box select{
-padding:6px 10px;
-border-radius:6px;
-border:1px solid #ccc;
+/* Examples & TestCases */
+.example-box {
+  background: #f8fafc;
+  border-left: 4px solid var(--accent-blue);
+  padding: 20px;
+  margin: 25px 0;
+  border-radius: 0 12px 12px 0;
 }
 
-/* RUN BUTTON */
-
-.run-btn{
-background:#2563eb;
-color:white;
-border:none;
-padding:8px 18px;
-border-radius:6px;
-font-weight:600;
-cursor:pointer;
+.example-content code {
+  display: block;
+  background: #e2e8f0;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 5px;
 }
 
-.run-btn:hover{
-background:#1e40af;
+.tc-grid {
+  display: grid;
+  gap: 15px;
+  margin-top: 15px;
 }
 
-/* BIG CODE EDITOR */
-
-.code-editor{
-flex:1;
-background:#0f172a;
-color:#e2e8f0;
-border:none;
-border-radius:8px;
-padding:18px;
-font-family:monospace;
-font-size:15px;
-resize:none;
-outline:none;
-margin-top:10px;
+.tc-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-/* OUTPUT */
-
-.output-section{
-margin-top:15px;
+.tc-card header {
+  background: #f1f5f9;
+  padding: 8px 15px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
 }
 
-.output-section pre{
-background:#020617;
-color:#22c55e;
-padding:15px;
-border-radius:6px;
-min-height:100px;
-font-family:monospace;
-}
-/* ================= MOBILE RESPONSIVE ================= */
+.tc-body { padding: 15px; }
+.tc-body label { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: #94a3b8; }
+.tc-body pre { background: #f8fafc; padding: 10px; border-radius: 6px; margin: 5px 0 10px; font-size: 0.9rem; }
+.success-pre { color: var(--accent-green); border: 1px solid #d1fae5; }
 
-@media (max-width: 900px){
-
-.container{
-flex-direction:column;
-height:auto;
-padding:12px;
+/* --- Right Pane (Editor) --- */
+.editor-pane {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  background: var(--editor-bg);
 }
 
-/* Problem Section */
-
-.problem-section{
-width:100%;
+.editor-header {
+  padding: 15px 25px;
+  background: #161b22;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #30363d;
 }
 
-.problem-card{
-padding:16px;
-height:auto;
-max-height:300px;
-overflow:auto;
+.lang-selector { display: flex; align-items: center; gap: 10px; color: #8b949e; }
+.lang-selector select {
+  background: #0d1117; color: white; border: 1px solid #30363d;
+  padding: 5px 10px; border-radius: 6px;
 }
 
-/* Code Runner */
+.action-btns { display: flex; gap: 12px; }
+.btn-run, .btn-submit {
+  padding: 8px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s;
+}
+.btn-run { background: #30363d; color: #c9d1d9; }
+.btn-run:hover { background: #444c56; }
+.btn-submit { background: var(--accent-green); color: white; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
 
-.code-runner-container{
-width:100%;
-padding:14px;
+/* Editor Area */
+.editor-wrapper {
+  flex: 1;
+  display: flex;
+  background: var(--editor-bg);
+  padding: 10px;
 }
 
-/* Header */
-
-.runner-header{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
+.line-numbers {
+  width: 40px; color: #484f58; text-align: right;
+  padding-right: 15px; font-family: monospace; font-size: 14px;
+  user-select: none;
 }
 
-/* Language Select */
-
-.language-box{
-width:100%;
-justify-content:space-between;
+.code-editor {
+  flex: 1; background: transparent; color: #e6edf3;
+  border: none; outline: none; font-family: 'Fira Code', monospace;
+  font-size: 15px; line-height: 1.6; resize: none;
 }
 
-.language-box select{
-flex:1;
-padding:10px;
-font-size:15px;
+/* Terminal Area */
+.terminal-container {
+  height: 250px;
+  background: #010409;
+  border-top: 1px solid #30363d;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Run Button */
-
-.run-btn{
-width:100%;
-padding:12px;
-font-size:16px;
-border-radius:10px;
+.terminal-header {
+  padding: 10px 20px; background: #161b22;
+  display: flex; justify-content: space-between; font-size: 0.8rem;
+  color: #8b949e; font-weight: 600;
 }
 
-/* Code Editor */
+.terminal-body { padding: 20px; overflow-y: auto; flex: 1; }
+.terminal-body pre { color: #58a6ff; font-family: monospace; }
+.empty-terminal { color: #484f58; font-style: italic; text-align: center; margin-top: 40px; }
 
-.code-editor{
-height:280px;
-font-size:14px;
-padding:14px;
+.clear-btn { background: transparent; border: none; color: #f85149; cursor: pointer; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .arena-container { flex-direction: column; overflow: auto; }
+  .problem-pane, .editor-pane { width: 100%; height: auto; }
+  .editor-wrapper { height: 400px; }
 }
 
-/* Output */
-
-.output-section pre{
-min-height:120px;
-font-size:13px;
-padding:12px;
-}
-
-}
-
-/* ================= SMALL MOBILE ================= */
-
-@media (max-width: 480px){
-
-.container{
-padding:8px;
-gap:12px;
-}
-
-.problem-card{
-padding:14px;
-max-height:250px;
-}
-
-.code-runner-container{
-padding:12px;
-}
-
-.code-editor{
-height:240px;
-font-size:13px;
-}
-
-.run-btn{
-font-size:15px;
-padding:11px;
-}
-
-}
-
-/* TIMER */
-
-.timer{
-background:#ef4444;
-color:white;
-padding:6px 14px;
-border-radius:20px;
-font-weight:600;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
-
-/* SUBMIT BUTTON */
-
-.submit-btn{
-margin-top:10px;
-background:#10b981;
-color:white;
-border:none;
-padding:10px;
-border-radius:8px;
-font-weight:600;
-cursor:pointer;
-transition:0.3s;
-}
-
-.submit-btn:hover{
-background:#059669;
-}
+.fade-in { animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

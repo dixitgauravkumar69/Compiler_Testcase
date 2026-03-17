@@ -1,395 +1,90 @@
-/* Page Background */
-
-body{
-background:linear-gradient(135deg,#f6f8fc,#eef2ff);
+.profile-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  border: 1px solid #eef2f6;
+  overflow: hidden;
 }
 
-
-/* Container */
-
-.profile-container{
-width:80%;
-margin:auto;
-margin-top:40px;
-font-family:'Poppins',sans-serif;
+/* Header Section */
+.profile-header {
+  background: #f8faff;
+  padding: 40px;
+  border-bottom: 1px solid #eef2f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
+.user-info-main { display: flex; align-items: center; gap: 20px; }
 
-/* Header */
-
-.profile-header{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-background:white;
-
-padding:28px;
-
-border-radius:14px;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-
-margin-bottom:30px;
-
-transition:0.3s;
-
+.large-avatar {
+  width: 80px; height: 80px; background: #4f46e5; color: white;
+  font-size: 2rem; font-weight: 700; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 16px rgba(79, 70, 229, 0.2);
 }
 
-.profile-header:hover{
-transform:translateY(-2px);
+.name-meta h1 { margin: 0; font-size: 1.8rem; color: #1e293b; }
+.badge-branch { color: #4f46e5; font-weight: 700; }
+
+/* Actions */
+.btn-edit, .btn-save {
+  padding: 12px 24px; border-radius: 12px; border: none;
+  font-weight: 600; cursor: pointer; transition: 0.3s;
 }
-
-
-/* Name */
-
-.profile-header h2{
-margin:0;
-font-size:28px;
-font-weight:600;
-color:#1e293b;
-}
-
-.profile-header p{
-margin-top:6px;
-font-size:14px;
-color:#64748b;
-}
-
-
-/* Buttons */
-
-.profile-buttons button{
-
-padding:10px 20px;
-
-border-radius:8px;
-
-border:none;
-
-cursor:pointer;
-
-font-size:14px;
-
-font-weight:500;
-
-margin-left:10px;
-
-transition:all 0.25s ease;
-
-}
-
-
-/* Edit */
-
-.edit-btn{
-background:#6366f1;
-color:white;
-}
-
-.edit-btn:hover{
-background:#4f46e5;
-transform:scale(1.05);
-}
-
-
-/* Save */
-
-.save-btn{
-background:#22c55e;
-color:white;
-}
-
-.save-btn:hover{
-background:#16a34a;
-transform:scale(1.05);
-}
-
-
-/* Cancel */
-
-.cancel-btn{
-background:#e2e8f0;
-color:#1e293b;
-}
-
-.cancel-btn:hover{
-background:#cbd5f5;
-}
-
+.btn-edit { background: #eef2ff; color: #4f46e5; }
+.btn-save { background: #4f46e5; color: white; margin-left: 10px; }
+.btn-cancel { background: transparent; color: #64748b; border: none; cursor: pointer; font-weight: 600; }
 
 /* Form Grid */
-
-.form-grid{
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
-gap:24px;
-
+.profile-body { padding: 40px; }
+.form-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;
 }
 
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field.full-width { grid-column: span 2; }
 
-/* Card Fields */
-
-.field{
-
-background:white;
-
-padding:22px;
-
-border-radius:14px;
-
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-
-transition:all 0.25s ease;
-
-position:relative;
-
-overflow:hidden;
-
+.field label {
+  font-size: 0.85rem; text-transform: uppercase;
+  letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;
 }
 
-.field:hover{
-
-transform:translateY(-4px);
-
-box-shadow:0 12px 28px rgba(0,0,0,0.12);
-
+.field p {
+  margin: 0; font-size: 1rem; color: #334155; font-weight: 500;
+  padding: 10px 0;
 }
 
+.field .empty { color: #cbd5e1; font-style: italic; }
 
-/* Label */
-
-.field label{
-
-display:block;
-
-font-size:13px;
-
-font-weight:600;
-
-color:#64748b;
-
-margin-bottom:8px;
-
-letter-spacing:0.4px;
-
+.field input, .field textarea {
+  padding: 12px 16px; border-radius: 10px; border: 1px solid #e2e8f0;
+  background: #fcfdfe; font-size: 1rem; transition: 0.3s;
 }
 
-
-/* Inputs */
-
-.field input,
-.field textarea{
-
-width:100%;
-
-padding:11px 12px;
-
-border-radius:8px;
-
-border:1px solid #e2e8f0;
-
-font-size:14px;
-
-background:#f8fafc;
-
-transition:all 0.25s ease;
-
+.field input:focus, .field textarea:focus {
+  outline: none; border-color: #4f46e5; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
 }
 
-
-/* Focus */
-
-.field input:focus,
-.field textarea:focus{
-
-border-color:#6366f1;
-
-background:white;
-
-outline:none;
-
-box-shadow:0 0 0 3px rgba(99,102,241,0.15);
-
+.cgpa-badge {
+  background: #ecfdf5; color: #10b981; padding: 4px 12px;
+  border-radius: 8px; font-weight: 800; border: 1px solid #10b981;
 }
 
-
-/* View Mode */
-
-.field p{
-
-margin:0;
-
-font-size:15px;
-
-font-weight:500;
-
-color:#334155;
-
-}
-
-
-/* Bio Field */
-
-.field textarea{
-
-min-height:100px;
-
-resize:none;
-
-}
-
+.bio-text { line-height: 1.6; color: #64748b !important; }
 
 /* Responsive */
-
-@media(max-width:950px){
-
-.profile-container{
-width:92%;
+@media (max-width: 768px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .field.full-width { grid-column: span 1; }
+  .profile-header { padding: 30px 20px; text-align: center; justify-content: center; }
+  .user-info-main { flex-direction: column; }
 }
 
-.form-grid{
-grid-template-columns:1fr;
-}
-
-.profile-header{
-flex-direction:column;
-align-items:flex-start;
-gap:15px;
-}
-
-}
-
-/* ================= TABLET ================= */
-
-@media (max-width: 768px){
-
-.profile-container{
-width:94%;
-margin-top:20px;
-}
-
-/* Header */
-
-.profile-header{
-padding:20px;
-border-radius:16px;
-gap:14px;
-}
-
-/* Name */
-
-.profile-header h2{
-font-size:22px;
-}
-
-.profile-header p{
-font-size:13px;
-}
-
-/* Buttons */
-
-.profile-buttons{
-width:100%;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.profile-buttons button{
-flex:1;
-margin-left:0;
-padding:12px;
-font-size:15px;
-border-radius:10px;
-}
-
-/* Grid */
-
-.form-grid{
-gap:18px;
-}
-
-/* Field Card */
-
-.field{
-padding:18px;
-border-radius:16px;
-}
-
-/* Inputs */
-
-.field input,
-.field textarea{
-padding:14px;
-font-size:16px;   /* prevent zoom */
-border-radius:10px;
-}
-
-.field textarea{
-min-height:120px;
-}
-
-/* View Text */
-
-.field p{
-font-size:14px;
-}
-
-}
-
-/* ================= SMALL MOBILE ================= */
-
-@media (max-width: 420px){
-
-.profile-container{
-width:96%;
-margin-top:12px;
-}
-
-/* Header */
-
-.profile-header{
-padding:16px;
-}
-
-/* Name */
-
-.profile-header h2{
-font-size:20px;
-}
-
-/* Buttons stacked */
-
-.profile-buttons{
-flex-direction:column;
-}
-
-.profile-buttons button{
-width:100%;
-padding:14px;
-font-size:16px;
-}
-
-/* Field */
-
-.field{
-padding:16px;
-border-radius:14px;
-}
-
-.field label{
-font-size:12px;
-}
-
-.field input,
-.field textarea{
-padding:15px;
-font-size:16px;
-}
-
-}
+.fade-in { animation: fadeIn 0.5s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

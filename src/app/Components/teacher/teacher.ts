@@ -116,7 +116,7 @@ export class Teacher implements OnInit {
         this.isLoading = false;
        
         alert(res);
-        
+        window.location.reload();
        
         this.cdr.detectChanges();
       },

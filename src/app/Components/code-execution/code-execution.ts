@@ -38,6 +38,8 @@ export class CodeExecution implements OnInit, OnDestroy {
 
   // Evaluation
   marks: number = 0;
+  tmpMark:number=0;
+
 
   constructor(
     private api: CodeExecutionService,
@@ -119,13 +121,19 @@ export class CodeExecution implements OnInit, OnDestroy {
       next: (res: any) => {
         let data = typeof res === 'string' ? JSON.parse(res) : res;
         
+        let TotalTest=data.testCases.length; //Tell total testcases which is addded by teacher
+
         if (data.testCases && Array.isArray(data.testCases)) {
           this.output = data.testCases.join('\n');
         } else {
           this.output = data.output || 'No output received.';
         }
         
-        this.marks = data.marks ?? 0;
+        this.tmpMark=(data.marks/TotalTest)*100;
+
+        
+        this.marks = this.tmpMark ?? 0;
+        
         this.cdr.detectChanges();
       },
       error: (err) => {

@@ -73,8 +73,8 @@
           </ul>
         </div>
         
-        <button class="btn-finish mt-3" *ngIf="testCasesAdded.length > 0">
-          ✅ Publish Problem
+        <button class="btn-finish mt-3" *ngIf="testCasesAdded.length > 0" (click)="AddProblem()">
+          ✅ Add Problem
         </button>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { TestCaseDTO, TestCaseService } from '../../Services/test-case-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-problem-with-test-cases',
@@ -27,16 +28,20 @@ export class ProblemWithTestCases {
   message: string = '';
   testCasesAdded: string[] = [];
 
+  ProblemFlag: boolean = false;
+  testCaseFlag: boolean = false;
+
   constructor(
     private problemService: ProblemStatementService,
     private testCaseService: TestCaseService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router:Router
   ) {}
 
   // Step 1: Save Problem
   saveProblem() {
     if (!this.problemTitle.trim() || !this.problemStatement.trim()) {
-      this.message = "Title and Statement are required!";
+      this.message = 'Title and Statement are required!';
       return;
     }
 
@@ -48,21 +53,22 @@ export class ProblemWithTestCases {
           this.problemId = +match[0];
           this.problemSaved = true;
           this.message = `Problem saved! ID: ${this.problemId}. Now add test cases.`;
+          this.ProblemFlag = true;
         } else {
           // Agar res sirf "Success" type ka string hai toh alternative handle karein
           this.problemSaved = true;
-          this.message = "Problem saved successfully!";
+          this.message = 'Problem saved successfully!';
         }
         this.cdr.detectChanges();
       },
-      error: (err) => (this.message = "Error: " + err.message),
+      error: (err) => (this.message = 'Error: ' + err.message),
     });
   }
 
   // Step 2: Add Test Case
   addTestCase() {
     if (!this.inputData.trim() || !this.expectedOutput.trim()) {
-      this.message = "Input and Expected Output required!";
+      this.message = 'Input and Expected Output required!';
       return;
     }
 
@@ -77,10 +83,11 @@ export class ProblemWithTestCases {
         this.testCasesAdded.push(`In: ${this.inputData} → Out: ${this.expectedOutput}`);
         this.inputData = '';
         this.expectedOutput = '';
-        this.message = "Test case added successfully!";
+        this.message = 'Test case added successfully!';
+        this.testCaseFlag = true;
         this.cdr.detectChanges();
       },
-      error: (err) => (this.message = "Error: " + err.message),
+      error: (err) => (this.message = 'Error: ' + err.message),
     });
   }
 
@@ -92,6 +99,15 @@ export class ProblemWithTestCases {
   // Problem edit mode par wapas jaane ke liye
   resetSteps() {
     this.problemSaved = false;
-    this.message = "Edit mode enabled.";
+    this.message = 'Edit mode enabled.';
+  }
+
+  AddProblem() {
+    if (this.ProblemFlag && this.testCaseFlag) {
+      alert('Problem added in your queue SUCCESSFULLY');
+      this.router.navigate(['/teacher']);
+    } else {
+      alert("Sorry Problem can't be add in QUEUE");
+    }
   }
 }

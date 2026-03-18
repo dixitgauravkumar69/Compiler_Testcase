@@ -17,6 +17,8 @@ export class Teacher implements OnInit {
   activeSection = 'see';
   isLoading = false;
 
+ 
+
   // ⭐ Sidebar State
   isSidebarOpen = false;
 
@@ -108,10 +110,14 @@ export class Teacher implements OnInit {
 
   assign(psID: number) {
     this.isLoading = true;
-    this.http.get<any[]>(`${BASE_URL}/teacher/assignProblem/${psID}`).subscribe({
+    this.http.get(`${BASE_URL}/teacher/assignProblem/${psID}`,{responseType: 'text'}).subscribe({
       next: (res) => {
-        this.problemStatements = res;
+        
         this.isLoading = false;
+       
+        alert(res);
+        
+       
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -124,10 +130,12 @@ export class Teacher implements OnInit {
           this.router.navigate(['/404']);
         } else if (err.status === 500) {
           this.router.navigate(['/500']);
-        } else {
-          alert('Unknown Error');
+        } 
+        else
+        {
+          alert("Unknown Error..");
+         
         }
-
         this.isLoading = false;
       },
     });

@@ -21,15 +21,15 @@
   border-right: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
-  padding: 0;
 }
 
 .pane-header {
-  padding: 20px 30px;
+  padding: 15px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #f1f5f9;
+  flex-shrink: 0;
 }
 
 .difficulty-badge {
@@ -51,64 +51,44 @@
 }
 
 .problem-content {
-  padding: 30px;
+  padding: 25px;
   overflow-y: auto;
   flex: 1;
 }
 
 .problem-title {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: var(--text-main);
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .description-text {
-  line-height: 1.7;
+  line-height: 1.6;
   color: #334155;
-  font-size: 1.05rem;
 }
 
 /* Examples & TestCases */
 .example-box {
   background: #f8fafc;
   border-left: 4px solid var(--accent-blue);
-  padding: 20px;
-  margin: 25px 0;
+  padding: 15px;
+  margin: 20px 0;
   border-radius: 0 12px 12px 0;
 }
 
 .example-content code {
   display: block;
   background: #e2e8f0;
-  padding: 10px;
+  padding: 8px;
   border-radius: 6px;
   margin-top: 5px;
 }
 
-.tc-grid {
-  display: grid;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.tc-card {
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.tc-card header {
-  background: #f1f5f9;
-  padding: 8px 15px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--text-muted);
-}
-
-.tc-body { padding: 15px; }
-.tc-body label { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: #94a3b8; }
-.tc-body pre { background: #f8fafc; padding: 10px; border-radius: 6px; margin: 5px 0 10px; font-size: 0.9rem; }
-.success-pre { color: var(--accent-green); border: 1px solid #d1fae5; }
+.tc-grid { display: grid; gap: 10px; margin-top: 10px; }
+.tc-card { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+.tc-card header { background: #f1f5f9; padding: 5px 12px; font-size: 0.75rem; font-weight: 700; }
+.tc-body { padding: 10px; }
+.tc-body pre { background: #f8fafc; padding: 8px; border-radius: 4px; font-size: 0.85rem; margin: 5px 0; }
 
 /* --- Right Pane (Editor) --- */
 .editor-pane {
@@ -118,176 +98,125 @@
   background: var(--editor-bg);
 }
 
+/* Code Section ko bacha hua sara space dene ke liye */
+.code-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; 
+}
+
 .editor-header {
-  padding: 15px 25px;
+  padding: 12px 20px;
   background: #161b22;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #30363d;
+  flex-shrink: 0;
 }
 
-.lang-selector { display: flex; align-items: center; gap: 10px; color: #8b949e; }
 .lang-selector select {
   background: #0d1117; color: white; border: 1px solid #30363d;
   padding: 5px 10px; border-radius: 6px;
 }
 
-.action-btns { display: flex; gap: 12px; }
+.action-btns { display: flex; gap: 10px; }
 .btn-run, .btn-submit {
-  padding: 8px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s;
+  padding: 7px 18px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer;
 }
 .btn-run { background: #30363d; color: #c9d1d9; }
-.btn-run:hover { background: #444c56; }
 .btn-submit { background: var(--accent-green); color: white; }
-.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
 
-/* Editor Area */
+/* Editor Area - Maximize Height */
 .editor-wrapper {
   flex: 1;
   display: flex;
   background: var(--editor-bg);
-  padding: 10px;
-}
-
-.line-numbers {
-  width: 40px; color: #484f58; text-align: right;
-  padding-right: 15px; font-family: monospace; font-size: 14px;
-  user-select: none;
+  padding: 5px;
+  overflow: hidden;
 }
 
 .code-editor {
-  flex: 1; background: transparent; color: #e6edf3;
-  border: none; outline: none; font-family: 'Fira Code', monospace;
-  font-size: 15px; line-height: 1.6; resize: none;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  color: #e6edf3;
+  border: none;
+  outline: none;
+  font-family: 'Fira Code', monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  resize: none;
+  padding: 10px;
 }
 
-/* Terminal Area */
+/* Terminal Area - Fixed small height */
 .terminal-container {
-  height: 250px;
+  height: 180px; 
   background: #010409;
   border-top: 1px solid #30363d;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
 .terminal-header {
-  padding: 10px 20px; background: #161b22;
-  display: flex; justify-content: space-between; font-size: 0.8rem;
-  color: #8b949e; font-weight: 600;
+  padding: 8px 20px;
+  background: #161b22;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #8b949e;
 }
 
-.terminal-body { padding: 20px; overflow-y: auto; flex: 1; }
-.terminal-body pre { color: #58a6ff; font-family: monospace; }
-.empty-terminal { color: #484f58; font-style: italic; text-align: center; margin-top: 40px; }
-
+.terminal-body { padding: 15px; overflow-y: auto; flex: 1; }
+.terminal-body pre { color: #58a6ff; font-family: monospace; margin: 0; }
 .clear-btn { background: transparent; border: none; color: #f85149; cursor: pointer; }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .arena-container { flex-direction: column; overflow: auto; }
-  .problem-pane, .editor-pane { width: 100%; height: auto; }
-  .editor-wrapper { height: 400px; }
-}
-
-.fade-in { animation: fadeIn 0.4s ease; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-
-
-
-
+/* --- Mobile Tabs & Logic (Don't Remove) --- */
 .mobile-tabs {
-  display: none; /* Hidden on desktop */
+  display: none; 
   background: #161b22;
-  padding: 10px;
+  padding: 8px;
   gap: 5px;
   border-bottom: 1px solid #30363d;
 }
 
 .mobile-tabs button {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: #8b949e;
-  padding: 10px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
+  flex: 1; background: transparent; border: none; color: #8b949e;
+  padding: 10px; font-size: 0.85rem; font-weight: 600; border-radius: 6px;
 }
 
-.mobile-tabs button.active {
-  background: #30363d;
-  color: white;
-}
+.mobile-tabs button.active { background: #30363d; color: white; }
 
-/* ================= MOBILE RESPONSIVE LOGIC ================= */
+/* --- Responsive Fixes --- */
+@media (max-width: 1024px) {
+  .arena-container { flex-direction: column; overflow: auto; }
+  .problem-pane, .editor-pane { width: 100%; height: auto; }
+  /* Jab mobile screen ho tab editor ki min height set kar di */
+  .editor-wrapper { height: 450px; } 
+}
 
 @media (max-width: 768px) {
-  .arena-container {
-    flex-direction: column;
-  }
-
-  .mobile-tabs {
-    display: flex; /* Show only on mobile */
-  }
-
+  .mobile-tabs { display: flex; }
+  
   .problem-pane, .editor-pane {
     width: 100% !important;
-    height: calc(100vh - 60px) !important;
-  }
-
-  .mobile-hidden {
-    display: none !important;
-  }
-
-  /* Editor Adjustments */
-  .editor-header {
-    padding: 10px;
-  }
-
-  .action-btns {
-    gap: 8px;
-  }
-
-  .btn-run, .btn-submit {
-    padding: 8px 12px;
-    font-size: 0.85rem;
-  }
-
-  .code-editor {
-    font-size: 14px;
-    padding: 15px;
-  }
-
-  /* Terminal on Mobile */
-  .terminal-container {
-    height: 100% !important; /* Take full space when in output tab */
-    border-top: none;
-  }
-
-  .mobile-full {
-    display: flex !important;
+    height: calc(100vh - 55px) !important;
     flex: 1;
   }
 
-  /* Description Adjustments */
-  .problem-content {
-    padding: 20px;
-  }
+  .mobile-hidden { display: none !important; }
 
-  .problem-title {
-    font-size: 1.4rem;
-  }
-
-  .example-box {
-    padding: 15px;
+  /* Output tab mein terminal full dikhega */
+  .mobile-full {
+    display: flex !important;
+    height: 100% !important;
+    flex: 1;
   }
 }
 
-/* Landscape Mode Fix */
-@media (max-height: 500px) {
-  .mobile-tabs { padding: 5px; }
-  .code-editor { font-size: 13px; }
-}
+.fade-in { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

@@ -262,6 +262,28 @@
   }
 }
 
+
+
+.btn-live {
+  background: rgba(0, 255, 255, 0.1); /* Neon cyan tint */
+  border: 1px solid #00ffff;
+  color: #00ffff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.btn-live:hover {
+  background: #00ffff;
+  color: #000;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
 /* --- Status Badges --- */
 .status-badge {
   font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 5px;

@@ -1,0 +1,27 @@
+<div class="modal-overlay" (click)="close()">
+  <div class="live-card" (click)="$event.stopPropagation()">
+    <div class="card-header">
+      <h2>📡 Schedule Live Stream</h2>
+      <button class="close-btn" (click)="close()">×</button>
+    </div>
+
+    <form [formGroup]="liveForm" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label>Starting Time</label>
+        <input type="datetime-local" formControlName="startTime" class="dark-input">
+      </div>
+
+      <div class="form-group">
+        <label>Ending Time</label>
+        <input type="datetime-local" formControlName="endTime" class="dark-input">
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-cancel" (click)="close()">Cancel</button>
+        <button type="submit" class="btn-confirm" [disabled]="liveForm.invalid"  >
+          Confirm Live
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

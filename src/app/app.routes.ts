@@ -14,6 +14,7 @@ import { AccessDenied } from './Components/access-denied/access-denied';
 import { NotFound } from './Components/not-found/not-found';
 import { Servererror } from './Components/servererror/servererror';
 import { LogOut } from './Components/log-out/log-out';
+import { LiveComponent } from './Components/live-component/live-component';
 
 export const routes: Routes = [
     {path:"",component:UserComponent},
@@ -32,4 +33,6 @@ export const routes: Routes = [
      {path:"500",component:Servererror},
      
      {path:"logout",component:LogOut},
+     {path:"live-streaming",component:LiveComponent},
+
 ];

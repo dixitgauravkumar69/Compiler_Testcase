@@ -1,14 +1,57 @@
 <div class="dashboard-container">
+  <header class="mobile-header">
+    <div class="header-left">
+      <button class="menu-trigger" (click)="toggleSidebar()">
+        <span class="burger-icon"></span>
+      </button>
+      <h3>POD Panel</h3>
+    </div>
+    <div class="user-avatar-sm">T</div>
+  </header>
+
+  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="toggleSidebar()"></div>
+
+  <aside class="sidebar" [class.active]="isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="logo-box">P</div>
+        <span>POD Panel</span>
+      </div>
+      <p class="sidebar-subtitle">Teacher Dashboard</p>
+    </div>
+
+    <nav class="nav-links">
+      <button [class.active]="activeSection === 'see'" (click)="activeSection = 'see'; closeSidebar()">
+        <span class="icon">📝</span>
+        <span class="text">Problems List</span>
+      </button>
+      <button (click)="goToAddStatement(); closeSidebar()">
+        <span class="icon">➕</span>
+        <span class="text">Add Statement</span>
+      </button>
+      <button (click)="goToAddCampus(); closeSidebar()">
+        <span class="icon">🏛️</span>
+        <span class="text">Campus Info</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+    </div>
+  </aside>
+
   <main class="main-content">
     <div *ngIf="isLoading" class="loader-box">
       <div class="spinner"></div>
+      <p>Updating System...</p>
     </div>
 
     <div class="content-wrapper" *ngIf="!isLoading">
+      
       <section *ngIf="activeSection === 'see'" class="fade-in">
         <div class="section-title">
           <h2>Problem Repository</h2>
-          <p>Assign and track coding challenges.</p>
+          <p>Assign and track coding challenges in real-time.</p>
         </div>
 
         <div class="problem-grid">
@@ -27,14 +70,14 @@
               <div class="time-details" *ngIf="ps.assigned && ps.startTime"
                 style="margin-top: 12px; padding: 10px; background: rgba(0, 255, 255, 0.05); border-radius: 8px; border: 1px dashed #00ffff;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="color: #888; font-size: 0.75rem;">IST Window:</span>
+                  <span style="color: #888; font-size: 0.75rem;">Window (IST):</span>
                   <span style="color: #00ffff; font-weight: bold; font-size: 0.85rem;">
                     {{ ps.displayTimeRange }}
                   </span>
                 </div>
                 <div style="text-align: right; margin-top: 4px;">
-                  <small style="color: #555; font-size: 0.65rem;">
-                    {{ toLocalTime(ps.startTime) | date: 'dd MMM' }}
+                  <small style="color: #666; font-size: 0.65rem;">
+                    📅 {{ toLocalTime(ps.startTime) | date: 'dd MMM, yyyy' }}
                   </small>
                 </div>
               </div>
@@ -44,7 +87,9 @@
               <button class="btn-assign" [class.is-assigned]="ps.assigned" (click)="assign(ps.id)">
                 {{ ps.assigned ? '✅ Assigned' : 'Assign' }}
               </button>
+
               <button class="btn-view" (click)="fetchSolvedStudents(ps.id)">Results</button>
+
               <button class="btn-live" (click)="liveStream(ps.id)">
                 <span class="icon">📡</span> Live Stream
               </button>
@@ -53,10 +98,65 @@
         </div>
       </section>
 
-      </div>
+      <section *ngIf="activeSection === 'studentsList'" class="fade-in">
+        <div class="header-row">
+          <button class="back-pill" (click)="activeSection = 'see'">← Back to Problems</button>
+          <div class="header-text">
+            <h2>Submissions for #{{ selectedProblemId }}</h2>
+          </div>
+        </div>
+
+        <div class="table-card desktop-only">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Marks</th>
+                <th>Completion Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let entry of solvedStudents">
+                <td class="user-cell">
+                  <div class="avatar-xs">{{ entry.user.username[0] }}</div>
+                  <span>{{ entry.user.username }}</span>
+                </td>
+                <td><span class="badge-marks">{{ entry.marks }}</span></td>
+                <td class="time-txt">{{ entry.takenTime }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mobile-list-view mobile-only">
+          <div class="student-result-card" *ngFor="let entry of solvedStudents">
+            <div class="res-left">
+              <div class="avatar">{{ entry.user.username[0] }}</div>
+              <div class="res-info">
+                <h4>{{ entry.user.username }}</h4>
+                <p>{{ entry.user.userEmail }}</p>
+              </div>
+            </div>
+            <div class="res-right">
+              <span class="badge-marks">{{ entry.marks }}</span>
+              <small>🕒 {{ entry.takenTime }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="solvedStudents.length === 0" class="empty-msg">
+          <div class="empty-icon">📂</div>
+          <p>No submissions found for this challenge yet.</p>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <app-live-component *ngIf="showLiveModal" [problemId]="selectedProblemId" 
-    (onClose)="showLiveModal = false" (onConfirm)="receiveDataFromChild($event)">
+  <app-live-component
+    *ngIf="showLiveModal"
+    [problemId]="selectedProblemId"
+    (onClose)="showLiveModal = false"
+    (onConfirm)="receiveDataFromChild($event)"
+  >
   </app-live-component>
 </div>

@@ -15,6 +15,7 @@ import { NotFound } from './Components/not-found/not-found';
 import { Servererror } from './Components/servererror/servererror';
 import { LogOut } from './Components/log-out/log-out';
 import { LiveComponent } from './Components/live-component/live-component';
+import { GetLiveProblems } from './Components/get-live-problems/get-live-problems';
 
 export const routes: Routes = [
     {path:"",component:UserComponent},
@@ -34,5 +35,6 @@ export const routes: Routes = [
      
      {path:"logout",component:LogOut},
      {path:"live-streaming",component:LiveComponent},
+     {path:"studentLive",component:GetLiveProblems},
 
 ];

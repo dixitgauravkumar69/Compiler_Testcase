@@ -1,0 +1,104 @@
+<div class="dashboard-wrapper">
+  <div class="header-section">
+    <h2><span class="pulse-icon"></span> Live Challenges</h2>
+  </div>
+
+  <div *ngIf="isLoading && problemStatements.length === 0" class="loading-container">
+    <div class="spinner"></div>
+    <p>Searching for live problems...</p>
+  </div>
+
+  <div *ngIf="errorMsg" class="error-banner">{{ errorMsg }}</div>
+
+  <div *ngIf="problemStatements.length > 0; else noData" class="table-responsive">
+    <table class="modern-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Problem Title</th>
+          <th>Schedule</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ps of problemStatements" 
+            [class.live-row]="isCurrentlyLive(ps)" 
+            [class.completed-row]="isPastTime(ps.endTime)">
+          
+          <td class="id-cell">#{{ ps.id }}</td>
+          
+          <td>
+            <div class="title-wrapper">
+              <span class="title-text">{{ ps.title }}</span>
+              <div class="metadata">
+                <span class="difficulty-tag">Easy</span> 
+                <span class="participation-count">1.2k participants</span>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <div class="time-card">
+              <div class="time-block">
+                <span class="label">Ends at</span>
+              <span 
+  class="value"
+  [ngClass]="{ 'danger-time': getRemainingTime(ps.endTime) === 'Ended' }">
+  {{ getRemainingTime(ps.endTime) }}
+</span>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <div class="status-indicator">
+              <span *ngIf="isCurrentlyLive(ps)" class="badge badge-live">
+                <span class="pulse-dot"></span> LIVE
+              </span>
+              <span *ngIf="isPastTime(ps.endTime)" class="badge badge-completed">
+                <i class="check-icon">✓</i> FINISHED
+              </span>
+              <span *ngIf="isFutureTime(ps.startTime)" class="badge badge-upcoming">
+                <i class="clock-icon">🕒</i> UPCOMING
+              </span>
+            </div>
+          </td>
+
+          <td>
+            <div class="action-container">
+              <ng-container *ngIf="isCurrentlyLive(ps)">
+               <button 
+  class="btn-primary-neon" 
+  (click)="attempt(ps)"
+  [disabled]="isAttempted(ps)"
+  [class.btn-attempted]="isAttempted(ps)">
+  
+  {{ isAttempted(ps) ? 'Attempted' : 'Attempt' }}
+
+</button>
+              </ng-container>
+
+              <button *ngIf="isPastTime(ps.endTime)" class="btn-secondary-outline" disabled>
+                TimeOut..
+              </button>
+
+              <button *ngIf="isFutureTime(ps.startTime)" class="btn-locked" disabled>
+                <i class="lock-icon">🔒</i> Locked
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noData>
+    <div *ngIf="!isLoading" class="empty-state-container">
+      <div class="empty-icon">📂</div>
+      <h3>No Problems Available</h3>
+      <p>Abhi yahan koi active challenge nahi hai. Naye problems add hone ka intezaar karein!</p>
+      <button class="btn-refresh" (click)="getLiveProblems()">Check Again</button>
+    </div>
+  </ng-template>
+</div>

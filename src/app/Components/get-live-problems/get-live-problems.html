@@ -40,14 +40,22 @@
 
           <td>
             <div class="time-card">
-              <div class="time-block">
-                <span class="label">Ends at</span>
-              <span 
-  class="value"
-  [ngClass]="{ 'danger-time': getRemainingTime(ps.endTime) === 'Ended' }">
-  {{ getRemainingTime(ps.endTime) }}
-</span>
-              </div>
+             <div class="time-block">
+  <ng-container *ngIf="isFutureTime(ps.startTime)">
+    <span class="label">Starts in</span>
+    <span class="value upcoming-time">{{ getRemainingTime(ps.startTime) }}</span>
+  </ng-container>
+
+  <ng-container *ngIf="isCurrentlyLive(ps)">
+    <span class="label">Ends in</span>
+    <span class="value danger-time">{{ getRemainingTime(ps.endTime) }}</span>
+  </ng-container>
+
+  <ng-container *ngIf="isPastTime(ps.endTime)">
+    <span class="label">Status</span>
+    <span class="value">Closed</span>
+  </ng-container>
+</div>
             </div>
           </td>
 

@@ -12,11 +12,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./get-live-problems.css'],
 })
 export class GetLiveProblems implements OnInit, OnDestroy {
-
   problemStatements: any[] = [];
   isLoading: boolean = false;
   errorMsg: string = '';
-
   attemptedIds: string[] = [];
 
   private initialFetchTimer: any;
@@ -24,7 +22,7 @@ export class GetLiveProblems implements OnInit, OnDestroy {
   private countdownTimer: any;
 
   constructor(
-    private http: HttpClient,
+    private http: HttpClient, 
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {}
@@ -34,57 +32,48 @@ export class GetLiveProblems implements OnInit, OnDestroy {
     if (stored) {
       this.attemptedIds = stored.split(',');
     }
-
     this.startInitialPolling();
     this.startCountdown();
   }
 
-  // =========================
-  //  UTC HELPERS
-  // =========================
-  getUTCDate(date: any): Date {
-    return new Date(date); // backend UTC ISO handled
+  // --- Core Time Conversion Helper ---
+  
+  /**
+   * Backend (UTC) string ko Local (IST) Date object mein convert karta hai.
+   * JavaScript Date constructor ISO strings ko automatically local time offset mein badal deta hai.
+   */
+  private toLocalTime(utcDateString: string): Date {
+    return new Date(utcDateString);
   }
 
-  getNowUTC(): Date {
-    return new Date(); // always UTC base internally
-  }
-
-  // =========================
-  // UNIQUE KEY
-  // =========================
   getUniqueKey(ps: any): string {
     return `${ps.id}_${ps.startTime}`;
   }
 
+  startCountdown() {
+    this.countdownTimer = setInterval(() => {
+      this.cdr.detectChanges(); 
+    }, 1000);
+  }
+
   isAttempted(ps: any): boolean {
-    return this.attemptedIds.includes(this.getUniqueKey(ps));
+    const key = this.getUniqueKey(ps);
+    return this.attemptedIds.includes(key);
   }
 
   attempt(ps: any) {
     if (this.isAttempted(ps)) return;
-
     const key = this.getUniqueKey(ps);
     this.attemptedIds.push(key);
-
     localStorage.setItem("attemptedIds", this.attemptedIds.join(','));
     localStorage.setItem("ProblemId", `${ps.id}`);
-
     this.router.navigate(['/Run']);
   }
 
-  // =========================
-  // TIMERS
-  // =========================
-  startCountdown() {
-    this.countdownTimer = setInterval(() => {
-      this.cdr.detectChanges();
-    }, 1000);
-  }
+  // --- API & Polling Logic ---
 
   startInitialPolling() {
     this.getLiveProblems();
-
     this.initialFetchTimer = setInterval(() => {
       if (this.problemStatements.length === 0) {
         this.getLiveProblems();
@@ -98,49 +87,20 @@ export class GetLiveProblems implements OnInit, OnDestroy {
     }, 10000);
   }
 
-  stopInitialTimer() {
-    if (this.initialFetchTimer) {
-      clearInterval(this.initialFetchTimer);
-      this.initialFetchTimer = null;
-    }
-  }
-
-  stopStatusTimer() {
-    if (this.statusUpdateTimer) {
-      clearInterval(this.statusUpdateTimer);
-      this.statusUpdateTimer = null;
-    }
-  }
-
-  ngOnDestroy() {
-    this.stopInitialTimer();
-    this.stopStatusTimer();
-
-    if (this.countdownTimer) {
-      clearInterval(this.countdownTimer);
-    }
-  }
-
-  // =========================
-  // API CALLS
-  // =========================
   getLiveProblems() {
     if (this.problemStatements.length === 0) this.isLoading = true;
-
     this.http.get<any[]>(`${BASE_URL}/student/getLiveStream`, { withCredentials: true })
       .subscribe({
         next: (res) => {
           this.problemStatements = res || [];
           this.isLoading = false;
-
           this.cdr.detectChanges();
-
           if (this.problemStatements.length > 0) {
             this.stopInitialTimer();
             this.startStatusSync();
           }
         },
-        error: () => {
+        error: (err) => {
           this.isLoading = false;
           this.errorMsg = "Reconnecting to server...";
           this.cdr.detectChanges();
@@ -160,32 +120,49 @@ export class GetLiveProblems implements OnInit, OnDestroy {
               isLive: false
             }));
           }
-
           this.cdr.detectChanges();
         },
         error: (err) => console.error("Sync error:", err)
       });
   }
 
-  // =========================
-  //  TIME LOGIC (UTC SAFE)
-  // =========================
-  isPastTime(endTime: any): boolean {
-    return this.getNowUTC() > this.getUTCDate(endTime);
+  stopInitialTimer() {
+    if (this.initialFetchTimer) { clearInterval(this.initialFetchTimer); this.initialFetchTimer = null; }
   }
 
-  isFutureTime(startTime: any): boolean {
-    return this.getNowUTC() < this.getUTCDate(startTime);
+  stopStatusTimer() {
+    if (this.statusUpdateTimer) { clearInterval(this.statusUpdateTimer); this.statusUpdateTimer = null; }
+  }
+
+  ngOnDestroy() {
+    this.stopInitialTimer();
+    this.stopStatusTimer();
+    if (this.countdownTimer) clearInterval(this.countdownTimer);
+  }
+
+  // --- Time Helpers (Updated for IST) ---
+
+  isPastTime(endTime: any): boolean { 
+    // Current local time vs End time in IST
+    return new Date() > this.toLocalTime(endTime); 
+  }
+
+  isFutureTime(startTime: any): boolean { 
+    // Current local time vs Start time in IST
+    return new Date() < this.toLocalTime(startTime); 
   }
 
   isCurrentlyLive(ps: any): boolean {
-    const now = this.getNowUTC();
-    return now >= this.getUTCDate(ps.startTime) &&
-           now <= this.getUTCDate(ps.endTime);
+    const now = new Date();
+    const start = this.toLocalTime(ps.startTime);
+    const end = this.toLocalTime(ps.endTime);
+    return now >= start && now <= end;
   }
 
   getRemainingTime(endTime: string): string {
-    const diff = this.getUTCDate(endTime).getTime() - this.getNowUTC().getTime();
+    const end = this.toLocalTime(endTime).getTime();
+    const now = new Date().getTime();
+    const diff = end - now;
 
     if (diff <= 0) return 'Ended';
 
@@ -196,8 +173,6 @@ export class GetLiveProblems implements OnInit, OnDestroy {
     if (hrs > 0) {
       return `${hrs}h ${mins}m`;
     }
-
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }
-
 }

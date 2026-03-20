@@ -36,14 +36,23 @@ export class GetLiveProblems implements OnInit, OnDestroy {
     this.startCountdown();
   }
 
-  // --- Core Time Conversion Helper ---
+  // --- Core Time Conversion Helper (The Fix) ---
   
   /**
    * Backend (UTC) string ko Local (IST) Date object mein convert karta hai.
-   * JavaScript Date constructor ISO strings ko automatically local time offset mein badal deta hai.
+   * Agar string "2026-03-20T11:17" jaisi hai, toh ye automatically 'Z' add karega
+   * taaki browser use UTC maane aur IST (+5:30) mein convert kare.
    */
   private toLocalTime(utcDateString: string): Date {
-    return new Date(utcDateString);
+    if (!utcDateString) return new Date();
+    
+    let formattedStr = utcDateString;
+    // Check if timezone indicator is missing, then append 'Z' for UTC
+    if (!formattedStr.endsWith('Z') && !formattedStr.includes('+')) {
+      formattedStr += 'Z';
+    }
+    
+    return new Date(formattedStr);
   }
 
   getUniqueKey(ps: any): string {
@@ -140,15 +149,13 @@ export class GetLiveProblems implements OnInit, OnDestroy {
     if (this.countdownTimer) clearInterval(this.countdownTimer);
   }
 
-  // --- Time Helpers (Updated for IST) ---
+  // --- Time Helpers (Synced with IST) ---
 
   isPastTime(endTime: any): boolean { 
-    // Current local time vs End time in IST
     return new Date() > this.toLocalTime(endTime); 
   }
 
   isFutureTime(startTime: any): boolean { 
-    // Current local time vs Start time in IST
     return new Date() < this.toLocalTime(startTime); 
   }
 
@@ -170,9 +177,13 @@ export class GetLiveProblems implements OnInit, OnDestroy {
     const mins = Math.floor((diff % 3600000) / 60000);
     const secs = Math.floor((diff % 60000) / 1000);
 
+    // Formatted strings: e.g., "05:08" instead of "5:8"
+    const displayMins = mins < 10 ? `0${mins}` : mins;
+    const displaySecs = secs < 10 ? `0${secs}` : secs;
+
     if (hrs > 0) {
-      return `${hrs}h ${mins}m`;
+      return `${hrs}h ${displayMins}m`;
     }
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    return `${displayMins}:${displaySecs}`;
   }
 }

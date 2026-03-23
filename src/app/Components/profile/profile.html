@@ -4,6 +4,9 @@
     <div class="profile-card fade-in">
       <header class="profile-header">
         <div class="user-info-main">
+          <div class="toast" *ngIf="toastMessage" [ngClass]="toastType">
+  {{ toastMessage }}
+</div>
           <div class="large-avatar">{{ user.username[0] }}</div>
           <div class="name-meta">
             <h1>{{ user.username }}</h1>
@@ -62,21 +65,24 @@
           </div>
 
           <div class="field">
-            <label>Skills</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.skills" placeholder="Java, Angular, Python...">
-            <div *ngIf="!editMode" class="skills-list">
-              {{ profile.skills || 'No skills listed' }}
-            </div>
-          </div>
+  <label>Technical Skills</label>
+  <input *ngIf="editMode" [(ngModel)]="profile.skills" placeholder="e.g. Java, Angular, Python">
+  <div *ngIf="!editMode" class="skills-container">
+    <span *ngIf="!profile.skills" class="empty-prompt">Add your skills to stand out to recruiters 💡</span>
+    <div class="skills-list" *ngIf="profile.skills">
+      {{ profile.skills }}
+    </div>
+  </div>
+</div>
 
-          <div class="field">
-            <label>GitHub URL</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.github" placeholder="github.com/user">
-            <p *ngIf="!editMode" class="link-txt">
-              <span *ngIf="profile.github">🔗 {{ profile.github }}</span>
-              <span *ngIf="!profile.github" class="empty">Not added</span>
-            </p>
-          </div>
+         <div class="field">
+  <label>GitHub Portfolio</label>
+  <input *ngIf="editMode" [(ngModel)]="profile.github" placeholder="github.com/username">
+  <a *ngIf="!editMode && profile.github" [href]="'https://' + profile.github" target="_blank" class="external-link">
+    View Profile <span>↗</span>
+  </a>
+  <p *ngIf="!editMode && !profile.github" class="empty">Connect your GitHub</p>
+</div>
 
           <div class="field">
             <label>LinkedIn URL</label>

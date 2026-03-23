@@ -196,3 +196,52 @@
     opacity: 0.8;
   }
 }
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  z-index: 2000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: slideIn 0.4s ease-out;
+}
+.toast.success { background: #10b981; }
+.toast.error { background: #ef4444; }
+.toast.info { background: #4f46e5; }
+
+/* Empty state prompts */
+.empty-prompt {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-style: italic;
+  display: block;
+  padding: 8px 0;
+}
+
+/* External Link Styling */
+.external-link {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.2s;
+}
+.external-link:hover { text-decoration: underline; color: #3730a3; }
+
+/* Profile Card Fade In */
+.fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

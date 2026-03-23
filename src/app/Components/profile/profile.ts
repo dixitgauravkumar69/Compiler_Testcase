@@ -32,7 +32,10 @@ export class Profile {
   userId!: number;
   profileExists = false;
 
-  editMode = false;   // ⭐ NEW
+  editMode = false;   
+
+  toastMessage: string = '';
+toastType: string = 'success';
 
   constructor(
     private http: HttpClient,
@@ -67,30 +70,23 @@ export class Profile {
  loadProfile() {
   this.http
     .get(`${BASE_URL}/api/student/Profile/` + this.userId)
-    .subscribe((data: any) => {
-      if (data) {
-        this.profile = data;
-        this.profileExists = true;
+    .subscribe({
+      next: (data: any) => {
+        if (data) {
+          this.profile = data;
+          this.profileExists = true;
+  
+        }
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.warn("Profile not found");
+        this.profileExists = false;
+        this.editMode = true; 
+        this.showToast("Welcome! Let's set up your professional profile. ✨", "info");
+        
+        this.profile = { phone: '', college: '', branch: '', semester: '', cgpa: '', skills: '', github: '', linkedin: '', bio: '' };
       }
-      this.cdr.detectChanges();
-    }, error => {
-      console.log("Profile not found - enabling create mode");
-      
-      this.profileExists = false;
-      this.editMode = true; 
-
-      // ⭐ RESET PROFILE: Taaki inputs khali dikhein na ki 'undefined'
-      this.profile = {
-        phone: '',
-        college: '',
-        branch: '',
-        semester: '',
-        cgpa: '',
-        skills: '',
-        github: '',
-        linkedin: '',
-        bio: ''
-      };
     });
 }
   enableEdit() {
@@ -102,21 +98,31 @@ export class Profile {
     this.loadProfile();
   }
 
-  saveProfile() {
-
-    this.http
-      .post(`${BASE_URL}/api/student/addProfile/` + this.userId, this.profile)
-      .subscribe((res) => {
-
-        alert("Profile Saved Successfully");
-
+ saveProfile() {
+  this.http
+    .post(`${BASE_URL}/api/student/addProfile/` + this.userId, this.profile)
+    .subscribe({
+      next: (res) => {
+        this.showToast("Profile updated successfully! 🚀", "success");
         this.profileExists = true;
         this.editMode = false;
-
         this.loadProfile();
+      },
+      error: () => {
+        this.showToast("Could not save changes. Please try again. 🛠️", "error");
+      }
+    });
+}
 
-      });
 
-  }
+showToast(msg: string, type: string = 'success') {
+  this.toastMessage = msg;
+  this.toastType = type;
+  setTimeout(() => {
+    this.toastMessage = '';
+    this.cdr.detectChanges();
+  }, 3000);
+  this.cdr.detectChanges();
+}
 
 }

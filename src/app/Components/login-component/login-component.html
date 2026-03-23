@@ -1,3 +1,14 @@
+<div class="toast-wrapper" *ngIf="toastMessage" [ngClass]="toastType">
+  <div class="toast-body">
+    <p>{{ toastMessage }}</p>
+  </div>
+
+  <div class="login-container">
+   <button (click)="loginUser()" [disabled]="isLoading">
+      {{ isLoading ? 'Authenticating...' : 'Login' }}
+   </button>
+</div>
+</div>
 <div class="main">
   <div class="auth-container">
     

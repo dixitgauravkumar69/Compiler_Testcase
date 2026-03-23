@@ -17,9 +17,12 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   message = "";       // Success message ke liye
-  errorMessage = "";  // Error message handling ke liye 👈
+  errorMessage = "";  // Error message handling ke liye 
   success = false;
   isLoading: boolean = false;
+
+  toastMessage: string = '';
+  toastType: 'success' | 'error' | 'info' = 'info';
 
   constructor(
     private fb: FormBuilder, 
@@ -33,54 +36,64 @@ export class LoginComponent {
     });
   }
 
-  loginUser() {
-    if (this.loginForm.valid) {
-      this.isLoading = true;
-      this.errorMessage = ""; // Naye attempt par purana error clear karein
-      this.message = "";
-
-      this.http.post<any>(`${BASE_URL}/api/User/login`, this.loginForm.value)
-        .subscribe({
-          next: (res) => {
-            // Token aur User details store karna
-            localStorage.setItem("Usermail", res.userEmail);
-            localStorage.setItem("UserId", res.userId);
-            localStorage.setItem("JWT_TOKEN", res.token);
-
-            this.success = true;
-            this.message = "Login Successful! Redirecting...";
-            
-            // UI refresh ke liye
-            this.cdr.detectChanges();
-
-            setTimeout(() => {
-              this.isLoading = false;
-              if (res.userRole === "TEACHER") {
-                this.router.navigate(['/teacher']);
-              } else {
-                this.router.navigate(['/student']);
-              }
-            }, 1500);
-          },
-          error: (err) => {
-            this.isLoading = false;
-            this.success = false;
-            
-            // Backend error handle karna
-            if (err.status === 401 || err.status === 403) {
-              this.errorMessage = "Invalid Email or Password. Please try again.";
-            } else {
-              this.errorMessage = "Server error or Connection failed. Try later.";
-            }
-            this.cdr.detectChanges();
-          }
-        });
-    } else {
-      this.errorMessage = "Please fill all fields correctly.";
+ loginUser() {
+    //  Validation Check for Toast
+    if (this.loginForm.invalid) {
+      if (this.loginForm.get('userEmail')?.hasError('email')) {
+        this.showToast("Please enter a valid email address! 📧", "info");
+      } else {
+        this.showToast("All fields are required! 🔑", "info");
+      }
+      return;
     }
+
+    this.isLoading = true;
+    this.cdr.detectChanges();
+
+    this.http.post<any>(`${BASE_URL}/api/User/login`, this.loginForm.value)
+      .subscribe({
+        next: (res) => {
+          // Store Credentials
+          localStorage.setItem("Usermail", res.userEmail);
+          localStorage.setItem("UserId", res.userId);
+          localStorage.setItem("JWT_TOKEN", res.token);
+
+          this.showToast("Login Successful! Redirecting... 🚀", "success");
+          
+          this.cdr.detectChanges();
+
+          setTimeout(() => {
+            this.isLoading = false;
+            const route = res.userRole === "TEACHER" ? '/teacher' : '/student';
+            this.router.navigate([route]);
+          }, 1500);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          
+          //  Professional Error Handling with Toasts
+          if (err.status === 401 || err.status === 403) {
+            this.showToast("Invalid Credentials. Try again! ❌", "error");
+          } else {
+            this.showToast("Server unreachable. Try later! 🌐", "error");
+          }
+          this.cdr.detectChanges();
+        }
+      });
   }
 
-  // Signup page par jaane ke liye logic
+  //  Shared Toast Logic
+  showToast(msg: string, type: 'success' | 'error' | 'info' = 'info') {
+    this.toastMessage = msg;
+    this.toastType = type;
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      this.toastMessage = '';
+      this.cdr.detectChanges();
+    }, 3000);
+  }
+
   goToSignup() {
     this.router.navigate(['/']);
   }

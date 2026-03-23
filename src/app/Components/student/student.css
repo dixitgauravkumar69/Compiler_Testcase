@@ -83,7 +83,7 @@
 .card-content h3 { font-size: 1.1rem; color: #334155; margin-bottom: 12px; }
 .card-content p {
   color: #64748b; font-size: 0.95rem; line-height: 1.5;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  /* display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; */
   overflow: hidden; margin-bottom: 20px;
 }
 
@@ -130,3 +130,79 @@
   animation: spin 1s linear infinite; margin: 0 auto 15px;
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.success-snackbar {
+  background-color: #22c55e;
+  color: #fff;
+}
+
+.error-snackbar {
+  background-color: #ef4444;
+  color: #fff;
+}
+
+.warning-snackbar {
+  background-color: #f59e0b;
+  color: #fff;
+}
+
+.info-snackbar {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+.mat-mdc-snack-bar-container {
+  border-radius: 12px !important;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 250px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: white;
+  z-index: 9999;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: slideIn 0.3s ease;
+}
+
+/* TYPES */
+.toast.success {
+  background: #22c55e;
+}
+
+.toast.error {
+  background: #ef4444;
+}
+
+.toast.warning {
+  background: #f59e0b;
+}
+
+.toast.info {
+  background: #3b82f6;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.status-indicator {
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}

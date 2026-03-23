@@ -1,27 +1,75 @@
+<div class="toast-wrapper" *ngIf="toastMessage" [ngClass]="toastType">
+  <div class="toast-body">
+    <span class="toast-icon">
+      <ng-container *ngIf="toastType === 'success'">✔️</ng-container>
+      <ng-container *ngIf="toastType === 'error'">⚠️</ng-container>
+      <ng-container *ngIf="toastType === 'info'">ℹ️</ng-container>
+    </span>
+    <p>{{ toastMessage }}</p>
+  </div>
+</div>
+
 <div class="modal-overlay" (click)="close()">
-  <div class="live-card" (click)="$event.stopPropagation()">
+  <div class="live-card" (click)="$event.stopPropagation()" [class.transmitting]="isLoading">
+    
+    <div class="status-bar" [ngClass]="{'ready': liveForm.valid && !isLoading, 'busy': isLoading}">
+      <span class="pulse-dot"></span>
+      <span class="status-text">
+        {{ isLoading ? 'TRANSMITTING DATA...' : (liveForm.valid ? 'SYSTEM READY' : 'AWAITING PARAMETERS') }}
+      </span>
+    </div>
+
     <div class="card-header">
       <h2>📡 Schedule Live Stream</h2>
-      <button class="close-btn" (click)="close()">×</button>
+      <button class="close-btn" (click)="close()" [disabled]="isLoading">×</button>
     </div>
 
     <form [formGroup]="liveForm" (ngSubmit)="submit()">
-      <div class="form-group">
-        <label>Starting Time</label>
-        <input type="datetime-local" formControlName="startTime" class="dark-input">
-      </div>
+      <div class="form-body">
+        
+        <div class="form-group">
+          <label>Starting Time</label>
+          <div class="input-container">
+            <input type="datetime-local" formControlName="startTime" class="dark-input">
+            <div class="input-focus-glow"></div>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label>Ending Time</label>
-        <input type="datetime-local" formControlName="endTime" class="dark-input">
+        <div class="timeline-connector">
+          <div class="dot"></div>
+          <div class="line"></div>
+          <div class="dot"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Ending Time</label>
+          <div class="input-container">
+            <input type="datetime-local" formControlName="endTime" class="dark-input">
+            <div class="input-focus-glow"></div>
+          </div>
+        </div>
+
       </div>
 
       <div class="actions">
-        <button type="button" class="btn-cancel" (click)="close()">Cancel</button>
-        <button type="submit" class="btn-confirm" [disabled]="liveForm.invalid"  >
-          Confirm Live
+        <button type="button" class="btn-cancel" (click)="close()" [disabled]="isLoading">
+          Discard
+        </button>
+        
+        <button type="submit" class="btn-confirm" [disabled]="liveForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Confirm Live Session</span>
+          
+          <div *ngIf="isLoading" class="loader-container">
+            <div class="spinner-small"></div>
+            <span>Syncing...</span>
+          </div>
         </button>
       </div>
     </form>
+
+    <div class="tech-footer">
+      <span>Broadcast ID: #{{ problemId || '000' }}</span>
+      <span class="encryption-tag">SSL Encrypted</span>
+    </div>
   </div>
 </div>

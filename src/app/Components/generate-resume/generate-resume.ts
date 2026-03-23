@@ -38,6 +38,10 @@ export class GenerateResume {
   userId!: number;
   resumes:any[]=[];
 
+ isProcessing = false;
+toastMessage = '';
+toastType = 'success';
+
   constructor(private http: HttpClient,
     private cdr:ChangeDetectorRef
   ) {}
@@ -106,67 +110,77 @@ export class GenerateResume {
 
 
   //for adding resume information in Database--------------------------------
-  addResume() {
-
-    const resumeData = {
-      ...this.profile,
-      ...this.extra
-    };
-
-    console.log(resumeData);
-
-    this.http
-      .post(`${BASE_URL}/api/student/addResumeInfo/` + this.userId, resumeData)
-      .subscribe((res: any) => {
-
-        alert("Resume added Successfully");
-       console.log(res);
-        
-
-        this.cdr.detectChanges();
-      });
-
+ addResume() {
+  if (!this.profile.username || !this.profile.skills) {
+    this.showToast("Please fill in your name and core skills to continue. ✍️", "warning");
+    return;
   }
 
+  
+  this.isProcessing = true; 
+  this.showToast("System is analyzing your profile... 🧠", "info");
 
-  getResume()
-  {
-    
-    this.http
-      .get(`${BASE_URL}/api/student/getResume/` + this.userId)
-      .subscribe((res: any) => {
+  const resumeData = { ...this.profile, ...this.extra };
 
-        alert("Resume generated Successfully");
-         this.resumes=res;
-
-       console.log(res);
-        
-
+  this.http.post(`${BASE_URL}/api/student/addResumeInfo/` + this.userId, resumeData)
+    .subscribe({
+      next: (res) => {
+ 
+        setTimeout(() => {
+          this.showToast("Resume drafted successfully! You can getResume... ✨", "success");
+         
+          this.isProcessing = false;
+          this.cdr.detectChanges();
+        }, 1500);
+      },
+      error: () => {
+        this.showToast("Failed to save resume data. Please try again.", "error");
+        this.isProcessing = false;
         this.cdr.detectChanges();
-      });
-  }
+      }
+    });
+}
+getResume() {
+  this.http.get(`${BASE_URL}/api/student/getResume/` + this.userId)
+    .subscribe({
+      next: (res: any) => {
+       setTimeout(() => {
+          this.showToast("Resumes loaded successfully.. ✨", "success");
+         
+          this.isProcessing = false;
+          this.cdr.detectChanges();
+        }, 1500);
+        this.resumes = res;
+        this.cdr.detectChanges();
+      },
+      error: () => this.showToast("Could not fetch resumes list. 📂", "error")
+    });
+}
 
+downloadResume(id: number) {
+  this.showToast("Generating your PDF... please wait. ⏳", "info");
+  this.http.get(`${BASE_URL}/api/student/downloadResume/${id}`, { responseType: 'blob' })
+    .subscribe({
+      next: (res: any) => {
+        const blob = new Blob([res], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.profile.username}_Resume.pdf`;
+        a.click();
+        this.showToast("Resume downloaded! Good luck! 🎯", "success");
+      },
+      error: () => this.showToast("Error generating PDF.", "error")
+    });
+}
 
-  downloadResume(id:number){
-
-this.http.get(`${BASE_URL}/api/student/downloadResume/${id}`,{
-responseType:'blob'
-})
-.subscribe((res:any)=>{
-
-const blob=new Blob([res],{type:'application/pdf'});
-
-const url=window.URL.createObjectURL(blob);
-
-const a=document.createElement('a');
-
-a.href=url;
-
-a.download="resume.pdf";
-
-a.click();
-
-});
-
+showToast(msg: string, type: string = 'success') {
+  this.toastMessage = msg;
+  this.toastType = type;
+  this.cdr.detectChanges();
+  setTimeout(() => {
+    this.toastMessage = '';
+    this.cdr.detectChanges();
+  }, 4000);
 }
 }

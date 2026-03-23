@@ -47,6 +47,13 @@
     
     <div class="content-header">
       <div class="title-section">
+        <div 
+  class="toast" 
+  *ngIf="toastMessage"
+  [ngClass]="toastType"
+>
+  {{ toastMessage }}
+</div>
         <h2>Coding Challenges</h2>
         <p>Sharpen your skills by solving assigned problems.</p>
       </div>

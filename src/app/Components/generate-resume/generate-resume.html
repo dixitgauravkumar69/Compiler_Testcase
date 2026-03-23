@@ -1,3 +1,6 @@
+<div class="toast" *ngIf="toastMessage" [ngClass]="toastType">
+  {{ toastMessage }}
+</div>
 <div class="dashboard-container">
   <div class="content-wrapper">
     
@@ -9,6 +12,8 @@
           <p>Create a professional resume in seconds.</p>
         </div>
       </header>
+
+
 
       <form class="resume-form-modern">
         
@@ -75,7 +80,7 @@
         </div>
 
         <div class="action-footer">
-          <button type="button" class="btn-secondary" (click)="getResume()">🔄 Refresh</button>
+          <button type="button" class="btn-secondary" (click)="getResume()">GetAll Resume</button>
           <button type="button" class="btn-primary" (click)="addResume()">✨ Generate Resume</button>
         </div>
       </form>

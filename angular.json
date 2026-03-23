@@ -19,15 +19,21 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
+
+            // ✅ Assets
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
+
+            // ✅ IMPORTANT: Global styles added
             "styles": [
               "src/styles.css"
             ]
+
+            // ❌ NO Angular Material theme here
           },
           "configurations": {
             "production": {

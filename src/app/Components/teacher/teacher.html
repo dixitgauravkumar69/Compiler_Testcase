@@ -1,3 +1,24 @@
+ <!-- Section for show any action in upper part of UI.... -->
+
+
+<div class="toast-container" [class.show]="toast.show" [ngClass]="toast.type">
+  <div class="toast-content">
+    <span class="toast-icon">
+      <ng-container [ngSwitch]="toast.type">
+        <span *ngSwitchCase="'success'">✅</span>
+        <span *ngSwitchCase="'error'">❌</span>
+        <span *ngSwitchCase="'warning'">⚠️</span>
+        <span *ngSwitchDefault>ℹ️</span>
+      </ng-container>
+    </span>
+    <span class="toast-message">{{ toast.message }}</span>
+  </div>
+  <div class="toast-progress"></div>
+</div>
+
+<!-- Main dashboard is started... -->
+
+<!-- //Side bar for ui -->
 <div class="dashboard-container">
   <header class="mobile-header">
     <div class="header-left">
@@ -6,10 +27,10 @@
       </button>
       <h3>POD Panel</h3>
     </div>
-    <div class="user-avatar-sm">T</div>
+    <div class="avatar-xs" style="background: #4f46e5; color: white;">T</div>
   </header>
 
-  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="toggleSidebar()"></div>
+  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="closeSidebar()"></div>
 
   <aside class="sidebar" [class.active]="isSidebarOpen">
     <div class="sidebar-header">
@@ -20,8 +41,10 @@
       <p class="sidebar-subtitle">Teacher Dashboard</p>
     </div>
 
+    <!-- //Navigation side bar.. -->
+
     <nav class="nav-links">
-      <button [class.active]="activeSection === 'see'" (click)="activeSection = 'see'; closeSidebar()">
+      <button [class.active]="activeSection === 'see' || activeSection === 'studentsList'" (click)="activeSection = 'see'; closeSidebar()">
         <span class="icon">📝</span>
         <span class="text">Problems List</span>
       </button>
@@ -32,7 +55,7 @@
       <button (click)="goToAddCampus(); closeSidebar()">
         <span class="icon">🏛️</span>
         <span class="text">Campus Info</span>
-      </button>
+      </button> 
     </nav>
 
     <div class="sidebar-footer">
@@ -40,22 +63,47 @@
     </div>
   </aside>
 
+
+  <!-- //Place in which operation will perform ....... -->
   <main class="main-content">
-    <div *ngIf="isLoading" class="loader-box">
+    
+    <div *ngIf="isLoading" class="loader-box" style="text-align: center; padding-top: 100px;">
       <div class="spinner"></div>
-      <p>Updating System...</p>
+      <p style="color: #64748b; margin-top: 15px; font-weight: 500;">Updating System...</p>
     </div>
 
     <div class="content-wrapper" *ngIf="!isLoading">
       
       <section *ngIf="activeSection === 'see'" class="fade-in">
-        <div class="section-title">
-          <h2>Problem Repository</h2>
-          <p>Assign and track coding challenges in real-time.</p>
+        <div class="section-header-flex">
+          <div class="section-title">
+            <h2>Problem Repository</h2>
+            <p>Assign and track coding challenges in real-time.</p>
+          </div>
+
+          <!-- //Search by Problem id or statement... -->
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input 
+              type="text" 
+              [(ngModel)]="searchQuery" 
+              (input)="onSearch()" 
+              placeholder="Search by ID or Statement..."
+            >
+            <button *ngIf="searchQuery" class="clear-btn" (click)="searchQuery = ''; onSearch()">✕</button>
+          </div>
         </div>
 
-        <div class="problem-grid">
-          <div class="modern-card" *ngFor="let ps of problemStatements">
+        <!-- // show total count of seraching result as well..... -->
+        <div class="search-meta" *ngIf="searchQuery" style="margin-bottom: 20px;">
+          <p>Found <span>{{ filteredProblems.length }}</span> results for "{{ searchQuery }}"</p>
+        </div>
+
+
+
+        <!-- // Actual grid based cards for problems and there options for teacher(Controll)... -->
+        <div class="problem-grid" *ngIf="filteredProblems.length > 0">
+          <div class="modern-card" *ngFor="let ps of filteredProblems">
             <div class="card-header">
               <span class="id-tag">#{{ ps.id }}</span>
               <span class="status-badge" [ngClass]="ps.statusClass">
@@ -64,99 +112,128 @@
             </div>
 
             <div class="card-body">
-              <h3>Problem Statement</h3>
-              <p class="truncate-text">{{ ps.problemStatement }}</p>
+              <h3 style="font-size: 1rem; color: #1e293b; margin-bottom: 8px;">Problem Statement</h3>
+              <p class="truncate-text" style="color: #64748b; font-size: 0.9rem;">{{ ps.problemStatement }}</p>
 
               <div class="time-details" *ngIf="ps.assigned && ps.startTime"
-                style="margin-top: 12px; padding: 10px; background: rgba(0, 255, 255, 0.05); border-radius: 8px; border: 1px dashed #00ffff;">
+                style="margin-top: 15px; padding: 12px; background: rgba(79, 70, 229, 0.03); border-radius: 10px; border: 1px dashed #4f46e5;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="color: #888; font-size: 0.75rem;">Window (IST):</span>
-                  <span style="color: #00ffff; font-weight: bold; font-size: 0.85rem;">
+                  <span style="color: #64748b; font-size: 0.75rem; font-weight: 600;">WINDOW (IST)</span>
+                  <span style="color: #4f46e5; font-weight: 700; font-size: 0.85rem;">
                     {{ ps.displayTimeRange }}
                   </span>
                 </div>
                 <div style="text-align: right; margin-top: 4px;">
-                  <small style="color: #666; font-size: 0.65rem;">
+                  <small style="color: #94a3b8; font-size: 0.7rem;">
                     📅 {{ toLocalTime(ps.startTime) | date: 'dd MMM, yyyy' }}
                   </small>
                 </div>
               </div>
             </div>
 
+
             <div class="card-footer-actions">
               <button class="btn-assign" [class.is-assigned]="ps.assigned" (click)="assign(ps.id)">
                 {{ ps.assigned ? '✅ Assigned' : 'Assign' }}
               </button>
-
               <button class="btn-view" (click)="fetchSolvedStudents(ps.id)">Results</button>
-
               <button class="btn-live" (click)="liveStream(ps.id)">
-                <span class="icon">📡</span> Live Stream
+                📡 Stream
               </button>
             </div>
           </div>
         </div>
-      </section>
 
-      <section *ngIf="activeSection === 'studentsList'" class="fade-in">
-        <div class="header-row">
-          <button class="back-pill" (click)="activeSection = 'see'">← Back to Problems</button>
-          <div class="header-text">
-            <h2>Submissions for #{{ selectedProblemId }}</h2>
-          </div>
-        </div>
 
-        <div class="table-card desktop-only">
-          <table class="modern-table">
-            <thead>
-              <tr>
-                <th>Student</th>
-                <th>Marks</th>
-                <th>Completion Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let entry of solvedStudents">
-                <td class="user-cell">
-                  <div class="avatar-xs">{{ entry.user.username[0] }}</div>
-                  <span>{{ entry.user.username }}</span>
-                </td>
-                <td><span class="badge-marks">{{ entry.marks }}</span></td>
-                <td class="time-txt">{{ entry.takenTime }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
 
-        <div class="mobile-list-view mobile-only">
-          <div class="student-result-card" *ngFor="let entry of solvedStudents">
-            <div class="res-left">
-              <div class="avatar">{{ entry.user.username[0] }}</div>
-              <div class="res-info">
-                <h4>{{ entry.user.username }}</h4>
-                <p>{{ entry.user.userEmail }}</p>
-              </div>
-            </div>
-            <div class="res-right">
-              <span class="badge-marks">{{ entry.marks }}</span>
-              <small>🕒 {{ entry.takenTime }}</small>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="solvedStudents.length === 0" class="empty-msg">
-          <div class="empty-icon">📂</div>
-          <p>No submissions found for this challenge yet.</p>
+        <!-- // If not found than go here..... -->
+        <div class="empty-search-state" *ngIf="filteredProblems.length === 0">
+          <div class="empty-art">🔎</div>
+          <h3>No matching problems</h3>
+          <p>Try a different keyword or check the ID.</p>
+          <button class="btn-reset" (click)="searchQuery = ''; onSearch()">Clear Search</button>
         </div>
       </section>
+
+
+
+<!-- //Section for showing students who solved problem .............. -->
+     <section *ngIf="activeSection === 'studentsList'" class="fade-in">
+  <div class="section-header-flex" style="margin-bottom: 25px;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <button class="btn-view" style="width: auto; padding: 8px 15px;" (click)="activeSection = 'see'">
+        ← Back
+      </button>
+      <div>
+        <h2 style="margin:0;">Submissions</h2>
+        <p style="color: #64748b; font-size: 0.85rem;">Problem #{{ selectedProblemId }}</p>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        [(ngModel)]="studentSearchQuery" 
+        (input)="onStudentSearch()" 
+        placeholder="Search student name or email..."
+      >
+      <button *ngIf="studentSearchQuery" class="clear-btn" (click)="studentSearchQuery = ''; onStudentSearch()">✕</button>
+    </div>
+  </div>
+
+  <div class="table-card desktop-only" *ngIf="filteredStudents.length > 0" style="border: 1px solid #eef2f6; border-radius: 16px; overflow: hidden;">
+    <table class="modern-table" style="border-collapse: collapse; width: 100%;">
+      <thead style="background: #f8fafc; border-bottom: 2px solid #eef2f6;">
+        <tr>
+          <th style="padding: 16px; text-align: left;">Student</th>
+          <th style="padding: 16px; text-align: left;">Marks</th>
+          <th style="padding: 16px; text-align: left;">Completion Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of filteredStudents" style="border-bottom: 1px solid #f1f5f9;">
+          <td style="padding: 16px; display: flex; align-items: center; gap: 12px;">
+            <div class="avatar-xs" style="background: #e0e7ff; color: #4f46e5;">{{ entry.user.username[0] }}</div>
+            <div>
+               <div style="font-weight: 600; color: #1e293b;">{{ entry.user.username }}</div>
+               <div style="font-size: 0.75rem; color: #94a3b8;">{{ entry.user.userEmail }}</div>
+            </div>
+          </td>
+          <td style="padding: 16px;"><span class="id-tag">{{ entry.marks }}</span></td>
+          <td style="padding: 16px; color: #64748b;">🕒 {{ entry.takenTime }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<!-- 
+  // Searching for students via name, mail......... -->
+
+  <div class="mobile-only" *ngIf="filteredStudents.length > 0">
+    <div class="student-result-card" *ngFor="let entry of filteredStudents" style="margin-bottom: 12px; border: 1px solid #eef2f6;">
+      </div>
+  </div>
+
+  <div *ngIf="filteredStudents.length === 0 && solvedStudents.length > 0" style="text-align: center; padding: 40px;">
+    <p style="color: #64748b;">No students match "{{ studentSearchQuery }}"</p>
+    <button class="btn-reset" (click)="studentSearchQuery = ''; onStudentSearch()">Reset Search</button>
+  </div>
+
+  <div *ngIf="solvedStudents.length === 0" style="text-align: center; padding: 60px 20px;">
+    <div style="font-size: 3rem; margin-bottom: 10px;">📂</div>
+    <h3 style="color: #1e293b;">No Submissions Yet</h3>
+    <p style="color: #64748b;">Once students solve this, their results will appear here.</p>
+  </div>
+</section>
     </div>
   </main>
 
+  <!-- // for pop up like live component....... -->
   <app-live-component
     *ngIf="showLiveModal"
     [problemId]="selectedProblemId"
     (onClose)="showLiveModal = false"
     (onConfirm)="receiveDataFromChild($event)"
-  >
-  </app-live-component>
+  ></app-live-component>
 </div>

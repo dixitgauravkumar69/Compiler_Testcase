@@ -1,38 +1,104 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BASE_URL } from '../../../Environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-description',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './job-description.html',
   styleUrl: './job-description.css',
 })
-export class JobDescription {
-   job:any;
+export class JobDescription implements OnInit {
 
-  constructor(private route:ActivatedRoute, private http:HttpClient,private cdr:ChangeDetectorRef){}
+  job: any;
+  campusId!: number;
+  userId!: number;
+
+  toast = {
+    message: '',
+    type: 'success' as 'success' | 'error' | 'info' | 'warning',
+    show: false
+  };
+
+  isApplied: boolean = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private router:Router,
+  ) {}
+
+  showToast(msg: string, type: 'success' | 'error' | 'info' | 'warning') {
+    this.toast.show = false;
+
+    setTimeout(() => {
+      this.toast.message = msg;
+      this.toast.type = type;
+      this.toast.show = true;
+
+      setTimeout(() => {
+        this.toast.show = false;
+        this.cdr.detectChanges();
+      }, 3000);
+
+      this.cdr.detectChanges();
+    }, 100);
+  }
 
   ngOnInit(): void {
 
     const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
 
-    this.http.get(`${BASE_URL}/placement/student/job/${id}`)
-    .subscribe(res=>{
-      this.job = res;
+    this.campusId = Number(id);
 
-      console.log(this.job.allocate);
-      this.cdr.detectChanges();
-    })
+    const uid = localStorage.getItem("UserId");
+    if (!uid) return;
 
+    this.userId = Number(uid);
+
+    this.http.get(`${BASE_URL}/placement/student/job/${this.campusId}`)
+      .subscribe({
+        next: (res: any) => {
+          this.job = res;
+          this.showToast("Job Loaded", "success");
+        },
+        error: () => {
+          this.showToast("Failed to load job", "error");
+        }
+      });
   }
 
-getFileName(url: string): string {
-    return url.split('/').pop() || 'attachment.pdf';
+ apply() {
+  if (this.isApplied) return;
+
+  this.http.post(
+    `${BASE_URL}/api/student/studentApplicationData/${this.userId}/${this.campusId}`,
+    {},
+    { responseType: 'text' }
+  ).subscribe({
+    next: (res: string) => {
+      this.showToast(res, "success");
+      this.isApplied = true;   // ✅ button disable ho jayega
+    },
+    error: (err) => {
+      if (err.status === 409) {
+        this.showToast("Already Applied", "info");
+        this.isApplied = true; // already applied → disable
+      } else if (err.status === 403) {
+        this.showToast("Not Eligible", "error");
+      } else {
+        this.showToast("Server Error", "error");
+      }
+    }
+  });
+}
+  getFileName(url: string): string {
+    return url ? url.split('/').pop() || 'attachment.pdf' : 'attachment.pdf';
   }
-   
 }

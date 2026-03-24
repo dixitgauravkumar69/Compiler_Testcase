@@ -1,3 +1,14 @@
+<div class="custom-toast" [class.show]="toast.show" [ngClass]="toast.type">
+  <div class="toast-content">
+    <span class="icon">
+      <i *ngIf="toast.type === 'success'">✔️</i>
+      <i *ngIf="toast.type === 'error'">⚠️</i>
+      <i *ngIf="toast.type === 'info'">ℹ️</i>
+    </span>
+    <p>{{ toast.message }}</p>
+  </div>
+</div>
+
 <div class="container fade-in" *ngIf="job">
 
   <div class="header-card">
@@ -31,37 +42,41 @@
 
   <div class="details-body">
     <div class="section">
-      <h4><span class="icon">📝</span> Job Description</h4>
+      <h4>📝 Job Description</h4>
       <p>{{job.jobDescription}}</p>
     </div>
 
     <div class="section">
-      <h4><span class="icon">⚙️</span> Skills Required</h4>
-      <div class="skills-wrapper">
-        <p>{{job.skillsRequired}}</p>
-      </div>
+      <h4>⚙️ Skills Required</h4>
+      <p>{{job.skillsRequired}}</p>
     </div>
 
     <div class="section">
-      <h4><span class="icon">🚀</span> Selection Process</h4>
+      <h4>🚀 Selection Process</h4>
       <p>{{job.selectionProcess}}</p>
     </div>
 
     <div class="section danger-zone" *ngIf="job.registrationLastDate">
-      <h4><span class="icon">⏰</span> Deadline</h4>
+      <h4>⏰ Deadline</h4>
       <p>Apply before: <strong>{{ job.registrationLastDate | date:'fullDate' }}</strong></p>
     </div>
 
     <div class="section attachment-box" *ngIf="job.allocate">
       <h4>Job Attachment</h4>
-      <a [href]="job.allocate" [download]="getFileName(job.allocate)" class="download-link">
-        <span class="icon">📄</span> Download Detailed PDF
+      <a [href]="job.allocate" [download]="getFileName(job.allocate)">
+        📄 Download PDF
       </a>
     </div>
   </div>
 
   <div class="action-bar-mobile">
-    <button class="apply-btn-main">Apply Now</button>
-  </div>
-
+  <button 
+    class="apply-btn-main" 
+    (click)="apply()" 
+    [disabled]="isApplied"
+    [class.disabled]="isApplied"
+  >
+    {{ isApplied ? 'Applied ✅' : 'Apply Now' }}
+  </button>
+</div>
 </div>

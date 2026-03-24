@@ -20,6 +20,8 @@ export class FindPlacementInfo implements OnInit {
   toastMessage: string = '';
   toastType: 'success' | 'error' | 'info' = 'info';
   searchTerm: string = '';
+  userId!:number;
+  Semester!: number;
 
   constructor(
     private http: HttpClient, 
@@ -32,29 +34,49 @@ export class FindPlacementInfo implements OnInit {
     this.fetchJobs();
   }
 
-  fetchJobs() {
-    this.isLoading = true;
-    this.http.get<any[]>(`${BASE_URL}/placement/getJobInfo/6`)
-      .subscribe({
-        next: (res) => {
-          this.zone.run(() => {
-            this.jobs = res;
-            this.isLoading = false;
-            if (res.length > 0) {
-              this.showToast(`${res.length} opportunities synced! 🚀`, 'success');
+ fetchJobs() {
+  this.isLoading = true;
+  this.userId = parseInt(localStorage.getItem("UserId") || "0");
+
+  // First API call: get user profile
+  this.http.get(`${BASE_URL}/api/student/Profile/${this.userId}`)
+    .subscribe({
+      next: (res: any) => {
+        // Save semester to localStorage
+        localStorage.setItem("Semester", String(res.semester));
+        this.Semester = res.semester; // update local variable
+
+        // Now call second API using the semester
+        this.http.get<any[]>(`${BASE_URL}/placement/getJobInfo/${this.Semester}`)
+          .subscribe({
+            next: (jobsRes) => {
+              this.zone.run(() => {
+                this.jobs = jobsRes;
+                this.isLoading = false;
+                if (jobsRes.length > 0) {
+                  this.showToast(`${jobsRes.length} opportunities synced! 🚀`, 'success');
+                }
+                this.cdr.detectChanges();
+              });
+            },
+            error: (err) => {
+              this.zone.run(() => {
+                this.isLoading = false;
+                this.showToast("Connection error while fetching jobs. Please try again.", "error");
+                this.cdr.detectChanges();
+              });
             }
-            this.cdr.detectChanges();
           });
-        },
-        error: (err) => {
-          this.zone.run(() => {
-            this.isLoading = false;
-            this.showToast("Connection error. Please try again.", "error");
-            this.cdr.detectChanges();
-          });
-        }
-      });
-  }
+      },
+      error: (err) => {
+        this.zone.run(() => {
+          this.isLoading = false;
+          this.showToast("Semester not found", "error");
+          this.cdr.detectChanges();
+        });
+      }
+    });
+}
 
   //  Professional Toast Trigger
   showToast(msg: string, type: 'success' | 'error' | 'info' = 'info') {

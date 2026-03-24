@@ -24,7 +24,7 @@ export class LogOut implements OnInit {
     localStorage.removeItem("JWT_TOKEN");
     localStorage.removeItem("Usermail");
     localStorage.removeItem("UserId");
-
+    localStorage.removeItem("Semester");
 
     setTimeout(() => {
       this.done = true;

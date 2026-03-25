@@ -1,23 +1,48 @@
 <div class="dashboard-container">
   <div class="content-wrapper">
-    
+
+    @if (isLoading) {
+    <div class="profile-card skeleton-card">
+      <header class="profile-header skeleton-header">
+        <div class="user-info-main">
+          <div class="large-avatar skeleton-shimmer"></div>
+          <div class="name-meta">
+            <div class="skeleton-line title skeleton-shimmer"></div>
+            <div class="skeleton-line subtitle skeleton-shimmer"></div>
+          </div>
+        </div>
+      </header>
+      <div class="profile-body">
+        <div class="form-grid">
+          @for (i of [1,2,3,4,5,6,7,8]; track i) {
+          <div class="field">
+            <div class="skeleton-line label skeleton-shimmer"></div>
+            <div class="skeleton-line input skeleton-shimmer"></div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+    }
+
+    @else {
     <div class="profile-card fade-in">
       <header class="profile-header">
         <div class="user-info-main">
           <div class="toast" *ngIf="toastMessage" [ngClass]="toastType">
-  {{ toastMessage }}
-</div>
+            {{ toastMessage }}
+          </div>
           <div class="large-avatar">{{ user.username[0] }}</div>
           <div class="name-meta">
             <h1>{{ user.username }}</h1>
             <p>
-              <span class="badge-branch">{{ profile.branch || 'Student' }}</span> 
-              <span class="meta-sep">•</span> 
+              <span class="badge-branch">{{ profile.branch || 'Student' }}</span>
+              <span class="meta-sep">•</span>
               Sem {{ profile.semester || '-' }}
             </p>
           </div>
         </div>
-        
+
         <div class="profile-actions">
           <button *ngIf="!editMode" (click)="enableEdit()" class="btn-edit">
             <span class="icon">✏️</span> Edit Profile
@@ -31,7 +56,7 @@
 
       <div class="profile-body">
         <div class="form-grid">
-          
+
           <div class="field">
             <label>Phone Number</label>
             <input *ngIf="editMode" [(ngModel)]="profile.phone" type="tel" placeholder="Enter phone number">
@@ -65,24 +90,25 @@
           </div>
 
           <div class="field">
-  <label>Technical Skills</label>
-  <input *ngIf="editMode" [(ngModel)]="profile.skills" placeholder="e.g. Java, Angular, Python">
-  <div *ngIf="!editMode" class="skills-container">
-    <span *ngIf="!profile.skills" class="empty-prompt">Add your skills to stand out to recruiters 💡</span>
-    <div class="skills-list" *ngIf="profile.skills">
-      {{ profile.skills }}
-    </div>
-  </div>
-</div>
+            <label>Technical Skills</label>
+            <input *ngIf="editMode" [(ngModel)]="profile.skills" placeholder="e.g. Java, Angular, Python">
+            <div *ngIf="!editMode" class="skills-container">
+              <span *ngIf="!profile.skills" class="empty-prompt">Add your skills to stand out to recruiters 💡</span>
+              <div class="skills-list" *ngIf="profile.skills">
+                {{ profile.skills }}
+              </div>
+            </div>
+          </div>
 
-         <div class="field">
-  <label>GitHub Portfolio</label>
-  <input *ngIf="editMode" [(ngModel)]="profile.github" placeholder="github.com/username">
-  <a *ngIf="!editMode && profile.github" [href]="'https://' + profile.github" target="_blank" class="external-link">
-    View Profile <span>↗</span>
-  </a>
-  <p *ngIf="!editMode && !profile.github" class="empty">Connect your GitHub</p>
-</div>
+          <div class="field">
+            <label>GitHub Portfolio</label>
+            <input *ngIf="editMode" [(ngModel)]="profile.github" placeholder="github.com/username">
+            <a *ngIf="!editMode && profile.github" [href]="'https://' + profile.github" target="_blank"
+              class="external-link">
+              View Profile <span>↗</span>
+            </a>
+            <p *ngIf="!editMode && !profile.github" class="empty">Connect your GitHub</p>
+          </div>
 
           <div class="field">
             <label>LinkedIn URL</label>
@@ -95,13 +121,15 @@
 
           <div class="field full-width">
             <label>Professional Bio</label>
-            <textarea *ngIf="editMode" [(ngModel)]="profile.bio" rows="4" placeholder="Tell us about yourself..."></textarea>
+            <textarea *ngIf="editMode" [(ngModel)]="profile.bio" rows="4"
+              placeholder="Tell us about yourself..."></textarea>
             <p *ngIf="!editMode" class="bio-text">{{ profile.bio || 'Your bio is empty.' }}</p>
           </div>
 
         </div>
       </div>
     </div>
+    }
 
   </div>
 </div>

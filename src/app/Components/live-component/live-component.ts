@@ -20,7 +20,7 @@ export class LiveComponent implements OnInit {
 
   liveForm: FormGroup;
   
-  // ⭐ Professional States
+  //  Professional States
   isLoading: boolean = false;
   toastMessage: string = '';
   toastType: 'success' | 'error' | 'info' = 'info';
@@ -34,6 +34,7 @@ export class LiveComponent implements OnInit {
     this.liveForm = this.fb.group({
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
+      semester:['',Validators.required],
     });
   }
 
@@ -49,9 +50,10 @@ export class LiveComponent implements OnInit {
 
     const start = new Date(this.liveForm.value.startTime);
     const end = new Date(this.liveForm.value.endTime);
+   
     const now = new Date();
 
-    // ⭐ Logic Check: Realistic Validation
+    //  Logic Check: Realistic Validation
     if (start < now) {
       this.showToast("Cannot schedule in the past!", "error");
       return;
@@ -66,7 +68,8 @@ export class LiveComponent implements OnInit {
 
     const data = {
       startTime: this.liveForm.value.startTime + ":00",
-      endTime: this.liveForm.value.endTime + ":00"
+      endTime: this.liveForm.value.endTime + ":00",
+      semester:this.liveForm.value.semester,
     };
 
     const url = `${BASE_URL}/api/faculty/live/${this.problemId}`;
@@ -96,7 +99,7 @@ export class LiveComponent implements OnInit {
     });
   }
 
-  // ⭐ Professional Toast Handler
+  //  Professional Toast Handler
   showToast(msg: string, type: 'success' | 'error' | 'info' = 'info') {
     this.toastMessage = msg;
     this.toastType = type;

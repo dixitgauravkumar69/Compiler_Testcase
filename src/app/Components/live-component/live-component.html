@@ -49,6 +49,17 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label>Target Semester</label>
+          <div class="input-container">
+            <select formControlName="semester" class="dark-input">
+              <option value="" disabled selected>Select Target Semester</option>
+              <option *ngFor="let sem of [1,2,3,4,5,6,7,8]" [value]="sem">Semester {{sem}}</option>
+            </select>
+            <div class="input-focus-glow"></div>
+          </div>
+        </div>
+
       </div>
 
       <div class="actions">

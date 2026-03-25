@@ -16,10 +16,12 @@ export class GetLiveProblems implements OnInit, OnDestroy {
   isLoading: boolean = false;
   errorMsg: string = '';
   attemptedIds: string[] = [];
+   UserId!:Number;
 
   private initialFetchTimer: any;
   private statusUpdateTimer: any;
   private countdownTimer: any;
+ 
 
   constructor(
     private http: HttpClient, 
@@ -28,7 +30,11 @@ export class GetLiveProblems implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+
     const stored = localStorage.getItem("attemptedIds");
+    this.UserId=Number(localStorage.getItem("UserId"));
+
+
     if (stored) {
       this.attemptedIds = stored.split(',');
     }
@@ -96,9 +102,11 @@ export class GetLiveProblems implements OnInit, OnDestroy {
     }, 10000);
   }
 
+
+  
   getLiveProblems() {
     if (this.problemStatements.length === 0) this.isLoading = true;
-    this.http.get<any[]>(`${BASE_URL}/student/getLiveStream`, { withCredentials: true })
+    this.http.get<any[]>(`${BASE_URL}/student/getLiveStream/${this.UserId}`, { withCredentials: true })
       .subscribe({
         next: (res) => {
           this.problemStatements = res || [];

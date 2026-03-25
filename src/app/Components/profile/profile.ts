@@ -36,6 +36,7 @@ export class Profile {
 
   toastMessage: string = '';
 toastType: string = 'success';
+isLoading = true;
 
   constructor(
     private http: HttpClient,
@@ -49,6 +50,8 @@ toastType: string = 'success';
     if (storedEmail) {
       this.email = storedEmail;
     }
+
+    this.isLoading = true;
 
     // get user
     this.http
@@ -64,7 +67,8 @@ toastType: string = 'success';
 
         this.loadProfile();
 
-      });
+      }
+    );
   }
 
  loadProfile() {
@@ -77,9 +81,11 @@ toastType: string = 'success';
           this.profileExists = true;
   
         }
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
+        this.isLoading = false;
         console.warn("Profile not found");
         this.profileExists = false;
         this.editMode = true; 

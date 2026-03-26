@@ -40,6 +40,8 @@ studentSearchQuery: string = '';
   };
   
   private globalTimer: any;
+  isEditMode = false;
+editForm: any = {};
 
   constructor(
     private http: HttpClient,
@@ -239,5 +241,76 @@ studentSearchQuery: string = '';
       s.user.userEmail.toLowerCase().includes(query)
     );
   }
+}
+
+
+
+
+//edit and delete cards of problem in .........................
+
+
+
+ deleteProblem(id: number) {
+  const confirmDelete = confirm("Are you sure you want to delete this problem? This cannot be undone.");
+  
+  if (confirmDelete) {
+    // Call delete service ...............................................
+    this.http.delete(`${BASE_URL}/teacher/deleteProblem/${id}`,{responseType: 'text'}).subscribe({
+      next: () => {
+        this.showToast("🗑️ Problem deleted successfully");
+        this.cdr.detectChanges();
+      
+      },
+      error: (err) => this.showToast("Error deleting: " + err.status)
+    });
+  }
+}
+
+
+
+
+editProblem(problem: any) {
+  this.isLoading = true; // Loader start
+  
+  // STEP 1: Sabse pehle API se get request se data la ke form fill kr lia..............
+  this.http.get<any>(`${BASE_URL}/teacher/editProblem/${problem.id}`).subscribe({
+    next: (data) => {
+      // STEP 2: Jab data aa jaye, tab form fill kia aur dikhaya......
+      this.editForm = { ...data }; 
+      this.isEditMode = true;
+      this.isLoading = false;
+      this.showToast("Problem details loaded", "info");
+    },
+    error: (err) => {
+      this.handleError(err, "Could not fetch problem details");
+      this.isLoading = false;
+    }
+  });
+}
+
+// ---  Update Problem Method (New logic with PATCH) --- when we click save button than after actual patch request will trigger
+updateProblem() {
+  if (!this.editForm.title || !this.editForm.problemStatement) {
+    this.showToast("Required fields are missing!", "warning");
+    return;
+  }
+
+  this.isLoading = true;
+  const problemId = this.editForm.id;
+
+  // STEP 3: Jab user update click kare, tab Patch request maro
+  this.http.patch(`${BASE_URL}/teacher/updateProblem/${problemId}`, this.editForm, { responseType: 'text' })
+    .subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.isEditMode = false; // Modal close karein
+        this.showToast("🚀 " + response, "success");
+        this.getProblemStatements(); // Refresh logic to show updated data in grid
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.handleError(err, "Update failed");
+      }
+    });
 }
 }

@@ -1,0 +1,171 @@
+.performance-container {
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.stats-header {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #eef2f6;
+}
+
+.stat-card.blue { border-left: 6px solid #4f46e5; }
+.stat-card.purple { border-left: 6px solid #9333ea; }
+
+.stat-icon { font-size: 2.5rem; }
+.stat-content h3 { margin: 0; font-size: 1.8rem; color: #1e293b; }
+.stat-content p { margin: 0; color: #64748b; font-weight: 500; }
+
+.list-wrapper h2 {
+  font-size: 1.2rem;
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+.report-item {
+  background: white;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
+}
+
+.report-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+  border-color: #4f46e5;
+}
+
+.problem-meta { display: flex; gap: 15px; align-items: center; }
+.id-badge {
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.problem-details h4 { margin: 0; font-size: 1rem; color: #334155; }
+.problem-details small { color: #94a3b8; }
+
+.performance-metrics { display: flex; gap: 30px; }
+.metric { text-align: center; }
+.metric .label { display: block; font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; }
+.metric .value { font-weight: 700; font-size: 1rem; }
+.metric .value.score { color: #4f46e5; }
+.metric .value.score.zero { color: #ef4444; }
+.metric .value.time { color: #1e293b; font-family: 'Courier New', Courier, monospace; }
+
+.loader { text-align: center; padding: 50px; }
+.spinner {
+  width: 40px; height: 40px; border: 4px solid #f3f3f3;
+  border-top: 4px solid #4f46e5; border-radius: 50%;
+  animation: spin 1s linear infinite; margin: 0 auto 10px;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.analytics-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.chart-container, .insight-card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #eef2f6;
+}
+
+.chart-container h3, .insight-card h3 {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #1e293b;
+}
+
+canvas {
+  max-height: 300px; /* Chart ko manage-able size mein rakhne ke liye */
+}
+
+@media (max-width: 768px) {
+  .analytics-section { grid-template-columns: 1fr; }
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #4f46e5; /* Indigo Theme Color */
+  border: 2px solid #eef2f6;
+  padding: 10px 20px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  outline: none;
+}
+
+/* Icon (Arrow) Styling */
+.btn-back .icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+/* Hover Effects */
+.btn-back:hover {
+  background: #4f46e5;
+  color: #ffffff;
+  border-color: #4f46e5;
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Arrow Slide Animation on Hover */
+.btn-back:hover .icon {
+  transform: translateX(-5px);
+}
+
+/* Active/Click Effect */
+.btn-back:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+}
+
+/* Text Styling */
+.btn-back .text {
+  letter-spacing: 0.3px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .btn-back {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+}

@@ -1,6 +1,3 @@
- <!-- Section for show any action in upper part of UI.... -->
-
-
 <div class="toast-container" [class.show]="toast.show" [ngClass]="toast.type">
   <div class="toast-content">
     <span class="toast-icon">
@@ -72,6 +69,53 @@
       <p style="color: #64748b; margin-top: 15px; font-weight: 500;">Updating System...</p>
     </div>
 
+
+    <div class="edit-overlay fade-in" *ngIf="isEditMode">
+    <div class="edit-modal-card">
+      <div class="modal-header">
+        <div class="header-info">
+          <span class="edit-badge">EDIT MODE</span>
+          <h3>Update Problem #{{editForm.problemId}}</h3>
+        </div>
+        <button class="close-btn" (click)="isEditMode = false">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Problem Title</label>
+          <input type="text" [(ngModel)]="editForm.title" placeholder="Enter title...">
+        </div>
+
+        <div class="form-group">
+          <label>Problem Statement</label>
+          <textarea [(ngModel)]="editForm.problemStatement" rows="6" placeholder="Describe the challenge..."></textarea>
+        </div>
+
+        <div class="form-row-flex" style="display: flex; gap: 15px;">
+          <div class="form-group" style="flex: 1;">
+            <label>Semester</label>
+            <input type="number" [(ngModel)]="editForm.semester">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>Status (Live)</label>
+            <select [(ngModel)]="editForm.isLive" class="form-control-select">
+              <option [ngValue]="true">Live</option>
+              <option [ngValue]="false">Draft</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-view" style="background: #f1f5f9; color: #64748b;" (click)="isEditMode = false">Cancel</button>
+        <button class="btn-assign" (click)="updateProblem()" [disabled]="isLoading">
+          {{ isLoading ? 'Updating...' : '💾 Save Changes' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+
     <div class="content-wrapper" *ngIf="!isLoading">
       
       <section *ngIf="activeSection === 'see'" class="fade-in">
@@ -109,8 +153,26 @@
               <span class="status-badge" [ngClass]="ps.statusClass">
                 {{ ps.statusText }}
               </span>
-            </div>
+             
+            <span class="status-badge" [ngClass]="ps.statusClass">
+                {{ ps.semester }} SEM
+              </span>
+              
 
+            <div class="header-actions">
+    <button class="btn-edit-ghost" (click)="editProblem(ps)">
+      <span class="icon">✏️</span> 
+    </button>
+    
+    <button class="btn-delete-ghost" (click)="deleteProblem(ps.id)">
+      <span class="icon">🗑️</span>
+    </button>
+  </div>
+
+          
+
+            </div>
+             
             <div class="card-body">
               <h3 style="font-size: 1rem; color: #1e293b; margin-bottom: 8px;">Problem Statement</h3>
               <p class="truncate-text" style="color: #64748b; font-size: 0.9rem;">{{ ps.problemStatement }}</p>

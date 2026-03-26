@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, signal, inject } from '@angular/core'; 
+import { Component, signal, inject, computed } from '@angular/core'; 
 import { FormsModule } from '@angular/forms';
 import { BASE_URL } from '../../../Environments/environment';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -28,6 +28,47 @@ export class CampusComponent {
   selectedCompany = signal<any>(null);
 
   teacherId:Number=Number(localStorage.getItem("UserId")); 
+
+// for searhing componies and students in there tabs........
+  companySearchQuery = signal<string>('');
+  studentSearchQuery = signal<string>('');
+
+  //  FILTERED COMPANIES (Computed).... for find calculated or derived values...
+  filteredCompanies = computed(() => {
+    const query = this.companySearchQuery().toLowerCase();
+    const data = this.availableComponies();
+    if (!query) return data;
+    return data.filter(item => 
+     item.company?.toLowerCase().includes(query) || 
+      item.location?.toLowerCase().includes(query) ||
+      item.eligibleBranch?.toLowerCase().includes(query) ||
+      item.industry?.toLowerCase().includes(query)
+    );
+  });
+
+  // FILTERED STUDENTS (Computed)
+  filteredStudents = computed(() => {
+    const query = this.studentSearchQuery().toLowerCase();
+    const data = this.students();
+    if (!query) return data;
+    return data.filter(item => 
+     item.user?.username?.toLowerCase().includes(query) || 
+      item.user?.userEmail?.toLowerCase().includes(query) ||
+      item.applicationStatus?.toLowerCase().includes(query)
+    );
+  });
+
+
+  // Helper method for search inputs
+  updateCompanySearch(event: Event) {
+    const val = (event.target as HTMLInputElement).value;
+    this.companySearchQuery.set(val);
+  }
+
+  updateStudentSearch(event: Event) {
+    const val = (event.target as HTMLInputElement).value;
+    this.studentSearchQuery.set(val);
+  }
 
   // 3. JOB MODEL
   job: any = {

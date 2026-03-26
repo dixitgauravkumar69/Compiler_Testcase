@@ -18,6 +18,9 @@
     </div>
 
     <nav class="nav-links">
+       <a routerLink="/StudentLeaderBoard" class="nav-item"   routerLinkActive="active" >
+          🏆 Coding Performance
+       </a> 
       <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
         <span class="icon">👤</span> <span class="text">My Profile</span>
       </a>
@@ -30,7 +33,7 @@
       <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
         <span class="icon">💻</span> <span class="text">Coding Arena</span>
       </a>
-
+     
       <a routerLink="/studentLive" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
         <span class="icon">🟢</span> <span class="text">Live(Stream Test)</span>
       </a>
@@ -45,34 +48,34 @@
 
   <main class="main-content">
     
-    <div class="content-header">
-      <div class="title-section">
-        <div 
-  class="toast" 
-  *ngIf="toastMessage"
-  [ngClass]="toastType"
->
-  {{ toastMessage }}
-</div>
-        <h2>Coding Challenges</h2>
-        <p>Sharpen your skills by solving assigned problems.</p>
+    <div class="content-header" style="margin-bottom: 30px;">
+      <div class="header-main-flex" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <div class="title-section">
+          <h2 style="margin: 0; color: #1e293b;">Coding Challenges</h2>
+          <p style="margin: 5px 0 0; color: #64748b;">Sharpen your skills by solving assigned problems.</p>
+        </div>
+        
+        
       </div>
-      <div class="stats-mini" *ngIf="!loading">
-        Total Tasks: <strong>{{ questions.length }}</strong>
-      </div>
-    </div>
 
-    <div *ngIf="loading" class="loader-container">
+      <div class="toast" *ngIf="toastMessage" [ngClass]="toastType" style="margin-top: 15px;">
+        {{ toastMessage }}
+      </div>
+
+      <div class="stats-mini" *ngIf="!loading" style="margin-top: 15px; font-size: 0.9rem; color: #94a3b8;">
+        Total Tasks: <strong style="color: #4f46e5;">{{ questions.length }}</strong>
+      </div>
+    </div> <div *ngIf="loading" class="loader-container" style="text-align: center; padding: 50px;">
       <div class="spinner"></div>
-      <p>Fetching your challenges...</p>
+      <p style="color: #64748b; margin-top: 10px;">Fetching your challenges...</p>
     </div>
 
-    <div class="problems-grid" *ngIf="!loading">
+    <div class="problems-grid" *ngIf="!loading && questions.length > 0">
       <div *ngFor="let q of questions" class="problem-card">
         <div class="card-tag">#{{q.id}}</div>
         <div class="card-content">
           <h3>Algorithm Challenge</h3>
-          <p>{{q.problemStatement}}</p>
+          <p class="truncate-text">{{q.problemStatement}}</p>
         </div>
         <div class="card-footer">
           <button class="solve-btn" (click)="solve(q.id)">
@@ -82,12 +85,13 @@
       </div>
     </div>
 
-    <div *ngIf="!loading && questions.length === 0" class="empty-state">
-      <div class="empty-icon">📂</div>
-      <p>No problems assigned yet. Take a rest!</p>
+    <div *ngIf="!loading && questions.length === 0" class="empty-state" style="text-align: center; padding: 80px 20px;">
+      <div class="empty-icon" style="font-size: 3rem; margin-bottom: 15px;">📂</div>
+      <h3 style="color: #1e293b;">No challenges assigned</h3>
+      <p style="color: #64748b;">Take a rest or check back later!</p>
     </div>
 
-    <div class="pagination-wrapper" *ngIf="totalPages > 1">
+    <div class="pagination-wrapper" *ngIf="!loading && totalPages > 1">
       <button class="pag-btn" [disabled]="currentPage === 0" (click)="getQuestions(currentPage - 1)">
         &laquo; Previous
       </button>

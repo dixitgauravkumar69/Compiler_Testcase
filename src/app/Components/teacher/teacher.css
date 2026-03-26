@@ -383,3 +383,115 @@
     width: calc(100% - 30px);
   }
 }
+
+/* Container to push buttons to the right */
+.header-actions {
+  margin-left: 20 px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Base style for both ghost buttons */
+.btn-edit-ghost, .btn-delete-ghost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e2e8f0;
+  background: white;
+}
+
+/* Edit Button Specifics */
+.btn-edit-ghost {
+  color: #64748b;
+}
+
+.btn-edit-ghost:hover {
+  color: #4f46e5;
+  border-color: #4f46e5;
+  background-color: #f5f3ff;
+}
+
+/* Delete Button Specifics (Danger Style) */
+.btn-delete-ghost {
+  color: #94a3b8; /* Faded by default */
+  padding: 6px 8px; /* Square-ish for just the icon */
+}
+
+.btn-delete-ghost:hover {
+  color: #ef4444; /* Red-500 */
+  border-color: #fecaca; /* Red-200 */
+  background-color: #fef2f2; /* Red-50 */
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+}
+
+/* Active animation */
+.btn-delete-ghost:active {
+  transform: scale(0.9);
+}
+
+.icon {
+  font-size: 0.9rem;
+}
+
+/* Inline Semester Styling */
+.semester-tag {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  border: 1px solid #e2e8f0;
+  margin-left: 20 px;
+}
+
+/* Status Colors (Based on your updateLiveStatuses logic) */
+.status-running {
+  background: rgba(34, 197, 94, 0.1) !important;
+  color: #16a34a !important;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.status-scheduled {
+  background: rgba(245, 158, 11, 0.1) !important;
+  color: #d97706 !important;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.status-finished {
+  background: rgba(100, 116, 139, 0.1) !important;
+  color: #475569 !important;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.status-none {
+  background: #f8fafc !important;
+  color: #94a3b8 !important;
+  border: 1px solid #e2e8f0;
+}
+
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 99px; /* Pill shape */
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+ 
+}

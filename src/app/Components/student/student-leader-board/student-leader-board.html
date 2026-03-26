@@ -1,0 +1,66 @@
+<div class="performance-container">
+  <div class="stats-header" *ngIf="!loading">
+    <div class="nav-top-bar" style="margin-bottom: 20px;">
+    <button class="btn-back" (click)="goBack()">
+      <span class="icon">←</span>
+      <span class="text">Back to Coding Arena</span>
+    </button>
+  </div>
+  
+    <div class="stat-card blue">
+      <div class="stat-icon">🎯</div>
+      <div class="stat-content">
+        <h3>{{ reports.length }}</h3>
+        <p>Total Submissions</p>
+      </div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-icon">💎</div>
+      <div class="stat-content">
+        <h3>{{ totalPoints }}</h3>
+        <p>Total Earned Marks</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loader">
+    <div class="spinner"></div>
+    <p>Analyzing your performance...</p>
+  </div>
+
+  <div class="list-wrapper" *ngIf="!loading && reports.length > 0">
+    <h2>Submission History</h2>
+    <div class="report-item" *ngFor="let r of reports">
+      <div class="problem-meta">
+        <span class="id-badge">#{{ r.problem.id }}</span>
+        <div class="problem-details">
+          <h4>{{ r.problem.problemStatement }}</h4>
+          <small>📅 {{ r.problem.startTime | date:'mediumDate' }}</small>
+        </div>
+      </div>
+
+      <div class="performance-metrics">
+        <div class="metric">
+          <span class="label">Marks</span>
+          <span class="value score" [class.zero]="r.marks === 0">{{ r.marks }}</span>
+        </div>
+        <div class="metric">
+          <span class="label">Time Taken</span>
+          <span class="value time">⏱ {{ r.takenTime }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <div *ngIf="!loading && reports.length === 0" class="empty-state">
+    <p>No performance data found. Start solving challenges!</p>
+    <div class="nav-top-bar" style="margin-bottom: 20px;">
+    <button class="btn-back" (click)="goBack()">
+      <span class="icon">←</span>
+      <span class="text">Back to Coding Arena</span>
+    </button>
+  </div>
+  </div>
+</div>

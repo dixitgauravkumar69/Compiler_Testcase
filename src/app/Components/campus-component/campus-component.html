@@ -8,22 +8,15 @@
   </div>
 
   <div class="tabs-nav">
-    <button [class.active]="activeTab() === 'post'" (click)="setTab('post')">
-       Post Campus Information
-    </button>
-    <button [class.active]="activeTab() === 'applied'" (click)="setTab('applied')">
-       Available Companies
-    </button>
-    
-    @if (activeTab() === 'students') {
-      <button class="active">
-         Students Applied
-      </button>
+    <button [class.active]="activeTab() === 'post'" (click)="setTab('post')">Post Campus Information</button>
+    <button [class.active]="activeTab() === 'applied'" (click)="setTab('applied')">Available Companies</button>
+    @if (activeTab() === 'students') { 
+      <button class="active">Students Applied</button> 
     }
   </div>
 
   <div class="content-body">
-
+    
     @if (activeTab() === 'post') {
       <div class="section-header">
         <h2>Create New Job Post</h2>
@@ -86,10 +79,7 @@
                   <label>Semester</label>
                   <select [(ngModel)]="job.semester" name="semester">
                     <option value="">Select</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
+                    <option>5</option><option>6</option><option>7</option><option>8</option>
                   </select>
                 </div>
                 <div class="field">
@@ -118,7 +108,7 @@
                 <textarea [(ngModel)]="job.jobDescription" name="jobDescription"></textarea>
               </div>
               <div class="field full-width">
-                <label>Attachment</label>
+                <label>Attachment (PDF only)</label>
                 <input type="file" (change)="onFileSelected($event)">
               </div>
             </div>
@@ -133,33 +123,30 @@
     }
 
     @if (activeTab() === 'applied') {
-      <div class="section-header">
-        <h2>Available Companies</h2>
-        <p>Click on a company name to view applicants</p>
+      <div class="section-header search-header">
+        <div>
+          <h2>Available Companies</h2>
+          <p>Click on a company name to view applicants</p>
+        </div>
+        <div class="search-bar">
+          <input type="text" placeholder="🔍 Search by company, branch or location..." 
+                 [ngModel]="companySearchQuery()" (ngModelChange)="companySearchQuery.set($event)">
+        </div>
       </div>
 
       <div class="table-outer-wrapper">
         <table class="modern-table">
           <thead>
             <tr>
-              <th>Company</th>
-              <th>Location</th>
-              <th>Package</th>
-              <th>Bond</th>
-              <th>Industry</th>
-              <th>Branch</th>
-              <th>Min CGPA</th>
-              <th>Skills</th>
-              <th>Selection</th>
-              <th>Last Date</th>
+              <th>Company</th><th>Location</th><th>Package</th><th>Bond</th>
+              <th>Industry</th><th>Branch</th><th>Min CGPA</th><th>Skills</th>
+              <th>Selection</th><th>Last Date</th>
             </tr>
           </thead>
           <tbody>
-            @for (item of availableComponies(); track item.id) {
+            @for (item of filteredCompanies(); track item.id) {
             <tr>
-              <td class="company-name-cell clickable-link" (click)="viewStudents(item)">
-                {{ item.company }}
-              </td>
+              <td class="company-name-cell clickable-link" (click)="viewStudents(item)">{{ item.company }}</td>
               <td>{{ item.location }}</td>
               <td><span class="status-badge">{{ item.salaryPackage }}</span></td>
               <td>{{ item.bond }} Yr</td>
@@ -171,72 +158,61 @@
               <td class="date-cell">{{ item.registrationLastDate | date:'mediumDate' }}</td>
             </tr>
             } @empty {
-            <tr>
-              <td colspan="10" class="empty-row">No records found.</td>
-            </tr>
+            <tr><td colspan="10" class="empty-row">No matching records found.</td></tr>
             }
           </tbody>
         </table>
       </div>
     }
 
-   @if (activeTab() === 'students') {
-  <div class="section-header">
-    <div style="display: flex; align-items: center; gap: 15px;">
-      <button class="btn-back" (click)="setTab('applied')">← Back</button>
-      <div>
-        <h2>Applicants for {{ selectedCompany()?.company }}</h2>
-        <p>Viewing students who applied for the {{ selectedCompany()?.title }} role</p>
+    @if (activeTab() === 'students') {
+      <div class="section-header search-header">
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <button class="btn-back" (click)="setTab('applied')">← Back</button>
+          <div>
+            <h2>Applicants for {{ selectedCompany()?.company }}</h2>
+            <p>Role: {{ selectedCompany()?.title }}</p>
+          </div>
+        </div>
+        <div class="search-bar">
+          <input type="text" placeholder="🔍 Search student name or email..." 
+                 [ngModel]="studentSearchQuery()" (ngModelChange)="studentSearchQuery.set($event)">
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="table-outer-wrapper">
-    <table class="modern-table">
-      <thead>
-        <tr>
-          <th>Student Name</th>
-          <th>Email</th>
-          <th>Status</th>
-          <th>Applied Date</th>
-          <th>Eligibility Check</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (item of students(); track item.id) {
-        <tr>
-          <td class="company-name-cell">{{ item.user.username }}</td>
-          <td>{{ item.user.userEmail }}</td>
-          
-          <td>
-            <span class="status-badge" 
-                  [style.background]="item.applicationStatus === 'Applied' ? '#e0f2fe' : '#f0fdf4'"
-                  [style.color]="item.applicationStatus === 'Applied' ? '#0369a1' : '#15803d'">
-              {{ item.applicationStatus }}
-            </span>
-          </td>
-
-          <td class="date-cell">{{ item.appliedDate | date:'medium' }}</td>
-
-          <td>
-            <span [style.color]="item.campus.eligibleBranch === 'CSE' ? '#22c55e' : '#64748b'">
-              {{ item.campus.eligibleBranch }} Eligible
-            </span>
-          </td>
-        </tr>
-        } @empty {
-        <tr>
-          <td colspan="5" class="empty-row">
-            <div style="padding: 40px;">
-                <p>No applications received for this drive yet.</p>
-            </div>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-}
-
+      <div class="table-outer-wrapper">
+        <table class="modern-table">
+          <thead>
+            <tr>
+              <th>Student Name</th><th>Email</th><th>Status</th>
+              <th>Applied Date</th><th>Eligibility</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of filteredStudents(); track item.id) {
+            <tr>
+              <td class="company-name-cell">{{ item.user.username }}</td>
+              <td>{{ item.user.userEmail }}</td>
+              <td>
+                <span class="status-badge" 
+                      [style.background]="item.applicationStatus === 'Applied' ? '#e0f2fe' : '#f0fdf4'"
+                      [style.color]="item.applicationStatus === 'Applied' ? '#0369a1' : '#15803d'">
+                  {{ item.applicationStatus }}
+                </span>
+              </td>
+              <td class="date-cell">{{ item.appliedDate | date:'medium' }}</td>
+              <td>
+                <span [style.color]="item.campus.eligibleBranch === 'CSE' ? '#22c55e' : '#64748b'">
+                  {{ item.campus.eligibleBranch }} Eligible
+                </span>
+              </td>
+            </tr>
+            } @empty {
+            <tr><td colspan="5" class="empty-row">No students match your search.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </div>
 </div>

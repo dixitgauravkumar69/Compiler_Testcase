@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { BASE_URL } from '../../../../Environments/environment';
 
 @Component({
   selector: 'app-student-leader-board',
@@ -15,7 +16,7 @@ export class StudentLeaderBoard implements OnInit {
   reports: any[] = [];
   loading: boolean = true;
   totalPoints: number = 0;
-  userId: number = 152; // Static for now, as per your API URL
+  userId: Number = Number(localStorage.getItem("UserId")); // Static for now, as per your API URL
 
   constructor(private http: HttpClient,private cdr:ChangeDetectorRef,private router:Router) {}
 
@@ -25,7 +26,7 @@ export class StudentLeaderBoard implements OnInit {
 
   fetchPerformance() {
     this.loading = true;
-    this.http.get<any[]>(`http://localhost:8080/api/student/getYourPerformance/${this.userId}`)
+    this.http.get<any[]>(`${BASE_URL}/api/student/getYourPerformance/${this.userId}`)
       .subscribe({
         next: (data) => {
           this.reports = data;

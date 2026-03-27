@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { BASE_URL } from '../../../Environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resume-generate',
@@ -23,7 +24,11 @@ export class GenerateResume {
     cgpa: '',
     skills: '',
     github: '',
-    linkedin: ''
+    linkedin: '',
+    highSchool:'',
+    highSchoolMarks:'',
+    higherSecondary:'',
+    higherScondarymarks:'',
   };
 
   extra: any = {
@@ -32,6 +37,7 @@ export class GenerateResume {
     summary: '',
     achievements:'',
     bio:'',
+  
   };
 
   email!: string;
@@ -43,7 +49,8 @@ toastMessage = '';
 toastType = 'success';
 
   constructor(private http: HttpClient,
-    private cdr:ChangeDetectorRef
+    private cdr:ChangeDetectorRef,
+    private router:Router,
   ) {}
 
   ngOnInit() {
@@ -94,6 +101,12 @@ toastType = 'success';
           this.profile.skills = data.skills || '';
           this.profile.github = data.github || '';
           this.profile.linkedin = data.linkedin || '';
+          this.profile.highSchool=data.highSchool || '';
+          this.profile.highSchoolMarks=data.highSchoolMarks || '';
+          this.profile.higherSecondary=data.higherSecondary || '';
+          this.profile.higherSecondaryMarks=data.higherSecondaryMarks || '';
+          
+        
           
         }
         this.cdr.detectChanges();
@@ -128,10 +141,16 @@ toastType = 'success';
  
         setTimeout(() => {
           this.showToast("Resume drafted successfully! You can getResume... ✨", "success");
+       
+          this.resetExtraFields();
+         
+  
          
           this.isProcessing = false;
           this.cdr.detectChanges();
         }, 1500);
+
+      
       },
       error: () => {
         this.showToast("Failed to save resume data. Please try again.", "error");
@@ -182,5 +201,21 @@ showToast(msg: string, type: string = 'success') {
     this.toastMessage = '';
     this.cdr.detectChanges();
   }, 4000);
+}
+
+
+resetExtraFields() {
+  this.extra = {
+    projects: '',
+    internships: '',
+    summary: '',
+    achievements: '',
+    bio: ''
+  };
+}
+
+goBack()
+{
+   this.router.navigate(["/student"]);
 }
 }

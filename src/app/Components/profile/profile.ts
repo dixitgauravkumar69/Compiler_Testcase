@@ -25,7 +25,11 @@ export class Profile {
     skills: '',
     github: '',
     linkedin: '',
-    bio: ''
+    bio: '',
+     highSchool:'',
+    highSchoolMarks:'',
+    higherSecondary:'',
+    higherScondarymarks:'',
   };
 
   email!: string;
@@ -37,6 +41,11 @@ export class Profile {
   toastMessage: string = '';
 toastType: string = 'success';
 isLoading = true;
+
+
+isUploading = false;
+
+
 
   constructor(
     private http: HttpClient,
@@ -71,6 +80,42 @@ isLoading = true;
     );
   }
 
+
+ onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      // Preview ke liye hum 'img' field update karenge kyunki HTML usey hi read kar raha hai
+      this.profile.img = e.target.result; 
+    };
+    reader.readAsDataURL(file);
+
+    this.isUploading = true;
+    this.showToast("Uploading profile picture... ⏳", "info");
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.http.post(`${BASE_URL}/api/student/uploadImg/${this.userId}`, formData)
+      .subscribe({
+        next: (res: any) => {
+          this.isUploading = false;
+          //  Backend 'img' bhej raha hai (aapke JSON sample ke mutabik)
+          if (res && res.img) {
+            this.profile.img = res.img; 
+          }
+          this.showToast("Profile picture updated! ✨", "success");
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.isUploading = false;
+          this.showToast("Upload failed.", "error");
+          this.cdr.detectChanges();
+        }
+      });
+  }
+}
  loadProfile() {
   this.http
     .get(`${BASE_URL}/api/student/Profile/` + this.userId)
@@ -78,6 +123,12 @@ isLoading = true;
       next: (data: any) => {
         if (data) {
           this.profile = data;
+
+          if (data.img) {
+          this.profile.profilePic = data.img;
+        }
+
+        console.log("Profile Loaded with Image:", this.profile.profilePic);
           this.profileExists = true;
   
         }

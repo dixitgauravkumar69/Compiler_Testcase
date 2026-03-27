@@ -360,3 +360,67 @@ textarea {
   cursor: not-allowed;
   filter: grayscale(0.5);
 }
+/* Back Button Container Alignment */
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e0e0e0;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Icon Styling */
+.btn-back .icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+  color: #0091ca; /* Aapka primary blue color */
+}
+
+/* Text Styling */
+.btn-back .text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Hover Effects */
+.btn-back:hover {
+  background: #ffffff;
+  border-color: #0091ca;
+  box-shadow: 0 4px 12px rgba(0, 145, 202, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Hover pe Arrow move hoga */
+.btn-back:hover .icon {
+  transform: translateX(-5px);
+  color: #0077a8;
+}
+
+.btn-back:hover .text {
+  color: #000;
+}
+
+/* Active/Click Effect */
+.btn-back:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .btn-back {
+    padding: 8px 14px;
+    width: fit-content;
+  }
+  .btn-back .text {
+    font-size: 0.85rem;
+  }
+}

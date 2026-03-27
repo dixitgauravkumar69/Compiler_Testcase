@@ -14,7 +14,7 @@
       </header>
       <div class="profile-body">
         <div class="form-grid">
-          @for (i of [1,2,3,4,5,6,7,8]; track i) {
+          @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track i) {
           <div class="field">
             <div class="skeleton-line label skeleton-shimmer"></div>
             <div class="skeleton-line input skeleton-shimmer"></div>
@@ -32,9 +32,27 @@
           <div class="toast" *ngIf="toastMessage" [ngClass]="toastType">
             {{ toastMessage }}
           </div>
-          <div class="large-avatar">{{ user.username[0] }}</div>
+
+          <div class="profile-image-container">
+            <div class="large-avatar" 
+                 [style.background-image]="profile.img ? 'url(' + profile.img + ')' : 'none'"
+                 [class.has-image]="profile.img">
+              
+              <span *ngIf="!profile.img">{{ user?.username?.[0] || '?' }}</span>
+
+              <label class="upload-overlay" *ngIf="editMode">
+                <span class="upload-icon">📷</span>
+                <input type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
+              </label>
+            </div>
+
+            <div class="upload-spinner-overlay" *ngIf="isUploading">
+              <div class="spinner"></div>
+            </div>
+          </div>
+
           <div class="name-meta">
-            <h1>{{ user.username }}</h1>
+            <h1>{{ user?.username }}</h1>
             <p>
               <span class="badge-branch">{{ profile.branch || 'Student' }}</span>
               <span class="meta-sep">•</span>
@@ -56,80 +74,70 @@
 
       <div class="profile-body">
         <div class="form-grid">
-
           <div class="field">
             <label>Phone Number</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.phone" type="tel" placeholder="Enter phone number">
-            <p *ngIf="!editMode" [class.empty]="!profile.phone">{{ profile.phone || 'Not added' }}</p>
+            <input *ngIf="editMode" [(ngModel)]="profile.phone" type="tel" />
+            <p *ngIf="!editMode">{{ profile.phone || 'Not added' }}</p>
           </div>
 
           <div class="field">
             <label>College / University</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.college" placeholder="College name">
-            <p *ngIf="!editMode" [class.empty]="!profile.college">{{ profile.college || 'Not added' }}</p>
+            <input *ngIf="editMode" [(ngModel)]="profile.college" />
+            <p *ngIf="!editMode">{{ profile.college || 'Not added' }}</p>
           </div>
 
           <div class="field">
-            <label>Branch</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.branch" placeholder="e.g. Computer Science">
-            <p *ngIf="!editMode" [class.empty]="!profile.branch">{{ profile.branch || 'Not added' }}</p>
+            <label>12th School Name</label>
+            <input *ngIf="editMode" [(ngModel)]="profile.higherSecondary" placeholder="School Name" />
+            <p *ngIf="!editMode" [class.empty]="!profile.higherSecondary">
+              {{ profile.higherSecondary || 'Not added' }}
+            </p>
           </div>
 
           <div class="field">
-            <label>Semester</label>
-            <input *ngIf="editMode" type="number" [(ngModel)]="profile.semester">
-            <p *ngIf="!editMode" [class.empty]="!profile.semester">{{ profile.semester || 'Not added' }}</p>
+            <label>12th Marks (%)</label>
+            <input *ngIf="editMode" [(ngModel)]="profile.higherSecondaryMarks" placeholder="e.g. 92%" />
+            <p *ngIf="!editMode" [class.empty]="!profile.higherSecondaryMarks">
+              {{ profile.higherSecondaryMarks || 'Not added' }}
+            </p>
           </div>
 
           <div class="field">
-            <label>Current CGPA</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.cgpa" placeholder="e.g. 8.5">
-            <div *ngIf="!editMode">
-              <span class="cgpa-badge">{{ profile.cgpa || '0.0' }}</span>
-            </div>
+            <label>10th School Name</label>
+            <input *ngIf="editMode" [(ngModel)]="profile.highSchool" placeholder="School Name" />
+            <p *ngIf="!editMode" [class.empty]="!profile.highSchool">
+              {{ profile.highSchool || 'Not added' }}
+            </p>
           </div>
 
           <div class="field">
-            <label>Technical Skills</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.skills" placeholder="e.g. Java, Angular, Python">
-            <div *ngIf="!editMode" class="skills-container">
-              <span *ngIf="!profile.skills" class="empty-prompt">Add your skills to stand out to recruiters 💡</span>
-              <div class="skills-list" *ngIf="profile.skills">
-                {{ profile.skills }}
-              </div>
-            </div>
+            <label>10th Marks (%)</label>
+            <input *ngIf="editMode" [(ngModel)]="profile.highSchoolMarks" placeholder="e.g. 95%" />
+            <p *ngIf="!editMode" [class.empty]="!profile.highSchoolMarks">
+              {{ profile.highSchoolMarks || 'Not added' }}
+            </p>
           </div>
 
           <div class="field">
             <label>GitHub Portfolio</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.github" placeholder="github.com/username">
-            <a *ngIf="!editMode && profile.github" [href]="'https://' + profile.github" target="_blank"
-              class="external-link">
-              View Profile <span>↗</span>
-            </a>
-            <p *ngIf="!editMode && !profile.github" class="empty">Connect your GitHub</p>
+            <input *ngIf="editMode" [(ngModel)]="profile.github" />
+            <p *ngIf="!editMode">{{ profile.github || 'Not connected' }}</p>
           </div>
 
           <div class="field">
             <label>LinkedIn URL</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.linkedin" placeholder="linkedin.com/in/user">
-            <p *ngIf="!editMode" class="link-txt">
-              <span *ngIf="profile.linkedin">🔗 {{ profile.linkedin }}</span>
-              <span *ngIf="!profile.linkedin" class="empty">Not added</span>
-            </p>
+            <input *ngIf="editMode" [(ngModel)]="profile.linkedin" />
+            <p *ngIf="!editMode">{{ profile.linkedin || 'Not added' }}</p>
           </div>
 
           <div class="field full-width">
             <label>Professional Bio</label>
-            <textarea *ngIf="editMode" [(ngModel)]="profile.bio" rows="4"
-              placeholder="Tell us about yourself..."></textarea>
-            <p *ngIf="!editMode" class="bio-text">{{ profile.bio || 'Your bio is empty.' }}</p>
+            <textarea *ngIf="editMode" [(ngModel)]="profile.bio" rows="3"></textarea>
+            <p *ngIf="!editMode" class="bio-text">{{ profile.bio || 'Bio is empty.' }}</p>
           </div>
-
         </div>
       </div>
     </div>
     }
-
   </div>
 </div>

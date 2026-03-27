@@ -1,8 +1,13 @@
 <div class="toast" *ngIf="toastMessage" [ngClass]="toastType">
   {{ toastMessage }}
 </div>
+
 <div class="dashboard-container">
   <div class="content-wrapper">
+     <button class="btn-back" (click)="goBack()">
+      <span class="icon">←</span>
+      <span class="text">Back to Coding Arena</span>
+    </button>
     
     <div class="resume-builder-card fade-in">
       <header class="builder-header">
@@ -12,8 +17,6 @@
           <p>Create a professional resume in seconds.</p>
         </div>
       </header>
-
-
 
       <form class="resume-form-modern">
         
@@ -44,6 +47,26 @@
               <label>Current CGPA</label>
               <input type="text" [(ngModel)]="profile.cgpa" name="cgpa" placeholder="e.g. 8.5">
             </div>
+
+            <hr class="full-width-hr" style="grid-column: 1 / -1; border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+            <div class="field">
+              <label>Higher Secondary (12th) School</label>
+              <input type="text" [(ngModel)]="profile.higherSecondary" name="higherSecondary" placeholder="School Name">
+            </div>
+            <div class="field">
+              <label>12th Percentage / CGPA</label>
+              <input type="text" [(ngModel)]="profile.higherSecondaryMarks" name="higherSecondaryMarks" placeholder="e.g. 92%">
+            </div>
+
+            <div class="field">
+              <label>High School (10th) Name</label>
+              <input type="text" [(ngModel)]="profile.highSchool" name="highSchool" placeholder="School Name">
+            </div>
+            <div class="field">
+              <label>10th Percentage / CGPA</label>
+              <input type="text" [(ngModel)]="profile.highSchoolMarks" name="highSchoolMarks" placeholder="e.g. 95%">
+            </div>
           </div>
         </div>
 
@@ -69,12 +92,33 @@
           <h3 class="section-title"><span>Experience & Bio</span></h3>
           <div class="form-grid-full">
             <div class="field">
-              <label>Key Projects</label>
-              <textarea [(ngModel)]="extra.projects" name="projects" rows="3" placeholder="Describe projects..."></textarea>
+              <label>Internships</label>
+              <textarea [(ngModel)]="extra.internships" name="internships" rows="3" 
+                placeholder="Company Name | Role | Duration..."></textarea>
             </div>
+
+            <div class="field">
+              <label>Key Projects</label>
+              <textarea [(ngModel)]="extra.projects" name="projects" rows="3" 
+                placeholder="Project Name | Tech Stack | Description..."></textarea>
+            </div>
+
+            <div class="field">
+              <label>Achievements</label>
+              <textarea [(ngModel)]="extra.achievements" name="achievements" rows="2" 
+                placeholder="Hackathons, Certifications, or Academic Awards..."></textarea>
+            </div>
+
+            <div class="field">
+              <label>Short Bio</label>
+              <textarea [(ngModel)]="extra.bio" name="bio" rows="2" 
+                placeholder="A quick intro about yourself..."></textarea>
+            </div>
+
             <div class="field">
               <label>Professional Summary</label>
-              <textarea [(ngModel)]="extra.summary" name="summary" rows="3" placeholder="Career goals..."></textarea>
+              <textarea [(ngModel)]="extra.summary" name="summary" rows="3" 
+                placeholder="Detailed career goals and expertise..."></textarea>
             </div>
           </div>
         </div>

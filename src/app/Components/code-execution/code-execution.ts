@@ -3,7 +3,7 @@ import { CodeExecutionService } from '../../Services/code-execution-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BASE_URL } from '../../../Environments/environment';
+import { BASE_URL, BASE_URL_CCOMPLEXITY } from '../../../Environments/environment';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,13 +11,12 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './code-execution.html',
-  styleUrls: ['./code-execution.css']
+  styleUrls: ['./code-execution.css'],
 })
 export class CodeExecution implements OnInit, OnDestroy {
-
   // --- UI & State Variables ---
   activeTab: 'problem' | 'code' | 'output' = 'problem';
-  isProcessing: boolean = false; 
+  isProcessing: boolean = false;
   toastMessage: string = '';
   toastType: 'success' | 'error' | 'info' | 'warning' = 'info';
 
@@ -34,16 +33,17 @@ export class CodeExecution implements OnInit, OnDestroy {
 
   // --- Config & IDs ---
   languages = ['JAVA', 'PYTHON', 'CPP'];
-  problemId: number = Number(localStorage.getItem("ProblemId"));
+  problemId: number = Number(localStorage.getItem('ProblemId'));
   userId: number = Number(localStorage.getItem('UserId'));
 
   // --- Timer & Anti-Cheat Logic ---
   minutes: number = 0;
   seconds: number = 0;
   intervalId: any;
-  readonly EXAM_DURATION_MIN = 30; 
-  cheatingCount: number = 0; 
+  readonly EXAM_DURATION_MIN = 30;
+  cheatingCount: number = 0;
   readonly MAX_CHEATING_LIMIT = 3;
+  complexity: string = '';
 
   // --- Storage Keys ---
   private readonly TIMER_KEY = `ExamEndTime_P${this.problemId}_U${this.userId}`;
@@ -55,7 +55,7 @@ export class CodeExecution implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private http: HttpClient,
     private router: Router,
-  ) { }
+  ) {}
 
   // 1. REFRESH DETECTION: Increment cheat count BEFORE the page reloads
   @HostListener('window:beforeunload', ['$event'])
@@ -66,11 +66,11 @@ export class CodeExecution implements OnInit, OnDestroy {
     let currentCheats = Number(localStorage.getItem(this.CHEAT_KEY)) || 0;
     currentCheats++;
     localStorage.setItem(this.CHEAT_KEY, currentCheats.toString());
-    
-    // Set a flag so ngOnInit knows this reload was a cheating attempt
-    localStorage.setItem(this.REFRESH_FLAG, "true");
 
-    $event.returnValue = "Warning: Refreshing counts as a cheating attempt!";
+    // Set a flag so ngOnInit knows this reload was a cheating attempt
+    localStorage.setItem(this.REFRESH_FLAG, 'true');
+
+    $event.returnValue = 'Warning: Refreshing counts as a cheating attempt!';
   }
 
   // 2. TAB SWITCH DETECTION
@@ -78,7 +78,7 @@ export class CodeExecution implements OnInit, OnDestroy {
   onVisibilityChange() {
     if (document.hidden) {
       this.cheatingCount++;
-      this.recordCheating("Tab Switch");
+      this.recordCheating('Tab Switch');
     }
   }
 
@@ -86,7 +86,7 @@ export class CodeExecution implements OnInit, OnDestroy {
   @HostListener('window:blur', [])
   onWindowBlur() {
     this.cheatingCount++;
-    this.recordCheating("Focus Lost");
+    this.recordCheating('Focus Lost');
   }
 
   // 4. BLOCK COPY-PASTE
@@ -94,13 +94,13 @@ export class CodeExecution implements OnInit, OnDestroy {
   @HostListener('window:paste', ['$event'])
   blockCopyPaste(event: any) {
     event.preventDefault();
-    this.showToast("Copy/Paste is blocked!", "warning");
+    this.showToast('Copy/Paste is blocked!', 'warning');
   }
 
   ngOnInit(): void {
     if (!this.problemId || !this.userId) {
-      this.showToast("Session Error! Redirecting...", "error");
-      this.router.navigate(["/student"]);
+      this.showToast('Session Error! Redirecting...', 'error');
+      this.router.navigate(['/student']);
       return;
     }
 
@@ -108,9 +108,9 @@ export class CodeExecution implements OnInit, OnDestroy {
     const savedCheats = localStorage.getItem(this.CHEAT_KEY);
     this.cheatingCount = savedCheats ? Number(savedCheats) : 0;
 
-    if (localStorage.getItem(this.REFRESH_FLAG) === "true") {
-      localStorage.removeItem(this.REFRESH_FLAG); 
-      this.recordCheating("Page Refresh"); 
+    if (localStorage.getItem(this.REFRESH_FLAG) === 'true') {
+      localStorage.removeItem(this.REFRESH_FLAG);
+      this.recordCheating('Page Refresh');
     }
 
     // --- TIMER RESTORE ---
@@ -133,7 +133,7 @@ export class CodeExecution implements OnInit, OnDestroy {
         this.submitCode(true);
       }
     } else {
-      const newEndTime = now + (this.EXAM_DURATION_MIN * 60 * 1000);
+      const newEndTime = now + this.EXAM_DURATION_MIN * 60 * 1000;
       localStorage.setItem(this.TIMER_KEY, newEndTime.toString());
       this.runTimer(newEndTime);
     }
@@ -150,14 +150,14 @@ export class CodeExecution implements OnInit, OnDestroy {
         clearInterval(this.intervalId);
         this.minutes = 0;
         this.seconds = 0;
-        this.showToast("⏰ Time's up!", "warning");
-        this.submitCode(true); 
+        this.showToast("⏰ Time's up!", 'warning');
+        this.submitCode(true);
         return;
       }
 
       this.minutes = Math.floor(remainingTimeMs / 60000);
       this.seconds = Math.floor((remainingTimeMs % 60000) / 1000);
-      this.cdr.detectChanges(); 
+      this.cdr.detectChanges();
     }, 1000);
   }
 
@@ -167,11 +167,11 @@ export class CodeExecution implements OnInit, OnDestroy {
     localStorage.setItem(this.CHEAT_KEY, this.cheatingCount.toString());
 
     if (this.cheatingCount >= this.MAX_CHEATING_LIMIT) {
-      this.showToast(`🚫 Limit reached! Auto-submitting due to ${reason}`, "error");
+      this.showToast(`🚫 Limit reached! Auto-submitting due to ${reason}`, 'error');
       setTimeout(() => this.submitCode(true), 1500);
     } else {
       const remaining = this.MAX_CHEATING_LIMIT - this.cheatingCount;
-      this.showToast(`⚠️ Warning: ${reason} detected! Attempts left: ${remaining}`, "warning");
+      this.showToast(`⚠️ Warning: ${reason} detected! Attempts left: ${remaining}`, 'warning');
     }
     this.cdr.detectChanges();
   }
@@ -184,7 +184,7 @@ export class CodeExecution implements OnInit, OnDestroy {
         this.description = data.problemStatement;
         this.cdr.detectChanges();
       },
-      error: (err) => this.handleApiError(err, "Problem")
+      error: (err) => this.handleApiError(err, 'Problem'),
     });
   }
 
@@ -198,13 +198,13 @@ export class CodeExecution implements OnInit, OnDestroy {
         }
         this.cdr.detectChanges();
       },
-      error: (err) => this.handleApiError(err, "TestCases")
+      error: (err) => this.handleApiError(err, 'TestCases'),
     });
   }
 
   runCode() {
     if (!this.code.trim()) {
-      this.showToast("Please write code first!", "info");
+      this.showToast('Please write code first!', 'info');
       return;
     }
     this.isProcessing = true;
@@ -212,12 +212,16 @@ export class CodeExecution implements OnInit, OnDestroy {
     this.api.runCode(this.code, this.language, this.problemId).subscribe({
       next: (res: any) => {
         this.isProcessing = false;
+
+     this.getComplexity();
+
+
         let data = typeof res === 'string' ? JSON.parse(res) : res;
         this.output = data.testCases?.join('\n') || data.output || 'No output.';
         this.marks = data.testCases ? (data.marks / data.testCases.length) * 100 : 0;
         this.cdr.detectChanges();
       },
-      error: (err) => this.handleApiError(err, "Execution")
+      error: (err) => this.handleApiError(err, 'Execution'),
     });
   }
 
@@ -231,28 +235,30 @@ export class CodeExecution implements OnInit, OnDestroy {
       marks: this.marks,
       takenTime: this.calculateUsedTime(),
       userId: this.userId,
-      problemId: this.problemId
+      problemId: this.problemId,
     };
 
-    this.http.post(`${BASE_URL}/api/student/SaveStudentCodeInfo/${this.userId}/${this.problemId}`, body, { responseType: 'text' })
+    this.http
+      .post(`${BASE_URL}/api/student/SaveStudentCodeInfo/${this.userId}/${this.problemId}`, body, {
+        responseType: 'text',
+      })
       .subscribe({
         next: () => {
           this.cleanupExamData(); // Cleans Storage on Success
-          this.showToast("🚀 Submitted Successfully!", "success");
+          this.showToast('🚀 Submitted Successfully!', 'success');
           setTimeout(() => this.router.navigate(['/student']), 2000);
-         
         },
         error: (err) => {
           this.isProcessing = false;
-          this.showToast("Submission Failed!", "error");
-        }
+          this.showToast('Submission Failed!', 'error');
+        },
       });
   }
 
   private calculateUsedTime(): string {
     const endTime = Number(localStorage.getItem(this.TIMER_KEY));
-    if (!endTime) return "00:00";
-    
+    if (!endTime) return '00:00';
+
     const totalMs = this.EXAM_DURATION_MIN * 60 * 1000;
     const remainingMs = Math.max(0, endTime - Date.now());
     const usedMs = totalMs - remainingMs;
@@ -268,7 +274,7 @@ export class CodeExecution implements OnInit, OnDestroy {
       marks: this.marks,
       takenTime: this.calculateUsedTime(),
       userId: this.userId,
-      problemId: this.problemId
+      problemId: this.problemId,
     });
     const blob = new Blob([body], { type: 'application/json' });
     navigator.sendBeacon(url, blob);
@@ -280,20 +286,51 @@ export class CodeExecution implements OnInit, OnDestroy {
     localStorage.removeItem(this.TIMER_KEY);
     localStorage.removeItem(this.CHEAT_KEY);
     localStorage.removeItem(this.REFRESH_FLAG);
-    localStorage.removeItem("ProblemId");
+    localStorage.removeItem('ProblemId');
     // We keep UserId and JWT_TOKEN so the user stays logged in
   }
 
   private handleApiError(err: HttpErrorResponse, context: string) {
     this.isProcessing = false;
-    this.showToast(`Error: ${err.status}`, "error");
+    this.showToast(`Error: ${err.status}`, 'error');
     this.cdr.detectChanges();
   }
 
   showToast(msg: string, type: any = 'info') {
-    this.toastMessage = msg; this.toastType = type; this.cdr.detectChanges();
-    setTimeout(() => { this.toastMessage = ''; this.cdr.detectChanges(); }, 4000);
+    this.toastMessage = msg;
+    this.toastType = type;
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.toastMessage = '';
+      this.cdr.detectChanges();
+    }, 4000);
   }
 
-  ngOnDestroy() { if (this.intervalId) clearInterval(this.intervalId); }
+  ngOnDestroy() {
+    if (this.intervalId) clearInterval(this.intervalId);
+  }
+
+  getComplexity() {
+  if (!this.code || !this.language) {
+    console.error("Code or language missing!");
+    return;
+  }
+
+  this.http.post<{complexity: string}>(`${BASE_URL_CCOMPLEXITY}/api/analyze`, {
+    code: this.code,
+    language: this.language.toLowerCase()
+  }).subscribe({
+    next: (res) => {
+      this.complexity = res.complexity || 'Unknown';
+      this.showToast('Complexity calculated successfully  '+ this.complexity);
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error(err);
+      this.complexity = 'Error';
+      this.showToast('Complexity detection failed!', 'error');
+      this.cdr.detectChanges();
+    }
+  });
+}
 }

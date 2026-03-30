@@ -26,6 +26,7 @@
     }
 
     @else {
+        <button (click)="back()">Back</button>
     <div class="profile-card fade-in">
       <header class="profile-header">
         <div class="user-info-main">
@@ -45,11 +46,13 @@
                 <input type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
               </label>
             </div>
+           
 
             <div class="upload-spinner-overlay" *ngIf="isUploading">
               <div class="spinner"></div>
             </div>
           </div>
+         
 
           <div class="name-meta">
             <h1>{{ user?.username }}</h1>

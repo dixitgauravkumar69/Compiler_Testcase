@@ -458,3 +458,51 @@ bottom:10px;
   from { width: 100%; }
   to { width: 0%; }
 }
+
+/* Back Button */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  margin-bottom: 20px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Arrow icon */
+.btn-back::before {
+  content: "←";
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect */
+.btn-back:hover {
+  background: #6366f1;
+  color: #fff;
+  transform: translateX(-5px);
+}
+
+/* Arrow animation */
+.btn-back:hover::before {
+  transform: translateX(-3px);
+}
+
+/* Click effect */
+.btn-back:active {
+  transform: scale(0.95);
+}

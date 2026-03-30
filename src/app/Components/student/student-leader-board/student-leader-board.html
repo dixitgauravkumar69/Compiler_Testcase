@@ -34,8 +34,10 @@
       <div class="problem-meta">
         <span class="id-badge">#{{ r.problem.id }}</span>
         <div class="problem-details">
-          <h4>{{ r.problem.problemStatement }}</h4>
-          <small>📅 {{ r.problem.startTime | date:'mediumDate' }}</small>
+          <h4>{{ r.problem.title }}</h4>
+         <span class="date-badge">📅 {{ r.createdAt | date:'dd MMM yyyy' }}</span>
+         <br>
+             <span class="time-badge">⏰ {{ r.createdAt | date:'hh:mm a' }}</span>
         </div>
       </div>
 

@@ -101,4 +101,9 @@ export class JobDescription implements OnInit {
   getFileName(url: string): string {
     return url ? url.split('/').pop() || 'attachment.pdf' : 'attachment.pdf';
   }
+
+  Back()
+  {
+   this.router.navigate(["/findJobInfo"]) ;
+  }
 }

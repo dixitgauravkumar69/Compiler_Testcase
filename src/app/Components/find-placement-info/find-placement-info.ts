@@ -102,4 +102,9 @@ export class FindPlacementInfo implements OnInit {
       job.title.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
+
+  back()
+  {
+    this.router.navigate(["/student"]);
+  }
 }

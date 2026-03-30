@@ -240,6 +240,7 @@ export class CodeExecution implements OnInit, OnDestroy {
           this.cleanupExamData(); // Cleans Storage on Success
           this.showToast("🚀 Submitted Successfully!", "success");
           setTimeout(() => this.router.navigate(['/student']), 2000);
+         
         },
         error: (err) => {
           this.isProcessing = false;

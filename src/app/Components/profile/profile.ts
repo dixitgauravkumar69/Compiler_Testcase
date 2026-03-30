@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BASE_URL } from '../../../Environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -49,7 +50,8 @@ isUploading = false;
 
   constructor(
     private http: HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router:Router,
   ) {}
 
   ngOnInit(): void {
@@ -180,6 +182,12 @@ showToast(msg: string, type: string = 'success') {
     this.cdr.detectChanges();
   }, 3000);
   this.cdr.detectChanges();
+}
+
+
+back()
+{
+  this.router.navigate(["/student"]);
 }
 
 }

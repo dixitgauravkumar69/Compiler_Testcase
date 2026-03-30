@@ -24,6 +24,7 @@ export class StudentLeaderBoard implements OnInit {
     this.fetchPerformance();
   }
 
+  
   fetchPerformance() {
     this.loading = true;
     this.http.get<any[]>(`${BASE_URL}/api/student/getYourPerformance/${this.userId}`)

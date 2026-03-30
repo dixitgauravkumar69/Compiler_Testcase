@@ -329,3 +329,37 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+button {
+  cursor: pointer;
+}
+
+/* Back Button Styling */
+button:first-of-type {
+  margin-bottom: 15px;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Hover Effect */
+button:first-of-type:hover {
+  background: #e2e8f0;
+  transform: translateX(-3px);
+}
+
+/* Active Click */
+button:first-of-type:active {
+  transform: scale(0.95);
+}
+
+/* Optional Icon Style */
+button:first-of-type::before {
+  content: "← ";
+  font-weight: bold;
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs'; // For performance
 import { BASE_URL } from '../../../Environments/environment';
@@ -10,7 +10,7 @@ import { LiveComponent } from '../live-component/live-component';
 @Component({
   selector: 'app-teacher',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, LiveComponent, FormsModule],
+  imports: [CommonModule,  LiveComponent, FormsModule],
   templateUrl: './teacher.html',
   styleUrls: ['./teacher.css'],
 })

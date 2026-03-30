@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { BASE_URL } from '../../../Environments/environment';
 
 
@@ -28,7 +28,7 @@ interface PageResponse {
     ReactiveFormsModule,
     CommonModule,
     RouterLink,
-    RouterOutlet,
+   
    
   ],
   templateUrl: './student.html',

@@ -326,7 +326,7 @@ export class CodeExecution implements OnInit, OnDestroy {
       this.cdr.detectChanges();
     },
     error: (err) => {
-      console.error(err);
+      console.error(err.message);
       this.complexity = 'Error';
       this.showToast('Complexity detection failed!', 'error');
       this.cdr.detectChanges();

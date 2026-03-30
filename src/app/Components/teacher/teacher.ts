@@ -257,8 +257,9 @@ editForm: any = {};
     // Call delete service ...............................................
     this.http.delete(`${BASE_URL}/teacher/deleteProblem/${id}`,{responseType: 'text'}).subscribe({
       next: () => {
+    
         this.showToast("🗑️ Problem deleted successfully");
-        this.cdr.detectChanges();
+        this.getProblemStatements();
       
       },
       error: (err) => this.showToast("Error deleting: " + err.status)

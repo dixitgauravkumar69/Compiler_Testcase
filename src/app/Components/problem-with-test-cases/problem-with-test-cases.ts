@@ -110,4 +110,9 @@ export class ProblemWithTestCases {
       alert("Sorry Problem can't be add in QUEUE");
     }
   }
+
+  goBack()
+  {
+    this.router.navigate(['/teacher']);
+  }
 }

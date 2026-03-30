@@ -99,7 +99,7 @@
 
           <div class="field">
             <label>12th Marks (%)</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.higherSecondaryMarks" placeholder="e.g. 92%" />
+            <input *ngIf="editMode" [(ngModel)]="profile.higherSecondaryMarks" placeholder="e.g. 92%"    (ngModelChange)="validatePercentage('higherSecondaryMarks')"/>
             <p *ngIf="!editMode" [class.empty]="!profile.higherSecondaryMarks">
               {{ profile.higherSecondaryMarks || 'Not added' }}
             </p>
@@ -115,7 +115,7 @@
 
           <div class="field">
             <label>10th Marks (%)</label>
-            <input *ngIf="editMode" [(ngModel)]="profile.highSchoolMarks" placeholder="e.g. 95%" />
+            <input *ngIf="editMode" [(ngModel)]="profile.highSchoolMarks" placeholder="e.g. 95%"   (ngModelChange)="validatePercentage('highSchoolMarks')"/>
             <p *ngIf="!editMode" [class.empty]="!profile.highSchoolMarks">
               {{ profile.highSchoolMarks || 'Not added' }}
             </p>

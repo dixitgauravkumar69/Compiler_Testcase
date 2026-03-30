@@ -1,22 +1,28 @@
 <div class="logout-page">
+  <div class="logout-card fade-in">
 
-  <div class="logout-card">
+    <!-- Spinner / Success -->
+    <div class="status-icon">
+      <div class="spinner" *ngIf="!done"></div>
+      <div class="checkmark" *ngIf="done">
+        <svg viewBox="0 0 52 52">
+          <path d="M14 27l10 10 14-20" fill="none" stroke="#4BB543" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
 
-```
-  <div class="spinner"></div>
+    <!-- Titles -->
+    <h1 class="title" *ngIf="!done">Logging you out</h1>
+    <h1 class="title success" *ngIf="done">Logged out successfully</h1>
 
-  <h1 class="title" *ngIf="!done">Logging you out</h1>
-  <h1 class="title success" *ngIf="done">Logged out successfully</h1>
+    <!-- Subtitles -->
+    <p class="subtitle" *ngIf="!done">
+      Please wait while we end your secure session...
+    </p>
 
-  <p class="subtitle" *ngIf="!done">
-    Please wait while we end your secure session...
-  </p>
-
-  <p class="subtitle" *ngIf="done">
-    Redirecting to login page
-  </p>
-
+    <p class="subtitle" *ngIf="done">
+      Redirecting to login page...
+    </p>
 
   </div>
-
 </div>

@@ -82,6 +82,10 @@ isUploading = false;
     );
   }
 
+  percentageErrorHigher: boolean = false;
+percentageErrorHigh: boolean = false;
+
+
 
  onFileSelected(event: any) {
   const file = event.target.files[0];
@@ -190,4 +194,26 @@ back()
   this.router.navigate(["/student"]);
 }
 
+
+validatePercentage(field: 'higherSecondaryMarks' | 'highSchoolMarks') {
+  if (field === 'higherSecondaryMarks') {
+    if (this.profile.higherSecondaryMarks > 100) {
+      this.profile.higherSecondaryMarks = null;   //automatically null kr denge and pop up dikha denge 
+      this.showToast("Bro you are genious ! Sorry i can add percentage greater than 100..");
+      this.percentageErrorHigher = true;
+    } else {
+      this.percentageErrorHigher = false;
+    }
+  }
+
+  if (field === 'highSchoolMarks') {
+    if (this.profile.highSchoolMarks > 100) {
+      this.profile.highSchoolMarks = null; // automatically set to null
+      this.showToast("Marks can't be greater than max(100)");
+      this.percentageErrorHigh = true;
+    } else {
+      this.percentageErrorHigh = false;
+    }
+  }
+}
 }

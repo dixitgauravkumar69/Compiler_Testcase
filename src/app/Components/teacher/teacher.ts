@@ -207,8 +207,10 @@ editForm: any = {};
 
   logout() { 
     localStorage.clear(); 
-    this.showToast("Logged out successfully", "info");
-    this.router.navigate(['/login']); 
+    // this.showToast("Logged out successfully", "info");
+    this.router.navigate(["/logout"])
+  
+    
   }
 
   @HostListener('document:click', ['$event'])

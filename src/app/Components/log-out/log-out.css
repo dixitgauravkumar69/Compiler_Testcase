@@ -1,55 +1,92 @@
-.logout-page{
-height:100vh;
-background: linear-gradient(135deg,#4f46e5,#06b6d4);
-display:flex;
-justify-content:center;
-align-items:center;
-font-family:'Segoe UI',sans-serif;
+/* Full page center */
+.logout-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  font-family: 'Poppins', sans-serif;
+  transition: background 0.5s ease;
 }
 
-.logout-card{
-background: rgba(255,255,255,0.15);
-backdrop-filter: blur(12px);
-padding:50px 70px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 20px 50px rgba(0,0,0,0.25);
-color:white;
-animation:fadeIn 0.6s ease;
+/* Card */
+.logout-card {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  width: 320px;
+  max-width: 90%;
+  position: relative;
+  overflow: hidden;
 }
 
-.title{
-font-size:32px;
-margin-top:25px;
-font-weight:700;
+/* Fade in animation */
+.fade-in {
+  animation: fadeIn 0.7s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.success{
-color:#22c55e;
+/* Spinner */
+.spinner {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  border: 6px solid #eee;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-.subtitle{
-margin-top:10px;
-font-size:16px;
-opacity:0.9;
+/* Success checkmark */
+.checkmark svg {
+  width: 60px;
+  height: 60px;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: draw 0.6s ease forwards;
+  margin: 0 auto 20px;
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
 }
 
-.spinner{
-width:60px;
-height:60px;
-border:6px solid rgba(255,255,255,0.3);
-border-top:6px solid white;
-border-radius:50%;
-margin:auto;
-animation:spin 1s linear infinite;
+/* Titles */
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 10px 0;
+  color: #333;
+}
+.title.success { color: #4BB543; }
+
+/* Subtitle */
+.subtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 5px;
 }
 
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
+/* Optional: subtle background pulse effect */
+.logout-page::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 70%);
+  animation: pulse 2s infinite;
+  z-index: 0;
 }
-
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
+@keyframes pulse {
+  0%,100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 0.7; }
 }

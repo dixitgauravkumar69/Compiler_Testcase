@@ -20,16 +20,18 @@ export class LogOut implements OnInit {
   }
 
   logout() {
-
+    // Remove user session
     localStorage.removeItem("JWT_TOKEN");
     localStorage.removeItem("Usermail");
     localStorage.removeItem("UserId");
     localStorage.removeItem("Semester");
 
+    // Show success after 1.5s
     setTimeout(() => {
       this.done = true;
     }, 1500);
 
+    // Redirect after 2.5s
     setTimeout(() => {
       this.router.navigate(['/login']);
     }, 2500);

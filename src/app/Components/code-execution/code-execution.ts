@@ -128,8 +128,14 @@ export class CodeExecution implements OnInit, OnDestroy {
     this.isProcessing = true;
     this.output = 'Executing test cases...';
     
+
+
     // Call Complexity in parallel
-    this.getComplexity();
+    // this.getComplexity();
+
+
+
+
 
     this.api.runCode(this.code, this.language, this.problemId).subscribe({
       next: (res: any) => {
@@ -153,23 +159,23 @@ export class CodeExecution implements OnInit, OnDestroy {
     });
   }
 
-  getComplexity() {
-    const payload = {
-      code: this.code,
-      language: this.language.toLowerCase()
-    };
+  // getComplexity() {
+  //   const payload = {
+  //     code: this.code,
+  //     language: this.language.toLowerCase()
+  //   };
 
-    this.http.post<{complexity: string}>(`${BASE_URL_CCOMPLEXITY}/analyze`, payload).subscribe({
-      next: (res) => {
-        this.complexity = res.complexity;
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.complexity = 'Analysis Failed';
-        this.cdr.detectChanges();
-      }
-    });
-  }
+  //   this.http.post<{complexity: string}>(`${BASE_URL_CCOMPLEXITY}/analyze`, payload).subscribe({
+  //     next: (res) => {
+  //       this.complexity = res.complexity;
+  //       this.cdr.detectChanges();
+  //     },
+  //     error: () => {
+  //       this.complexity = 'Analysis Failed';
+  //       this.cdr.detectChanges();
+  //     }
+  //   });
+  // }
 
   submitCode(isAutoSubmit: boolean = false) {
     // If already processing and it's a manual click, ignore

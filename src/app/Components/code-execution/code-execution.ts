@@ -316,7 +316,7 @@ export class CodeExecution implements OnInit, OnDestroy {
     return;
   }
 
-  this.http.post<{complexity: string}>(`${BASE_URL_CCOMPLEXITY}/api/analyze`, {
+  this.http.post<{complexity: string}>(`${BASE_URL_CCOMPLEXITY}/analyze`, {
     code: this.code,
     language: this.language.toLowerCase()
   }).subscribe({

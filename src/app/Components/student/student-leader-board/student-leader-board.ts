@@ -31,6 +31,7 @@ export class StudentLeaderBoard implements OnInit {
       .subscribe({
         next: (data) => {
           this.reports = data;
+          
           this.calculateTotalPoints();
           this.loading = false;
           this.cdr.detectChanges();

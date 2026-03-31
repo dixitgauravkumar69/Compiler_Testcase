@@ -27,10 +27,13 @@
         <span class="icon">⏱️</span> {{minutes}}:{{seconds < 10 ? '0'+seconds : seconds}}
       </div>
     </div>
-
+      
+    
     <div class="problem-content">
-      <h1 class="problem-title">{{title || 'Problem Title'}}</h1>
-      <div class="description-text"><p>{{description}}</p></div>
+
+     <b> <h1>ProblemID: {{problemId}}</h1></b>
+      <h1 class="problem-title">Title: {{title || 'Problem Title'}}</h1>
+      <div class="description-text"><p>Description: {{description}}</p></div>
 
       <div class="example-box">
         <h4>💡 Example 1</h4>

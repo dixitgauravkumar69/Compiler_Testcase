@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef, HostListener } from '@
 import { CodeExecutionService } from '../../Services/code-execution-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BASE_URL, BASE_URL_CCOMPLEXITY } from '../../../Environments/environment';
 import { Router } from '@angular/router';
 
@@ -14,6 +14,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./code-execution.css'],
 })
 export class CodeExecution implements OnInit, OnDestroy {
+  // 1. IDs FIRST (Top par initialization zaroori hai keys ke liye)
+  problemId: number = Number(localStorage.getItem('ProblemId'));
+  userId: number = Number(localStorage.getItem('UserId'));
+
+  // 2. Keys using those IDs
+  private readonly TIMER_KEY = `ExamEndTime_P${this.problemId}_U${this.userId}`;
+  private readonly CHEAT_KEY = `CheatCount_P${this.problemId}_U${this.userId}`;
+  private readonly REFRESH_FLAG = `HasRefreshed_P${this.problemId}`;
+
   // --- UI & State ---
   activeTab: 'problem' | 'code' | 'output' = 'problem';
   isProcessing: boolean = false;
@@ -22,7 +31,7 @@ export class CodeExecution implements OnInit, OnDestroy {
 
   // --- Problem Data ---
   code: string = '';
-  language: string = 'JAVA'; // Default
+  language: string = 'JAVA'; 
   output: string = '';
   title: string = 'Loading Problem...';
   description: string = '';
@@ -31,26 +40,21 @@ export class CodeExecution implements OnInit, OnDestroy {
   testCases: any[] = [];
   Marks: number = 0;
   complexity: string = 'There is no code';
-  totalTestCases:number=0;
-  level:string='';
+  totalTestCases: number = 0;
+  level: string = '';
+  problemid!:number;
 
-  // --- Config & IDs ---
-  languages = ['JAVA', 'PYTHON', 'CPP'];
-  problemId: number = Number(localStorage.getItem('ProblemId'));
-  userId: number = Number(localStorage.getItem('UserId'));
+  // --- Config ---
+  languages = ['JAVA', 'PYTHON', 'CPP']; // Plural for HTML loop
 
-
-  // --- Anti-Cheat ---
+  // --- Anti-Cheat & Timer ---
   minutes: number = 0;
   seconds: number = 0;
+  elapsedSeconds: number = 0; 
   intervalId: any;
   readonly EXAM_DURATION_MIN = 30;
   cheatingCount: number = 0;
   readonly MAX_CHEATING_LIMIT = 3;
-
-  private readonly TIMER_KEY = `ExamEndTime_P${this.problemId}_U${this.userId}`;
-  private readonly CHEAT_KEY = `CheatCount_P${this.problemId}_U${this.userId}`;
-  private readonly REFRESH_FLAG = `HasRefreshed_P${this.problemId}`;
 
   constructor(
     private api: CodeExecutionService,
@@ -113,15 +117,13 @@ export class CodeExecution implements OnInit, OnDestroy {
 
     if (this.cheatingCount >= this.MAX_CHEATING_LIMIT) {
       this.showToast(`🚫 Limit reached! Auto-submitting due to ${reason}`, 'error');
-      this.submitCode(true); // Trigger Auto Submit
+      this.submitCode(true); 
     } else {
       const remaining = this.MAX_CHEATING_LIMIT - this.cheatingCount;
       this.showToast(`⚠️ Warning: ${reason} detected! Attempts left: ${remaining}`, 'warning');
     }
     this.cdr.detectChanges();
   }
-
-  // --- CORE LOGIC ---
 
   runCode() {
     if (!this.code.trim()) {
@@ -130,37 +132,25 @@ export class CodeExecution implements OnInit, OnDestroy {
     }
     this.isProcessing = true;
     this.output = 'Executing test cases...';
-    
-    
 
     this.api.runCode(this.code, this.language, this.problemId).subscribe({
       next: (res: any) => {
         this.isProcessing = false;
         let data = typeof res === 'string' ? JSON.parse(res) : res;
         this.output = data.testCases?.join('\n') || data.output || 'No output.';
-       this.totalTestCases = data.testCases ? data.testCases.length : 0;
-        
-        console.log("Total test cases: "+this.totalTestCases);
+        this.totalTestCases = data.testCases ? data.testCases.length : 0;
 
-        // Correct Marks Logic
         if (this.totalTestCases > 0) {
-            this.Marks = (data.marks) * 100;     
+          this.Marks = (data.marks) * 100;     
         } else {
-            this.Marks = data.marks || 0;
+          this.Marks = data.marks || 0;
         }
 
-        // Call Complexity in parallel
-
-        if(this.Marks>0)
-        {
+        if(this.Marks > 0) {
            this.getComplexity();
+        } else {
+          this.showToast("Code is not satisfied all cases...");
         }
-       
-      else
-      {
-        this.showToast("Code is not satisfeid all cases...")
-      }
-
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -172,11 +162,7 @@ export class CodeExecution implements OnInit, OnDestroy {
   }
 
   getComplexity() {
-    const payload = {
-      code: this.code,
-      language: this.language.toLowerCase()
-    };
-
+    const payload = { code: this.code, language: this.language.toLowerCase() };
     this.http.post<{complexity: string}>(`${BASE_URL_CCOMPLEXITY}/analyze`, payload).subscribe({
       next: (res) => {
         this.complexity = res.complexity;
@@ -185,14 +171,12 @@ export class CodeExecution implements OnInit, OnDestroy {
       },
       error: () => {
         this.complexity = 'Analysis Failed';
-        this.showToast(this.complexity);
         this.cdr.detectChanges();
       }
     });
   }
 
   submitCode(isAutoSubmit: boolean = false) {
-    // If already processing and it's a manual click, ignore
     if (this.isProcessing && !isAutoSubmit) return;
 
     this.isProcessing = true;
@@ -200,41 +184,35 @@ export class CodeExecution implements OnInit, OnDestroy {
 
     const submitData = {
       marks: this.Marks,
-      takenTime: this.calculateUsedTime(),
+      takenTime: this.calculateUsedTime(), 
       userId: this.userId,
       problemId: this.problemId,
-      complexity: this.complexity // Storing complexity too
+      complexity: this.complexity 
     };
 
     const url = `${BASE_URL}/api/student/SaveStudentCodeInfo/${this.userId}/${this.problemId}`;
 
     this.http.post(url, submitData, { responseType: 'text' }).subscribe({
       next: () => {
+        this.isProcessing = false; 
         this.cleanupExamData();
-        this.showToast(isAutoSubmit ? 'Auto-Submitted successfully!' : '🚀 Submitted Successfully!', 'success');
+        this.showToast(isAutoSubmit ? 'Auto-Submitted!' : '🚀 Submitted Successfully!', 'success');
         setTimeout(() => this.router.navigate(['/student']), 2000);
       },
       error: (err) => {
         this.isProcessing = false;
-        console.error("Submission Error:", err);
-        this.showToast('Submission Failed! Please try again.', 'error');
+        this.showToast('Submission Failed!', 'error');
       }
     });
   }
 
-  // --- HELPERS ---
-
   private initPersistentTimer() {
     let savedEndTime = localStorage.getItem(this.TIMER_KEY);
     const now = Date.now();
-
     if (savedEndTime) {
       const endTime = Number(savedEndTime);
-      if (endTime > now) {
-        this.runTimer(endTime);
-      } else {
-        this.submitCode(true);
-      }
+      if (endTime > now) { this.runTimer(endTime); } 
+      else { this.submitCode(true); }
     } else {
       const newEndTime = now + this.EXAM_DURATION_MIN * 60 * 1000;
       localStorage.setItem(this.TIMER_KEY, newEndTime.toString());
@@ -244,7 +222,11 @@ export class CodeExecution implements OnInit, OnDestroy {
 
   private runTimer(targetEndTime: number) {
     this.intervalId = setInterval(() => {
-      const remainingTimeMs = targetEndTime - Date.now();
+      const now = Date.now();
+      const remainingTimeMs = targetEndTime - now;
+      const totalDurationMs = this.EXAM_DURATION_MIN * 60 * 1000;
+      this.elapsedSeconds = Math.floor((totalDurationMs - remainingTimeMs) / 1000);
+
       if (remainingTimeMs <= 0) {
         clearInterval(this.intervalId);
         this.submitCode(true);
@@ -257,28 +239,24 @@ export class CodeExecution implements OnInit, OnDestroy {
   }
 
   private calculateUsedTime(): string {
-    const endTime = Number(localStorage.getItem(this.TIMER_KEY));
-    const totalMs = this.EXAM_DURATION_MIN * 60 * 1000;
-    const remainingMs = Math.max(0, endTime - Date.now());
-    const usedMs = totalMs - remainingMs;
-    const usedMin = Math.floor(usedMs / 60000);
-    const usedSec = Math.floor((usedMs % 60000) / 1000);
-    return `${usedMin.toString().padStart(2, '0')}:${usedSec.toString().padStart(2, '0')}`;
+    const m = Math.floor(this.elapsedSeconds / 60);
+    const s = this.elapsedSeconds % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   }
 
   private cleanupExamData() {
     localStorage.removeItem(this.TIMER_KEY);
     localStorage.removeItem(this.CHEAT_KEY);
     localStorage.removeItem(this.REFRESH_FLAG);
-    // Don't remove ProblemId here if you need it for the final redirect
   }
 
   fetchProblemData() {
     this.http.get(`${BASE_URL}/api/code/getProblem/${this.problemId}`).subscribe({
       next: (data: any) => {
+        this.problemId=data.id;
         this.title = data.title;
         this.description = data.problemStatement;
-        this.level=data.level;
+        this.level = data.level;
         this.cdr.detectChanges();
       }
     });
@@ -294,7 +272,7 @@ export class CodeExecution implements OnInit, OnDestroy {
   }
 
   handleApiError(err: any, context: string) {
-    this.showToast(`${context} error: ${err.status || 'Server Down'}`, 'error');
+    this.showToast(`${context} error: ${err.status}`, 'error');
   }
 
   showToast(msg: string, type: any = 'info') {
@@ -306,7 +284,6 @@ export class CodeExecution implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.intervalId) clearInterval(this.intervalId);
-
-     this.submitCode(true);
+    if (!this.isProcessing) { this.submitCode(true); }
   }
 }

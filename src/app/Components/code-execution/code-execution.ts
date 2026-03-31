@@ -29,8 +29,9 @@ export class CodeExecution implements OnInit, OnDestroy {
   input: string = '';
   expectedOutput = '';
   testCases: any[] = [];
-  marks: number = 0;
+  Marks: number = 0;
   complexity: string = 'Calculating...';
+  totalTestCases:number=0;
 
   // --- Config & IDs ---
   languages = ['JAVA', 'PYTHON', 'CPP'];
@@ -128,27 +129,27 @@ export class CodeExecution implements OnInit, OnDestroy {
     this.isProcessing = true;
     this.output = 'Executing test cases...';
     
-
-
-    // Call Complexity in parallel
-    // this.getComplexity();
-
-
-
-
+    
 
     this.api.runCode(this.code, this.language, this.problemId).subscribe({
       next: (res: any) => {
         this.isProcessing = false;
         let data = typeof res === 'string' ? JSON.parse(res) : res;
         this.output = data.testCases?.join('\n') || data.output || 'No output.';
+       this.totalTestCases = data.testCases ? data.testCases.length : 0;
         
+        console.log("Total test cases: "+this.totalTestCases);
+
         // Correct Marks Logic
-        if (data.totalTestCases > 0) {
-            this.marks = (data.passedCount / data.totalTestCases) * 100;
+        if (this.totalTestCases > 0) {
+            this.Marks = (data.marks) * 100;     
         } else {
-            this.marks = data.marks || 0;
+            this.Marks = data.marks || 0;
         }
+
+        // Call Complexity in parallel
+        this.getComplexity();
+
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -159,23 +160,25 @@ export class CodeExecution implements OnInit, OnDestroy {
     });
   }
 
-  // getComplexity() {
-  //   const payload = {
-  //     code: this.code,
-  //     language: this.language.toLowerCase()
-  //   };
+  getComplexity() {
+    const payload = {
+      code: this.code,
+      language: this.language.toLowerCase()
+    };
 
-  //   this.http.post<{complexity: string}>(`${BASE_URL_CCOMPLEXITY}/analyze`, payload).subscribe({
-  //     next: (res) => {
-  //       this.complexity = res.complexity;
-  //       this.cdr.detectChanges();
-  //     },
-  //     error: () => {
-  //       this.complexity = 'Analysis Failed';
-  //       this.cdr.detectChanges();
-  //     }
-  //   });
-  // }
+    this.http.post<{complexity: string}>(`${BASE_URL_CCOMPLEXITY}/analyze`, payload).subscribe({
+      next: (res) => {
+        this.complexity = res.complexity;
+        this.showToast("Complexity:"+this.complexity);
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.complexity = 'Analysis Failed';
+        this.showToast(this.complexity);
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
   submitCode(isAutoSubmit: boolean = false) {
     // If already processing and it's a manual click, ignore
@@ -185,7 +188,7 @@ export class CodeExecution implements OnInit, OnDestroy {
     if (this.intervalId) clearInterval(this.intervalId);
 
     const submitData = {
-      marks: this.marks,
+      marks: this.Marks,
       takenTime: this.calculateUsedTime(),
       userId: this.userId,
       problemId: this.problemId,

@@ -22,7 +22,7 @@
 
   <aside class="problem-pane fade-in" [class.mobile-hidden]="activeTab !== 'problem'">
     <div class="pane-header">
-      <span class="difficulty-badge">Medium</span>
+      <span class="difficulty-badge">{{level}}</span>
       <div class="timer-chip">
         <span class="icon">⏱️</span> {{minutes}}:{{seconds < 10 ? '0'+seconds : seconds}}
       </div>
@@ -35,8 +35,8 @@
       <div class="example-box">
         <h4>💡 Example 1</h4>
         <div class="example-content">
-          <div><strong>Input:</strong> <code>{{input}}</code></div>
-          <div><strong>Output:</strong> <code>{{expectedOutput}}</code></div>
+          <div><strong>Input:</strong> <code>{{testCases[0].inputData}}</code></div>
+          <div><strong>Output:</strong> <code>{{testCases[0].expectedOutput}}</code></div>
         </div>
       </div>
 

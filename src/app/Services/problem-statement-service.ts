@@ -13,7 +13,7 @@ export class ProblemStatementService {
 
    
 
-  addProblem(statement: string,title:string): Observable<any> {
-    return this.http.post(`${BASE_URL}/api/faculty/addProblemStatement`, {statement,title}, { responseType: 'text',withCredentials:true });
+  addProblem(statement: string,title:string,level:string): Observable<any> {
+    return this.http.post(`${BASE_URL}/api/faculty/addProblemStatement`, {statement,title,level}, { responseType: 'text',withCredentials:true });
   }
 }

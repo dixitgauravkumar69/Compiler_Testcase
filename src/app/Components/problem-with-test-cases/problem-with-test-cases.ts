@@ -30,6 +30,7 @@ export class ProblemWithTestCases {
 
   ProblemFlag: boolean = false;
   testCaseFlag: boolean = false;
+  level:string='';
 
   constructor(
     private problemService: ProblemStatementService,
@@ -40,12 +41,12 @@ export class ProblemWithTestCases {
 
   // Step 1: Save Problem
   saveProblem() {
-    if (!this.problemTitle.trim() || !this.problemStatement.trim()) {
-      this.message = 'Title and Statement are required!';
+    if (!this.problemTitle.trim() || !this.problemStatement.trim()|| !this.level.trim()) {
+      this.message = 'Title and Statement are required! and level also';
       return;
     }
 
-    this.problemService.addProblem(this.problemStatement, this.problemTitle).subscribe({
+    this.problemService.addProblem(this.problemStatement, this.problemTitle,this.level).subscribe({
       next: (res: string) => {
         // Backend se ID extract karna
         const match = res.match(/\d+/);

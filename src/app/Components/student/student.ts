@@ -11,6 +11,7 @@ interface Question {
   id: number;
   problemStatement: string;
   assigned: boolean;
+  title:string;
 }
 
 interface PageResponse {

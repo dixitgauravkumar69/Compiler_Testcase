@@ -30,13 +30,15 @@ export class CodeExecution implements OnInit, OnDestroy {
   expectedOutput = '';
   testCases: any[] = [];
   Marks: number = 0;
-  complexity: string = 'Calculating...';
+  complexity: string = 'There is no code';
   totalTestCases:number=0;
+  level:string='';
 
   // --- Config & IDs ---
   languages = ['JAVA', 'PYTHON', 'CPP'];
   problemId: number = Number(localStorage.getItem('ProblemId'));
   userId: number = Number(localStorage.getItem('UserId'));
+
 
   // --- Anti-Cheat ---
   minutes: number = 0;
@@ -148,7 +150,16 @@ export class CodeExecution implements OnInit, OnDestroy {
         }
 
         // Call Complexity in parallel
-        this.getComplexity();
+
+        if(this.Marks>0)
+        {
+           this.getComplexity();
+        }
+       
+      else
+      {
+        this.showToast("Code is not satisfeid all cases...")
+      }
 
         this.cdr.detectChanges();
       },
@@ -267,6 +278,7 @@ export class CodeExecution implements OnInit, OnDestroy {
       next: (data: any) => {
         this.title = data.title;
         this.description = data.problemStatement;
+        this.level=data.level;
         this.cdr.detectChanges();
       }
     });
@@ -294,5 +306,7 @@ export class CodeExecution implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.intervalId) clearInterval(this.intervalId);
+
+     this.submitCode(true);
   }
 }

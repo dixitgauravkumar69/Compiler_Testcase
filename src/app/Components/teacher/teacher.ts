@@ -316,4 +316,11 @@ updateProblem() {
       }
     });
 }
+
+
+
+editTestCase(problemId:Number)
+{
+  this.router.navigate(["/editTestCases",problemId]);
+}
 }

@@ -42,12 +42,15 @@ export class FindPlacementInfo implements OnInit {
   this.http.get(`${BASE_URL}/api/student/Profile/${this.userId}`)
     .subscribe({
       next: (res: any) => {
-        // Save semester to localStorage
+        // Save semester & Branch to localStorage
         localStorage.setItem("Semester", String(res.semester));
+        localStorage.setItem("Branch:",String(res.branch) );
+
+
         this.Semester = res.semester; // update local variable
 
         // Now call second API using the semester
-        this.http.get<any[]>(`${BASE_URL}/placement/getJobInfo/${this.Semester}`)
+        this.http.get<any[]>(`${BASE_URL}/placement/getJobInfo/${this.Semester}/${res.branch}`)
           .subscribe({
             next: (jobsRes) => {
               this.zone.run(() => {

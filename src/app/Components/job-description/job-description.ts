@@ -17,6 +17,7 @@ export class JobDescription implements OnInit {
   job: any;
   campusId!: number;
   userId!: number;
+  isOutDated:boolean=false;
 
   toast = {
     message: '',
@@ -77,6 +78,19 @@ export class JobDescription implements OnInit {
  apply() {
   if (this.isApplied) return;
 
+
+
+ if(Date.now==this.job.registrationLastDate)
+ {
+   this.showToast("Application closed hai ....","warning");
+   this.isOutDated=true;
+   this.cdr.detectChanges();
+ }
+
+ 
+
+  confirm("Are you comfortable with all terms and condition");
+  
   this.http.post(
     `${BASE_URL}/api/student/studentApplicationData/${this.userId}/${this.campusId}`,
     {},
@@ -89,7 +103,7 @@ export class JobDescription implements OnInit {
     error: (err) => {
       if (err.status === 409) {
         this.showToast("Already Applied", "info");
-        this.isApplied = true; // already applied → disable
+        this.isApplied = true; 
       } else if (err.status === 403) {
         this.showToast("Not Eligible", "error");
       } else {

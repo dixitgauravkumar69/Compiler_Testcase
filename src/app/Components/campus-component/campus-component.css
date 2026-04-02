@@ -316,3 +316,74 @@ textarea {
   .form-columns { grid-template-columns: 1fr; gap: 40px; }
   .page-wrapper { padding: 0 24px 24px 24px; }
 }
+
+
+/* =========================================
+   CSS FOR LOADER IN SUBMITION
+   ========================================= */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6); /* dark blur */
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loader {
+  width: 55px;
+  height: 55px;
+  border: 5px solid #e2e8f0;
+  border-top: 5px solid #6366f1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-overlay p {
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+/* 
+delete button styling */
+
+.delete-btn {
+  background: #ef4444; /* red */
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Hover */
+.delete-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* Click effect */
+.delete-btn:active {
+  transform: scale(0.95);
+}
+
+/* Disabled */
+.delete-btn:disabled {
+  background: #fca5a5;
+  cursor: not-allowed;
+}

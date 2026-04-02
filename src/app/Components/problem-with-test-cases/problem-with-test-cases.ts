@@ -1,22 +1,25 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { ProblemStatementService } from '../../Services/problem-statement-service';
 import { TestCaseDTO, TestCaseService } from '../../Services/test-case-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-problem-with-test-cases',
-  standalone: true, // Agar aap Angular 17+ use kar rahe hain
+  standalone: true, 
   imports: [FormsModule, CommonModule],
   templateUrl: './problem-with-test-cases.html',
   styleUrl: './problem-with-test-cases.css',
 })
 export class ProblemWithTestCases {
-  // Navigation ke liye logic
-  @Input() activeSection: string = 'add'; // Default section
-  @Output() sectionChange = new EventEmitter<string>(); // Dashboard ko batane ke liye ki section badalna hai
+  @Input() activeSection: string = 'add'; 
+  @Output() sectionChange = new EventEmitter<string>(); 
+
+  // --- Loader & Toast State ---
+  isLoading: boolean = false;
+  toastMessage: string = '';
+  toastType: 'success' | 'error' | 'info' | 'warning' = 'info';
 
   problemStatement: string = '';
   problemTitle: string = '';
@@ -25,54 +28,58 @@ export class ProblemWithTestCases {
 
   inputData: string = '';
   expectedOutput: string = '';
-  message: string = '';
   testCasesAdded: string[] = [];
 
   ProblemFlag: boolean = false;
   testCaseFlag: boolean = false;
-  level:string='';
+  level: string = '';
 
   constructor(
     private problemService: ProblemStatementService,
     private testCaseService: TestCaseService,
     private cdr: ChangeDetectorRef,
-    private router:Router
+    private router: Router
   ) {}
 
   // Step 1: Save Problem
   saveProblem() {
-    if (!this.problemTitle.trim() || !this.problemStatement.trim()|| !this.level.trim()) {
-      this.message = 'Title and Statement are required! and level also';
+    if (!this.problemTitle.trim() || !this.problemStatement.trim() || !this.level.trim()) {
+      this.showToast('All fields (Title, Statement, Level) are required!', 'warning');
       return;
     }
 
-    this.problemService.addProblem(this.problemStatement, this.problemTitle,this.level).subscribe({
+    this.isLoading = true;
+    this.problemService.addProblem(this.problemStatement, this.problemTitle, this.level).subscribe({
       next: (res: string) => {
-        // Backend se ID extract karna
         const match = res.match(/\d+/);
         if (match) {
           this.problemId = +match[0];
           this.problemSaved = true;
-          this.message = `Problem saved! ID: ${this.problemId}. Now add test cases.`;
           this.ProblemFlag = true;
+          this.showToast(`Problem saved! ID: ${this.problemId}`, 'success');
         } else {
-          // Agar res sirf "Success" type ka string hai toh alternative handle karein
           this.problemSaved = true;
-          this.message = 'Problem saved successfully!';
+          this.showToast('Problem saved successfully!', 'success');
         }
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => (this.message = 'Error: ' + err.message),
+      error: (err) => {
+        this.showToast('Error saving problem: ' + err.message, 'error');
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
     });
   }
 
   // Step 2: Add Test Case
   addTestCase() {
     if (!this.inputData.trim() || !this.expectedOutput.trim()) {
-      this.message = 'Input and Expected Output required!';
+      this.showToast('Input and Expected Output are required!', 'warning');
       return;
     }
 
+    this.isLoading = true;
     const testCase: TestCaseDTO = {
       problemId: this.problemId,
       inputData: this.inputData,
@@ -84,36 +91,43 @@ export class ProblemWithTestCases {
         this.testCasesAdded.push(`In: ${this.inputData} → Out: ${this.expectedOutput}`);
         this.inputData = '';
         this.expectedOutput = '';
-        this.message = 'Test case added successfully!';
         this.testCaseFlag = true;
+        this.showToast('Test case added!', 'success');
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => (this.message = 'Error: ' + err.message),
+      error: (err) => {
+        this.showToast('Error adding test case: ' + err.message, 'error');
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
     });
   }
 
-  // Dashboard par wapas jaane ke liye (See Problems section)
-  finishAndGoBack() {
-    this.sectionChange.emit('see'); // Ye parent component (Dashboard) ko signal dega
-  }
-
-  // Problem edit mode par wapas jaane ke liye
-  resetSteps() {
-    this.problemSaved = false;
-    this.message = 'Edit mode enabled.';
-  }
-
+  // Final Action (Instead of Alert)
   AddProblem() {
     if (this.ProblemFlag && this.testCaseFlag) {
-      alert('Problem added in your queue SUCCESSFULLY');
-      this.router.navigate(['/teacher']);
+      this.showToast('Problem added to queue successfully!', 'success');
+      setTimeout(() => {
+        this.router.navigate(['/teacher']);
+      }, 1500);
     } else {
-      alert("Sorry Problem can't be add in QUEUE");
+      this.showToast("Cannot add to queue. Save problem and test cases first.", 'error');
     }
   }
 
-  goBack()
-  {
-    this.router.navigate(['/teacher']);
+  // --- Helper Methods ---
+  showToast(msg: string, type: any = 'info') {
+    this.toastMessage = msg;
+    this.toastType = type;
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.toastMessage = '';
+      this.cdr.detectChanges();
+    }, 3000);
   }
+
+  finishAndGoBack() { this.sectionChange.emit('see'); }
+  resetSteps() { this.problemSaved = false; this.showToast('Edit mode enabled', 'info'); }
+  goBack() { this.router.navigate(['/teacher']); }
 }

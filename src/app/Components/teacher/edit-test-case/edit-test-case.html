@@ -1,0 +1,62 @@
+
+<div *ngIf="isLoading" class="loader-overlay">
+  <div class="loader"></div>
+</div>
+<div *ngIf="showToastFlag" class="toast" [ngClass]="toastType">
+  {{ toastMessage }}
+</div>
+
+<button class="back-btn" (click)="goToBack()">
+  <span class="arrow">←</span> Back
+</button>
+
+<div class="testcase-container">
+  <h2>Test Cases</h2>
+
+  <table class="testcase-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Input Data</th>
+        <th>Expected Output</th>
+        <th>Created At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let tc of testCases; let i = index">
+        <td>{{ i + 1 }}</td>
+
+        <!-- Editable Input -->
+        <td>
+          <textarea [(ngModel)]="editTestCaseData.inputData" [(ngModel)]="tc.inputData" rows="2"></textarea>
+        </td>
+
+        <!-- Editable Output -->
+        <td>
+          <textarea [(ngModel)]="editTestCaseData.expectedOutput" [(ngModel)]="tc.expectedOutput" rows="2"></textarea>
+        </td>
+
+        <!-- Date -->
+        <td>
+          {{ tc.createdAt | date:'dd MMM yyyy, hh:mm a' }}
+        </td>
+
+        <!-- Actions -->
+        <td>
+            <!-- (click)="updateTestCase(tc)" -->
+          <button class="btn-save" (click)="saveEdit()" >💾</button> 
+
+          <!-- (click)="deleteTestCase(tc.id)" -->
+          <button class="btn-delete" (click)="delete(tc.id)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Empty State -->
+  <div *ngIf="testCases.length === 0" class="empty">
+    No Test Cases Found 😢
+  </div>
+</div>

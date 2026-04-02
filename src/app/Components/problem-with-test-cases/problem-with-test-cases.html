@@ -1,12 +1,29 @@
-<div class="coding-ui-container fade-in">
-  <header class="ui-header">
-
-    <div class="top-bar">
+<div class="top-bar">
     <button class="btn-back" (click)="goBack()">
       <span class="icon">←</span>
       <span class="text">Back</span>
     </button>
   </div>
+<div *ngIf="toastMessage" class="toast-wrapper fade-in" [ngClass]="toastType">
+  <div class="toast-content">
+    <div class="icon">
+      <span *ngIf="toastType === 'success'">✅</span>
+      <span *ngIf="toastType === 'error'">❌</span>
+      <span *ngIf="toastType === 'warning'">⚠️</span>
+      <span *ngIf="toastType === 'info'">ℹ️</span>
+    </div>
+    <p>{{ toastMessage }}</p>
+  </div>
+  <div class="toast-progress"></div>
+</div>
+
+<div *ngIf="isLoading" class="loader-overlay">
+  <div class="spinner"></div>
+</div>
+<div class="coding-ui-container fade-in">
+  <header class="ui-header">
+
+    
   
     <div class="header-main">
       <h2>Add New Problem</h2>
@@ -100,5 +117,5 @@
     </div>
   </main>
 
-  <p class="status-message" *ngIf="message">{{ message }}</p>
+
 </div>

@@ -17,6 +17,8 @@ import { LogOut } from './Components/log-out/log-out';
 import { LiveComponent } from './Components/live-component/live-component';
 import { GetLiveProblems } from './Components/get-live-problems/get-live-problems';
 import { StudentLeaderBoard } from './Components/student/student-leader-board/student-leader-board';
+import { EditTestCase } from './Components/teacher/edit-test-case/edit-test-case';
+
 
 export const routes: Routes = [
     {path:"",component:UserComponent},
@@ -38,5 +40,7 @@ export const routes: Routes = [
      {path:"live-streaming",component:LiveComponent},
      {path:"studentLive",component:GetLiveProblems},
      {path:"StudentLeaderBoard",component:StudentLeaderBoard},
-
+    {path:"editTestCases/:id",component:EditTestCase},
+    
+  
 ];

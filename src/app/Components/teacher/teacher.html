@@ -75,10 +75,16 @@
       <div class="modal-header">
         <div class="header-info">
           <span class="edit-badge">EDIT MODE</span>
+          
           <h3>Update Problem #{{editForm.problemId}}</h3>
         </div>
         <button class="close-btn" (click)="isEditMode = false">✕</button>
       </div>
+
+      <button class="btn-testcase" 
+          (click)="editTestCase(editForm.id)">
+    🧪 Edit Test Case
+  </button>
 
       <div class="modal-body">
         <div class="form-group">
@@ -173,26 +179,41 @@
 
             </div>
              
-            <div class="card-body">
-              <h3 style="font-size: 1rem; color: #1e293b; margin-bottom: 8px;">Problem Statement</h3>
-              <p class="truncate-text" style="color: #64748b; font-size: 0.9rem;">{{ ps.problemStatement }}</p>
+          <div class="card-body" 
+     style="background: #ffffff; border-radius: 16px; padding: 18px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.3s ease;">
 
-              <div class="time-details" *ngIf="ps.assigned && ps.startTime"
-                style="margin-top: 15px; padding: 12px; background: rgba(79, 70, 229, 0.03); border-radius: 10px; border: 1px dashed #4f46e5;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="color: #64748b; font-size: 0.75rem; font-weight: 600;">WINDOW (IST)</span>
-                  <span style="color: #4f46e5; font-weight: 700; font-size: 0.85rem;">
-                    {{ ps.displayTimeRange }}
-                  </span>
-                </div>
-                <div style="text-align: right; margin-top: 4px;">
-                  <small style="color: #94a3b8; font-size: 0.7rem;">
-                    📅 {{ toLocalTime(ps.startTime) | date: 'dd MMM, yyyy' }}
-                  </small>
-                </div>
-              </div>
-            </div>
+  <h3 style="font-size: 1rem; color: #1e293b; margin-bottom: 8px; font-weight: 600;">
+    Problem Statement
+  </h3>
 
+  <p class="truncate-text" 
+     style="color: #64748b; font-size: 0.9rem; line-height: 1.5;">
+    {{ ps.problemStatement }}
+  </p>
+
+  <div class="time-details" *ngIf="ps.assigned && ps.startTime"
+       style="margin-top: 15px; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px dashed #4f46e5; transition: 0.3s;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      
+      <span style="color: #64748b; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;">
+        WINDOW (IST)
+      </span>
+
+      <span style="color: #4f46e5; font-weight: 700; font-size: 0.85rem;">
+        {{ ps.displayTimeRange }}
+      </span>
+
+    </div>
+
+    <div style="text-align: right; margin-top: 6px;">
+      <small style="color: #94a3b8; font-size: 0.75rem;">
+        📅 {{ toLocalTime(ps.startTime) | date: 'dd MMM, yyyy' }}
+      </small>
+    </div>
+
+  </div>
+</div>
 
             <div class="card-footer-actions">
               <button class="btn-assign" [class.is-assigned]="ps.assigned" (click)="assign(ps.id)">
@@ -251,6 +272,9 @@
           <th style="padding: 16px; text-align: left;">Student</th>
           <th style="padding: 16px; text-align: left;">Marks</th>
           <th style="padding: 16px; text-align: left;">Completion Time</th>
+          <th style="padding: 16px; text-align: left;">Sbmition date</th>
+          <th style="padding: 16px; text-align: left;">Sbmition time</th>
+
         </tr>
       </thead>
       <tbody>
@@ -264,6 +288,8 @@
           </td>
           <td style="padding: 16px;"><span class="id-tag">{{ entry.marks }}</span></td>
           <td style="padding: 16px; color: #64748b;">🕒 {{ entry.takenTime }}</td>
+          <td style="padding: 16px; color: #64748b;">🕒 {{ entry.createdAt |  date:'dd MMM yyyy' }}</td>
+           <td style="padding: 16px; color: #64748b;">🕒 {{ entry.createdAt |  date:'hh mm a' }}</td>
         </tr>
       </tbody>
     </table>

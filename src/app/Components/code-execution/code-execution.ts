@@ -141,7 +141,7 @@ export class CodeExecution implements OnInit, OnDestroy {
         this.totalTestCases = data.testCases ? data.testCases.length : 0;
 
         if (this.totalTestCases > 0) {
-          this.Marks = (data.marks) * 100;     
+          this.Marks = ((data.marks)/this.totalTestCases) * 100;     // logic for marks under 100 nor more than 100 at any case.......
         } else {
           this.Marks = data.marks || 0;
         }

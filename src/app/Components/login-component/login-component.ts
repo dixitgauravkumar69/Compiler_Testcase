@@ -35,52 +35,66 @@ export class LoginComponent {
       password: ['', Validators.required]
     });
   }
+loginUser() {
 
- loginUser() {
-    //  Validation Check for Toast
-    if (this.loginForm.invalid) {
-      if (this.loginForm.get('userEmail')?.hasError('email')) {
-        this.showToast("Please enter a valid email address! 📧", "info");
-      } else {
-        this.showToast("All fields are required! 🔑", "info");
-      }
-      return;
+  // 1. Validation
+  if (this.loginForm.invalid) {
+    if (this.loginForm.get('userEmail')?.hasError('email')) {
+      this.showToast("Enter a valid email address 📧", "info");
+    } else {
+      this.showToast("All fields are required 🔑", "info");
     }
-
-    this.isLoading = true;
-    this.cdr.detectChanges();
-
-    this.http.post<any>(`${BASE_URL}/api/User/login`, this.loginForm.value)
-      .subscribe({
-        next: (res) => {
-          // Store Credentials
-          localStorage.setItem("Usermail", res.userEmail);
-          localStorage.setItem("UserId", res.userId);
-          localStorage.setItem("JWT_TOKEN", res.token);
-
-          this.showToast("Login Successful! Redirecting... 🚀", "success");
-          
-          this.cdr.detectChanges();
-
-          setTimeout(() => {
-            this.isLoading = false;
-            const route = res.userRole === "TEACHER" ? '/teacher' : '/student';
-            this.router.navigate([route]);
-          }, 1500);
-        },
-        error: (err) => {
-          this.isLoading = false;
-          
-          //  Professional Error Handling with Toasts
-          if (err.status === 401 || err.status === 403) {
-            this.showToast("Invalid Credentials. Try again! ❌", "error");
-          } else {
-            this.showToast("Server unreachable. Try later! 🌐", "error");
-          }
-          this.cdr.detectChanges();
-        }
-      });
+    return;
   }
+
+  // 2. Loader ON
+  this.isLoading = true;
+
+  this.http.post<any>(`${BASE_URL}/api/User/login`, this.loginForm.value)
+    .subscribe({
+
+      // ✅ SUCCESS
+      next: (res) => {
+
+        // Store data
+        localStorage.setItem("Usermail", res.userEmail);
+        localStorage.setItem("UserId", res.userId);
+        localStorage.setItem("JWT_TOKEN", res.token);
+
+        // Success toast
+        this.showToast("Login successful! Redirecting... 🚀", "success");
+
+        // Redirect after delay
+        setTimeout(() => {
+          this.isLoading = false;
+
+          const route = res.userRole === "TEACHER" 
+            ? '/teacher' 
+            : '/student';
+
+          this.router.navigate([route]);
+        }, 1200);
+      },
+
+      // ❌ ERROR HANDLING (Important)
+      error: (err) => {
+        this.isLoading = false;
+
+        if (err.status === 401) {
+          this.showToast("Invalid email or password ❌", "error");
+        } 
+        else if (err.status === 404) {
+          this.showToast("User not found 🔍", "error");
+        } 
+        else if (err.status === 403) {
+          this.showToast("Access denied 🚫", "error");
+        } 
+        else {
+          this.showToast("Server error. Please try again later 🌐", "error");
+        }
+      }
+    });
+}
 
   //  Shared Toast Logic
   showToast(msg: string, type: 'success' | 'error' | 'info' = 'info') {

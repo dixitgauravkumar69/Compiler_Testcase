@@ -5,7 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { BASE_URL } from '../../../Environments/environment';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { filter, switchMap, tap } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
 
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-campus-component',
   standalone: true,
@@ -14,7 +16,7 @@ import { filter, switchMap, tap } from 'rxjs';
   styleUrl: './campus-component.css',
 })
 export class CampusComponent {
-  private http = inject(HttpClient); // Modern way to inject
+  private http = inject(HttpClient); // another way for injecting something new try....
 
   // 1. TABS STATE
   activeTab = signal<'post' | 'applied' | 'students'>('post');
@@ -23,7 +25,7 @@ export class CampusComponent {
   selectedFile: File | null = null;
   selectedFileName: string = '';
   toastMessage: string = '';
-  showToast: boolean = false;
+  showToast=signal<boolean>(false);
 
   selectedCompany = signal<any>(null);
 
@@ -32,6 +34,7 @@ export class CampusComponent {
 // for searhing componies and students in there tabs........
   companySearchQuery = signal<string>('');
   studentSearchQuery = signal<string>('');
+  IsProcessing=signal<boolean>(false);
 
   //  FILTERED COMPANIES (Computed).... for find calculated or derived values...
   filteredCompanies = computed(() => {
@@ -41,8 +44,8 @@ export class CampusComponent {
     return data.filter(item => 
      item.company?.toLowerCase().includes(query) || 
       item.location?.toLowerCase().includes(query) ||
-      item.eligibleBranch?.toLowerCase().includes(query) ||
-      item.industry?.toLowerCase().includes(query)
+      item.eligibleBranch?.toLowerCase().includes(query)
+     
     );
   });
 
@@ -72,11 +75,12 @@ export class CampusComponent {
 
   // 3. JOB MODEL
   job: any = {
-    company: '', title: '', jobType: '', industry: '',
-    location: '', semester: '', salaryPackage: '',
-    eligibleBranch: '', cgpa: '', bond: '',
+    company: '', title: '', jobType: '',
+    location: '', semester: '', salaryPackage:0,
+    eligibleBranch: '', cgpa: '', bond: 0,
     skillsRequired: '', jobDescription: '',
     selectionProcess: '', registrationLastDate: '',
+    
   };
 
  
@@ -111,7 +115,9 @@ export class CampusComponent {
 );
 
 
-  constructor() {
+  constructor(private cdr:ChangeDetectorRef,
+    private router:Router,
+  ) {
     
   }
 
@@ -123,8 +129,10 @@ export class CampusComponent {
 
   showToastMessage(message: string) {
     this.toastMessage = message;
-    this.showToast = true;
-    setTimeout(() => { this.showToast = false; }, 2000);
+    this.showToast.set(true);
+    setTimeout(() => { this.showToast.set(false);
+    
+     }, 2000);
   }
 
   onFileSelected(event: any) {
@@ -138,28 +146,56 @@ export class CampusComponent {
     }
   }
 
-  //ApI calling ka pichhla tarika ..........................
-  addJob() {
-    if (!this.job.company || !this.job.title) return this.showToastMessage('Required fields missing');
-    
-    const formData = new FormData();
-    formData.append('job', new Blob([JSON.stringify(this.job)], { type: 'application/json' }));
-    if (this.selectedFile) formData.append('attachment', this.selectedFile);
+ 
+ addJob() {
+  if (
+  !this.job.company ||
+  !this.job.title ||
+  !this.job.eligibleBranch ||
+  !this.job.cgpa ||
+  !this.job.bond ||
+  !this.job.salaryPackage ||
+  !this.job.semester ||
+  !this.job.selectionProcess ||
+  !this.job.registrationLastDate
+) {
+  return this.showToastMessage('⚠️ Please fill all required fields');
+}
 
-    this.http.post(`${BASE_URL}/placement/addJob`, formData, { observe: 'response' })
+  const formData = new FormData();
+  formData.append(
+    'job',
+    new Blob([JSON.stringify(this.job)], { type: 'application/json' })
+  );
+
+  if (this.selectedFile) {
+    formData.append('attachment', this.selectedFile);
+  }
+
+  this.IsProcessing.set(true); //  loader ON
+  console.log("Loader on");
+
+  this.http.post(`${BASE_URL}/placement/addJob`, formData, { observe: 'response' })
     .subscribe({
       next: (res) => {
         if (res.status === 200 || res.status === 201) {
-          this.showToastMessage('✅ Job Added Successfully');
+         this.showToastMessage("Job added for student");
           this.resetForm();
+          console.log("Loader off hone vala hai");
+          this.IsProcessing.set(false);
+          console.log("Loader off");
         }
+        
       },
-      error: (err) => this.showToastMessage('Error: ' + err.status)
+      error: (err) => {
+        this.IsProcessing.set(false); //  loader OFF 
+        this.showToastMessage('Error: ' + err.status);
+      }
     });
-  }
+}
 
   resetForm() {
-    this.job = { company: '', title: '', jobType: '', industry: '', location: '', semester: '', salaryPackage: '', eligibleBranch: '', cgpa: '', bond: '', skillsRequired: '', jobDescription: '', selectionProcess: '', registrationLastDate: '', };
+    this.job = { company: '', title: '', jobType: '', location: '', semester: '', salaryPackage: 0, eligibleBranch: '', cgpa: '', bond: 0, skillsRequired: '', jobDescription: '', selectionProcess: '', registrationLastDate: ''};
     this.selectedFile = null;
     this.selectedFileName = '';
   }
@@ -167,5 +203,30 @@ export class CampusComponent {
   viewStudents(company: any) {
   this.selectedCompany.set(company);
   this.setTab('students');
+}
+
+deleteAction(CampusId: number) {
+
+  this.IsProcessing.set(true); 
+
+  this.http.delete(`${BASE_URL}/placement/deleteJob/${CampusId}`, { observe: 'response',responseType: 'text' })
+    .subscribe({
+      next: (res) => {
+
+        if (res.status === 200 || res.status === 204) {
+          this.IsProcessing.set(false);
+          this.showToastMessage("🗑 Job Deleted Successfully");
+
+         
+        }
+
+        this.IsProcessing.set(false); 
+      },
+
+      error: (err) => {
+        this.IsProcessing.set(false); 
+        this.showToastMessage('Error: ' + err.status);
+      }
+    });
 }
 }

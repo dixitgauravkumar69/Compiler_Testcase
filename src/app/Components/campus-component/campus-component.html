@@ -1,5 +1,13 @@
 <div class="page-wrapper">
-  <div class="custom-toast" [class.show]="showToast">
+
+  <!-- Loader Overlay -->
+<div class="loader-overlay" *ngIf="IsProcessing()">
+  <div class="loader"></div>
+  <p>Processing...</p>
+</div>
+
+
+  <div class="custom-toast" [class.show]="showToast()">
     <div class="toast-content">
       <span class="icon">🔔</span>
       <p>{{ toastMessage }}</p>
@@ -72,22 +80,23 @@
               <div class="section-divider">Package & Rules</div>
               <div class="grid-layout">
                 <div class="field">
-                  <label>Salary</label>
-                  <input type="text" [(ngModel)]="job.salaryPackage" name="salaryPackage">
+                  <label>Salary *</label>
+                  <input type="number" [(ngModel)]="job.salaryPackage" name="salaryPackage">
                 </div>
                 <div class="field">
-                  <label>Semester</label>
+                  <label>Semester*</label>
                   <select [(ngModel)]="job.semester" name="semester">
                     <option value="">Select</option>
+                    <!-- <option [value]="0">All</option> -->
                     <option>5</option><option>6</option><option>7</option><option>8</option>
                   </select>
                 </div>
                 <div class="field">
-                  <label>Bond</label>
-                  <input type="text" [(ngModel)]="job.bond" name="bond">
+                  <label>Bond*</label>
+                  <input type="number" [(ngModel)]="job.bond" name="bond">
                 </div>
                 <div class="field">
-                  <label>Last Date</label>
+                  <label>Last Date*</label>
                   <input type="date" [(ngModel)]="job.registrationLastDate" name="registrationLastDate">
                 </div>
               </div>
@@ -141,6 +150,7 @@
               <th>Company</th><th>Location</th><th>Package</th><th>Bond</th>
               <th>Industry</th><th>Branch</th><th>Min CGPA</th><th>Skills</th>
               <th>Selection</th><th>Last Date</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -156,6 +166,9 @@
               <td class="text-truncate">{{ item.skillsRequired }}</td>
               <td class="text-truncate">{{ item.selectionProcess }}</td>
               <td class="date-cell">{{ item.registrationLastDate | date:'mediumDate' }}</td>
+              <td><button class="delete-btn" (click)="deleteAction(item.id)"
+                >Delete</button>
+              </td>
             </tr>
             } @empty {
             <tr><td colspan="10" class="empty-row">No matching records found.</td></tr>

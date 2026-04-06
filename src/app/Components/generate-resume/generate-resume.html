@@ -3,11 +3,57 @@
 </div>
 
 <div class="dashboard-container">
-  <div class="content-wrapper">
-     <button class="btn-back" (click)="goBack()">
+
+
+  <div class="sidebar" [class.active]="isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+         <div class="logo-box">D</div>
+        Dev Campus
+      </div>
+      <p class="sidebar-subtitle">Student Panel</p>
+    </div>
+
+    <nav class="nav-links">
+
+       <button class="btn-back" (click)="goBack()">
       <span class="icon">←</span>
       <span class="text">Back to Coding Arena</span>
     </button>
+
+
+       <a routerLink="/StudentLeaderBoard" class="nav-item"   routerLinkActive="active" >
+          🏆 Coding Performance
+       </a> 
+      <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">👤</span> <span class="text">My Profile</span>
+      </a>
+      <a routerLink="/generateResume" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">📄</span> <span class="text">Resume Builder</span>
+      </a>
+      <a routerLink="/findJobInfo" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">💼</span> <span class="text">Placement Info</span>
+      </a>
+      <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">💻</span> <span class="text">Coding Arena</span>
+      </a>
+     
+      <a routerLink="/studentLive" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">🟢</span> <span class="text">Live(Stream Test)</span>
+      </a>
+    </nav>
+
+    <<div class="sidebar-footer">
+      <a routerLink="/logout" class="logout-btn">
+        <span class="icon">🚪</span> Logout
+      </a>
+    </div>
+  </div>
+
+
+
+  <div class="content-wrapper">
+    
     
     <div class="resume-builder-card fade-in">
       <header class="builder-header">

@@ -1,27 +1,52 @@
 <div class="page-wrapper">
 
-  <!-- Loader Overlay -->
-<div class="loader-overlay" *ngIf="IsProcessing()">
-  <div class="loader"></div>
-  <p>Processing...</p>
-</div>
-
-
-  <div class="custom-toast" [class.show]="showToast()">
-    <div class="toast-content">
-      <span class="icon">🔔</span>
-      <p>{{ toastMessage }}</p>
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <div class="header-left">
+      <button class="menu-trigger" (click)="toggleSidebar()">
+        <span class="burger-icon"></span>
+      </button>
+      <h3>Dev Campus</h3>
     </div>
-    <div class="progress-bar"></div>
+    <div class="avatar-xs">T</div>
+  </header>
+
+  <!-- OVERLAY -->
+  <div class="sidebar-overlay"
+       [class.show]="isSidebarOpen"
+       (click)="closeSidebar()">
   </div>
 
-  <div class="tabs-nav">
-    <button [class.active]="activeTab() === 'post'" (click)="setTab('post')">Post Campus Information</button>
-    <button [class.active]="activeTab() === 'applied'" (click)="setTab('applied')">Available Companies</button>
-    @if (activeTab() === 'students') { 
-      <button class="active">Students Applied</button> 
-    }
-  </div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" [class.active]="isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="logo-box">D</div>
+        <span>Dev Campus</span>
+      </div>
+      <p class="sidebar-subtitle">Teacher Dashboard</p>
+    </div>
+
+    <nav class="nav-links">
+      <button class="btn-back" (click)="back()">← Back</button>
+      <button (click)="getProblems()">📝 Problems List</button>
+      <button (click)="goToAddStatement(); closeSidebar()">➕ Add Statement</button>
+      <button (click)="goToAddCampus(); closeSidebar()">🏛️ Campus Info</button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    
+    <!-- TABS -->
+    <div class="tabs-nav">
+      <button [class.active]="activeTab() === 'post'" (click)="setTab('post')">Post Campus</button>
+      <button [class.active]="activeTab() === 'applied'" (click)="setTab('applied')">Companies</button>
+    </div>
 
   <div class="content-body">
     

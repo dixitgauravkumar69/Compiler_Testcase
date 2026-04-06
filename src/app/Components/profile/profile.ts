@@ -4,12 +4,12 @@ import { Component } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BASE_URL } from '../../../Environments/environment';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule,RouterLink],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -216,4 +216,15 @@ validatePercentage(field: 'higherSecondaryMarks' | 'highSchoolMarks') {
     }
   }
 }
+
+toggleSidebar() {
+  this.isSidebarOpen = !this.isSidebarOpen;
+}
+
+
+isSidebarOpen=true;
+
+closeSidebar() {
+    this.isSidebarOpen = false;
+  }
 }

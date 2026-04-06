@@ -4,12 +4,12 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { BASE_URL } from '../../../Environments/environment';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-resume-generate',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterLink],
   templateUrl: './generate-resume.html',
   styleUrl: './generate-resume.css'
 })
@@ -218,4 +218,10 @@ goBack()
 {
    this.router.navigate(["/student"]);
 }
+
+isSidebarOpen:boolean=true;
+closeSidebar() {
+    this.isSidebarOpen = false;
+  }
+
 }

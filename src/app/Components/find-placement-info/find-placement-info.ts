@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core'; // Added NgZone
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BASE_URL } from '../../../Environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-find-placement-info',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,FormsModule],
+  imports: [CommonModule,ReactiveFormsModule,FormsModule,RouterLink],
   templateUrl: './find-placement-info.html',
   styleUrl: './find-placement-info.css',
 })
@@ -110,4 +110,16 @@ export class FindPlacementInfo implements OnInit {
   {
     this.router.navigate(["/student"]);
   }
+
+  
+  isSidebarOpen = false;
+
+toggleSidebar() {
+  this.isSidebarOpen = !this.isSidebarOpen;
+}
+
+closeSidebar() {
+  this.isSidebarOpen = false;
+}
+
 }

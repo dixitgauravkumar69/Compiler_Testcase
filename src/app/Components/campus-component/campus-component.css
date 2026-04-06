@@ -387,3 +387,357 @@ delete button styling */
   background: #fca5a5;
   cursor: not-allowed;
 }
+
+/* ===== MOBILE HEADER ===== */
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-trigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Burger */
+.burger-icon,
+.burger-icon::before,
+.burger-icon::after {
+  width: 22px;
+  height: 2px;
+  background: #1e293b;
+  display: block;
+  position: relative;
+}
+
+.burger-icon::before,
+.burger-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.burger-icon::before { top: -6px; }
+.burger-icon::after { top: 6px; }
+
+/* Avatar */
+.avatar-xs {
+  width: 35px;
+  height: 35px;
+  background: #6366f1;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background: #f8fafc;
+  transition: 0.3s;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+/* HEADER */
+.sidebar-header {
+  padding: 25px 20px;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-box {
+  width: 45px;
+  height: 45px;
+  background: #6366f1;
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.sidebar-brand span {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+.sidebar-subtitle {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* NAV */
+.nav-links {
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-links button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border: none;
+  background: transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #475569;
+  transition: 0.25s;
+  font-size: 15px;
+}
+
+.nav-links button:hover {
+  background: #eef2ff;
+  color: #4f46e5;
+  transform: translateX(4px);
+}
+
+/* FOOTER */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 20px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #fee2e2;
+  color: #dc2626;
+  font-weight: 600;
+}
+/* ================= LAYOUT ================= */
+.page-wrapper {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* MAIN CONTENT SHIFT */
+.main-content {
+  padding: 20px 40px;
+}
+
+/* ================= MOBILE HEADER ================= */
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* BURGER */
+.burger-icon,
+.burger-icon::before,
+.burger-icon::after {
+  width: 22px;
+  height: 2px;
+  background: #1e293b;
+  display: block;
+  position: relative;
+}
+
+.burger-icon::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+}
+
+.burger-icon::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+}
+
+/* AVATAR */
+.avatar-xs {
+  width: 35px;
+  height: 35px;
+  background: #6366f1;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 260px;
+  height: 100%;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+/* OVERLAY */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.sidebar-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* HEADER */
+.sidebar-header {
+  padding: 20px;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-box {
+  width: 40px;
+  height: 40px;
+  background: #6366f1;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NAV */
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.nav-links button {
+  padding: 12px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.nav-links button:hover {
+  background: #eef2ff;
+}
+
+/* FOOTER */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 15px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  background: #fee2e2;
+  border: none;
+  border-radius: 8px;
+}
+
+/* ================= TABS ================= */
+.tabs-nav {
+  display: flex;
+  gap: 30px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.tabs-nav button {
+  padding: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.tabs-nav button.active {
+  color: #4f46e5;
+  border-bottom: 2px solid #4f46e5;
+}
+
+/* ================= DESKTOP ================= */
+@media (min-width: 768px) {
+
+  .mobile-header {
+    display: none;
+  }
+
+  .sidebar {
+    left: 0;
+    width: 260px;
+  }
+
+  .main-content {
+    margin-left: 260px;
+  }
+
+  .sidebar-overlay {
+    display: none;
+  }
+}

@@ -1,4 +1,54 @@
-<div class="dashboard-container">
+  <div class="dashboard-container">
+
+ 
+  <div class="sidebar">
+  <!-- <button class="menu-trigger" (click)="toggleSidebar()">☰</button> -->
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="logo-box">D</div>
+        Dev Campus
+      </div>
+      <p class="sidebar-subtitle">Student Panel</p>
+    </div>
+    <nav class="nav-links">
+
+      <button class="back-btn" (click)="back()">
+  ← Back
+</button>
+
+      <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active">
+        🏆 Coding Performance
+      </a> 
+
+      <a routerLink="/profile" class="nav-item" routerLinkActive="active">
+        👤 My Profile
+      </a>
+
+      <a routerLink="/generateResume" class="nav-item" routerLinkActive="active">
+        📄 Resume Builder
+      </a>
+
+      <a routerLink="/findJobInfo" class="nav-item" routerLinkActive="active">
+        💼 Placement Info
+      </a>
+
+      <a routerLink="/student" class="nav-item" routerLinkActive="active">
+        💻 Coding Arena
+      </a>
+
+      <a routerLink="/studentLive" class="nav-item" routerLinkActive="active">
+        🟢 Live(Stream Test)
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/logout" class="logout-btn">
+        <span class="icon">🚪</span> Logout
+      </a>
+    </div>
+
+
+  </div>
   <div class="content-wrapper">
 
     @if (isLoading) {
@@ -26,7 +76,7 @@
     }
 
     @else {
-        <button (click)="back()">Back</button>
+      
     <div class="profile-card fade-in">
       <header class="profile-header">
         <div class="user-info-main">

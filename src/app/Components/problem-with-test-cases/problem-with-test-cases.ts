@@ -130,4 +130,47 @@ export class ProblemWithTestCases {
   finishAndGoBack() { this.sectionChange.emit('see'); }
   resetSteps() { this.problemSaved = false; this.showToast('Edit mode enabled', 'info'); }
   goBack() { this.router.navigate(['/teacher']); }
+
+
+
+  isSidebarOpen:boolean=false;
+
+    toggleSidebar() { this.isSidebarOpen = !this.isSidebarOpen; }
+  closeSidebar() { this.isSidebarOpen = false; }
+  goToAddStatement() { this.router.navigate(['/Statement']); }
+  goToAddCampus() { this.router.navigate(['/campusAdd']); }
+  getProblems(){
+     this.router.navigate(['/teacher']);
+  }
+
+
+    
+  logout() { 
+    localStorage.clear(); 
+    // this.showToast("Logged out successfully", "info");
+    this.router.navigate(["/logout"])
+  
+    
+  }
+
+
+ 
+  
+
+
+
+handleProblemsClick() {
+  this.activeSection = 'see';
+  this.getProblems();
+  this.closeSidebar();
+}
+
+handleAddStatement() {
+  this.activeSection = 'add';
+  this.closeSidebar();
+}
+
+handleCampus() {
+ this.router.navigate(['/campusAdd'])
+}
 }

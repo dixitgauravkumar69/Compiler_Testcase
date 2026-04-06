@@ -6,32 +6,216 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* CONTAINER */
-.job-portal-container {
-  padding: 20px;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc, #eef2ff);
+
+/* ================= TOAST ================= */
+.toast-wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  animation: slideIn 0.4s ease;
+}
+
+.toast-body {
+  min-width: 250px;
+  max-width: 320px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* TYPES */
+.success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.error {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.info {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+/* TEXT */
+.toast-body p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* ANIMATION */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* AUTO FADE OUT (optional class) */
+.toast-hide {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+}
+
+/* ================= LAYOUT ================= */
+.dashboard-container {
+  display: flex;
+}
+
+/* ================= MOBILE HEADER ================= */
+.mobile-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+}
+
+.menu-btn {
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 260px;
+  background: white;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-right: 1px solid #e2e8f0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+/* HEADER */
+.sidebar-header {
+  padding: 25px 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  color: #4f46e5;
+}
+
+.logo-box {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg,#6366f1,#4f46e5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+/* NAV */
+.nav-links {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.nav-item {
+  padding: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #64748b;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  background: #eef2ff;
+  color: #4f46e5;
+  transform: translateX(5px);
+}
+
+.nav-item.active {
+  background: #eef2ff;
+  color: #4f46e5;
+  font-weight: 600;
 }
 
 /* BACK BUTTON */
 .btn-back {
-  margin-bottom: 15px;
-  padding: 8px 16px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f1f5f9;
   border: none;
-  border-radius: 8px;
-  background: #e2e8f0;
-  color: #1e293b;
   cursor: pointer;
   transition: 0.3s;
 }
 
 .btn-back:hover {
-  background: #cbd5f5;
-  transform: translateX(-4px);
+  background: #e0e7ff;
 }
 
-.btn-back::before {
-  content: "← ";
+/* FOOTER */
+.sidebar-footer {
+  padding: 15px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.logout-btn {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fee2e2;
+  color: #ef4444;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ================= CONTENT ================= */
+.content-wrapper {
+  margin-left: 260px;
+  width: 100%;
+  padding: 20px;
+}
+
+/* ================= JOB PORTAL ================= */
+.job-portal-container {
+  background: linear-gradient(135deg, #f8fafc, #eef2ff);
+  min-height: 100vh;
+  padding: 20px;
+  border-radius: 20px;
 }
 
 /* HEADER */
@@ -43,13 +227,13 @@
 .top-badge {
   background: #6366f1;
   color: white;
-  padding: 5px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
   font-size: 12px;
 }
 
 .portal-header h1 {
-  font-size: 32px;
+  font-size: 28px;
   margin: 10px 0;
   color: #1e293b;
 }
@@ -59,20 +243,16 @@
 }
 
 /* SEARCH */
-.search-container {
+.search-box {
+  margin-top: 20px;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
-}
-
-.search-box {
-  position: relative;
-  width: 400px;
 }
 
 .search-box input {
   width: 100%;
-  padding: 12px 15px 12px 40px;
+  max-width: 400px;
+  padding: 12px 15px;
   border-radius: 25px;
   border: 1px solid #e2e8f0;
   outline: none;
@@ -84,32 +264,50 @@
   box-shadow: 0 0 8px rgba(99,102,241,0.3);
 }
 
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 10px;
-}
-
-/* GRID */
+/* ================= GRID ================= */
 .job-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  gap: 25px;
+  margin-top: 20px;
 }
 
-/* CARD */
+/* ================= CARD (PREMIUM) ================= */
 .job-card {
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 18px;
-  transition: 0.3s;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.35s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
 }
 
+/* HOVER EFFECT */
 .job-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* GRADIENT BORDER GLOW */
+.job-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 1px;
+ 
+  opacity: 0;
+  transition: 0.3s;
+
+   pointer-events: none;
+  /*   issue was that view button was not clickable */
+}
+
+.job-card:hover::before {
+  opacity: 1;
 }
 
 /* CARD TOP */
@@ -120,23 +318,25 @@
 }
 
 .company-logo {
-  width: 45px;
-  height: 45px;
-  background: #6366f1;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg,#6366f1,#4f46e5);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: bold;
+  font-size: 18px;
 }
 
 .type-tag {
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  background: #e0e7ff;
-  color: #3730a3;
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-weight: 600;
 }
 
 /* BODY */
@@ -145,7 +345,7 @@
 }
 
 .company-name {
-  font-size: 14px;
+  font-size: 13px;
   color: #64748b;
 }
 
@@ -159,14 +359,10 @@
 .highlight-box {
   display: flex;
   justify-content: space-between;
-  background: #f1f5f9;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-
-.highlight-item {
-  text-align: center;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 12px;
 }
 
 .label {
@@ -179,10 +375,6 @@
   color: #1e293b;
 }
 
-.date {
-  color: #ef4444;
-}
-
 /* FOOTER */
 .card-footer {
   margin-top: 15px;
@@ -190,71 +382,51 @@
 
 .view-details-btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: none;
   background: linear-gradient(135deg,#6366f1,#4f46e5);
   color: white;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   transition: 0.3s;
+  font-weight: 600;
 }
 
 .view-details-btn:hover {
   transform: scale(1.05);
 }
 
-/* EMPTY */
-.empty-jobs {
-  text-align: center;
-  margin-top: 40px;
-  color: #64748b;
-}
-
-.empty-icon {
-  font-size: 50px;
-}
-
-/* LOADING */
-.loading-state {
-  text-align: center;
-  margin-top: 40px;
-  color: #6366f1;
-}
-
-/* TOAST */
-.toast-wrapper {
+/* ================= OVERLAY ================= */
+.overlay {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  top: 0;
+  left: 0;
+  z-index: 900;
 }
 
-.toast-body {
-  padding: 12px 20px;
-  border-radius: 10px;
-  color: white;
-}
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
 
-.success {
-  background: #22c55e;
-}
-
-.error {
-  background: #ef4444;
-}
-
-/* ANIMATION */
-.fade-in {
-  animation: fadeIn 0.6s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  .mobile-header {
+    display: flex;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .sidebar {
+    left: -100%;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .content-wrapper {
+    margin-left: 0;
+  }
+
+  .job-grid {
+    grid-template-columns: 1fr;
   }
 }

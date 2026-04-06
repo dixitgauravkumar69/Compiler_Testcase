@@ -229,4 +229,50 @@ deleteAction(CampusId: number) {
       }
     });
 }
+
+
+
+
+
+isSidebarOpen = false;
+
+
+
+ 
+  goToAddStatement() { this.router.navigate(['/Statement']); }
+  goToAddCampus() { this.router.navigate(['/campusAdd']); }
+  getProblems(){
+     this.router.navigate(['/teacher']);
+  }
+
+
+    
+  logout() { 
+    localStorage.clear(); 
+    // this.showToast("Logged out successfully", "info");
+    this.router.navigate(["/logout"])
+  
+    
+  }
+
+  back()
+  {
+    this.router.navigate(['/Statement']);
+  }
+
+
+  toggleSidebar() {
+  this.isSidebarOpen = !this.isSidebarOpen;
+
+  if (this.isSidebarOpen) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
+}
+
+closeSidebar() {
+  this.isSidebarOpen = false;
+  document.body.style.overflow = 'auto';
+}
 }

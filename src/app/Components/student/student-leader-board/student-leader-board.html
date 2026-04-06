@@ -1,86 +1,145 @@
-<div class="performance-container">
-  <div class="stats-header" *ngIf="!loading">
-    <div class="nav-top-bar" style="margin-bottom: 20px;">
-    <button class="btn-back" (click)="goBack()">
-      <span class="icon">←</span>
-      <span class="text">Back to Coding Arena</span>
-    </button>
-  </div>
-  
-    <div class="stat-card blue">
-      <div class="stat-icon">🎯</div>
-      <div class="stat-content">
-        <h3>{{ reports.length }}</h3>
-        <p>Total Submissions</p>
+<div class="dashboard-container">
+
+  <!-- Sidebar -->
+  <div class="sidebar" [class.active]="isSidebarOpen">
+
+      <!-- <button class="menu-trigger" (click)="toggleSidebar()">☰</button> -->
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+         <div class="logo-box">D</div>
+        Dev Campus
       </div>
+      <p class="sidebar-subtitle">Student Panel</p>
     </div>
-    <div class="stat-card purple">
-      <div class="stat-icon">💎</div>
-      <div class="stat-content">
-        <h3>{{ totalPoints }}</h3>
-        <p>Total Earned Marks</p>
-      </div>
-    </div>
-  </div>
 
-  <div *ngIf="loading" class="loader">
-    <div class="spinner"></div>
-    <p>Analyzing your performance...</p>
-  </div>
+    <nav class="nav-links">
 
-  <div class="list-wrapper" *ngIf="!loading && reports.length > 0">
-    <h2>Submission History</h2>
-    <div class="report-item" *ngFor="let r of reports">
-      <div class="problem-meta">
-        <span class="id-badge">#{{ r.problem.id }}</span>
-        <div class="problem-details">
-         <div class="problem-details">
- <div class="problem-details">
-  <h4>{{ r.problem.title }}</h4>
-  
-  <span class="date-badge">
-    📅 {{ (r.createdAt + 'Z') | date:'dd MMM yyyy':'+0530' }}
-  </span>
-  
-  <br>
-  
-  <span class="time-badge">
-    ⏰ {{ (r.createdAt + 'Z') | date:'hh:mm a':'+0530' }}
-  </span>
-
-</div>
-        </div>
-      </div>
-
-      <div class="performance-metrics">
-        <div class="metric">
-          <span class="label">Marks</span>
-          <span class="value score" [class.zero]="r.marks === 0">{{ r.marks }}</span>
-        </div>
-        <div class="metric">
-          <span class="label">Time Taken</span>
-          <span class="value time">⏱ {{ r.takenTime }}</span>
-
+      <div class="header-top">
+          <button class="btn-back" (click)="goBack()">← Back</button>
         </div>
 
-         <div class="metric">
-          <span class="label">Solution Complexity</span>
-          <span class="value time">{{ r.complexity }}</span>
 
-        </div>
-      </div>
+       <a routerLink="/StudentLeaderBoard" class="nav-item"   routerLinkActive="active" >
+          🏆 Coding Performance
+       </a> 
+      <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">👤</span> <span class="text">My Profile</span>
+      </a>
+      <a routerLink="/generateResume" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">📄</span> <span class="text">Resume Builder</span>
+      </a>
+      <a routerLink="/findJobInfo" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">💼</span> <span class="text">Placement Info</span>
+      </a>
+      <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">💻</span> <span class="text">Coding Arena</span>
+      </a>
+     
+      <a routerLink="/studentLive" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="icon">🟢</span> <span class="text">Live(Stream Test)</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/logout" class="logout-btn">
+        <span class="icon">🚪</span> Logout
+      </a>
     </div>
   </div>
 
+  <!-- Overlay -->
+  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="toggleSidebar()"></div>
 
-  
-  <div *ngIf="!loading && reports.length === 0" class="empty-state">
-    <p>No performance data found. Start solving challenges!</p>
-    <div class="nav-top-bar" style="margin-bottom: 20px;">
-    <button class="btn-back" (click)="goBack()">
-      <span class="icon">←</span>
-      <span class="text">Back to Coding Arena</span>
-    </button>
-  </div>
+  <!-- Main -->
+  <div class="main-content">
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <button (click)="toggleSidebar()">☰</button>
+      <h3>Performance</h3>
+    </div>
+
+    <div class="performance-container">
+
+      <!-- HEADER -->
+      <div class="stats-header" *ngIf="!loading">
+
+        
+
+        <div class="stats-cards">
+
+          <div class="stat-card blue">
+            <div class="stat-icon">🎯</div>
+            <div>
+              <h3>{{ reports.length }}</h3>
+              <p>Total Submissions</p>
+            </div>
+          </div>
+
+          <div class="stat-card purple">
+            <div class="stat-icon">💎</div>
+            <div>
+              <h3>{{ totalPoints }}</h3>
+              <p>Total Marks</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LOADER -->
+      <div *ngIf="loading" class="loader">
+        <div class="spinner"></div>
+        <p>Analyzing your performance...</p>
+      </div>
+
+      <!-- LIST -->
+      <div class="list-wrapper" *ngIf="!loading && reports.length">
+
+        <h2>Submission History</h2>
+
+        <div class="report-item" *ngFor="let r of reports">
+
+          <div class="left-section">
+            <span class="id-badge">#{{ r.problem.id }}</span>
+
+            <div class="problem-details">
+              <h4>{{ r.problem.title }}</h4>
+              <p class="date-time">
+                📅 {{ (r.createdAt + 'Z') | date:'dd MMM yyyy':'+0530' }}
+                • ⏰ {{ (r.createdAt + 'Z') | date:'hh:mm a':'+0530' }}
+              </p>
+            </div>
+          </div>
+
+          <div class="right-section">
+
+            <div class="metric">
+              <span>Marks</span>
+              <b [class.zero]="r.marks === 0">{{ r.marks }}</b>
+            </div>
+
+            <div class="metric">
+              <span>Time</span>
+              <b>{{ r.takenTime }}</b>
+            </div>
+
+            <div class="metric">
+              <span>Complexity</span>
+              <b>{{ r.complexity }}</b>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- EMPTY -->
+      <div *ngIf="!loading && !reports.length" class="empty-state">
+        <p>No data found 🚀</p>
+        <button class="btn-back" (click)="goBack()">Go Solve Problems</button>
+      </div>
+
+    </div>
   </div>
 </div>

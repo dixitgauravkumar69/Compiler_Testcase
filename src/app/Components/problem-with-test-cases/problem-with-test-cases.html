@@ -1,9 +1,75 @@
 <div class="top-bar">
-    <button class="btn-back" (click)="goBack()">
-      <span class="icon">←</span>
-      <span class="text">Back</span>
-    </button>
-  </div>
+
+  <!-- ===== MOBILE HEADER ===== -->
+  <header class="mobile-header">
+    <div class="header-left">
+      <button class="menu-trigger" (click)="toggleSidebar()">
+        <span class="burger-icon"></span>
+      </button>
+      <h3>Dev Campus</h3>
+    </div>
+    <div class="avatar-xs" style="background: #4f46e5; color: white;">T</div>
+  </header>
+
+  <!-- ===== OVERLAY ===== -->
+  <div class="sidebar-overlay"
+       [class.show]="isSidebarOpen"
+       (click)="closeSidebar()"></div>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" [class.active]="isSidebarOpen">
+
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="logo-box">D</div>
+        <span>Dev Campus</span>
+      </div>
+      <p class="sidebar-subtitle">Teacher Dashboard</p>
+    </div>
+
+    <nav class="nav-links">
+
+      <!-- BACK -->
+      <button class="btn-back" (click)="goBack()">
+        <span class="icon">←</span>
+        <span class="text">Back</span>
+      </button>
+
+      <!-- PROBLEMS LIST -->
+      <button 
+        [class.active]="activeSection === 'see'"
+        (click)="handleProblemsClick()">
+        <span class="icon">📝</span>
+        <span class="text">Problems List</span>
+      </button>
+
+      <!-- ADD STATEMENT -->
+      <button 
+        [class.active]="activeSection === 'add'"
+        (click)="handleAddStatement()">
+        <span class="icon">➕</span>
+        <span class="text">Add Statement</span>
+      </button>
+
+      <!-- CAMPUS -->
+      <button 
+        [class.active]="activeSection === 'campus'"
+        (click)="handleCampus()">
+        <span class="icon">🏛️</span>
+        <span class="text">Campus Info</span>
+      </button>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+    </div>
+
+  </aside>
+
+</div>
+
+<!-- ===== TOAST ===== -->
 <div *ngIf="toastMessage" class="toast-wrapper fade-in" [ngClass]="toastType">
   <div class="toast-content">
     <div class="icon">
@@ -17,105 +83,153 @@
   <div class="toast-progress"></div>
 </div>
 
+<!-- ===== LOADER ===== -->
 <div *ngIf="isLoading" class="loader-overlay">
   <div class="spinner"></div>
 </div>
-<div class="coding-ui-container fade-in">
+
+<!-- ============================= -->
+<!-- ===== SECTION SWITCHING ===== -->
+<!-- ============================= -->
+
+<!-- ===== PROBLEM LIST ===== -->
+<div *ngIf="activeSection === 'see'">
+  <!-- Yaha tu apna Problems List UI dalega -->
+</div>
+
+<!-- ===== ADD PROBLEM ===== -->
+<div *ngIf="activeSection === 'add'" class="coding-ui-container fade-in">
+
   <header class="ui-header">
 
-    
-  
     <div class="header-main">
       <h2>Add New Problem</h2>
       <p>Configure problem statement and test scenarios.</p>
     </div>
 
     <div class="stepper">
-      <div class="step" [class.active]="!problemSaved" [class.completed]="problemSaved">
+      <div class="step" 
+           [class.active]="!problemSaved" 
+           [class.completed]="problemSaved">
         <span class="step-num">1</span>
         <span class="step-text">Problem</span>
       </div>
+
       <div class="step-line"></div>
+
       <div class="step" [class.active]="problemSaved">
         <span class="step-num">2</span>
         <span class="step-text">Test Cases</span>
       </div>
     </div>
+
   </header>
 
+  <!-- ===== STEP 1 ===== -->
   <main class="step-content" *ngIf="!problemSaved">
+
     <div class="form-group">
       <label>Problem Title</label>
-      <input type="text" [(ngModel)]="problemTitle" class="form-control-modern" placeholder="e.g. Two Sum">
+      <input type="text"
+             [(ngModel)]="problemTitle"
+             class="form-control-modern"
+             placeholder="e.g. Two Sum">
     </div>
 
     <div class="form-group">
-  <label>Difficulty Level</label>
-  <select [(ngModel)]="level" class="form-control-modern">
-    <option value="" disabled selected>Select Level</option>
-    <option value="EASY">Easy</option>
-    <option value="MEDIUM">Medium</option>
-    <option value="HARD">Hard</option>
-  </select>
-</div>
+      <label>Difficulty Level</label>
+      <select [(ngModel)]="level" class="form-control-modern">
+        <option value="" disabled selected>Select Level</option>
+        <option value="EASY">Easy</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="HARD">Hard</option>
+      </select>
+    </div>
 
     <div class="form-group">
       <label>Problem Statement</label>
-      <textarea [(ngModel)]="problemStatement" rows="8" class="form-control-modern" placeholder="Describe the problem, constraints, and examples..."></textarea>
+      <textarea [(ngModel)]="problemStatement"
+                rows="8"
+                class="form-control-modern"
+                placeholder="Describe the problem..."></textarea>
     </div>
-
-   
 
     <div class="action-bar">
       <button (click)="saveProblem()" class="btn-primary-modern">
-        <span>Save & Continue</span> →
+        Save & Continue →
       </button>
     </div>
+
   </main>
 
+  <!-- ===== STEP 2 ===== -->
   <main class="step-content" *ngIf="problemSaved">
+
     <div class="problem-info-banner">
       <span>Problem ID: <strong>#{{ problemId }}</strong></span>
-      <button class="btn-text" (click)="problemSaved = false">✏️ Edit Problem</button>
+      <button class="btn-text" (click)="problemSaved = false">✏️ Edit</button>
     </div>
 
     <div class="testcase-grid">
+
+      <!-- FORM -->
       <div class="testcase-form">
+
         <div class="form-group">
           <label>Input Data</label>
-          <textarea [(ngModel)]="inputData" rows="3" class="form-control-code" placeholder="e.g. [2, 7, 11, 15], 9"></textarea>
+          <textarea [(ngModel)]="inputData"
+                    rows="3"
+                    class="form-control-code"></textarea>
         </div>
 
         <div class="form-group">
           <label>Expected Output</label>
-          <textarea [(ngModel)]="expectedOutput" rows="2" class="form-control-code" placeholder="e.g. [0, 1]"></textarea>
+          <textarea [(ngModel)]="expectedOutput"
+                    rows="2"
+                    class="form-control-code"></textarea>
         </div>
 
         <button (click)="addTestCase()" class="btn-secondary-modern">
           ➕ Add Test Case
         </button>
+
       </div>
 
+      <!-- LIST -->
       <div class="testcase-preview">
+
         <label>Added Test Cases ({{ testCasesAdded.length }})</label>
+
         <div class="testcase-list-wrapper">
           <ul class="testcase-list">
-            <li *ngFor="let tc of testCasesAdded; let i = index" class="fade-in">
+
+            <li *ngFor="let tc of testCasesAdded; let i = index">
               <span class="tc-badge">TC #{{ i + 1 }}</span>
-              <span class="tc-summary">{{ tc | slice:0:40 }}...</span>
+              <span>{{ tc | slice:0:40 }}...</span>
             </li>
-            <div *ngIf="testCasesAdded.length === 0" class="empty-state">
+
+            <div *ngIf="testCasesAdded.length === 0">
               No test cases added yet.
             </div>
+
           </ul>
         </div>
-        
-        <button class="btn-finish mt-3" *ngIf="testCasesAdded.length > 0" (click)="AddProblem()">
+
+        <button class="btn-finish"
+                *ngIf="testCasesAdded.length > 0"
+                (click)="AddProblem()">
           ✅ Add Problem
         </button>
+
       </div>
+
     </div>
+
   </main>
 
+</div>
 
+<!-- ===== CAMPUS ===== -->
+<div *ngIf="activeSection === 'campus'">
+  <!-- Campus UI yaha aayega -->
 </div>

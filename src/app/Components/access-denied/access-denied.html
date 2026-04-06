@@ -1,2 +1,15 @@
-<h1>403 - Access Denied 🚫</h1>
-<button routerLink="/login">Go Back</button>
+<div class="error-container">
+  <div class="error-card">
+
+    <div class="error-code">403</div>
+
+    <h1>Access Forbidden</h1>
+    <p>You don’t have permission to access this page.</p>
+
+    <div class="actions">
+      <button class="btn-primary" (click)="goHome()">🏠 Go Home</button>
+      <button class="btn-secondary" (click)="goBack()">⬅ Back</button>
+    </div>
+
+  </div>
+</div>

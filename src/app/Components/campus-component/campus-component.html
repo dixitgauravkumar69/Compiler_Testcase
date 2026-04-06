@@ -41,216 +41,221 @@
 
   <!-- MAIN CONTENT -->
   <div class="main-content">
-    
+
     <!-- TABS -->
     <div class="tabs-nav">
       <button [class.active]="activeTab() === 'post'" (click)="setTab('post')">Post Campus</button>
       <button [class.active]="activeTab() === 'applied'" (click)="setTab('applied')">Companies</button>
     </div>
 
-  <div class="content-body">
-    
-    @if (activeTab() === 'post') {
-      <div class="section-header">
-        <h2>Create New Job Post</h2>
-        <p>Fill details to notify students about new opportunities</p>
-      </div>
+    <div class="content-body">
 
-      <form (ngSubmit)="addJob()" class="modern-form">
-        <div class="form-columns">
-          <div class="form-col">
-            <div class="form-section">
-              <div class="section-divider">Basic Info</div>
-              <div class="grid-layout">
-                <div class="field">
-                  <label>Company *</label>
-                  <input type="text" [(ngModel)]="job.company" name="company">
+      <!-- POST TAB -->
+      <ng-container *ngIf="activeTab() === 'post'">
+        <div class="section-header">
+          <h2>Create New Job Post</h2>
+          <p>Fill details to notify students about new opportunities</p>
+        </div>
+
+        <form (ngSubmit)="addJob()" class="modern-form">
+          <div class="form-columns">
+            <div class="form-col">
+              <div class="form-section">
+                <div class="section-divider">Basic Info</div>
+                <div class="grid-layout">
+                  <div class="field">
+                    <label>Company *</label>
+                    <input type="text" [(ngModel)]="job.company" name="company">
+                  </div>
+                  <div class="field">
+                    <label>Job Title *</label>
+                    <input type="text" [(ngModel)]="job.title" name="title">
+                  </div>
+                  <div class="field">
+                    <label>Job Type</label>
+                    <select [(ngModel)]="job.jobType" name="jobType">
+                      <option value="">Select</option>
+                      <option>Full Time</option>
+                      <option>Internship</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Location</label>
+                    <input type="text" [(ngModel)]="job.location" name="location">
+                  </div>
                 </div>
-                <div class="field">
-                  <label>Job Title *</label>
-                  <input type="text" [(ngModel)]="job.title" name="title">
-                </div>
-                <div class="field">
-                  <label>Job Type</label>
-                  <select [(ngModel)]="job.jobType" name="jobType">
-                    <option value="">Select</option>
-                    <option>Full Time</option>
-                    <option>Internship</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label>Location</label>
-                  <input type="text" [(ngModel)]="job.location" name="location">
+              </div>
+
+              <div class="form-section">
+                <div class="section-divider">Eligibility</div>
+                <div class="grid-layout">
+                  <div class="field">
+                    <label>Branch *</label>
+                    <input type="text" [(ngModel)]="job.eligibleBranch" name="eligibleBranch">
+                  </div>
+                  <div class="field">
+                    <label>CGPA *</label>
+                    <input type="number" [(ngModel)]="job.cgpa" name="cgpa">
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="form-section">
-              <div class="section-divider">Eligibility</div>
-              <div class="grid-layout">
-                <div class="field">
-                  <label>Branch *</label>
-                  <input type="text" [(ngModel)]="job.eligibleBranch" name="eligibleBranch">
+            <div class="form-col">
+              <div class="form-section">
+                <div class="section-divider">Package & Rules</div>
+                <div class="grid-layout">
+                  <div class="field">
+                    <label>Salary *</label>
+                    <input type="number" [(ngModel)]="job.salaryPackage" name="salaryPackage">
+                  </div>
+                  <div class="field">
+                    <label>Semester*</label>
+                    <select [(ngModel)]="job.semester" name="semester">
+                      <option value="">Select</option>
+                      <option>5</option><option>6</option><option>7</option><option>8</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Bond*</label>
+                    <input type="number" [(ngModel)]="job.bond" name="bond">
+                  </div>
+                  <div class="field">
+                    <label>Last Date*</label>
+                    <input type="date" [(ngModel)]="job.registrationLastDate" name="registrationLastDate">
+                  </div>
                 </div>
-                <div class="field">
-                  <label>CGPA *</label>
-                  <input type="number" [(ngModel)]="job.cgpa" name="cgpa">
+              </div>
+
+              <div class="form-section">
+                <div class="section-divider">Details</div>
+                <div class="field full-width">
+                  <label>Skills</label>
+                  <textarea [(ngModel)]="job.skillsRequired" name="skillsRequired"></textarea>
+                </div>
+                <div class="field full-width">
+                  <label>Selection Process</label>
+                  <textarea [(ngModel)]="job.selectionProcess" name="selectionProcess"></textarea>
+                </div>
+                <div class="field full-width">
+                  <label>Description</label>
+                  <textarea [(ngModel)]="job.jobDescription" name="jobDescription"></textarea>
+                </div>
+                <div class="field full-width">
+                  <label>Attachment (PDF only)</label>
+                  <input type="file" (change)="onFileSelected($event)">
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="form-col">
-            <div class="form-section">
-              <div class="section-divider">Package & Rules</div>
-              <div class="grid-layout">
-                <div class="field">
-                  <label>Salary *</label>
-                  <input type="number" [(ngModel)]="job.salaryPackage" name="salaryPackage">
-                </div>
-                <div class="field">
-                  <label>Semester*</label>
-                  <select [(ngModel)]="job.semester" name="semester">
-                    <option value="">Select</option>
-                    <!-- <option [value]="0">All</option> -->
-                    <option>5</option><option>6</option><option>7</option><option>8</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label>Bond*</label>
-                  <input type="number" [(ngModel)]="job.bond" name="bond">
-                </div>
-                <div class="field">
-                  <label>Last Date*</label>
-                  <input type="date" [(ngModel)]="job.registrationLastDate" name="registrationLastDate">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="section-divider">Details</div>
-              <div class="field full-width">
-                <label>Skills</label>
-                <textarea [(ngModel)]="job.skillsRequired" name="skillsRequired"></textarea>
-              </div>
-              <div class="field full-width">
-                <label>Selection Process</label>
-                <textarea [(ngModel)]="job.selectionProcess" name="selectionProcess"></textarea>
-              </div>
-              <div class="field full-width">
-                <label>Description</label>
-                <textarea [(ngModel)]="job.jobDescription" name="jobDescription"></textarea>
-              </div>
-              <div class="field full-width">
-                <label>Attachment (PDF only)</label>
-                <input type="file" (change)="onFileSelected($event)">
-              </div>
-            </div>
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="resetForm()">Cancel</button>
+            <button type="submit" class="submit-btn">🚀 Post Job</button>
           </div>
-        </div>
+        </form>
+      </ng-container>
 
-        <div class="form-actions">
-          <button type="button" class="btn-cancel" (click)="resetForm()">Cancel</button>
-          <button type="submit" class="submit-btn">🚀 Post Job</button>
-        </div>
-      </form>
-    }
-
-    @if (activeTab() === 'applied') {
-      <div class="section-header search-header">
-        <div>
-          <h2>Available Companies</h2>
-          <p>Click on a company name to view applicants</p>
-        </div>
-        <div class="search-bar">
-          <input type="text" placeholder="🔍 Search by company, branch or location..." 
-                 [ngModel]="companySearchQuery()" (ngModelChange)="companySearchQuery.set($event)">
-        </div>
-      </div>
-
-      <div class="table-outer-wrapper">
-        <table class="modern-table">
-          <thead>
-            <tr>
-              <th>Company</th><th>Location</th><th>Package</th><th>Bond</th>
-              <th>Industry</th><th>Branch</th><th>Min CGPA</th><th>Skills</th>
-              <th>Selection</th><th>Last Date</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (item of filteredCompanies(); track item.id) {
-            <tr>
-              <td class="company-name-cell clickable-link" (click)="viewStudents(item)">{{ item.company }}</td>
-              <td>{{ item.location }}</td>
-              <td><span class="status-badge">{{ item.salaryPackage }}</span></td>
-              <td>{{ item.bond }} Yr</td>
-              <td>{{ item.industry }}</td>
-              <td>{{ item.eligibleBranch || 'All' }}</td>
-              <td>{{ item.cgpa }}</td>
-              <td class="text-truncate">{{ item.skillsRequired }}</td>
-              <td class="text-truncate">{{ item.selectionProcess }}</td>
-              <td class="date-cell">{{ item.registrationLastDate | date:'mediumDate' }}</td>
-              <td><button class="delete-btn" (click)="deleteAction(item.id)"
-                >Delete</button>
-              </td>
-            </tr>
-            } @empty {
-            <tr><td colspan="10" class="empty-row">No matching records found.</td></tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    }
-
-    @if (activeTab() === 'students') {
-      <div class="section-header search-header">
-        <div style="display: flex; align-items: center; gap: 15px;">
-          <button class="btn-back" (click)="setTab('applied')">← Back</button>
+      <!-- APPLIED TAB -->
+      <ng-container *ngIf="activeTab() === 'applied'">
+        <div class="section-header search-header">
           <div>
-            <h2>Applicants for {{ selectedCompany()?.company }}</h2>
-            <p>Role: {{ selectedCompany()?.title }}</p>
+            <h2>Available Companies</h2>
+            <p>Click on a company name to view applicants</p>
+          </div>
+          <div class="search-bar">
+            <input type="text" placeholder="🔍 Search by company, branch or location..." 
+                   [ngModel]="companySearchQuery()" (ngModelChange)="companySearchQuery.set($event)">
           </div>
         </div>
-        <div class="search-bar">
-          <input type="text" placeholder="🔍 Search student name or email..." 
-                 [ngModel]="studentSearchQuery()" (ngModelChange)="studentSearchQuery.set($event)">
-        </div>
-      </div>
 
       <div class="table-outer-wrapper">
-        <table class="modern-table">
-          <thead>
-            <tr>
-              <th>Student Name</th><th>Email</th><th>Status</th>
-              <th>Applied Date</th><th>Eligibility</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (item of filteredStudents(); track item.id) {
-            <tr>
-              <td class="company-name-cell">{{ item.user.username }}</td>
-              <td>{{ item.user.userEmail }}</td>
-              <td>
-                <span class="status-badge" 
-                      [style.background]="item.applicationStatus === 'Applied' ? '#e0f2fe' : '#f0fdf4'"
-                      [style.color]="item.applicationStatus === 'Applied' ? '#0369a1' : '#15803d'">
-                  {{ item.applicationStatus }}
-                </span>
-              </td>
-              <td class="date-cell">{{ item.appliedDate | date:'medium' }}</td>
-              <td>
-                <span [style.color]="item.campus.eligibleBranch === 'CSE' ? '#22c55e' : '#64748b'">
-                  {{ item.campus.eligibleBranch }} Eligible
-                </span>
-              </td>
-            </tr>
-            } @empty {
-            <tr><td colspan="5" class="empty-row">No students match your search.</td></tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    }
+  <table class="modern-table">
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Location</th>
+        <th>Package</th>
+        <th>Bond</th>
+        <th>Branch</th>
+        <th>Min CGPA</th>
+        <th>Skills</th>
+        <th>Semester</th>
+        <th>Selection</th>
+        <th>Last Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredCompanies()">
+        <td class="company-name-cell clickable-link" (click)="viewStudents(item)">{{ item.company }}</td>
+        <td>{{ item.location }}</td>
+        <td><span class="status-badge">{{ item.salaryPackage }}</span></td>
+        <td>{{ item.bond }} Yr</td>
+        <td>{{ item.eligibleBranch || 'All' }}</td>
+        <td>{{ item.cgpa }}</td>
+        <td class="text-truncate">{{ item.skillsRequired }}</td>
+        <td>{{ item.semester }}</td>
+        <td class="text-truncate">{{ item.selectionProcess }}</td>
+        <td class="date-cell">{{ item.registrationLastDate | date:'mediumDate' }}</td>
+        <td><button class="delete-btn" (click)="deleteAction(item.id)">Delete</button></td>
+      </tr>
+      <tr *ngIf="filteredCompanies().length === 0">
+        <td colspan="11" class="empty-row">No matching records found.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+      </ng-container>
+
+      <!-- STUDENTS TAB -->
+      <ng-container *ngIf="activeTab() === 'students'">
+        <div class="section-header search-header">
+          <div style="display: flex; align-items: center; gap: 15px;">
+            <button class="btn-back" (click)="setTab('applied')">← Back</button>
+            <div>
+              <h2>Applicants for {{ selectedCompany()?.company }}</h2>
+              <p>Role: {{ selectedCompany()?.title }}</p>
+            </div>
+          </div>
+          <div class="search-bar">
+            <input type="text" placeholder="🔍 Search student name or email..." 
+                   [ngModel]="studentSearchQuery()" (ngModelChange)="studentSearchQuery.set($event)">
+          </div>
+        </div>
+
+        <div class="table-outer-wrapper">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th>Student Name</th><th>Email</th><th>Status</th>
+                <th>Applied Date</th><th>Eligibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of filteredStudents()">
+                <td class="company-name-cell">{{ item.user.username }}</td>
+                <td>{{ item.user.userEmail }}</td>
+                <td>
+                  <span class="status-badge" 
+                        [style.background]="item.applicationStatus === 'Applied' ? '#e0f2fe' : '#f0fdf4'"
+                        [style.color]="item.applicationStatus === 'Applied' ? '#0369a1' : '#15803d'">
+                    {{ item.applicationStatus }}
+                  </span>
+                </td>
+                <td class="date-cell">{{ item.appliedDate | date:'medium' }}</td>
+                <td>
+                  <span [style.color]="item.campus.eligibleBranch === 'CSE' ? '#22c55e' : '#64748b'">
+                    {{ item.campus.eligibleBranch }} Eligible
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="filteredStudents().length === 0"><td colspan="5" class="empty-row">No students match your search.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+
+    </div>
   </div>
 </div>

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-access-denied',
-  imports: [RouterLink
+  imports: [
   ],
   templateUrl: './access-denied.html',
   styleUrl: './access-denied.css',

@@ -21,8 +21,9 @@ import { EditTestCase } from './Components/teacher/edit-test-case/edit-test-case
 
 
 export const routes: Routes = [
-    {path:"",component:UserComponent},
-    {path:"login",component:LoginComponent},
+    {path:"signUp",component:UserComponent},
+    {path:"auth",component:LoginComponent},
+    {path:"",redirectTo:"auth",pathMatch:"full"},
     { path:"Run",component:CodeExecution},
     {path:"Statement",component:ProblemWithTestCases},
     {path:"student",component:Student},

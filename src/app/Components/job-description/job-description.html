@@ -1,87 +1,163 @@
-<div class="custom-toast" [class.show]="toast.show" [ngClass]="toast.type">
+<!-- TOAST -->
+<div class="toast-wrapper fade-in" *ngIf="toast.show" [ngClass]="toast.type">
   <div class="toast-content">
-    <span class="icon">
-      <i *ngIf="toast.type === 'success'">✔️</i>
-      <i *ngIf="toast.type === 'error'">⚠️</i>
-      <i *ngIf="toast.type === 'info'">ℹ️</i>
-    </span>
+    <div class="icon">
+      <i *ngIf="toast.type === 'success'" class="ph-bold ph-check-circle"></i>
+      <i *ngIf="toast.type === 'error'"   class="ph-bold ph-x-circle"></i>
+      <i *ngIf="toast.type === 'warning'" class="ph-bold ph-warning"></i>
+      <i *ngIf="toast.type === 'info'"    class="ph-bold ph-info"></i>
+    </div>
     <p>{{ toast.message }}</p>
   </div>
+  <div class="toast-progress"></div>
 </div>
 
-<div>
-  <button class="btn-back"  (click)="Back()">BACK</button>
+<!-- LOADER -->
+<div *ngIf="isPageLoading" class="loader-overlay">
+  <div class="spinner"></div>
 </div>
 
-<div class="container fade-in" *ngIf="job">
+<div class="jd-page" *ngIf="job && !isPageLoading">
 
-  <div class="header-card">
-    <div class="company-brand">
-      <div class="logo-placeholder">{{ job.company[0] }}</div>
-      <div class="title-area">
-        <h2>{{job.company}}</h2>
-        <h3>{{job.title}}</h3>
-      </div>
-    </div>
-
-    <div class="info-chips-grid">
-      <div class="chip">
-        <span class="chip-label">Type</span>
-        <span class="chip-value">{{job.jobType}}</span>
-      </div>
-      <div class="chip">
-        <span class="chip-label">Location</span>
-        <span class="chip-value">📍 {{job.location}}</span>
-      </div>
-      <div class="chip">
-        <span class="chip-label">Package</span>
-        <span class="chip-value highlight">{{ job.salaryPackage }} LPA</span>
-      </div>
-      <div class="chip">
-        <span class="chip-label">Eligibility</span>
-        <span class="chip-value">🎓 Sem {{job.semester}}</span>
-      </div>
-    </div>
+  <!-- BACK BAR -->
+  <div class="back-bar">
+    <button class="btn-back-jd" (click)="Back()">
+      <i class="ph-bold ph-arrow-left"></i> Back to Jobs
+    </button>
+    <span class="jd-breadcrumb">{{ job.company }} / {{ job.title }}</span>
   </div>
 
-  <div class="details-body">
-    <div class="section">
-      <h4>📝 Job Description</h4>
-      <p>{{job.jobDescription}}</p>
+  <div class="jd-container fade-in">
+
+    <!-- HEADER CARD -->
+    <div class="jd-header">
+      <div class="jd-company-row">
+        <div class="jd-logo">{{ job.company[0]?.toUpperCase() }}</div>
+        <div class="jd-title-block">
+          <p class="jd-company-name">{{ job.company }}</p>
+          <h1 class="jd-role">{{ job.title }}</h1>
+          <div class="jd-meta-tags">
+            <span class="meta-tag" *ngIf="job.jobType">
+              <i class="ph-bold ph-briefcase"></i> {{ job.jobType }}
+            </span>
+            <span class="meta-tag" *ngIf="job.location">
+              <i class="ph-bold ph-map-pin"></i> {{ job.location }}
+            </span>
+            <span class="meta-tag">
+              <i class="ph-bold ph-graduation-cap"></i> Sem {{ job.semester }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEY STATS -->
+      <div class="jd-stats-grid">
+        <div class="stat-chip green">
+          <span class="stat-label">Package</span>
+          <span class="stat-value">{{ job.salaryPackage }} LPA</span>
+        </div>
+        <div class="stat-chip blue">
+          <span class="stat-label">Min CGPA</span>
+          <span class="stat-value">{{ job.cgpa }}</span>
+        </div>
+        <div class="stat-chip orange">
+          <span class="stat-label">Bond</span>
+          <span class="stat-value">{{ job.bond }} yr</span>
+        </div>
+        <div class="stat-chip purple">
+          <span class="stat-label">Branch</span>
+          <span class="stat-value">{{ job.eligibleBranch || 'All' }}</span>
+        </div>
+      </div>
+
+      <!-- DEADLINE BANNER -->
+      <div class="deadline-banner" [class.urgent]="isDeadlineSoon(job.registrationLastDate)" [class.closed]="isExpired(job.registrationLastDate)">
+        <i class="ph-bold" [class.ph-clock-countdown]="!isExpired(job.registrationLastDate)" [class.ph-x-circle]="isExpired(job.registrationLastDate)"></i>
+        <span *ngIf="!isExpired(job.registrationLastDate)">
+          Apply by <strong>{{ job.registrationLastDate | date:'dd MMM yyyy' }}</strong>
+          <span *ngIf="isDeadlineSoon(job.registrationLastDate)" class="closing-soon-text"> — Closing Soon!</span>
+        </span>
+        <span *ngIf="isExpired(job.registrationLastDate)">
+          Applications closed on <strong>{{ job.registrationLastDate | date:'dd MMM yyyy' }}</strong>
+        </span>
+      </div>
     </div>
 
-    <div class="section">
-      <h4>⚙️ Skills Required</h4>
-      <p>{{job.skillsRequired}}</p>
+    <!-- BODY -->
+    <div class="jd-body">
+
+      <div class="jd-section" *ngIf="job.jobDescription">
+        <div class="section-heading">
+          <i class="ph-bold ph-file-text"></i> Job Description
+        </div>
+        <p class="section-text">{{ job.jobDescription }}</p>
+      </div>
+
+      <div class="jd-section" *ngIf="job.skillsRequired">
+        <div class="section-heading">
+          <i class="ph-bold ph-wrench"></i> Skills Required
+        </div>
+        <div class="skills-list">
+          <span class="skill-tag" *ngFor="let skill of getSkills(job.skillsRequired)">{{ skill }}</span>
+        </div>
+      </div>
+
+      <div class="jd-section" *ngIf="job.selectionProcess">
+        <div class="section-heading">
+          <i class="ph-bold ph-path"></i> Selection Process
+        </div>
+        <p class="section-text">{{ job.selectionProcess }}</p>
+      </div>
+
+      <div class="jd-section" *ngIf="job.allocate">
+        <div class="section-heading">
+          <i class="ph-bold ph-paperclip"></i> Attachment
+        </div>
+        <a class="attachment-link" [href]="job.allocate" [download]="getFileName(job.allocate)" target="_blank">
+          <i class="ph-bold ph-file-pdf"></i> Download Job PDF
+        </a>
+      </div>
+
     </div>
 
-    <div class="section">
-      <h4>🚀 Selection Process</h4>
-      <p>{{job.selectionProcess}}</p>
+    <!-- APPLY SECTION -->
+    <div class="jd-apply-bar">
+      <div class="apply-info" *ngIf="isApplied">
+        <i class="ph-bold ph-check-circle"></i>
+        <span>You've already applied for this position.</span>
+      </div>
+      <div class="apply-info expired" *ngIf="!isApplied && isExpired(job.registrationLastDate)">
+        <i class="ph-bold ph-x-circle"></i>
+        <span>Applications are closed for this drive.</span>
+      </div>
+
+      <button
+        class="apply-btn"
+        (click)="apply()"
+        [disabled]="isApplied || isExpired(job.registrationLastDate) || isApplying"
+        [class.applied]="isApplied"
+        [class.closed]="isExpired(job.registrationLastDate)"
+      >
+        <span *ngIf="isApplying" class="btn-spinner"></span>
+        <i *ngIf="!isApplying && isApplied"  class="ph-bold ph-check-circle"></i>
+        <i *ngIf="!isApplying && !isApplied && !isExpired(job.registrationLastDate)" class="ph-bold ph-paper-plane-tilt"></i>
+        <i *ngIf="!isApplying && isExpired(job.registrationLastDate)" class="ph-bold ph-lock"></i>
+        {{
+          isApplying ? 'Submitting...' :
+          isApplied ? 'Applied' :
+          isExpired(job.registrationLastDate) ? 'Closed' :
+          'Apply Now'
+        }}
+      </button>
     </div>
 
-    <div class="section danger-zone" *ngIf="job.registrationLastDate">
-      <h4>⏰ Deadline</h4>
-      <p>Apply before: <strong>{{ job.registrationLastDate | date:'fullDate' }}</strong></p>
-    </div>
-
-    <div class="section attachment-box" *ngIf="job.allocate">
-      <h4>Job Attachment</h4>
-      <a [href]="job.allocate" [download]="getFileName(job.allocate)">
-        📄 Download PDF
-      </a>
-    </div>
   </div>
-
-  <div class="action-bar-mobile">
-  <button 
-    class="apply-btn-main" 
-    (click)="apply()" 
-    [disabled]="isApplied"
-    [class.disabled]="isOutDated"
-    [class.disabled]="isApplied"
-  >
-    {{ isApplied ? 'Applied ✅' : 'Apply Now' }}
-  </button>
 </div>
+
+<!-- ERROR STATE -->
+<div *ngIf="!job && !isPageLoading" class="error-state">
+  <i class="ph-bold ph-warning-circle"></i>
+  <h3>Job not found</h3>
+  <p>This listing may have been removed.</p>
+  <button class="btn-primary" (click)="Back()">Go Back</button>
 </div>

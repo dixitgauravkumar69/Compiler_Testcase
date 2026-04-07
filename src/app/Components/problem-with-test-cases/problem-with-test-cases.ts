@@ -4,11 +4,12 @@ import { TestCaseDTO, TestCaseService } from '../../Services/test-case-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-problem-with-test-cases',
-  standalone: true, 
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule, ThemeSwitcher],
   templateUrl: './problem-with-test-cases.html',
   styleUrl: './problem-with-test-cases.css',
 })
@@ -43,10 +44,29 @@ export class ProblemWithTestCases {
 
   // Step 1: Save Problem
   saveProblem() {
-    if (!this.problemTitle.trim() || !this.problemStatement.trim() || !this.level.trim()) {
+    const title = this.problemTitle.trim();
+    const statement = this.problemStatement.trim();
+    const level = this.level.trim();
+
+    if (!title || !statement || !level) {
       this.showToast('All fields (Title, Statement, Level) are required!', 'warning');
       return;
     }
+
+    // Minimum meaningful length guard
+    if (title.length < 3) {
+      this.showToast('Problem title must be at least 3 characters.', 'warning');
+      return;
+    }
+    if (statement.length < 10) {
+      this.showToast('Problem statement is too short. Please describe the problem properly.', 'warning');
+      return;
+    }
+
+    // Write back trimmed values so API receives clean data
+    this.problemTitle = title;
+    this.problemStatement = statement;
+    this.level = level;
 
     this.isLoading = true;
     this.problemService.addProblem(this.problemStatement, this.problemTitle, this.level).subscribe({
@@ -74,10 +94,17 @@ export class ProblemWithTestCases {
 
   // Step 2: Add Test Case
   addTestCase() {
-    if (!this.inputData.trim() || !this.expectedOutput.trim()) {
+    const input = this.inputData.trim();
+    const output = this.expectedOutput.trim();
+
+    if (!input || !output) {
       this.showToast('Input and Expected Output are required!', 'warning');
       return;
     }
+
+    // Write back trimmed values
+    this.inputData = input;
+    this.expectedOutput = output;
 
     this.isLoading = true;
     const testCase: TestCaseDTO = {

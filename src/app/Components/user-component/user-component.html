@@ -1,54 +1,149 @@
+<!-- TOAST -->
+<div class="toast-wrapper fade-in" *ngIf="toastMessage" [ngClass]="toastType">
+  <div class="toast-content">
+    <div class="icon">
+      <i *ngIf="toastType === 'success'" class="ph-bold ph-check-circle"></i>
+      <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
+      <i *ngIf="toastType === 'warning'" class="ph-bold ph-warning"></i>
+      <i *ngIf="toastType === 'info'"    class="ph-bold ph-info"></i>
+    </div>
+    <p>{{ toastMessage }}</p>
+  </div>
+  <div class="toast-progress"></div>
+</div>
+
 <div class="main">
   <div class="auth-container fade-in">
-    
+
+    <!-- INFO SIDE -->
     <div class="info-side">
       <div class="info-content">
         <h1>Welcome!</h1>
-        <p>Join our community of developers.</p>
+        <p>Join our community of developers and start your coding journey today.</p>
         <div class="feature-list">
           <div class="feature-item"><span>✓</span> Multi-language Compiler</div>
           <div class="feature-item"><span>✓</span> Real-time Performance</div>
+          <div class="feature-item"><span>✓</span> Campus Placement Drives</div>
         </div>
       </div>
     </div>
 
+    <!-- FORM SIDE -->
     <div class="form-side">
       <div class="form-wrapper">
+
         <div class="header">
           <h2>Create Account</h2>
-          <p>Have an account? <a (click)="goToLogin()" class="link">Login</a></p>
+          <p>Already have an account? <a (click)="goToLogin()" class="link">Sign in</a></p>
         </div>
 
-        <form [formGroup]="userForm" (ngSubmit)="registerUser()">
-          <div class="input-box">
-            <input type="text" placeholder="Full Name" formControlName="userName">
+        <form [formGroup]="userForm" (ngSubmit)="registerUser()" novalidate>
+
+          <!-- Full Name -->
+          <div class="input-box" [class.has-error]="fieldError('userName')">
+            <label>Full Name <span class="req">*</span></label>
+            <input
+              type="text"
+              placeholder="e.g. Rahul Sharma"
+              formControlName="userName"
+              autocomplete="name"
+              maxlength="50"
+            >
+            <span class="error-msg" *ngIf="fieldError('userName')">
+              <i class="ph-bold ph-warning-circle"></i> {{ fieldError('userName') }}
+            </span>
           </div>
 
-          <div class="input-box">
-            <input type="email" placeholder="Email Address" formControlName="userEmail">
+          <!-- Email -->
+          <div class="input-box" [class.has-error]="fieldError('userEmail')">
+            <label>Email Address <span class="req">*</span></label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              formControlName="userEmail"
+              autocomplete="email"
+              maxlength="100"
+            >
+            <span class="error-msg" *ngIf="fieldError('userEmail')">
+              <i class="ph-bold ph-warning-circle"></i> {{ fieldError('userEmail') }}
+            </span>
           </div>
 
-          <div class="input-box">
+          <!-- Role -->
+          <div class="input-box" [class.has-error]="fieldError('userRole')">
+            <label>Role <span class="req">*</span></label>
             <select formControlName="userRole">
-              <option value="" disabled selected>Select Your Role</option>
-              <option value="ADMIN">Admin</option>
+              <option value="" disabled selected>Select your role</option>
               <option value="STUDENT">Student</option>
               <option value="TEACHER">Teacher</option>
             </select>
+            <span class="error-msg" *ngIf="fieldError('userRole')">
+              <i class="ph-bold ph-warning-circle"></i> {{ fieldError('userRole') }}
+            </span>
           </div>
 
-          <div class="input-box">
-            <input type="password" placeholder="Password" formControlName="password">
+          <!-- Password -->
+          <div class="input-box password-box" [class.has-error]="fieldError('password')">
+            <label>Password <span class="req">*</span></label>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Min 8 chars, uppercase, number, symbol"
+              formControlName="password"
+              autocomplete="new-password"
+              maxlength="64"
+            >
+            <button type="button" class="eye-btn" (click)="showPassword = !showPassword" [title]="showPassword ? 'Hide' : 'Show'">
+              <i class="ph-bold" [class.ph-eye]="!showPassword" [class.ph-eye-slash]="showPassword"></i>
+            </button>
+
+            <!-- Strength meter — only show when user has typed something -->
+            <div class="strength-meter" *ngIf="f['password'].value">
+              <div class="strength-bars">
+                <span class="bar" [class.active]="passwordStrength >= 1" [class]="passwordStrength >= 1 ? passwordStrengthClass : ''"></span>
+                <span class="bar" [class.active]="passwordStrength >= 2" [class]="passwordStrength >= 2 ? passwordStrengthClass : ''"></span>
+                <span class="bar" [class.active]="passwordStrength >= 3" [class]="passwordStrength >= 3 ? passwordStrengthClass : ''"></span>
+                <span class="bar" [class.active]="passwordStrength >= 4" [class]="passwordStrength >= 4 ? passwordStrengthClass : ''"></span>
+              </div>
+              <span class="strength-label" [class]="passwordStrengthClass">{{ passwordStrengthLabel }}</span>
+            </div>
+
+            <!-- Password rules checklist -->
+            <ul class="pwd-rules" *ngIf="f['password'].dirty">
+              <li [class.ok]="f['password'].value?.length >= 8">
+                <i class="ph-bold" [class.ph-check]="f['password'].value?.length >= 8" [class.ph-x]="!(f['password'].value?.length >= 8)"></i>
+                At least 8 characters
+              </li>
+              <li [class.ok]="!/[A-Z]/.test(f['password'].value) === false">
+                <i class="ph-bold" [class.ph-check]="/[A-Z]/.test(f['password'].value)" [class.ph-x]="!/[A-Z]/.test(f['password'].value)"></i>
+                One uppercase letter
+              </li>
+              <li [class.ok]="!/[0-9]/.test(f['password'].value) === false">
+                <i class="ph-bold" [class.ph-check]="/[0-9]/.test(f['password'].value)" [class.ph-x]="!/[0-9]/.test(f['password'].value)"></i>
+                One number
+              </li>
+              <li [class.ok]="!/[^A-Za-z0-9]/.test(f['password'].value) === false">
+                <i class="ph-bold" [class.ph-check]="/[^A-Za-z0-9]/.test(f['password'].value)" [class.ph-x]="!/[^A-Za-z0-9]/.test(f['password'].value)"></i>
+                One special character
+              </li>
+            </ul>
+
+            <span class="error-msg" *ngIf="fieldError('password') && !f['password'].dirty">
+              <i class="ph-bold ph-warning-circle"></i> {{ fieldError('password') }}
+            </span>
           </div>
 
-          <button type="submit" class="register-btn" [disabled]="!userForm.valid">
-            Get Started
+          <!-- Submit -->
+          <button type="submit" class="register-btn" [disabled]="isLoading">
+            <span *ngIf="!isLoading">
+              <i class="ph-bold ph-user-plus"></i> Create Account
+            </span>
+            <span *ngIf="isLoading" class="btn-loading">
+              <span class="btn-spinner"></span> Creating...
+            </span>
           </button>
+
         </form>
 
-        <p class="status-msg" [ngClass]="{'success': isSuccess, 'error': !isSuccess}" *ngIf="message">
-          {{message}}
-        </p>
       </div>
     </div>
 

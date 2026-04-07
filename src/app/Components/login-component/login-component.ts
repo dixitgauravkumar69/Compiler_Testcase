@@ -20,6 +20,7 @@ export class LoginComponent {
   errorMessage = "";  // Error message handling ke liye 
   success = false;
   isLoading: boolean = false;
+  showPassword = false;
 
   toastMessage: string = '';
   toastType: 'success' | 'error' | 'info' = 'info';
@@ -109,6 +110,6 @@ loginUser() {
   }
 
   goToSignup() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/signUp']);
   }
 }

@@ -1,139 +1,192 @@
-
-<div class="toast-wrapper" *ngIf="toastMessage" [ngClass]="toastType">
-  <div class="toast-body">
-    <p>{{ toastMessage }}</p>
-  </div>
-</div>
-
-<!-- MOBILE HEADER -->
-<div class="mobile-header">
-  <button class="menu-btn" (click)="toggleSidebar()">☰</button>
-  <h2>Dev Campus</h2>
-</div>
-
-<!-- OVERLAY -->
-<div class="overlay" *ngIf="isSidebarOpen" (click)="closeSidebar()"></div>
-
 <div class="dashboard-container">
 
+  <!-- TOAST -->
+  <div class="toast-wrapper fade-in" *ngIf="toastMessage" [ngClass]="toastType">
+    <div class="toast-content">
+      <div class="icon">
+        <i *ngIf="toastType === 'success'" class="ph-bold ph-check-circle"></i>
+        <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
+        <i *ngIf="toastType === 'info'"    class="ph-bold ph-info"></i>
+      </div>
+      <p>{{ toastMessage }}</p>
+    </div>
+    <div class="toast-progress"></div>
+  </div>
+
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <div class="header-left">
+      <button class="menu-trigger" (click)="toggleSidebar()">
+        <span class="burger-icon"></span>
+      </button>
+      <h3>Placement Info</h3>
+    </div>
+    <app-theme-switcher></app-theme-switcher>
+  </header>
+
+  <!-- OVERLAY -->
+  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="closeSidebar()"></div>
+
   <!-- SIDEBAR -->
-  <div class="sidebar" [class.active]="isSidebarOpen">
-    
+  <aside class="sidebar" [class.active]="isSidebarOpen">
     <div class="sidebar-header">
       <div class="sidebar-brand">
         <div class="logo-box">D</div>
-        Dev Campus
+        <span>Dev Campus</span>
       </div>
       <p class="sidebar-subtitle">Student Panel</p>
     </div>
 
     <nav class="nav-links">
-
       <button class="btn-back" (click)="back()">
-        <span class="icon">←</span>
-        <span class="text">Back to Coding Arena</span>
+        <i class="ph-bold ph-arrow-left"></i> Back
       </button>
-
-      <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active">🏆 Coding Performance</a>
-
+      <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <i class="ph-bold ph-trophy"></i> Coding Performance
+      </a>
       <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        👤 My Profile
+        <i class="ph-bold ph-user-circle"></i> My Profile
       </a>
-
       <a routerLink="/generateResume" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        📄 Resume Builder
+        <i class="ph-bold ph-file-text"></i> Resume Builder
       </a>
-
       <a routerLink="/findJobInfo" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        💼 Placement Info
+        <i class="ph-bold ph-briefcase"></i> Placement Info
       </a>
-
       <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        💻 Coding Arena
+        <i class="ph-bold ph-code"></i> Coding Arena
       </a>
-
       <a routerLink="/studentLive" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        🟢 Live Test
+        <i class="ph-bold ph-broadcast"></i> Live Test
       </a>
-
     </nav>
 
-   <div class="sidebar-footer">
+    <div class="sidebar-footer">
+      <app-theme-switcher></app-theme-switcher>
       <a routerLink="/logout" class="logout-btn">
-        <span class="icon">🚪</span> Logout
+        <i class="ph-bold ph-sign-out"></i> Logout
       </a>
     </div>
-  </div>
+  </aside>
 
   <!-- MAIN CONTENT -->
-  <div class="content-wrapper">
+  <main class="content-wrapper">
 
-    <div class="job-portal-container">
+    <!-- PORTAL HEADER -->
+    <div class="portal-header fade-in">
+      <div class="portal-header-top">
+        <span class="top-badge">
+          <i class="ph-bold ph-sparkle"></i> Live Opportunities
+        </span>
+        <span class="job-count-badge" *ngIf="!isLoading && filteredJobs.length > 0">
+          {{ filteredJobs.length }} Jobs
+        </span>
+      </div>
+      <h1>Placement Drives</h1>
+      <p>Curated for your semester & branch. Apply before deadlines close.</p>
 
-      <header class="portal-header fade-in">
-        <span class="top-badge">Live Opportunities</span>
-        <h1>Explore Placement Jobs</h1>
-        <p>Your gateway to top-tier campus placements and internships.</p>
+      <!-- SEARCH -->
+      <div class="search-wrapper">
+        <i class="ph-bold ph-magnifying-glass search-icon-inner"></i>
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearch()"
+          placeholder="Search by company or role..."
+          class="search-input"
+        />
+        <button *ngIf="searchTerm" class="search-clear" (click)="searchTerm = ''; onSearch()">
+          <i class="ph-bold ph-x"></i>
+        </button>
+      </div>
+    </div>
 
-        <div class="search-container">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input 
-              type="text" 
-              [(ngModel)]="searchTerm" 
-              placeholder="Search company or role..."
-            />
+    <!-- LOADING -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Fetching opportunities for you...</p>
+    </div>
+
+    <!-- JOB GRID -->
+    <div class="job-grid fade-in" *ngIf="!isLoading && filteredJobs.length > 0">
+      <div class="job-card" *ngFor="let job of filteredJobs" [class.deadline-soon]="isDeadlineSoon(job.registrationLastDate)">
+
+        <!-- CARD TOP -->
+        <div class="card-top">
+          <div class="company-logo">{{ job.company[0]?.toUpperCase() }}</div>
+          <div class="card-top-right">
+            <span class="type-tag">{{ job.jobType || 'Full Time' }}</span>
+            <span class="deadline-tag" *ngIf="isDeadlineSoon(job.registrationLastDate)">
+              <i class="ph-bold ph-clock-countdown"></i> Closing Soon
+            </span>
           </div>
         </div>
-      </header>
 
-      <!-- LOADING -->
-      <div *ngIf="isLoading" class="loading-state">
-        <p>Searching for the best drives...</p>
-      </div>
+        <!-- CARD BODY -->
+        <div class="card-body">
+          <p class="company-name">{{ job.company }}</p>
+          <h2 class="job-role">{{ job.title }}</h2>
 
-      <!-- JOBS -->
-      <div class="job-grid fade-in" *ngIf="!isLoading && filteredJobs.length > 0">
-        <div class="job-card" *ngFor="let job of filteredJobs">
-
-          <div class="card-top">
-            <div class="company-logo">{{ job.company[0] }}</div>
-            <div class="type-tag">{{ job.jobType }}</div>
+          <div class="meta-row">
+            <span class="meta-item" *ngIf="job.location">
+              <i class="ph-bold ph-map-pin"></i> {{ job.location }}
+            </span>
+            <span class="meta-item">
+              <i class="ph-bold ph-graduation-cap"></i> Sem {{ job.semester }}
+            </span>
           </div>
 
-          <div class="card-body">
-            <h3 class="company-name">{{ job.company }}</h3>
-            <h2 class="job-role">{{ job.title }}</h2>
-
-            <div class="highlight-box">
-              <div class="highlight-item">
-                <span class="label">Package</span>
-                <span class="value">{{ job.salaryPackage || 'LPA' }} LPA</span>
-              </div>
-
-              <div class="highlight-item">
-                <span class="label">Deadline</span>
-                <span class="value date">{{ job.registrationLastDate | date:'mediumDate' }}</span>
-              </div>
+          <div class="highlight-grid">
+            <div class="highlight-item">
+              <span class="h-label">Package</span>
+              <span class="h-value package">{{ job.salaryPackage }} LPA</span>
+            </div>
+            <div class="highlight-item">
+              <span class="h-label">Min CGPA</span>
+              <span class="h-value">{{ job.cgpa }}</span>
+            </div>
+            <div class="highlight-item">
+              <span class="h-label">Bond</span>
+              <span class="h-value">{{ job.bond }} yr</span>
+            </div>
+            <div class="highlight-item">
+              <span class="h-label">Branch</span>
+              <span class="h-value">{{ job.eligibleBranch || 'All' }}</span>
             </div>
           </div>
 
-          <div class="card-footer">
-            <button class="view-details-btn" (click)=" viewDescription(job.id)">
-              View Full Details →
-            </button>
+          <div class="deadline-row" [class.urgent]="isDeadlineSoon(job.registrationLastDate)">
+            <i class="ph-bold ph-calendar-check"></i>
+            <span>Apply by <strong>{{ job.registrationLastDate | date:'dd MMM yyyy' }}</strong></span>
           </div>
-
         </div>
-      </div>
 
-      <!-- EMPTY -->
-      <div *ngIf="!isLoading && filteredJobs.length === 0" class="empty-jobs fade-in">
-        <div class="empty-icon">📂</div>
-        <h3>No matching jobs found</h3>
-      </div>
+        <!-- CARD FOOTER -->
+        <div class="card-footer">
+          <button class="view-details-btn" (click)="viewDescription(job.id)">
+            <i class="ph-bold ph-eye"></i> View Details
+          </button>
+        </div>
 
+      </div>
     </div>
 
-  </div>
+    <!-- EMPTY STATE -->
+    <div *ngIf="!isLoading && filteredJobs.length === 0 && jobs.length > 0" class="empty-state">
+      <i class="ph-bold ph-magnifying-glass empty-icon"></i>
+      <h3>No results for "{{ searchTerm }}"</h3>
+      <p>Try a different company name or role.</p>
+      <button class="btn-primary" (click)="searchTerm = ''; onSearch()">Clear Search</button>
+    </div>
+
+    <div *ngIf="!isLoading && jobs.length === 0" class="empty-state">
+      <i class="ph-bold ph-briefcase empty-icon"></i>
+      <h3>No drives available right now</h3>
+      <p>Check back later or contact your placement cell.</p>
+      <button class="btn-primary" (click)="fetchJobs()">
+        <i class="ph-bold ph-arrows-clockwise"></i> Refresh
+      </button>
+    </div>
+
+  </main>
 </div>

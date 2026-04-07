@@ -1,684 +1,284 @@
+/* =========================================
+   GENERATE RESUME
+   ========================================= */
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-  background: #f8fafc;
+  background: var(--color-bg-page);
 }
 
-/* Sidebar FIX */
-.sidebar {
-  width: 260px;
-  flex-shrink: 0; /* IMPORTANT */
-}
-
-/* Content FIX */
 .content-wrapper {
   flex: 1;
-  padding: 40px;
-  overflow-y: auto; /* IMPORTANT */
+  padding: var(--spacing-3xl);
+  overflow-y: auto;
 }
 
-.sidebar {
-  width: 260px;
-  background: white;
-  border-right: 1px solid #e2e8f0;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  transition: 0.3s;
-  z-index: 1000;
-}
-
-.sidebar-header {
-  padding: 25px 20px;
-}
-
-.sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: #4f46e5;
-}
-
-.logo-box {
-  background: #4f46e5;
-  color: white;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-}
-
-.sidebar-subtitle {
-  font-size: 0.7rem;
-  color: #94a3b8;
-  margin-top: 5px;
-  margin-left: 45px;
-}
-
-/* NAV LINKS */
-.nav-links {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-}
-
-.nav-item {
-  padding: 10px 15px;
-  border-radius: 10px;
-  text-decoration: none;
-  color: #64748b;
-  font-weight: 500;
-  transition: 0.2s;
-}
-
-.nav-item:hover {
-  background: #f1f5f9;
-  color: #4f46e5;
-}
-
-.nav-item.active {
-  background: #eef2ff;
-  color: #4f46e5;
-  font-weight: 600;
-}
-
-/* FOOTER */
-.sidebar-footer {
-  padding: 15px;
-  border-top: 1px solid #f1f5f9;
-}
-
-
-
-/* --- Builder Card --- */
+/* =========================================
+   BUILDER CARD
+   ========================================= */
 .resume-builder-card {
-  max-width: 1000px;
-  margin: 0 auto 40px;
-  background: white;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid #eef2f6;
+  max-width: var(--card-max-width);
+  margin: 0 auto var(--spacing-3xl);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-3xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border-light);
   overflow: hidden;
 }
 
 .builder-header {
-  background: #f8faff;
-  padding: 40px;
+  background: var(--color-bg-subtle);
+  padding: var(--spacing-3xl);
   display: flex;
   align-items: center;
-  gap: 20px;
-  border-bottom: 1px solid #eef2f6;
+  gap: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .header-icon {
-  font-size: 2rem;
-  background: white;
-  width: 60px; height: 60px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.1);
+  font-size: var(--font-size-3xl);
+  background: var(--color-bg-card);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-primary);
+  flex-shrink: 0;
 }
 
-.header-text h2 { margin: 0; font-size: 1.6rem; color: #1e293b; }
-.header-text p { margin: 5px 0 0; color: #64748b; }
+.header-text h2 {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-bold);
+}
 
-/* --- Form Layout --- */
-.resume-form-modern { padding: 40px; }
-.form-section { margin-bottom: 40px; }
+.header-text p {
+  margin: var(--spacing-xs) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* =========================================
+   FORM
+   ========================================= */
+.resume-form-modern { padding: var(--spacing-3xl); }
+.form-section { margin-bottom: var(--spacing-3xl); }
 
 .section-title {
-  font-size: 0.9rem;
+  font-size: var(--font-size-xs);
   text-transform: uppercase;
-  color: #4f46e5;
-  font-weight: 700;
-  margin-bottom: 25px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #f1f5f9;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--color-border-light);
+  letter-spacing: 0.08em;
 }
 
-.form-grid-3 {
+.form-grid-3, .form-grid-responsive {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: var(--spacing-lg);
 }
 
 .form-grid-full {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--spacing-lg);
 }
 
-/* --- Fields --- */
-.field { display: flex; flex-direction: column; gap: 8px; }
-.field label { font-size: 0.85rem; font-weight: 600; color: #475569; }
-
-input, textarea {
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  font-family: inherit;
-  font-size: 0.95rem;
-  background: #fcfdfe;
-  transition: all 0.3s;
+/* =========================================
+   RESUME LIST
+   ========================================= */
+.list-title {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
 }
 
-input:focus, textarea:focus {
-  outline: none;
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-  background: white;
-}
-
-/* --- Buttons --- */
-.action-footer {
-  display: flex; justify-content: flex-end; gap: 15px;
-  padding-top: 30px; border-top: 1px solid #f1f5f9;
-}
-
-.btn-primary {
-  background: #4f46e5; color: white; border: none;
-  padding: 14px 30px; border-radius: 12px; font-weight: 600;
-  cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-}
-
-.btn-secondary {
-  background: #f1f5f9; color: #64748b; border: none;
-  padding: 14px 25px; border-radius: 12px; font-weight: 600; cursor: pointer;
-}
-
-/* --- Resume Grid --- */
-.list-title { text-align: center; margin-bottom: 30px; color: #1e293b; }
 .resume-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-xl);
 }
 
 .resume-premium-card {
-  background: white; border-radius: 20px; padding: 24px;
-  border: 1px solid #eef2f6; display: flex; flex-direction: column; gap: 15px;
-  transition: 0.3s;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-2xl);
+  padding: var(--spacing-xl);
+  border: 1px solid var(--color-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: var(--transition-normal);
+  position: relative;
 }
 
-.resume-premium-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+.resume-premium-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
 
 .resume-icon {
-  font-size: 1.5rem; background: #eef2ff; width: 50px; height: 50px;
-  display: flex; align-items: center; justify-content: center; border-radius: 12px;
+  font-size: var(--font-size-xl);
+  background: var(--color-primary-soft);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
 }
 
-.resume-info h3 { font-size: 1.1rem; color: #1e293b; margin: 0; }
-.resume-info p { color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 5px 0 0; }
-
-.btn-download {
-  background: #10b981; color: white; border: none;
-  padding: 12px; border-radius: 10px; font-weight: 700;
-  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+.resume-info h3 {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-primary);
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
 }
 
-/* --- Responsive --- */
-@media (max-width: 992px) {
-  .form-grid-3 { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 600px) {
-  .form-grid-3 { grid-template-columns: 1fr; }
-  .action-footer { flex-direction: column; }
-  .builder-header { padding: 30px 20px; }
-}
-
-.fade-in { animation: fadeIn 0.5s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-
-
-
-
-
-.form-grid-responsive {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-/* --- Mobile Specific Tweaks --- */
-@media (max-width: 992px) {
-  .form-grid-responsive {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  /* Container Padding */
-  .dashboard-container {
-    padding: 10px;
-  }
-
-  .resume-builder-card {
-    border-radius: 16px;
-    margin-bottom: 20px;
-  }
-
-  /* Header Shrink */
-  .builder-header {
-    padding: 25px 15px;
-    gap: 15px;
-  }
-
-  .header-icon {
-    width: 45px; height: 45px; font-size: 1.5rem;
-  }
-
-  .header-text h2 { font-size: 1.2rem; }
-  .header-text p { font-size: 0.85rem; }
-
-  /* Form Layout */
-  .resume-form-modern {
-    padding: 20px 15px;
-  }
-
-  .form-grid-responsive {
-    grid-template-columns: 1fr; /* Force single column */
-    gap: 15px;
-  }
-
-  .section-title {
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .section-title::after {
-    content: ""; flex: 1; height: 1px; background: #e2e8f0;
-  }
-
-  /* Input focus size fix for iOS */
-  input, textarea {
-    font-size: 16px; 
-    padding: 14px;
-  }
-
-  /* Action Buttons */
-  .action-footer {
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 10px;
-    padding-top: 20px;
-  }
-
-  .btn-primary, .btn-secondary {
-    width: 100%;
-    padding: 16px;
-    font-size: 1rem;
-  }
-
-  /* Generated Resumes Mobile View */
-  .resume-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .card-mobile-flex {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .resume-premium-card {
-    padding: 15px;
-  }
-
-  .resume-icon {
-    width: 40px; height: 40px; font-size: 1.2rem;
-  }
-}
-
-/* Premium Toast */
-.toast {
-  position: fixed; top: 20px; right: 20px; padding: 16px 24px;
-  border-radius: 12px; color: white; font-weight: 600; z-index: 9999;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  animation: slideIn 0.3s ease-out;
-}
-.toast.success { background: #10b981; }
-.toast.info { background: #3b82f6; }
-.toast.warning { background: #f59e0b; }
-.toast.error { background: #ef4444; }
-
-/* Resume Card Improvements */
-.resume-premium-card {
-  position: relative;
-  background: white;
-  border: 1px solid #e2e8f0;
-  padding: 24px;
-  border-radius: 20px;
-  transition: 0.3s;
+.resume-info p {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  margin: var(--spacing-xs) 0 0;
 }
 
 .card-status {
-  position: absolute; top: 12px; right: 12px;
-  font-size: 0.7rem; background: #f1f5f9;
-  padding: 4px 10px; border-radius: 20px; color: #64748b;
-  font-weight: 700;
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  font-size: var(--font-size-xs);
+  background: var(--color-bg-subtle);
+  padding: 4px var(--spacing-sm);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-bold);
 }
 
-/* Button Loading State */
-.btn-primary:disabled {
-  background: #94a3b8;
-  cursor: not-allowed;
-  transform: none;
+.btn-download {
+  background: var(--color-success);
+  color: var(--color-text-inverse);
+  border: none;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  transition: var(--transition-fast);
 }
 
-/* Smooth Focus for Textareas */
-textarea {
-  line-height: 1.5;
-  transition: border-color 0.2s;
-}
+.btn-download:hover { filter: brightness(1.1); }
 
-@keyframes slideIn {
-  from { transform: translateX(120%); }
-  to { transform: translateX(0); }
-}
-
-/* --- Processing Overlay --- */
+/* =========================================
+   PROCESSING OVERLAY
+   ========================================= */
 .processing-overlay {
   position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px); /* Blur Background */
-  display: flex; justify-content: center; align-items: center;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease;
+  inset: 0;
+  background: var(--color-bg-overlay);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-overlay);
+  animation: fadeIn var(--transition-normal) ease;
 }
 
-.loader-content {
-  text-align: center;
-  max-width: 400px;
-}
+.loader-content { text-align: center; max-width: 400px; }
 
 .loader-content h3 {
-  color: #764ba2;
-  font-size: 1.5rem;
-  margin: 20px 0 10px;
+  color: var(--color-primary);
+  font-size: var(--font-size-2xl);
+  margin: var(--spacing-lg) 0 var(--spacing-sm);
 }
 
 .loader-content p {
-  color: #667eea;
-  font-weight: 500;
-  font-size: 0.9rem;
+  color: var(--color-primary-light);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
 }
 
-/* --- Progress Bar Animation --- */
 .progress-bar-container {
   width: 100%;
   height: 6px;
-  background: #eee;
-  border-radius: 10px;
-  margin-top: 20px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  margin-top: var(--spacing-lg);
   overflow: hidden;
 }
 
 .progress-bar-fill {
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, #764ba2, #667eea);
+  background: var(--gradient-primary);
   animation: loadingProgress 2s infinite ease-in-out;
   transform-origin: left;
 }
 
 @keyframes loadingProgress {
-  0% { transform: scaleX(0); }
-  50% { transform: scaleX(0.7); }
+  0%   { transform: scaleX(0); }
+  50%  { transform: scaleX(0.7); }
   100% { transform: scaleX(1); opacity: 0; }
 }
 
-/* --- DNA/Circle Spinner --- */
 .dna-spinner {
   width: 60px;
   height: 60px;
   margin: 0 auto;
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #764ba2;
+  border: 5px solid var(--color-border);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 992px) {
+  .form-grid-3, .form-grid-responsive { grid-template-columns: 1fr 1fr; }
 
-/* Button Disabled State */
-.btn-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  filter: grayscale(0.5);
-}
-/* Back Button Container Alignment */
-.btn-back {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid #e0e0e0;
-  padding: 10px 18px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 20px;
-  font-family: 'Poppins', sans-serif;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-/* Icon Styling */
-.btn-back .icon {
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
-  color: #0091ca; /* Aapka primary blue color */
-}
-
-/* Text Styling */
-.btn-back .text {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #444;
-}
-
-/* Hover Effects */
-.btn-back:hover {
-  background: #ffffff;
-  border-color: #0091ca;
-  box-shadow: 0 4px 12px rgba(0, 145, 202, 0.15);
-  transform: translateY(-2px);
-}
-
-/* Hover pe Arrow move hoga */
-.btn-back:hover .icon {
-  transform: translateX(-5px);
-  color: #0077a8;
-}
-
-.btn-back:hover .text {
-  color: #000;
-}
-
-/* Active/Click Effect */
-.btn-back:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Mobile Responsive */
-@media (max-width: 600px) {
-  .btn-back {
-    padding: 8px 14px;
-    width: fit-content;
-  }
-  .btn-back .text {
-    font-size: 0.85rem;
-  }
-}
-
-
-/* ================= MOBILE RESPONSIVE FIX ================= */
-@media (max-width: 768px) {
-
-  /* Layout Fix */
-  .dashboard-container {
-    flex-direction: column;
+  .mobile-header {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    background: var(--color-bg-card);
+    padding: 0 var(--spacing-lg);
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    z-index: var(--z-header);
   }
 
   .sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
+    position: fixed;
+    left: 0; top: 0;
+    transform: translateX(-100%);
+    z-index: var(--z-sidebar);
   }
 
-  .content-wrapper {
-    padding: 15px;
-  }
+  .sidebar.active { transform: translateX(0); }
 
-  /* Resume Card */
-  .resume-builder-card {
-    margin: 10px 0;
-    border-radius: 16px;
-  }
-
-  .builder-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 20px;
-    gap: 10px;
-  }
-
-  .header-icon {
-    width: 45px;
-    height: 45px;
-    font-size: 1.4rem;
-  }
-
-  .header-text h2 {
-    font-size: 1.3rem;
-  }
-
-  .header-text p {
-    font-size: 0.85rem;
-  }
-
-  /* FORM FIX */
-  .resume-form-modern {
-    padding: 20px 15px;
-  }
-
-  .form-grid-responsive {
-    grid-template-columns: 1fr !important;  /* IMPORTANT */
-    gap: 15px;
-  }
-
-  .form-grid-full {
-    gap: 15px;
-  }
-
-  .field {
-    width: 100%;
-  }
-
-  .field.full-width,
-  .field.full-width-mobile {
-    grid-column: span 1 !important;
-  }
-
-  .logout-btn {
-  display: block;
-  text-align: center;
-  padding: 10px;
-  border-radius: 10px;
-  background: #fee2e2;
-  color: #ef4444;
-  font-weight: 600;
-  cursor: pointer;
+  .content-wrapper { padding-top: 80px; }
 }
 
-  /* INPUT FIX */
-  input,
-  textarea {
-    width: 100%;
-    font-size: 16px;   /* iOS zoom fix */
-    padding: 14px;
-  }
-
-  /* SECTION TITLE */
-  .section-title {
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .section-title::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: #e2e8f0;
-  }
-
-  /* BUTTONS */
-  .action-footer {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-    padding: 15px;
-    font-size: 1rem;
-  }
-
-  /* RESUME LIST */
-  .resume-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .resume-premium-card {
-    padding: 15px;
-  }
-
-  .resume-icon {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-  }
-
-  /* FIX: Sliding / blank issue */
-  body, html {
-    overflow-x: hidden;
-  }
-
-  .resume-list-container {
-    margin-top: 20px;
-  }
+@media (max-width: 768px) {
+  .content-wrapper { padding: 80px var(--spacing-md) var(--spacing-md); }
+  .resume-builder-card { margin: var(--spacing-sm) 0; border-radius: var(--radius-xl); }
+  .builder-header { flex-direction: column; align-items: flex-start; padding: var(--spacing-lg); gap: var(--spacing-sm); }
+  .resume-form-modern { padding: var(--spacing-lg); }
+  .form-grid-3, .form-grid-responsive { grid-template-columns: 1fr !important; gap: var(--spacing-md); }
+  .resume-grid { grid-template-columns: 1fr; }
 }
 
-/* EXTRA SMALL DEVICES */
-@media (max-width: 480px) {
-
-  .builder-header {
-    padding: 15px;
-  }
-
-  .header-text h2 {
-    font-size: 1.1rem;
-  }
-
-  input,
-  textarea {
-    padding: 12px;
-  }
+@media (max-width: 600px) {
+  input, textarea { font-size: var(--font-size-base); }
 }

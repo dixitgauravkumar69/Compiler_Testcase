@@ -1,13 +1,11 @@
 <div class="toast-wrapper" *ngIf="toastMessage" [ngClass]="toastType">
   <div class="toast-content">
-    <span class="icon">
-      <ng-container [ngSwitch]="toastType">
-        <span *ngSwitchCase="'success'">✅</span>
-        <span *ngSwitchCase="'error'">❌</span>
-        <span *ngSwitchCase="'warning'">⚠️</span>
-        <span *ngSwitchCase="'info'">ℹ️</span>
-      </ng-container>
-    </span>
+    <div class="icon">
+      <i *ngIf="toastType === 'success'" class="ph-bold ph-check-circle"></i>
+      <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
+      <i *ngIf="toastType === 'warning'" class="ph-bold ph-warning"></i>
+      <i *ngIf="toastType === 'info'"    class="ph-bold ph-info"></i>
+    </div>
     <p>{{ toastMessage }}</p>
   </div>
   <div class="toast-progress"></div>

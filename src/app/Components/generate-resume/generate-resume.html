@@ -1,9 +1,32 @@
-<div class="toast" *ngIf="toastMessage" [ngClass]="toastType">
-  {{ toastMessage }}
+<div class="toast-wrapper fade-in" *ngIf="toastMessage" [ngClass]="toastType">
+  <div class="toast-content">
+    <div class="icon">
+      <i *ngIf="toastType === 'success'" class="ph-bold ph-check-circle"></i>
+      <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
+      <i *ngIf="toastType === 'warning'" class="ph-bold ph-warning"></i>
+      <i *ngIf="toastType === 'info'"    class="ph-bold ph-info"></i>
+    </div>
+    <p>{{ toastMessage }}</p>
+  </div>
+  <div class="toast-progress"></div>
 </div>
 
 <div class="dashboard-container">
 
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <div class="header-left">
+      <button class="menu-trigger" (click)="toggleSidebar()">
+        <span class="burger-icon"></span>
+      </button>
+      <h3>Resume Builder</h3>
+    </div>
+    <div class="mobile-header-right">
+      <app-theme-switcher></app-theme-switcher>
+    </div>
+  </header>
+
+  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="closeSidebar()"></div>
 
   <div class="sidebar" [class.active]="isSidebarOpen">
     <div class="sidebar-header">
@@ -15,37 +38,33 @@
     </div>
 
     <nav class="nav-links">
-
-       <button class="btn-back" (click)="goBack()">
-      <span class="icon">←</span>
-      <span class="text">Back to Coding Arena</span>
-    </button>
-
-
-       <a routerLink="/StudentLeaderBoard" class="nav-item"   routerLinkActive="active" >
-          🏆 Coding Performance
-       </a> 
+      <button class="btn-back" (click)="goBack()">
+        <i class="ph-bold ph-arrow-left"></i> Back to Coding Arena
+      </button>
+      <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active">
+        <i class="ph-bold ph-trophy"></i> Coding Performance
+      </a>
       <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">👤</span> <span class="text">My Profile</span>
+        <i class="ph-bold ph-user-circle"></i> My Profile
       </a>
       <a routerLink="/generateResume" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">📄</span> <span class="text">Resume Builder</span>
+        <i class="ph-bold ph-file-text"></i> Resume Builder
       </a>
       <a routerLink="/findJobInfo" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">💼</span> <span class="text">Placement Info</span>
+        <i class="ph-bold ph-briefcase"></i> Placement Info
       </a>
       <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">💻</span> <span class="text">Coding Arena</span>
+        <i class="ph-bold ph-code"></i> Coding Arena
       </a>
-     
       <a routerLink="/studentLive" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">🟢</span> <span class="text">Live(Stream Test)</span>
+        <i class="ph-bold ph-broadcast"></i> Live Stream Test
       </a>
     </nav>
 
-    <<div class="sidebar-footer">
+    <div class="sidebar-footer">
+      <app-theme-switcher></app-theme-switcher>
       <a routerLink="/logout" class="logout-btn">
-        <span class="icon">🚪</span> Logout
+        <i class="ph-bold ph-sign-out"></i> Logout
       </a>
     </div>
   </div>

@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, signal, inject, computed } from '@angular/core'; 
+import { Component, signal, inject, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BASE_URL } from '../../../Environments/environment';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { filter, switchMap, tap } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-campus-component',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ThemeSwitcher],
   templateUrl: './campus-component.html',
   styleUrls: ['./campus-component.css'],
 })
@@ -124,10 +125,26 @@ export class CampusComponent {
   }
 
   addJob() {
+    // Trim all string fields first
+    this.job.company = (this.job.company || '').trim();
+    this.job.title = (this.job.title || '').trim();
+    this.job.eligibleBranch = (this.job.eligibleBranch || '').trim();
+    this.job.location = (this.job.location || '').trim();
+    this.job.skillsRequired = (this.job.skillsRequired || '').trim();
+    this.job.selectionProcess = (this.job.selectionProcess || '').trim();
+    this.job.jobDescription = (this.job.jobDescription || '').trim();
+
     if (!this.job.company || !this.job.title || !this.job.eligibleBranch ||
         !this.job.cgpa || !this.job.bond || !this.job.salaryPackage ||
         !this.job.semester || !this.job.selectionProcess || !this.job.registrationLastDate) {
       return this.showToastMessage('⚠️ Please fill all required fields');
+    }
+
+    if (this.job.company.length < 2) {
+      return this.showToastMessage('⚠️ Company name is too short');
+    }
+    if (this.job.title.length < 2) {
+      return this.showToastMessage('⚠️ Job title is too short');
     }
 
     const formData = new FormData();

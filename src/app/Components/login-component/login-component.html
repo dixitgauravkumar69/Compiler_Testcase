@@ -1,14 +1,15 @@
 <div class="toast-wrapper" *ngIf="toastMessage" [ngClass]="toastType">
-  <div class="toast-body">
+  <div class="toast-content">
+    <div class="icon">
+      <i *ngIf="toastType === 'success'" class="ph-bold ph-check-circle"></i>
+      <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
+      <i *ngIf="toastType === 'info'"    class="ph-bold ph-info"></i>
+    </div>
     <p>{{ toastMessage }}</p>
   </div>
+  <div class="toast-progress"></div>
+</div>
 
-  <div class="login-container">
-   <button (click)="loginUser()" [disabled]="isLoading">
-      {{ isLoading ? 'Authenticating...' : 'Login' }}
-   </button>
-</div>
-</div>
 <div class="main">
   <div class="auth-container">
     
@@ -34,20 +35,23 @@
             <label>Email Address</label>
             <input 
               type="email" 
-              placeholder="example@mail.com" 
+              placeholder="example@gmail.com" 
               formControlName="userEmail" 
               required
             >
           </div>
 
-          <div class="input-box">
+          <div class="input-box password-box">
             <label>Password</label>
-            <input 
-              type="password" 
-              placeholder=" password" 
-              formControlName="password" 
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Password"
+              formControlName="password"
               required
             >
+            <button type="button" class="eye-btn" (click)="showPassword = !showPassword" [title]="showPassword ? 'Hide password' : 'Show password'">
+              <i class="ph-bold" [class.ph-eye]="!showPassword" [class.ph-eye-slash]="showPassword"></i>
+            </button>
           </div>
 
           <button type="submit" class="login-btn" [disabled]="isLoading || !loginForm.valid">

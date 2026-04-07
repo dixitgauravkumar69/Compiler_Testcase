@@ -15,34 +15,35 @@
     <nav class="nav-links">
 
       <div class="header-top">
-          <button class="btn-back" (click)="goBack()">← Back</button>
+          <button class="btn-back" (click)="goBack()">
+            <i class="ph-bold ph-arrow-left"></i> Back
+          </button>
         </div>
 
-
-       <a routerLink="/StudentLeaderBoard" class="nav-item"   routerLinkActive="active" >
-          🏆 Coding Performance
-       </a> 
+       <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active">
+          <i class="ph-bold ph-trophy"></i> Coding Performance
+       </a>
       <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">👤</span> <span class="text">My Profile</span>
+        <i class="ph-bold ph-user-circle"></i> My Profile
       </a>
       <a routerLink="/generateResume" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">📄</span> <span class="text">Resume Builder</span>
+        <i class="ph-bold ph-file-text"></i> Resume Builder
       </a>
       <a routerLink="/findJobInfo" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">💼</span> <span class="text">Placement Info</span>
+        <i class="ph-bold ph-briefcase"></i> Placement Info
       </a>
       <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">💻</span> <span class="text">Coding Arena</span>
+        <i class="ph-bold ph-code"></i> Coding Arena
       </a>
-     
       <a routerLink="/studentLive" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <span class="icon">🟢</span> <span class="text">Live(Stream Test)</span>
+        <i class="ph-bold ph-broadcast"></i> Live Stream Test
       </a>
     </nav>
 
     <div class="sidebar-footer">
+      <app-theme-switcher></app-theme-switcher>
       <a routerLink="/logout" class="logout-btn">
-        <span class="icon">🚪</span> Logout
+        <i class="ph-bold ph-sign-out"></i> Logout
       </a>
     </div>
   </div>
@@ -55,8 +56,13 @@
 
     <!-- Mobile Header -->
     <div class="mobile-header">
-      <button (click)="toggleSidebar()">☰</button>
-      <h3>Performance</h3>
+      <div class="header-left">
+        <button class="menu-trigger" (click)="toggleSidebar()">
+          <span class="burger-icon"></span>
+        </button>
+        <h3>Performance</h3>
+      </div>
+      <app-theme-switcher></app-theme-switcher>
     </div>
 
     <div class="performance-container">
@@ -106,8 +112,8 @@
             <div class="problem-details">
               <h4>{{ r.problem.title }}</h4>
               <p class="date-time">
-                📅 {{ (r.createdAt + 'Z') | date:'dd MMM yyyy':'+0530' }}
-                • ⏰ {{ (r.createdAt + 'Z') | date:'hh:mm a':'+0530' }}
+                📅 {{ (r.createdAt) | date:'dd MMM yyyy' }}
+                • ⏰ {{ (r.createdAt) | date:'hh:mm a' }}
               </p>
             </div>
           </div>

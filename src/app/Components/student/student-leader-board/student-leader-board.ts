@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { BASE_URL } from '../../../../Environments/environment';
+import { ThemeSwitcher } from '../../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-student-leader-board',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ThemeSwitcher],
   templateUrl: './student-leader-board.html',
   styleUrl: './student-leader-board.css',
 })

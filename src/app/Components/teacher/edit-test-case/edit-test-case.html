@@ -2,8 +2,16 @@
 <div *ngIf="isLoading" class="loader-overlay">
   <div class="loader"></div>
 </div>
-<div *ngIf="showToastFlag" class="toast" [ngClass]="toastType">
-  {{ toastMessage }}
+<div *ngIf="showToastFlag" class="toast-wrapper fade-in" [ngClass]="toastType">
+  <div class="toast-content">
+    <div class="icon">
+      <i *ngIf="toastType === 'success'" class="ph-bold ph-check-circle"></i>
+      <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
+      <i *ngIf="toastType === 'warning'" class="ph-bold ph-warning"></i>
+    </div>
+    <p>{{ toastMessage }}</p>
+  </div>
+  <div class="toast-progress"></div>
 </div>
 
 <button class="back-btn" (click)="goToBack()">

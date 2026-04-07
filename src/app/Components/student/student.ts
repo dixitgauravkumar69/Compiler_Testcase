@@ -2,8 +2,9 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { BASE_URL } from '../../../Environments/environment';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 
 
@@ -29,8 +30,8 @@ interface PageResponse {
     ReactiveFormsModule,
     CommonModule,
     RouterLink,
-   
-   
+    RouterLinkActive,
+    ThemeSwitcher,
   ],
   templateUrl: './student.html',
   styleUrls: ['./student.css']
@@ -104,7 +105,7 @@ export class Student implements OnInit {
           break;
         case 401:
           this.showToast("Your session expired. Redirecting to login... 🔐", "warning");
-          setTimeout(() => this.router.navigate(['/login']), 2000);
+          setTimeout(() => this.router.navigate(['/auth']), 2000);
           break;
         case 403:
           this.showToast("You don't have permission to access this area. ⛔", "error");

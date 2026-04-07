@@ -1,12 +1,13 @@
 <div class="toast-wrapper" *ngIf="toastMessage" [ngClass]="toastType">
-  <div class="toast-body">
-    <span class="toast-icon">
-      <ng-container *ngIf="toastType === 'success'">✔️</ng-container>
-      <ng-container *ngIf="toastType === 'error'">⚠️</ng-container>
-      <ng-container *ngIf="toastType === 'info'">ℹ️</ng-container>
-    </span>
+  <div class="toast-content">
+    <div class="icon">
+      <i *ngIf="toastType === 'success'" class="ph-bold ph-check-circle"></i>
+      <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
+      <i *ngIf="toastType === 'info'"    class="ph-bold ph-info"></i>
+    </div>
     <p>{{ toastMessage }}</p>
   </div>
+  <div class="toast-progress"></div>
 </div>
 
 <div class="modal-overlay" (click)="close()">

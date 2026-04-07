@@ -4,12 +4,13 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { BASE_URL } from '../../../Environments/environment';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-resume-generate',
   standalone: true,
-  imports: [CommonModule, FormsModule,RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, ThemeSwitcher],
   templateUrl: './generate-resume.html',
   styleUrl: './generate-resume.css'
 })
@@ -219,9 +220,10 @@ goBack()
    this.router.navigate(["/student"]);
 }
 
-isSidebarOpen:boolean=true;
-closeSidebar() {
-    this.isSidebarOpen = false;
-  }
+isSidebarOpen: boolean = false;
+
+toggleSidebar() { this.isSidebarOpen = !this.isSidebarOpen; }
+
+closeSidebar() { this.isSidebarOpen = false; }
 
 }

@@ -4,12 +4,13 @@ import { Component } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BASE_URL } from '../../../Environments/environment';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, RouterLinkActive, ThemeSwitcher],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -107,7 +108,7 @@ percentageErrorHigh: boolean = false;
       .subscribe({
         next: (res: any) => {
           this.isUploading = false;
-          //  Backend 'img' bhej raha hai (aapke JSON sample ke mutabik)
+          //backend sends img url.......
           if (res && res.img) {
             this.profile.img = res.img; 
           }
@@ -162,6 +163,20 @@ percentageErrorHigh: boolean = false;
   }
 
  saveProfile() {
+  // Trim all string fields
+  const stringFields = ['phone', 'college', 'branch', 'github', 'linkedin', 'bio',
+                        'highSchool', 'highSchoolMarks', 'higherSecondary', 'higherSecondaryMarks'];
+  stringFields.forEach(f => {
+    if (typeof this.profile[f] === 'string') {
+      this.profile[f] = this.profile[f].trim();
+    }
+  });
+
+  if (!this.profile.phone?.trim() || !this.profile.college?.trim() || !this.profile.branch?.trim()) {
+    this.showToast("Phone, College and Branch are required to save your profile.", "warning");
+    return;
+  }
+
   this.http
     .post(`${BASE_URL}/api/student/addProfile/` + this.userId, this.profile)
     .subscribe({
@@ -221,10 +236,9 @@ toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }
 
-
-isSidebarOpen=true;
+isSidebarOpen = false;
 
 closeSidebar() {
-    this.isSidebarOpen = false;
-  }
+  this.isSidebarOpen = false;
+}
 }

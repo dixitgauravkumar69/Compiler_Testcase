@@ -1,197 +1,309 @@
-/* ✅ Layout Base */
+/* =========================================
+   USER COMPONENT (Complete Profile / Register)
+   ========================================= */
 .main {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f0f2f5;
-  padding: 20px;
-  font-family: 'Inter', sans-serif;
+  background: var(--color-bg-page);
+  padding: var(--spacing-lg);
 }
 
-/* ✅ Container: Flexbox for Split Screen */
 .auth-container {
   display: flex;
   width: 100%;
   max-width: 900px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  overflow: hidden; /* Taaki border-radius corners par dikhe */
+  background: var(--color-bg-card);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
 }
 
-/* ✅ Left Side (Info Area) */
+/* --- Info Side --- */
 .info-side {
   flex: 1;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 40px;
+  background: var(--gradient-auth);
+  color: var(--color-text-inverse);
+  padding: var(--spacing-3xl);
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.info-content h1 { font-size: 3rem; margin-bottom: 20px; }
-.info-content p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 30px; }
+.info-content h1 {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--spacing-lg);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.info-content p {
+  font-size: var(--font-size-lg);
+  opacity: 0.9;
+  margin-bottom: var(--spacing-2xl);
+  line-height: var(--line-height-relaxed);
+}
 
 .feature-item {
-  margin-bottom: 15px;
-  font-weight: 500;
+  margin-bottom: var(--spacing-md);
+  font-weight: var(--font-weight-medium);
 }
-.feature-item span { margin-right: 10px; color: #4facfe; }
 
-/* ✅ Right Side (Form Area) */
+.feature-item span {
+  margin-right: var(--spacing-sm);
+  color: var(--color-primary-light);
+}
+
+/* --- Form Side --- */
 .form-side {
   flex: 1.2;
-  padding: 50px 40px;
-  background: white;
+  padding: 50px var(--spacing-3xl);
+  background: var(--color-bg-card);
 }
 
-.header h2 { font-size: 1.8rem; color: #2d3748; margin-bottom: 8px; }
-.header p { color: #718096; font-size: 0.95rem; }
+.header h2 {
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+.header p {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
 
 .link {
-  color: #667eea;
-  font-weight: 600;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   text-decoration: none;
 }
+
 .link:hover { text-decoration: underline; }
 
-/* ✅ Inputs */
-.input-box { margin-bottom: 20px; }
+.input-box { margin-bottom: var(--spacing-lg); }
 
-input, select {
-  width: 100%;
-  padding: 14px 18px;
-  border: 2px solid #edf2f7;
-  border-radius: 12px;
-  background: #f7fafc;
-  font-size: 1rem;
-  transition: all 0.3s;
-  box-sizing: border-box;
-}
-
-input:focus, select:focus {
-  border-color: #667eea;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-  outline: none;
-}
-
-/* ✅ Button */
+/* --- Register Button --- */
 .register-btn {
   width: 100%;
-  padding: 15px;
-  background: #667eea;
-  color: white;
+  padding: var(--spacing-md);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
   border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
+  transition: transform var(--transition-fast), background var(--transition-normal);
 }
 
 .register-btn:hover:not(:disabled) {
-  background: #5a67d8;
+  background: var(--color-primary-dark);
   transform: translateY(-2px);
 }
 
-.register-btn:disabled { background: #cbd5e0; cursor: not-allowed; }
+.register-btn:disabled { background: var(--color-border); cursor: not-allowed; }
 
-/* ✅ Responsive Design */
-@media (max-width: 850px) {
-  .auth-container { flex-direction: column; max-width: 450px; }
-  .info-side { display: none; } /* Mobile par info side hide kar rahe hain */
-  .form-side { padding: 30px 20px; }
+/* --- Status Messages --- */
+.status-msg {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: var(--font-weight-medium);
 }
 
-/* ✅ Status Messages */
-.status-msg { margin-top: 20px; padding: 10px; border-radius: 8px; text-align: center; }
-.status-msg.success { background: #c6f6d5; color: #2f855a; }
-.status-msg.error { background: #fed7d7; color: #c53030; }
+.status-msg.success { background: var(--color-success-soft); color: var(--color-success); }
+.status-msg.error   { background: var(--color-danger-soft);  color: var(--color-danger); }
 
-
-/* ... Aapka existing CSS yahan tak same rahega ... */
-
-/* ✅ Responsive Design Fixes */
+/* --- Responsive --- */
 @media (max-width: 850px) {
-  .main {
-    padding: 10px; /* Choti screen par kam padding */
-    align-items: flex-start; /* Keyboard khulne par scroll asan ho */
-  }
+  .auth-container { flex-direction: column; max-width: 500px; border-radius: var(--radius-3xl); margin-top: var(--spacing-lg); }
 
-  .auth-container {
-    flex-direction: column;
-    max-width: 500px;
-    border-radius: 25px;
-    margin-top: 20px;
-  }
-
-  /* Info side ko hide karne ki bajaye hum use top gradient banner banayenge */
   .info-side {
     display: flex;
-    padding: 30px 20px;
+    padding: var(--spacing-2xl) var(--spacing-lg);
     text-align: center;
     min-height: auto;
   }
 
-  .info-content h1 {
-    font-size: 1.8rem;
-    margin-bottom: 5px;
-  }
-
-  .info-content p {
-    font-size: 0.9rem;
-    margin-bottom: 0;
-  }
-
-  .feature-list {
-    display: none; /* Mobile par features list hide kar dete hain clutter kam karne ke liye */
-  }
+  .info-content h1 { font-size: var(--font-size-2xl); margin-bottom: var(--spacing-xs); }
+  .info-content p  { font-size: var(--font-size-sm); margin-bottom: 0; }
+  .feature-list    { display: none; }
 
   .form-side {
-    padding: 30px 24px;
-    border-radius: 30px 30px 0 0;
-    margin-top: -20px; /* Info side ke upar halka overlap premium feel deta hai */
-    background: white;
+    padding: var(--spacing-2xl) var(--spacing-xl);
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+    margin-top: -20px;
+    background: var(--color-bg-card);
   }
 
-  .header h2 {
-    font-size: 1.5rem;
-  }
+  .header h2 { font-size: var(--font-size-xl); }
 
-  /* Mobile par input fields ko bada karna (Touch targets) */
   input, select {
-    padding: 16px;
-    font-size: 16px; /* 16px font size prevents iOS auto-zoom */
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
     border-width: 1px;
   }
 
-  .register-btn {
-    padding: 18px;
-    font-size: 1rem;
-    margin-top: 10px;
-  }
+  .register-btn { padding: var(--spacing-md); font-size: var(--font-size-base); margin-top: var(--spacing-sm); }
 }
 
-/* Extra Small Screens (iPhone SE etc.) */
 @media (max-width: 400px) {
-  .info-side {
-    padding: 20px 15px;
-  }
-  .form-side {
-    padding: 25px 20px;
-  }
+  .info-side  { padding: var(--spacing-lg); }
+  .form-side  { padding: var(--spacing-xl) var(--spacing-lg); }
 }
 
-/* Smooth Fade In Animation */
-.fade-in {
-  animation: fadeIn 0.5s ease-in-out;
+/* Password toggle */
+.password-box {
+  position: relative;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.password-box input {
+  padding-right: 44px;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.eye-btn:hover { color: var(--color-primary); }
+
+/* =========================================
+   FORM VALIDATION STYLES
+   ========================================= */
+.input-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.input-box label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.req { color: var(--color-danger); margin-left: 2px; }
+
+/* Error state */
+.input-box.has-error input,
+.input-box.has-error select {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.error-msg {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-size-xs);
+  color: var(--color-danger);
+  font-weight: var(--font-weight-medium);
+  animation: fadeIn 0.2s ease;
+}
+
+/* =========================================
+   PASSWORD STRENGTH METER
+   ========================================= */
+.strength-meter {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.strength-bars {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-border);
+  transition: background var(--transition-fast);
+}
+
+.bar.active.weak   { background: var(--color-danger); }
+.bar.active.fair   { background: var(--color-warning); }
+.bar.active.good   { background: var(--color-info); }
+.bar.active.strong { background: var(--color-success); }
+
+.strength-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  min-width: 44px;
+  text-align: right;
+}
+
+.strength-label.weak   { color: var(--color-danger); }
+.strength-label.fair   { color: var(--color-warning); }
+.strength-label.good   { color: var(--color-info); }
+.strength-label.strong { color: var(--color-success); }
+
+/* =========================================
+   PASSWORD RULES CHECKLIST
+   ========================================= */
+.pwd-rules {
+  list-style: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: var(--spacing-xs) 0 0;
+  background: var(--color-bg-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-light);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px var(--spacing-md);
+}
+
+.pwd-rules li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.pwd-rules li.ok { color: var(--color-success); }
+
+.pwd-rules li i { font-size: 12px; flex-shrink: 0; }
+
+/* =========================================
+   SUBMIT BUTTON LOADING STATE
+   ========================================= */
+.btn-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
 }

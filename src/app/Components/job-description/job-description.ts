@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BASE_URL } from '../../../Environments/environment';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-description',
@@ -14,110 +13,127 @@ import { Router } from '@angular/router';
 })
 export class JobDescription implements OnInit {
 
-  job: any;
+  job: any = null;
   campusId!: number;
   userId!: number;
-  isOutDated:boolean=false;
+
+  isPageLoading = true;
+  isApplied = false;
+  isApplying = false;
 
   toast = {
     message: '',
-    type: 'success' as 'success' | 'error' | 'info' | 'warning',
+    type: 'info' as 'success' | 'error' | 'info' | 'warning',
     show: false
   };
-
-  isApplied: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
-    private router:Router,
+    private router: Router,
   ) {}
 
-  showToast(msg: string, type: 'success' | 'error' | 'info' | 'warning') {
-    this.toast.show = false;
-
-    setTimeout(() => {
-      this.toast.message = msg;
-      this.toast.type = type;
-      this.toast.show = true;
-
-      setTimeout(() => {
-        this.toast.show = false;
-        this.cdr.detectChanges();
-      }, 3000);
-
-      this.cdr.detectChanges();
-    }, 100);
-  }
-
   ngOnInit(): void {
-
     const id = this.route.snapshot.paramMap.get('id');
-    if (!id) return;
+    if (!id) { this.isPageLoading = false; return; }
 
     this.campusId = Number(id);
+    this.userId = Number(localStorage.getItem('UserId') || '0');
 
-    const uid = localStorage.getItem("UserId");
-    if (!uid) return;
-
-    this.userId = Number(uid);
-
-    this.http.get(`${BASE_URL}/placement/student/job/${this.campusId}`)
-      .subscribe({
-        next: (res: any) => {
-          this.job = res;
-          this.showToast("Job Loaded", "success");
-        },
-        error: () => {
-          this.showToast("Failed to load job", "error");
-        }
-      });
+    this.http.get(`${BASE_URL}/placement/student/job/${this.campusId}`).subscribe({
+      next: (res: any) => {
+        this.job = res;
+        this.isPageLoading = false;
+        this.checkIfAlreadyApplied();
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.isPageLoading = false;
+        this.showToast('Failed to load job details.', 'error');
+        this.cdr.detectChanges();
+      }
+    });
   }
 
- apply() {
-  if (this.isApplied) return;
+  checkIfAlreadyApplied() {
+    // Check 409 on a lightweight endpoint or rely on apply() response
+    // If backend has a check endpoint, call it here. Otherwise handled in apply().
+  }
 
+  apply() {
+    if (this.isApplied || this.isApplying) return;
 
-
- if(Date.now==this.job.registrationLastDate)
- {
-   this.showToast("Application closed hai ....","warning");
-   this.isOutDated=true;
-   this.cdr.detectChanges();
- }
-
- 
-
-  confirm("Are you comfortable with all terms and condition");
-  
-  this.http.post(
-    `${BASE_URL}/api/student/studentApplicationData/${this.userId}/${this.campusId}`,
-    {},
-    { responseType: 'text' }
-  ).subscribe({
-    next: (res: string) => {
-      this.showToast(res, "success");
-      this.isApplied = true;   // ✅ button disable ho jayega
-    },
-    error: (err) => {
-      if (err.status === 409) {
-        this.showToast("Already Applied", "info");
-        this.isApplied = true; 
-      } else if (err.status === 403) {
-        this.showToast("Not Eligible", "error");
-      } else {
-        this.showToast("Server Error", "error");
-      }
+    if (this.isExpired(this.job?.registrationLastDate)) {
+      this.showToast('Applications are closed for this drive.', 'warning');
+      return;
     }
-  });
-}
+
+    const confirmed = confirm(
+      `Apply for ${this.job.title} at ${this.job.company}?\n\nMake sure you meet the eligibility criteria before applying.`
+    );
+    if (!confirmed) return;
+
+    this.isApplying = true;
+    this.cdr.detectChanges();
+
+    this.http.post(
+      `${BASE_URL}/api/student/studentApplicationData/${this.userId}/${this.campusId}`,
+      {},
+      { responseType: 'text' }
+    ).subscribe({
+      next: (res: string) => {
+        this.isApplying = false;
+        this.isApplied = true;
+        this.showToast('Application submitted successfully!', 'success');
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.isApplying = false;
+        if (err.status === 409) {
+          this.isApplied = true;
+          this.showToast('You have already applied for this position.', 'info');
+        } else if (err.status === 403) {
+          this.showToast('You are not eligible for this drive.', 'error');
+        } else {
+          this.showToast('Something went wrong. Please try again.', 'error');
+        }
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  isExpired(dateStr: string): boolean {
+    if (!dateStr) return false;
+    return new Date(dateStr).getTime() < Date.now();
+  }
+
+  isDeadlineSoon(dateStr: string): boolean {
+    if (!dateStr) return false;
+    const deadline = new Date(dateStr);
+    const daysLeft = (deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24);
+    return daysLeft >= 0 && daysLeft <= 5;
+  }
+
+  getSkills(skillsStr: string): string[] {
+    if (!skillsStr) return [];
+    return skillsStr.split(/[,،;\/\n]+/).map(s => s.trim()).filter(s => s.length > 0);
+  }
+
   getFileName(url: string): string {
     return url ? url.split('/').pop() || 'attachment.pdf' : 'attachment.pdf';
   }
 
-  Back()
-  {
-   this.router.navigate(["/findJobInfo"]) ;
+  showToast(msg: string, type: 'success' | 'error' | 'info' | 'warning' = 'info') {
+    this.toast = { show: true, message: msg, type };
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.toast.show = false;
+      this.cdr.detectChanges();
+    }, 3500);
+  }
+
+  Back() {
+    this.router.navigate(['/findJobInfo']);
   }
 }

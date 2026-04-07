@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs'; // For performance
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { BASE_URL } from '../../../Environments/environment';
 import { LiveComponent } from '../live-component/live-component';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-teacher',
   standalone: true,
-  imports: [CommonModule,  LiveComponent, FormsModule],
+  imports: [CommonModule, LiveComponent, FormsModule, ThemeSwitcher],
   templateUrl: './teacher.html',
   styleUrls: ['./teacher.css'],
 })
@@ -41,7 +42,28 @@ studentSearchQuery: string = '';
   
   private globalTimer: any;
   isEditMode = false;
-editForm: any = {};
+  editForm: any = {};
+
+  // Edit form touched state for inline validation
+  editTitleTouched = false;
+  editStatementTouched = false;
+  editSemesterTouched = false;
+
+  // Inline validators
+  isEditTitleValid(): boolean {
+    const v = (this.editForm.title || '').trim();
+    return v.length >= 3 && v.length <= 100 && !/^[.\s]+$/.test(v);
+  }
+
+  isEditStatementValid(): boolean {
+    const v = (this.editForm.problemStatement || '').trim();
+    return v.length >= 10 && v.length <= 5000 && !/^[.\s]+$/.test(v);
+  }
+
+  isEditSemesterValid(): boolean {
+    const s = Number(this.editForm.semester);
+    return Number.isInteger(s) && s >= 1 && s <= 8;
+  }
 
   constructor(
     private http: HttpClient,
@@ -182,7 +204,7 @@ editForm: any = {};
 
     if (err.status === 401) {
       this.showToast("Session expired. Please login again.", "error");
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth']);
     } else if (err.status === 403) {
       this.showToast("Access Denied: You don't have permission.", "error");
       this.router.navigate(['/403']);
@@ -273,13 +295,15 @@ editForm: any = {};
 
 
 editProblem(problem: any) {
-  this.isLoading = true; // Loader start
-  
-  // STEP 1: Sabse pehle API se get request se data la ke form fill kr lia..............
+  this.isLoading = true;
+  // Reset touched state for fresh validation
+  this.editTitleTouched = false;
+  this.editStatementTouched = false;
+  this.editSemesterTouched = false;
+
   this.http.get<any>(`${BASE_URL}/teacher/editProblem/${problem.id}`).subscribe({
     next: (data) => {
-      // STEP 2: Jab data aa jaye, tab form fill kia aur dikhaya......
-      this.editForm = { ...data }; 
+      this.editForm = { ...data };
       this.isEditMode = true;
       this.isLoading = false;
       this.showToast("Problem details loaded", "info");
@@ -293,22 +317,38 @@ editProblem(problem: any) {
 
 // ---  Update Problem Method (New logic with PATCH) --- when we click save button than after actual patch request will trigger
 updateProblem() {
-  if (!this.editForm.title || !this.editForm.problemStatement) {
-    this.showToast("Required fields are missing!", "warning");
+  // Mark all fields touched to show errors
+  this.editTitleTouched = true;
+  this.editStatementTouched = true;
+  this.editSemesterTouched = true;
+
+  if (!this.isEditTitleValid()) {
+    this.showToast("Title must be at least 3 meaningful characters (max 100).", "warning");
     return;
   }
+  if (!this.isEditStatementValid()) {
+    this.showToast("Problem statement must be at least 10 meaningful characters.", "warning");
+    return;
+  }
+  if (!this.isEditSemesterValid()) {
+    this.showToast("Semester must be a number between 1 and 8.", "warning");
+    return;
+  }
+
+  // Write back trimmed values
+  this.editForm.title = this.editForm.title.trim();
+  this.editForm.problemStatement = this.editForm.problemStatement.trim();
 
   this.isLoading = true;
   const problemId = this.editForm.id;
 
-  // STEP 3: Jab user update click kare, tab Patch request maro
   this.http.patch(`${BASE_URL}/teacher/updateProblem/${problemId}`, this.editForm, { responseType: 'text' })
     .subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.isEditMode = false; // Modal close karein
-        this.showToast("🚀 " + response, "success");
-        this.getProblemStatements(); // Refresh logic to show updated data in grid
+        this.isEditMode = false;
+        this.showToast("Problem updated successfully!", "success");
+        this.getProblemStatements();
       },
       error: (err) => {
         this.isLoading = false;

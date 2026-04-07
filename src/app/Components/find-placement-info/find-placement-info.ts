@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core'; // Added NgZone
-import { Router, RouterLink } from '@angular/router';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BASE_URL } from '../../../Environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-find-placement-info',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,FormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, RouterLinkActive, ThemeSwitcher],
   templateUrl: './find-placement-info.html',
   styleUrl: './find-placement-info.css',
 })
@@ -100,10 +101,23 @@ export class FindPlacementInfo implements OnInit {
   }
 
   get filteredJobs() {
-    return this.jobs.filter(job => 
-      job.company.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      job.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    const term = this.searchTerm.toLowerCase().trim();
+    if (!term) return this.jobs;
+    return this.jobs.filter(job =>
+      job.company?.toLowerCase().includes(term) ||
+      job.title?.toLowerCase().includes(term) ||
+      job.location?.toLowerCase().includes(term) ||
+      job.eligibleBranch?.toLowerCase().includes(term)
     );
+  }
+
+  onSearch() { /* triggers getter re-evaluation via change detection */ }
+
+  isDeadlineSoon(dateStr: string): boolean {
+    if (!dateStr) return false;
+    const deadline = new Date(dateStr);
+    const daysLeft = (deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24);
+    return daysLeft >= 0 && daysLeft <= 5;
   }
 
   back()

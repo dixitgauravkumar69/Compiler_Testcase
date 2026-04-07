@@ -33,7 +33,7 @@ export class LogOut implements OnInit {
 
     // Redirect after 2.5s
     setTimeout(() => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth']);
     }, 2500);
   }
 }

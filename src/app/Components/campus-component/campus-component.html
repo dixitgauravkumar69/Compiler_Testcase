@@ -1,6 +1,5 @@
 <div class="page-wrapper">
 
-  <!-- MOBILE HEADER -->
   <header class="mobile-header">
     <div class="header-left">
       <button class="menu-trigger" (click)="toggleSidebar()">
@@ -8,7 +7,10 @@
       </button>
       <h3>Dev Campus</h3>
     </div>
-    <div class="avatar-xs">T</div>
+    <div class="mobile-header-right">
+      <app-theme-switcher></app-theme-switcher>
+      <div class="avatar-xs">T</div>
+    </div>
   </header>
 
   <!-- OVERLAY -->
@@ -28,14 +30,25 @@
     </div>
 
     <nav class="nav-links">
-      <button class="btn-back" (click)="back()">← Back</button>
-      <button (click)="getProblems()">📝 Problems List</button>
-      <button (click)="goToAddStatement(); closeSidebar()">➕ Add Statement</button>
-      <button (click)="goToAddCampus(); closeSidebar()">🏛️ Campus Info</button>
+      <button class="btn-back" (click)="back()">
+        <i class="ph-bold ph-arrow-left"></i> Back
+      </button>
+      <button (click)="getProblems()">
+        <i class="ph-bold ph-list-checks"></i> Problems List
+      </button>
+      <button (click)="goToAddStatement(); closeSidebar()">
+        <i class="ph-bold ph-plus-circle"></i> Add Statement
+      </button>
+      <button (click)="goToAddCampus(); closeSidebar()">
+        <i class="ph-bold ph-buildings"></i> Campus Info
+      </button>
     </nav>
 
     <div class="sidebar-footer">
-      <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+      <app-theme-switcher></app-theme-switcher>
+      <button class="logout-btn" (click)="logout()">
+        <i class="ph-bold ph-sign-out"></i> Logout
+      </button>
     </div>
   </aside>
 

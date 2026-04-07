@@ -67,6 +67,17 @@ export class EditTestCase implements OnInit {
   };
   
  saveEdit() {
+  const input = (this.editTestCaseData.inputData || '').trim();
+  const output = (this.editTestCaseData.expectedOutput || '').trim();
+
+  if (!input || !output) {
+    this.showToast("Input and Expected Output cannot be empty!", "warning");
+    return;
+  }
+
+  // Write back trimmed values
+  this.editTestCaseData.inputData = input;
+  this.editTestCaseData.expectedOutput = output;
 
   this.isLoading = true;
 

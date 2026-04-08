@@ -40,6 +40,9 @@
       <button [class.active]="activeSection === 'campus'" (click)="handleCampus()">
         <i class="ph-bold ph-buildings"></i> Campus Info
       </button>
+      <a [routerLink]="['/changePassword']" [queryParams]="{from:'teacher'}" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <i class="ph-bold ph-lock-key"></i> Change Password
+      </a>
     </nav>
 
     <div class="sidebar-footer">

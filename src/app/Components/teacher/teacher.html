@@ -54,6 +54,10 @@
         <i class="ph-bold ph-buildings"></i>
         <span class="text">Campus Info</span>
       </button>
+      <a [routerLink]="['/changePassword']" [queryParams]="{from:'teacher'}" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+        <i class="ph-bold ph-lock-key"></i>
+        <span class="text">Change Password</span>
+      </a>
     </nav>
 
     <div class="sidebar-footer">

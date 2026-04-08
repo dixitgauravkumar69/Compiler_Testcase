@@ -3,13 +3,13 @@ import { ProblemStatementService } from '../../Services/problem-statement-servic
 import { TestCaseDTO, TestCaseService } from '../../Services/test-case-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-problem-with-test-cases',
   standalone: true,
-  imports: [FormsModule, CommonModule, ThemeSwitcher],
+  imports: [FormsModule, CommonModule, ThemeSwitcher, RouterLink, RouterLinkActive],
   templateUrl: './problem-with-test-cases.html',
   styleUrl: './problem-with-test-cases.css',
 })

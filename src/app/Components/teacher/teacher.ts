@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { BASE_URL } from '../../../Environments/environment';
@@ -11,7 +12,7 @@ import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 @Component({
   selector: 'app-teacher',
   standalone: true,
-  imports: [CommonModule, LiveComponent, FormsModule, ThemeSwitcher],
+  imports: [CommonModule, LiveComponent, FormsModule, ThemeSwitcher, RouterLink, RouterLinkActive],
   templateUrl: './teacher.html',
   styleUrls: ['./teacher.css'],
 })

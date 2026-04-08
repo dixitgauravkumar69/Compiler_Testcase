@@ -69,7 +69,7 @@ loginUser() {
         setTimeout(() => {
           this.isLoading = false;
 
-          const route = res.userRole === "TEACHER" 
+          const route = res.userRole === "ROLE_TEACHER" 
             ? '/teacher' 
             : '/student';
 

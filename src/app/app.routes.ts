@@ -18,6 +18,7 @@ import { LiveComponent } from './Components/live-component/live-component';
 import { GetLiveProblems } from './Components/get-live-problems/get-live-problems';
 import { StudentLeaderBoard } from './Components/student/student-leader-board/student-leader-board';
 import { EditTestCase } from './Components/teacher/edit-test-case/edit-test-case';
+import { ChangePassword } from './Components/change-password/change-password';
 
 
 export const routes: Routes = [
@@ -36,12 +37,10 @@ export const routes: Routes = [
      {path:"403",component:AccessDenied},
      {path:"404",component:NotFound},
      {path:"500",component:Servererror},
-     
      {path:"logout",component:LogOut},
      {path:"live-streaming",component:LiveComponent},
      {path:"studentLive",component:GetLiveProblems},
      {path:"StudentLeaderBoard",component:StudentLeaderBoard},
     {path:"editTestCases/:id",component:EditTestCase},
-    
-  
+    {path:"changePassword",component:ChangePassword},
 ];

@@ -7,12 +7,13 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { filter, switchMap, tap } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-campus-component',
   standalone: true,
-  imports: [FormsModule, CommonModule, ThemeSwitcher],
+  imports: [FormsModule, CommonModule, ThemeSwitcher, RouterLink, RouterLinkActive],
   templateUrl: './campus-component.html',
   styleUrls: ['./campus-component.css'],
 })

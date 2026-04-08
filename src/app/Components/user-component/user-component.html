@@ -12,6 +12,87 @@
   <div class="toast-progress"></div>
 </div>
 
+<!-- ═══════════════════════════════════════════
+     OTP VERIFICATION PANEL
+     ═══════════════════════════════════════════ -->
+<div class="otp-overlay" *ngIf="showOtpPanel" (click)="closeOtpPanel()">
+  <div class="otp-card" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="otp-header">
+      <div class="otp-icon-wrap">
+        <i class="ph-bold ph-envelope-open"></i>
+      </div>
+      <h2>Verify Your Email</h2>
+      <p>
+        We've sent a 6-digit code to<br>
+        <strong>{{ f['userEmail'].value }}</strong>
+      </p>
+    </div>
+
+    <!-- OTP Boxes -->
+    <div class="otp-boxes" (paste)="onOtpPaste($event)">
+      <input
+        *ngFor="let digit of otpDigits; let i = index"
+        #otpInput
+        type="text"
+        inputmode="numeric"
+        maxlength="1"
+        class="otp-box"
+        [class.filled]="otpDigits[i]"
+        [class.error]="otpError"
+        [(ngModel)]="otpDigits[i]"
+        (ngModelChange)="onOtpChange(i, $event)"
+        (keydown)="onOtpKeydown(i, $event)"
+        autocomplete="off"
+      >
+    </div>
+
+    <!-- Error -->
+    <p class="otp-error-msg" *ngIf="otpError">
+      <i class="ph-bold ph-warning-circle"></i> {{ otpError }}
+    </p>
+
+    <!-- Verify Button -->
+    <button
+      class="otp-verify-btn"
+      (click)="verifyOtp()"
+      [disabled]="otpLoading || otpValue.length < 6"
+    >
+      <span *ngIf="!otpLoading">
+        <i class="ph-bold ph-shield-check"></i> Verify & Create Account
+      </span>
+      <span *ngIf="otpLoading" class="btn-loading">
+        <span class="btn-spinner"></span> Verifying...
+      </span>
+    </button>
+
+    <!-- Resend -->
+    <div class="otp-resend">
+      <span>Didn't receive the code?</span>
+      <button
+        class="resend-btn"
+        (click)="resendOtp()"
+        [disabled]="resendCooldown > 0"
+      >
+        <span *ngIf="resendCooldown > 0">Resend in {{ resendCooldown }}s</span>
+        <span *ngIf="resendCooldown === 0">
+          <i class="ph-bold ph-arrows-clockwise"></i> Resend OTP
+        </span>
+      </button>
+    </div>
+
+    <!-- Close -->
+    <button class="otp-close-btn" (click)="closeOtpPanel()" title="Go back">
+      <i class="ph-bold ph-x"></i>
+    </button>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     REGISTRATION FORM
+     ═══════════════════════════════════════════ -->
 <div class="main">
   <div class="auth-container fade-in">
 
@@ -42,13 +123,8 @@
           <!-- Full Name -->
           <div class="input-box" [class.has-error]="fieldError('userName')">
             <label>Full Name <span class="req">*</span></label>
-            <input
-              type="text"
-              placeholder="e.g. Rahul Sharma"
-              formControlName="userName"
-              autocomplete="name"
-              maxlength="50"
-            >
+            <input type="text" placeholder="e.g. Rahul Sharma"
+              formControlName="userName" autocomplete="name" maxlength="50">
             <span class="error-msg" *ngIf="fieldError('userName')">
               <i class="ph-bold ph-warning-circle"></i> {{ fieldError('userName') }}
             </span>
@@ -57,13 +133,8 @@
           <!-- Email -->
           <div class="input-box" [class.has-error]="fieldError('userEmail')">
             <label>Email Address <span class="req">*</span></label>
-            <input
-              type="email"
-              placeholder="you@example.com"
-              formControlName="userEmail"
-              autocomplete="email"
-              maxlength="100"
-            >
+            <input type="email" placeholder="you@example.com"
+              formControlName="userEmail" autocomplete="email" maxlength="100">
             <span class="error-msg" *ngIf="fieldError('userEmail')">
               <i class="ph-bold ph-warning-circle"></i> {{ fieldError('userEmail') }}
             </span>
@@ -83,53 +154,45 @@
           </div>
 
           <!-- Password -->
-          <div class="input-box password-box" [class.has-error]="fieldError('password')">
+          <div class="input-box password-box" [class.has-error]="fieldError('password') && !f['password'].dirty">
             <label>Password <span class="req">*</span></label>
-            <input
-              [type]="showPassword ? 'text' : 'password'"
+            <input [type]="showPassword ? 'text' : 'password'"
               placeholder="Min 8 chars, uppercase, number, symbol"
-              formControlName="password"
-              autocomplete="new-password"
-              maxlength="64"
-            >
-            <button type="button" class="eye-btn" (click)="showPassword = !showPassword" [title]="showPassword ? 'Hide' : 'Show'">
+              formControlName="password" autocomplete="new-password" maxlength="64">
+            <button type="button" class="eye-btn" (click)="showPassword = !showPassword">
               <i class="ph-bold" [class.ph-eye]="!showPassword" [class.ph-eye-slash]="showPassword"></i>
             </button>
 
-            <!-- Strength meter — only show when user has typed something -->
+            <!-- Strength meter -->
             <div class="strength-meter" *ngIf="f['password'].value">
               <div class="strength-bars">
-                <span class="bar" [class.active]="passwordStrength >= 1" [class]="passwordStrength >= 1 ? passwordStrengthClass : ''"></span>
-                <span class="bar" [class.active]="passwordStrength >= 2" [class]="passwordStrength >= 2 ? passwordStrengthClass : ''"></span>
-                <span class="bar" [class.active]="passwordStrength >= 3" [class]="passwordStrength >= 3 ? passwordStrengthClass : ''"></span>
-                <span class="bar" [class.active]="passwordStrength >= 4" [class]="passwordStrength >= 4 ? passwordStrengthClass : ''"></span>
+                <span class="bar" [class.active]="passwordStrength >= 1" [ngClass]="passwordStrength >= 1 ? passwordStrengthClass : ''"></span>
+                <span class="bar" [class.active]="passwordStrength >= 2" [ngClass]="passwordStrength >= 2 ? passwordStrengthClass : ''"></span>
+                <span class="bar" [class.active]="passwordStrength >= 3" [ngClass]="passwordStrength >= 3 ? passwordStrengthClass : ''"></span>
+                <span class="bar" [class.active]="passwordStrength >= 4" [ngClass]="passwordStrength >= 4 ? passwordStrengthClass : ''"></span>
               </div>
-              <span class="strength-label" [class]="passwordStrengthClass">{{ passwordStrengthLabel }}</span>
+              <span class="strength-label" [ngClass]="passwordStrengthClass">{{ passwordStrengthLabel }}</span>
             </div>
 
-            <!-- Password rules checklist -->
+            <!-- Rules checklist -->
             <ul class="pwd-rules" *ngIf="f['password'].dirty">
               <li [class.ok]="f['password'].value?.length >= 8">
                 <i class="ph-bold" [class.ph-check]="f['password'].value?.length >= 8" [class.ph-x]="!(f['password'].value?.length >= 8)"></i>
-                At least 8 characters
+                8+ characters
               </li>
-              <li [class.ok]="!/[A-Z]/.test(f['password'].value) === false">
+              <li [class.ok]="/[A-Z]/.test(f['password'].value)">
                 <i class="ph-bold" [class.ph-check]="/[A-Z]/.test(f['password'].value)" [class.ph-x]="!/[A-Z]/.test(f['password'].value)"></i>
-                One uppercase letter
+                Uppercase letter
               </li>
-              <li [class.ok]="!/[0-9]/.test(f['password'].value) === false">
+              <li [class.ok]="/[0-9]/.test(f['password'].value)">
                 <i class="ph-bold" [class.ph-check]="/[0-9]/.test(f['password'].value)" [class.ph-x]="!/[0-9]/.test(f['password'].value)"></i>
-                One number
+                Number
               </li>
-              <li [class.ok]="!/[^A-Za-z0-9]/.test(f['password'].value) === false">
+              <li [class.ok]="/[^A-Za-z0-9]/.test(f['password'].value)">
                 <i class="ph-bold" [class.ph-check]="/[^A-Za-z0-9]/.test(f['password'].value)" [class.ph-x]="!/[^A-Za-z0-9]/.test(f['password'].value)"></i>
-                One special character
+                Special character
               </li>
             </ul>
-
-            <span class="error-msg" *ngIf="fieldError('password') && !f['password'].dirty">
-              <i class="ph-bold ph-warning-circle"></i> {{ fieldError('password') }}
-            </span>
           </div>
 
           <!-- Submit -->
@@ -138,7 +201,7 @@
               <i class="ph-bold ph-user-plus"></i> Create Account
             </span>
             <span *ngIf="isLoading" class="btn-loading">
-              <span class="btn-spinner"></span> Creating...
+              <span class="btn-spinner"></span> Sending OTP...
             </span>
           </button>
 

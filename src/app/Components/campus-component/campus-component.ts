@@ -67,34 +67,23 @@ export class CampusComponent {
   });
 
   // -------------------- STUDENTS (Reactive) --------------------
-  students = computed(() => {
-    // Only fetch students if a company is selected and 'students' tab is active
-    if (!this.selectedCompany() || this.activeTab() !== 'students') return [];
-
-    const id = this.selectedCompany()?.id;
-    // Fetch via HTTP synchronously as a signal
-    this.http.get<any[]>(`${BASE_URL}/api/teacher/getAppliedStudents/${id}`)
-      .subscribe({
-        next: (res) => {
-          this._students.set(res);  // Update internal students signal
-        },
-        error: (err) => {
-          this._students.set([]);
-          this.showToastMessage('Error fetching students: ' + err.status);
-        }
-      });
-
-    return this._students();
-  });
-
-  // Internal signal to hold fetched students
-  private _students = signal<any[]>([]);
+  // Use toSignal so the HTTP call fires ONCE when selectedCompany changes,
+  // not on every change detection cycle like computed() would do.
+  students = toSignal(
+    toObservable(this.selectedCompany).pipe(
+      filter(company => !!company && this.activeTab() === 'students'),
+      switchMap(company =>
+        this.http.get<any[]>(`${BASE_URL}/api/teacher/getAppliedStudents/${company.id}`)
+      )
+    ),
+    { initialValue: [] as any[] }
+  );
 
   filteredStudents = computed(() => {
     const query = this.studentSearchQuery().toLowerCase();
     const data = this.students();
     if (!query) return data;
-    return data.filter(item =>
+    return data.filter((item: any) =>
       item.user?.username?.toLowerCase().includes(query) ||
       item.user?.userEmail?.toLowerCase().includes(query) ||
       item.applicationStatus?.toLowerCase().includes(query)

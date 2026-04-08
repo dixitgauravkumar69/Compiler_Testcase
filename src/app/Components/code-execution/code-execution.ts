@@ -101,14 +101,22 @@ export class CodeExecution implements OnInit, OnDestroy {
     const savedCheats = localStorage.getItem(this.CHEAT_KEY);
     this.cheatingCount = savedCheats ? Number(savedCheats) : 0;
 
-    if (localStorage.getItem(this.REFRESH_FLAG) === 'true') {
+    // Check refresh flag AFTER data is loaded, not before
+    const wasRefreshed = localStorage.getItem(this.REFRESH_FLAG) === 'true';
+    if (wasRefreshed) {
       localStorage.removeItem(this.REFRESH_FLAG);
-      this.handleCheatDetection('Page Refresh');
     }
 
     this.initPersistentTimer();
+
+    // Always fetch data first — then handle cheat detection
     this.fetchProblemData();
     this.fetchTestCases();
+
+    // Handle cheat AFTER a small delay so UI loads first
+    if (wasRefreshed) {
+      setTimeout(() => this.handleCheatDetection('Page Refresh'), 500);
+    }
   }
 
   private handleCheatDetection(reason: string) {

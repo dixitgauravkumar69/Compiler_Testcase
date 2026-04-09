@@ -276,7 +276,12 @@ studentSearchQuery: string = '';
 
 
  deleteProblem(id: number) {
-  const confirmDelete = confirm("Are you sure you want to delete this problem? This cannot be undone.");
+  const confirmDelete = confirm(
+  "⚠️ Delete Problem?\n\n" +
+  "Are you sure you want to permanently delete this problem?\n" +
+  "This action cannot be undone.\n\n" +
+  "Click OK to delete, or Cancel to keep it."
+);
   
   if (confirmDelete) {
     // Call delete service ...............................................

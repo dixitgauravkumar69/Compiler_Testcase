@@ -346,7 +346,9 @@
           <td><span class="id-tag">{{ entry.marks }}</span></td>
           <td class="td-muted">🕒 {{ entry.takenTime }}</td>
           <td class="td-muted">{{ entry.createdAt | date:'dd MMM yyyy' }}</td>
-          <td class="td-muted">{{ entry.createdAt | date:'hh:mm a' }}</td>
+
+          <!-- Problem was thattime  formate was in UTC but i want to show IST -->
+          <td class="td-muted">{{ entry.createdAt | date:'hh:mm a':'Asia/Kolkata' }}</td>
         </tr>
       </tbody>
     </table>

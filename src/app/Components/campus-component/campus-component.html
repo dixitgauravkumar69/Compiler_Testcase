@@ -1,5 +1,4 @@
 <div class="page-wrapper">
-
   <header class="mobile-header">
     <div class="header-left">
       <button class="menu-trigger" (click)="toggleSidebar()">
@@ -14,10 +13,7 @@
   </header>
 
   <!-- OVERLAY -->
-  <div class="sidebar-overlay"
-       [class.show]="isSidebarOpen"
-       (click)="closeSidebar()">
-  </div>
+  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="closeSidebar()"></div>
 
   <!-- SIDEBAR -->
   <aside class="sidebar" [class.active]="isSidebarOpen">
@@ -30,19 +26,21 @@
     </div>
 
     <nav class="nav-links">
-      <button class="btn-back" (click)="back()">
-        <i class="ph-bold ph-arrow-left"></i> Back
-      </button>
-      <button (click)="getProblems()">
-        <i class="ph-bold ph-list-checks"></i> Problems List
-      </button>
+      <button class="btn-back" (click)="back()"><i class="ph-bold ph-arrow-left"></i> Back</button>
+      <button (click)="getProblems()"><i class="ph-bold ph-list-checks"></i> Problems List</button>
       <button (click)="goToAddStatement(); closeSidebar()">
         <i class="ph-bold ph-plus-circle"></i> Add Statement
       </button>
       <button (click)="goToAddCampus(); closeSidebar()">
         <i class="ph-bold ph-buildings"></i> Campus Info
       </button>
-      <a [routerLink]="['/changePassword']" [queryParams]="{from:'teacher'}" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
+      <a
+        [routerLink]="['/changePassword']"
+        [queryParams]="{ from: 'teacher' }"
+        class="nav-item"
+        routerLinkActive="active"
+        (click)="closeSidebar()"
+      >
         <i class="ph-bold ph-lock-key"></i> Change Password
       </a>
     </nav>
@@ -57,15 +55,15 @@
 
   <!-- MAIN CONTENT -->
   <div class="main-content">
-
     <!-- TABS -->
     <div class="tabs-nav">
       <button [class.active]="activeTab() === 'post'" (click)="setTab('post')">Post Campus</button>
-      <button [class.active]="activeTab() === 'applied'" (click)="setTab('applied')">Companies</button>
+      <button [class.active]="activeTab() === 'applied'" (click)="setTab('applied')">
+        Companies
+      </button>
     </div>
 
     <div class="content-body">
-
       <!-- POST TAB -->
       <ng-container *ngIf="activeTab() === 'post'">
         <div class="section-header">
@@ -81,11 +79,11 @@
                 <div class="grid-layout">
                   <div class="field">
                     <label>Company *</label>
-                    <input type="text" [(ngModel)]="job.company" name="company">
+                    <input type="text" [(ngModel)]="job.company" name="company" />
                   </div>
                   <div class="field">
                     <label>Job Title *</label>
-                    <input type="text" [(ngModel)]="job.title" name="title">
+                    <input type="text" [(ngModel)]="job.title" name="title" />
                   </div>
                   <div class="field">
                     <label>Job Type</label>
@@ -97,7 +95,7 @@
                   </div>
                   <div class="field">
                     <label>Location</label>
-                    <input type="text" [(ngModel)]="job.location" name="location">
+                    <input type="text" [(ngModel)]="job.location" name="location" />
                   </div>
                 </div>
               </div>
@@ -107,11 +105,11 @@
                 <div class="grid-layout">
                   <div class="field">
                     <label>Branch *</label>
-                    <input type="text" [(ngModel)]="job.eligibleBranch" name="eligibleBranch">
+                    <input type="text" [(ngModel)]="job.eligibleBranch" name="eligibleBranch" />
                   </div>
                   <div class="field">
                     <label>CGPA *</label>
-                    <input type="number" [(ngModel)]="job.cgpa" name="cgpa">
+                    <input type="number" [(ngModel)]="job.cgpa" name="cgpa" />
                   </div>
                 </div>
               </div>
@@ -123,22 +121,29 @@
                 <div class="grid-layout">
                   <div class="field">
                     <label>Salary *</label>
-                    <input type="number" [(ngModel)]="job.salaryPackage" name="salaryPackage">
+                    <input type="number" [(ngModel)]="job.salaryPackage" name="salaryPackage" />
                   </div>
                   <div class="field">
                     <label>Semester*</label>
                     <select [(ngModel)]="job.semester" name="semester">
                       <option value="">Select</option>
-                      <option>5</option><option>6</option><option>7</option><option>8</option>
+                      <option>5</option>
+                      <option>6</option>
+                      <option>7</option>
+                      <option>8</option>
                     </select>
                   </div>
                   <div class="field">
                     <label>Bond*</label>
-                    <input type="number" [(ngModel)]="job.bond" name="bond">
+                    <input type="number" [(ngModel)]="job.bond" name="bond" />
                   </div>
                   <div class="field">
                     <label>Last Date*</label>
-                    <input type="date" [(ngModel)]="job.registrationLastDate" name="registrationLastDate">
+                    <input
+                      type="date"
+                      [(ngModel)]="job.registrationLastDate"
+                      name="registrationLastDate"
+                    />
                   </div>
                 </div>
               </div>
@@ -159,7 +164,7 @@
                 </div>
                 <div class="field full-width">
                   <label>Attachment (PDF only)</label>
-                  <input type="file" (change)="onFileSelected($event)">
+                  <input type="file" (change)="onFileSelected($event)" />
                 </div>
               </div>
             </div>
@@ -180,63 +185,12 @@
             <p>Click on a company name to view applicants</p>
           </div>
           <div class="search-bar">
-            <input type="text" placeholder="🔍 Search by company, branch or location..." 
-                   [ngModel]="companySearchQuery()" (ngModelChange)="companySearchQuery.set($event)">
-          </div>
-        </div>
-
-      <div class="table-outer-wrapper">
-  <table class="modern-table">
-    <thead>
-      <tr>
-        <th>Company</th>
-        <th>Location</th>
-        <th>Package</th>
-        <th>Bond</th>
-        <th>Branch</th>
-        <th>Min CGPA</th>
-        <th>Skills</th>
-        <th>Semester</th>
-        <th>Selection</th>
-        <th>Last Date</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of filteredCompanies()">
-        <td class="company-name-cell clickable-link" (click)="viewStudents(item)">{{ item.company }}</td>
-        <td>{{ item.location }}</td>
-        <td><span class="status-badge">{{ item.salaryPackage }}</span></td>
-        <td>{{ item.bond }} Yr</td>
-        <td>{{ item.eligibleBranch || 'All' }}</td>
-        <td>{{ item.cgpa }}</td>
-        <td class="text-truncate">{{ item.skillsRequired }}</td>
-        <td>{{ item.semester }}</td>
-        <td class="text-truncate">{{ item.selectionProcess }}</td>
-        <td class="date-cell">{{ item.registrationLastDate | date:'mediumDate' }}</td>
-        <td><button class="delete-btn" (click)="deleteAction(item.id)">Delete</button></td>
-      </tr>
-      <tr *ngIf="filteredCompanies().length === 0">
-        <td colspan="11" class="empty-row">No matching records found.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-      </ng-container>
-
-      <!-- STUDENTS TAB -->
-      <ng-container *ngIf="activeTab() === 'students'">
-        <div class="section-header search-header">
-          <div style="display: flex; align-items: center; gap: 15px;">
-            <button class="btn-back" (click)="setTab('applied')">← Back</button>
-            <div>
-              <h2>Applicants for {{ selectedCompany()?.company }}</h2>
-              <p>Role: {{ selectedCompany()?.title }}</p>
-            </div>
-          </div>
-          <div class="search-bar">
-            <input type="text" placeholder="🔍 Search student name or email..." 
-                   [ngModel]="studentSearchQuery()" (ngModelChange)="studentSearchQuery.set($event)">
+            <input
+              type="text"
+              placeholder="🔍 Search by company, branch or location..."
+              [ngModel]="companySearchQuery()"
+              (ngModelChange)="companySearchQuery.set($event)"
+            />
           </div>
         </div>
 
@@ -244,8 +198,77 @@
           <table class="modern-table">
             <thead>
               <tr>
-                <th>Student Name</th><th>Email</th><th>Status</th>
-                <th>Applied Date</th><th>Eligibility</th>
+                <th>Company</th>
+                <th>Location</th>
+                <th>Package</th>
+                <th>Bond</th>
+                <th>Branch</th>
+                <th>Min CGPA</th>
+                <th>Skills</th>
+                <th>Semester</th>
+                <th>Selection</th>
+                <th>Last Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of filteredCompanies()">
+                <td class="company-name-cell clickable-link" (click)="viewStudents(item)">
+                  {{ item.company }}
+                </td>
+                <td>{{ item.location }}</td>
+                <td>
+                  <span class="status-badge">{{ item.salaryPackage }}</span>
+                </td>
+                <td>{{ item.bond }} Yr</td>
+                <td>{{ item.eligibleBranch || 'All' }}</td>
+                <td>{{ item.cgpa }}</td>
+                <td class="text-truncate">{{ item.skillsRequired }}</td>
+                <td>{{ item.semester }}</td>
+                <td class="text-truncate">{{ item.selectionProcess }}</td>
+                <td class="date-cell">{{ item.registrationLastDate | date: 'mediumDate' }}</td>
+                <td class="action-buttons">
+                  <button class="edit-btn" (click)="editCompony(item)" >✏️ Edit</button>
+                  <button class="delete-btn" (click)="deleteAction(item.id)">🗑 Delete</button>
+                </td>
+              </tr>
+              <tr *ngIf="filteredCompanies().length === 0">
+                <td colspan="11" class="empty-row">No matching records found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+
+      <!-- STUDENTS TAB -->
+      <ng-container *ngIf="activeTab() === 'students'">
+        <div class="section-header search-header">
+          <div style="display: flex; align-items: center; gap: 15px">
+            <button class="btn-back" (click)="setTab('applied')">← Back</button>
+            <div>
+              <h2>Applicants for {{ selectedCompany()?.company }}</h2>
+              <p>Role: {{ selectedCompany()?.title }}</p>
+            </div>
+          </div>
+          <div class="search-bar">
+            <input
+              type="text"
+              placeholder="🔍 Search student name or email..."
+              [ngModel]="studentSearchQuery()"
+              (ngModelChange)="studentSearchQuery.set($event)"
+            />
+          </div>
+        </div>
+
+        <div class="table-outer-wrapper">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Applied Date</th>
+                <th>Eligibility</th>
               </tr>
             </thead>
             <tbody>
@@ -253,25 +276,133 @@
                 <td class="company-name-cell">{{ item.user.username }}</td>
                 <td>{{ item.user.userEmail }}</td>
                 <td>
-                  <span class="status-badge" 
-                        [style.background]="item.applicationStatus === 'Applied' ? '#e0f2fe' : '#f0fdf4'"
-                        [style.color]="item.applicationStatus === 'Applied' ? '#0369a1' : '#15803d'">
+                  <span
+                    class="status-badge"
+                    [style.background]="
+                      item.applicationStatus === 'Applied' ? '#e0f2fe' : '#f0fdf4'
+                    "
+                    [style.color]="item.applicationStatus === 'Applied' ? '#0369a1' : '#15803d'"
+                  >
                     {{ item.applicationStatus }}
                   </span>
                 </td>
-                <td class="date-cell">{{ item.appliedDate | date:'medium' }}</td>
+                <td class="date-cell">{{ item.appliedDate | date: 'medium' }}</td>
                 <td>
-                  <span [style.color]="item.campus.eligibleBranch === 'CSE' ? '#22c55e' : '#64748b'">
+                  <span
+                    [style.color]="item.campus.eligibleBranch === 'CSE' ? '#22c55e' : '#64748b'"
+                  >
                     {{ item.campus.eligibleBranch }} Eligible
                   </span>
                 </td>
               </tr>
-              <tr *ngIf="filteredStudents().length === 0"><td colspan="5" class="empty-row">No students match your search.</td></tr>
+              <tr *ngIf="filteredStudents().length === 0">
+                <td colspan="5" class="empty-row">No students match your search.</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </ng-container>
-
     </div>
+  </div>
+</div>
+
+<!-- EDIT JOB MODAL -->
+<div class="edit-overlay fade-in" *ngIf="isEditMode">
+  <div class="edit-modal-card">
+
+    <div class="modal-header">
+      <div class="header-info">
+        <span class="edit-badge"><i class="ph-bold ph-pencil-simple"></i> EDIT JOB</span>
+        <h3>Update — {{ editForm.company }}</h3>
+      </div>
+      <button class="close-btn" (click)="isEditMode = false">
+        <i class="ph-bold ph-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-row-flex">
+        <div class="form-group">
+          <label>Company *</label>
+          <input type="text" [(ngModel)]="editForm.company" placeholder="Company name">
+        </div>
+        <div class="form-group">
+          <label>Job Title *</label>
+          <input type="text" [(ngModel)]="editForm.title" placeholder="Job title">
+        </div>
+      </div>
+      <div class="form-row-flex">
+        <div class="form-group">
+          <label>Job Type</label>
+          <select [(ngModel)]="editForm.jobType">
+            <option value="">Select</option>
+            <option>Full Time</option>
+            <option>Internship</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" [(ngModel)]="editForm.location">
+        </div>
+      </div>
+      <div class="form-row-flex">
+        <div class="form-group">
+          <label>Branch</label>
+          <input type="text" [(ngModel)]="editForm.eligibleBranch">
+        </div>
+        <div class="form-group">
+          <label>Min CGPA</label>
+          <input type="number" [(ngModel)]="editForm.cgpa">
+        </div>
+      </div>
+      <div class="form-row-flex">
+        <div class="form-group">
+          <label>Salary (LPA)</label>
+          <input type="number" [(ngModel)]="editForm.salaryPackage">
+        </div>
+        <div class="form-group">
+          <label>Semester</label>
+          <select [(ngModel)]="editForm.semester">
+            <option value="">Select</option>
+            <option>5</option><option>6</option><option>7</option><option>8</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row-flex">
+        <div class="form-group">
+          <label>Bond (years)</label>
+          <input type="number" [(ngModel)]="editForm.bond">
+        </div>
+        <div class="form-group">
+          <label>Last Date</label>
+          <input type="date" [(ngModel)]="editForm.registrationLastDate">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Skills Required</label>
+        <textarea [(ngModel)]="editForm.skillsRequired" rows="2"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Selection Process</label>
+        <textarea [(ngModel)]="editForm.selectionProcess" rows="2"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Job Description</label>
+        <textarea [(ngModel)]="editForm.jobDescription" rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel-modal" (click)="isEditMode = false">
+        <i class="ph-bold ph-x"></i> Cancel
+      </button>
+      <button class="btn-save-changes" (click)="updateJob()" [disabled]="IsProcessing()">
+        <span *ngIf="!IsProcessing()"><i class="ph-bold ph-floppy-disk"></i> Save Changes</span>
+        <span *ngIf="IsProcessing()" class="btn-loading">
+          <span class="btn-spinner"></span> Saving...
+        </span>
+      </button>
+    </div>
+
   </div>
 </div>

@@ -38,6 +38,8 @@ export class CampusComponent {
   IsProcessing = signal<boolean>(false);
 
   isSidebarOpen = false;
+  isEditMode = false;
+  editForm: any = {};
 
   // -------------------- JOB MODEL --------------------
   job: any = {
@@ -226,4 +228,45 @@ export class CampusComponent {
   }
 
   back() { this.router.navigate(['/Statement']); }
+
+  editCompony(item: any) {
+    this.editForm = { ...item };
+    this.isEditMode = true;
+    this.cdr.detectChanges();
+  }
+
+  updateJob() {
+    // Trim fields
+    this.editForm.company = (this.editForm.company || '').trim();
+    this.editForm.title = (this.editForm.title || '').trim();
+
+    if (!this.editForm.company || !this.editForm.title) {
+      this.showToastMessage('Company and Title are required.');
+      return;
+    }
+
+    this.IsProcessing.set(true);
+
+    this.http.patch(
+      `${BASE_URL}/api/teacher/placement/updateJob/${this.editForm.id}`,
+      this.editForm,
+      { responseType: 'text' }
+    ).subscribe({
+      next: () => {
+        this.IsProcessing.set(false);
+        this.isEditMode = false;
+        this.showToastMessage('Job updated successfully!');
+        // Refresh the companies list by toggling tab
+        const current = this.activeTab();
+        this.activeTab.set('post');
+        setTimeout(() => this.activeTab.set(current), 50);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.IsProcessing.set(false);
+        this.showToastMessage('Update failed: ' + err.status);
+        this.cdr.detectChanges();
+      }
+    });
+  }
 }

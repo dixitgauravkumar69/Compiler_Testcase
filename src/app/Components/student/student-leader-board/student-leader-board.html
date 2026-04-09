@@ -91,18 +91,12 @@
         </div>
       </div>
 
-      
+
 
       <!-- LOADER -->
-      <div *ngIf="loading" class="loader">
-        <div class="spinner"></div>
+      <div *ngIf="loading" >
         <p>Analyzing your performance...</p>
       </div>
-
-
-
-
-
 
       <!-- LIST -->
       <div class="list-wrapper" *ngIf="!loading && reports.length">

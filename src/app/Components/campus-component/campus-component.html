@@ -17,8 +17,8 @@
 
   <!-- SIDEBAR -->
   <aside class="sidebar" [class.active]="isSidebarOpen">
-    <div class="sidebar-header">
-      <div class="sidebar-brand">
+    <div class="sidebar-header" routerLink="/teacher">
+      <div class="sidebar-brand" >
         <div class="logo-box">D</div>
         <span>Dev Campus</span>
       </div>
@@ -26,7 +26,7 @@
     </div>
 
     <nav class="nav-links">
-      <button class="btn-back" (click)="back()"><i class="ph-bold ph-arrow-left"></i> Back</button>
+     
       <button (click)="getProblems()"><i class="ph-bold ph-list-checks"></i> Problems List</button>
       <button (click)="goToAddStatement(); closeSidebar()">
         <i class="ph-bold ph-plus-circle"></i> Add Statement

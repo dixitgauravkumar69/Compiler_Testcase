@@ -29,7 +29,7 @@
   <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="closeSidebar()"></div>
 
   <div class="sidebar" [class.active]="isSidebarOpen">
-    <div class="sidebar-header">
+    <div class="sidebar-header" routerLink="/student">
       <div class="sidebar-brand">
          <div class="logo-box">D</div>
         Dev Campus
@@ -38,9 +38,7 @@
     </div>
 
     <nav class="nav-links">
-      <button class="btn-back" (click)="goBack()">
-        <i class="ph-bold ph-arrow-left"></i> Back to Coding Arena
-      </button>
+      
       <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active">
         <i class="ph-bold ph-trophy"></i> Coding Performance
       </a>

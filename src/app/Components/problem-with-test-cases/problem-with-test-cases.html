@@ -18,7 +18,7 @@
   <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="closeSidebar()"></div>
 
   <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar" [class.active]="isSidebarOpen">
+  <aside class="sidebar" [class.active]="isSidebarOpen" routerLink="/teacher">
     <div class="sidebar-header">
       <div class="sidebar-brand">
         <div class="logo-box">D</div>
@@ -28,9 +28,7 @@
     </div>
 
     <nav class="nav-links">
-      <button class="btn-back" (click)="goBack()">
-        <i class="ph-bold ph-arrow-left"></i> Back
-      </button>
+    
       <button [class.active]="activeSection === 'see'" (click)="handleProblemsClick()">
         <i class="ph-bold ph-list-checks"></i> Problems List
       </button>

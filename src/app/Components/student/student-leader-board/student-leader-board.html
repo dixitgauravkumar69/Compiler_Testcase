@@ -4,7 +4,7 @@
   <div class="sidebar" [class.active]="isSidebarOpen">
 
       <!-- <button class="menu-trigger" (click)="toggleSidebar()">☰</button> -->
-    <div class="sidebar-header">
+    <div class="sidebar-header" routerLink="/student">
       <div class="sidebar-brand">
          <div class="logo-box">D</div>
         Dev Campus
@@ -14,11 +14,6 @@
 
     <nav class="nav-links">
 
-      <div class="header-top">
-          <button class="btn-back" (click)="goBack()">
-            <i class="ph-bold ph-arrow-left"></i> Back
-          </button>
-        </div>
 
        <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active">
           <i class="ph-bold ph-trophy"></i> Coding Performance
@@ -96,11 +91,18 @@
         </div>
       </div>
 
+      
+
       <!-- LOADER -->
       <div *ngIf="loading" class="loader">
         <div class="spinner"></div>
         <p>Analyzing your performance...</p>
       </div>
+
+
+
+
+
 
       <!-- LIST -->
       <div class="list-wrapper" *ngIf="!loading && reports.length">

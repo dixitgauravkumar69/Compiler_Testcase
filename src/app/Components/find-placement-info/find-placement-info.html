@@ -29,7 +29,7 @@
 
   <!-- SIDEBAR -->
   <aside class="sidebar" [class.active]="isSidebarOpen">
-    <div class="sidebar-header">
+    <div class="sidebar-header" routerLink="/student">
       <div class="sidebar-brand">
         <div class="logo-box">D</div>
         <span>Dev Campus</span>
@@ -38,9 +38,7 @@
     </div>
 
     <nav class="nav-links">
-      <button class="btn-back" (click)="back()">
-        <i class="ph-bold ph-arrow-left"></i> Back
-      </button>
+     
       <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
         <i class="ph-bold ph-trophy"></i> Coding Performance
       </a>

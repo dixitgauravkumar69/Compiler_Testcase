@@ -268,6 +268,25 @@
             </div>
           </div>
 
+
+          <!-- DELETE MODAL -->
+<div class="delete-overlay" *ngIf="showDeleteModal">
+  <div class="delete-box">
+
+    <h3>Delete Problem</h3>
+
+    <p>Are you sure you want to delete this problem?</p>
+    <p class="warning">This action cannot be undone.</p>
+
+    <div class="actions">
+      <button class="cancel-btn" (click)="closeDeleteModal()">Cancel</button>
+      <button class="delete-btn" (click)="confirmDelete()">Delete</button>
+    </div>
+
+  </div>
+</div>
+
+
             <div class="card-footer-actions">
               <button class="btn-assign" [class.is-assigned]="ps.assigned" (click)="assign(ps.id)" [disabled]="ps.assigned" [title]="ps.assigned ? 'Already assigned' : 'Assign problem'">
                 <i class="ph-bold" [class.ph-check]="ps.assigned" [class.ph-plus]="!ps.assigned"></i>

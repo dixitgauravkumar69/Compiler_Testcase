@@ -18,7 +18,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar" [class.active]="isSidebarOpen">
     <div class="sidebar-header" routerLink="/teacher">
-      <div class="sidebar-brand" >
+      <div class="sidebar-brand">
         <div class="logo-box">D</div>
         <span>Dev Campus</span>
       </div>
@@ -26,7 +26,6 @@
     </div>
 
     <nav class="nav-links">
-     
       <button (click)="getProblems()"><i class="ph-bold ph-list-checks"></i> Problems List</button>
       <button (click)="goToAddStatement(); closeSidebar()">
         <i class="ph-bold ph-plus-circle"></i> Add Statement
@@ -208,6 +207,7 @@
                 <th>Semester</th>
                 <th>Selection</th>
                 <th>Last Date</th>
+
                 <th>Action</th>
               </tr>
             </thead>
@@ -227,8 +227,9 @@
                 <td>{{ item.semester }}</td>
                 <td class="text-truncate">{{ item.selectionProcess }}</td>
                 <td class="date-cell">{{ item.registrationLastDate | date: 'mediumDate' }}</td>
+
                 <td class="action-buttons">
-                  <button class="edit-btn" (click)="editCompony(item)" >✏️ Edit</button>
+                  <button class="edit-btn" (click)="editCompony(item)">✏️ Edit</button>
                   <button class="delete-btn" (click)="deleteAction(item.id)">🗑 Delete</button>
                 </td>
               </tr>
@@ -269,6 +270,7 @@
                 <th>Status</th>
                 <th>Applied Date</th>
                 <th>Eligibility</th>
+                <th>Selection Status</th>
               </tr>
             </thead>
             <tbody>
@@ -294,6 +296,18 @@
                     {{ item.campus.eligibleBranch }} Eligible
                   </span>
                 </td>
+
+                <td>
+                  <select
+                    name="selectionStatus"
+                    [value]="item.selectionStatus"
+                    (change)="onselectionStatusChange($event, item.user.userid)"
+                  >
+                    <option value="Process">Process..</option>
+                    <option value="Selected">Selected</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </td>
               </tr>
               <tr *ngIf="filteredStudents().length === 0">
                 <td colspan="5" class="empty-row">No students match your search.</td>
@@ -309,7 +323,6 @@
 <!-- EDIT JOB MODAL -->
 <div class="edit-overlay fade-in" *ngIf="isEditMode">
   <div class="edit-modal-card">
-
     <div class="modal-header">
       <div class="header-info">
         <span class="edit-badge"><i class="ph-bold ph-pencil-simple"></i> EDIT JOB</span>
@@ -324,11 +337,11 @@
       <div class="form-row-flex">
         <div class="form-group">
           <label>Company *</label>
-          <input type="text" [(ngModel)]="editForm.company" placeholder="Company name">
+          <input type="text" [(ngModel)]="editForm.company" placeholder="Company name" />
         </div>
         <div class="form-group">
           <label>Job Title *</label>
-          <input type="text" [(ngModel)]="editForm.title" placeholder="Job title">
+          <input type="text" [(ngModel)]="editForm.title" placeholder="Job title" />
         </div>
       </div>
       <div class="form-row-flex">
@@ -342,40 +355,43 @@
         </div>
         <div class="form-group">
           <label>Location</label>
-          <input type="text" [(ngModel)]="editForm.location">
+          <input type="text" [(ngModel)]="editForm.location" />
         </div>
       </div>
       <div class="form-row-flex">
         <div class="form-group">
           <label>Branch</label>
-          <input type="text" [(ngModel)]="editForm.eligibleBranch">
+          <input type="text" [(ngModel)]="editForm.eligibleBranch" />
         </div>
         <div class="form-group">
           <label>Min CGPA</label>
-          <input type="number" [(ngModel)]="editForm.cgpa">
+          <input type="number" [(ngModel)]="editForm.cgpa" />
         </div>
       </div>
       <div class="form-row-flex">
         <div class="form-group">
           <label>Salary (LPA)</label>
-          <input type="number" [(ngModel)]="editForm.salaryPackage">
+          <input type="number" [(ngModel)]="editForm.salaryPackage" />
         </div>
         <div class="form-group">
           <label>Semester</label>
           <select [(ngModel)]="editForm.semester">
             <option value="">Select</option>
-            <option>5</option><option>6</option><option>7</option><option>8</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
           </select>
         </div>
       </div>
       <div class="form-row-flex">
         <div class="form-group">
           <label>Bond (years)</label>
-          <input type="number" [(ngModel)]="editForm.bond">
+          <input type="number" [(ngModel)]="editForm.bond" />
         </div>
         <div class="form-group">
           <label>Last Date</label>
-          <input type="date" [(ngModel)]="editForm.registrationLastDate">
+          <input type="date" [(ngModel)]="editForm.registrationLastDate" />
         </div>
       </div>
       <div class="form-group">
@@ -403,6 +419,5 @@
         </span>
       </button>
     </div>
-
   </div>
 </div>

@@ -57,8 +57,27 @@ export class JobDescription implements OnInit {
   }
 
   checkIfAlreadyApplied() {
-    // Check 409 on a lightweight endpoint or rely on apply() response
-    // If backend has a check endpoint, call it here. Otherwise handled in apply().
+
+      this.http.get(`${BASE_URL}/api/student/studentApplication/isApplied/${this.userId}`).subscribe({
+        next:(res)=>
+        { 
+          if(res==true)
+            {
+              this.isApplied=true;
+              this.showToast("You have already applied")
+            }  
+            else
+            {
+              this.isApplied=false;
+            }
+
+         },
+        error:(err)=>
+        {
+         alert(err.message);
+        }
+      })
+    
   }
 
   apply() {

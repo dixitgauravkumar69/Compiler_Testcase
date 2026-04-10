@@ -267,37 +267,40 @@ studentSearchQuery: string = '';
     );
   }
 }
+//edit and delete cards of problem in ........................
 
-
-
-
-//edit and delete cards of problem in .........................
-
-
+deleteId!: number;
+showDeleteModal = false;
 
  deleteProblem(id: number) {
-  const confirmDelete = confirm(
-  "⚠️ Delete Problem?\n\n" +
-  "Are you sure you want to permanently delete this problem?\n" +
-  "This action cannot be undone.\n\n" +
-  "Click OK to delete, or Cancel to keep it."
-);
-  
-  if (confirmDelete) {
-    // Call delete service ...............................................
-    this.http.delete(`${BASE_URL}/teacher/deleteProblem/${id}`,{responseType: 'text'}).subscribe({
-      next: () => {
-    
-        this.showToast("🗑️ Problem deleted successfully");
-        this.getProblemStatements();
-      
-      },
-      error: (err) => this.showToast("Error deleting: " + err.status)
-    });
-  }
+  this.deleteId = id;
+  this.showDeleteModal = true;
 }
 
+  confirmDelete() {
+  this.http.delete(`${BASE_URL}/teacher/deleteProblem/${this.deleteId}`, {
+    responseType: 'text'
+  }).subscribe({
+    next: () => {
+      
+      this.showToast(" Deleted successfully");
+      this.cdr.detectChanges();
+      this.getProblemStatements(); // reload data
+      this.showDeleteModal = false;
 
+      this.cdr.detectChanges();
+
+    },
+    error: () => {
+      this.showToast(" Delete failed");
+      this.cdr.detectChanges();
+    }
+  });
+}
+
+  closeDeleteModal() {
+  this.showDeleteModal = false;
+}
 
 
 editProblem(problem: any) {

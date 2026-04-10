@@ -23,6 +23,7 @@ export class FindPlacementInfo implements OnInit {
   searchTerm: string = '';
   userId!:number;
   Semester!: number;
+  branch:string='';
 
   constructor(
     private http: HttpClient, 
@@ -49,6 +50,7 @@ export class FindPlacementInfo implements OnInit {
 
 
         this.Semester = res.semester; // update local variable
+        this.branch=res.branch;
 
         // Now call second API using the semester
         this.http.get<any[]>(`${BASE_URL}/placement/getJobInfo/${this.Semester}/${res.branch}`)
@@ -56,6 +58,11 @@ export class FindPlacementInfo implements OnInit {
             next: (jobsRes) => {
               this.zone.run(() => {
                 this.jobs = jobsRes;
+
+
+                console.log(this.jobs);
+
+
                 this.isLoading = false;
                 if (jobsRes.length > 0) {
                   this.showToast(`${jobsRes.length} opportunities synced! 🚀`, 'success');

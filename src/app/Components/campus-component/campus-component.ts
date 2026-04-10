@@ -31,7 +31,7 @@ export class CampusComponent {
   toastMessage: string = '';
   showToast = signal<boolean>(false);
   selectedCompany = signal<any>(null);
-  teacherId: number = Number(localStorage.getItem("UserId"));
+  teacherId: number = Number(localStorage.getItem('UserId'));
 
   companySearchQuery = signal<string>('');
   studentSearchQuery = signal<string>('');
@@ -41,31 +41,46 @@ export class CampusComponent {
   isEditMode = false;
   editForm: any = {};
 
+  companyId!: Number;
+
   // -------------------- JOB MODEL --------------------
   job: any = {
-    company: '', title: '', jobType: '', location: '', semester: '', salaryPackage: 0,
-    eligibleBranch: '', cgpa: '', bond: 0, skillsRequired: '', jobDescription: '',
-    selectionProcess: '', registrationLastDate: ''
+    company: '',
+    title: '',
+    jobType: '',
+    location: '',
+    semester: '',
+    salaryPackage: 0,
+    eligibleBranch: '',
+    cgpa: '',
+    bond: 0,
+    skillsRequired: '',
+    jobDescription: '',
+    selectionProcess: '',
+    registrationLastDate: '',
   };
 
   // -------------------- FILTERED COMPANIES --------------------
   availableComponies = toSignal(
     toObservable(this.activeTab).pipe(
-      filter(tab => tab === 'applied'),
-      tap(() => console.log("Fetching available companies ...")),
-      switchMap(() => this.http.get<any[]>(`${BASE_URL}/api/teacher/getAllComponies/${this.teacherId}`))
+      filter((tab) => tab === 'applied'),
+      tap(() => console.log('Fetching available companies ...')),
+      switchMap(() =>
+        this.http.get<any[]>(`${BASE_URL}/api/teacher/getAllComponies/${this.teacherId}`),
+      ),
     ),
-    { initialValue: [] }
+    { initialValue: [] },
   );
 
   filteredCompanies = computed(() => {
     const query = this.companySearchQuery().toLowerCase();
     const data = this.availableComponies();
     if (!query) return data;
-    return data.filter(item =>
-      item.company?.toLowerCase().includes(query) ||
-      item.location?.toLowerCase().includes(query) ||
-      item.eligibleBranch?.toLowerCase().includes(query)
+    return data.filter(
+      (item) =>
+        item.company?.toLowerCase().includes(query) ||
+        item.location?.toLowerCase().includes(query) ||
+        item.eligibleBranch?.toLowerCase().includes(query),
     );
   });
 
@@ -74,22 +89,23 @@ export class CampusComponent {
   // not on every change detection cycle like computed() would do.
   students = toSignal(
     toObservable(this.selectedCompany).pipe(
-      filter(company => !!company && this.activeTab() === 'students'),
-      switchMap(company =>
-        this.http.get<any[]>(`${BASE_URL}/api/teacher/getAppliedStudents/${company.id}`)
-      )
+      filter((company) => !!company && this.activeTab() === 'students'),
+      switchMap((company) =>
+        this.http.get<any[]>(`${BASE_URL}/api/teacher/getAppliedStudents/${company.id}`),
+      ),
     ),
-    { initialValue: [] as any[] }
+    { initialValue: [] as any[] },
   );
 
   filteredStudents = computed(() => {
     const query = this.studentSearchQuery().toLowerCase();
     const data = this.students();
     if (!query) return data;
-    return data.filter((item: any) =>
-      item.user?.username?.toLowerCase().includes(query) ||
-      item.user?.userEmail?.toLowerCase().includes(query) ||
-      item.applicationStatus?.toLowerCase().includes(query)
+    return data.filter(
+      (item: any) =>
+        item.user?.username?.toLowerCase().includes(query) ||
+        item.user?.userEmail?.toLowerCase().includes(query) ||
+        item.applicationStatus?.toLowerCase().includes(query),
     );
   });
 
@@ -126,9 +142,17 @@ export class CampusComponent {
     this.job.selectionProcess = (this.job.selectionProcess || '').trim();
     this.job.jobDescription = (this.job.jobDescription || '').trim();
 
-    if (!this.job.company || !this.job.title || !this.job.eligibleBranch ||
-        !this.job.cgpa || !this.job.bond || !this.job.salaryPackage ||
-        !this.job.semester || !this.job.selectionProcess || !this.job.registrationLastDate) {
+    if (
+      !this.job.company ||
+      !this.job.title ||
+      !this.job.eligibleBranch ||
+      !this.job.cgpa ||
+      !this.job.bond ||
+      !this.job.salaryPackage ||
+      !this.job.semester ||
+      !this.job.selectionProcess ||
+      !this.job.registrationLastDate
+    ) {
       return this.showToastMessage('⚠️ Please fill all required fields');
     }
 
@@ -145,32 +169,40 @@ export class CampusComponent {
 
     this.IsProcessing.set(true);
 
-    this.http.post(`${BASE_URL}/placement/addJob`, formData, { observe: 'response' })
-      .subscribe({
-        next: (res) => {
+    this.http.post(`${BASE_URL}/placement/addJob`, formData, { observe: 'response' }).subscribe({
+      next: (res) => {
+        console.log(res.body);
 
-          
-          console.log(res.body);
-
-
-          if (res.status === 200 || res.status === 201) {
-            this.showToastMessage("Job added for student");
-            this.resetForm();
-            this.cdr.detectChanges();
-            this.IsProcessing.set(false);
-          }
-        },
-        error: (err) => {
+        if (res.status === 200 || res.status === 201) {
+          this.showToastMessage('Job added for student');
+          this.resetForm();
+          this.cdr.detectChanges();
           this.IsProcessing.set(false);
-          this.showToastMessage('Error: ' + err.status);
         }
-      });
+      },
+      error: (err) => {
+        this.IsProcessing.set(false);
+        this.showToastMessage('Error: ' + err.status);
+      },
+    });
   }
 
   resetForm() {
-    this.job = { company: '', title: '', jobType: '', location: '', semester: '', salaryPackage: 0,
-                 eligibleBranch: '', cgpa: '', bond: 0, skillsRequired: '', jobDescription: '',
-                 selectionProcess: '', registrationLastDate: ''};
+    this.job = {
+      company: '',
+      title: '',
+      jobType: '',
+      location: '',
+      semester: '',
+      salaryPackage: 0,
+      eligibleBranch: '',
+      cgpa: '',
+      bond: 0,
+      skillsRequired: '',
+      jobDescription: '',
+      selectionProcess: '',
+      registrationLastDate: '',
+    };
     this.selectedFile = null;
     this.selectedFileName = '';
   }
@@ -182,18 +214,22 @@ export class CampusComponent {
 
   deleteAction(CampusId: number) {
     this.IsProcessing.set(true);
-    this.http.delete(`${BASE_URL}/placement/deleteJob/${CampusId}`, { observe: 'response', responseType: 'text' })
+    this.http
+      .delete(`${BASE_URL}/placement/deleteJob/${CampusId}`, {
+        observe: 'response',
+        responseType: 'text',
+      })
       .subscribe({
         next: (res) => {
           this.IsProcessing.set(false);
-          this.showToastMessage("🗑 Job Deleted Successfully");
+          this.showToastMessage('🗑 Job Deleted Successfully');
           this.cdr.detectChanges();
         },
         error: (err) => {
           this.IsProcessing.set(false);
           this.showToastMessage('Error: ' + err.status);
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
@@ -218,16 +254,24 @@ export class CampusComponent {
     document.body.style.overflow = 'auto';
   }
 
-  goToAddStatement() { this.router.navigate(['/Statement']); }
-  goToAddCampus() { this.router.navigate(['/campusAdd']); }
-  getProblems(){ this.router.navigate(['/teacher']); }
-
-  logout() { 
-    localStorage.clear(); 
-    this.router.navigate(["/logout"]);
+  goToAddStatement() {
+    this.router.navigate(['/Statement']);
+  }
+  goToAddCampus() {
+    this.router.navigate(['/campusAdd']);
+  }
+  getProblems() {
+    this.router.navigate(['/teacher']);
   }
 
-  back() { this.router.navigate(['/Statement']); }
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/logout']);
+  }
+
+  back() {
+    this.router.navigate(['/Statement']);
+  }
 
   editCompony(item: any) {
     this.editForm = { ...item };
@@ -247,26 +291,56 @@ export class CampusComponent {
 
     this.IsProcessing.set(true);
 
-    this.http.patch(
-      `${BASE_URL}/api/teacher/placement/updateJob/${this.editForm.id}`,
-      this.editForm,
-      { responseType: 'text' }
-    ).subscribe({
-      next: () => {
-        this.IsProcessing.set(false);
-        this.isEditMode = false;
-        this.showToastMessage('Job updated successfully!');
-        // Refresh the companies list by toggling tab
-        const current = this.activeTab();
-        this.activeTab.set('post');
-        setTimeout(() => this.activeTab.set(current), 50);
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        this.IsProcessing.set(false);
-        this.showToastMessage('Update failed: ' + err.status);
-        this.cdr.detectChanges();
-      }
-    });
+    this.http
+      .patch(`${BASE_URL}/api/teacher/placement/updateJob/${this.editForm.id}`, this.editForm, {
+        responseType: 'text',
+      })
+      .subscribe({
+        next: () => {
+          this.IsProcessing.set(false);
+          this.isEditMode = false;
+          this.showToastMessage('Job updated successfully!');
+          // Refresh the companies list by toggling tab
+          const current = this.activeTab();
+          this.activeTab.set('post');
+          setTimeout(() => this.activeTab.set(current), 50);
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.IsProcessing.set(false);
+          this.showToastMessage('Update failed: ' + err.status);
+          this.cdr.detectChanges();
+        },
+      });
   }
+
+ onselectionStatusChange(event: any, item: any) {
+
+  const status = event.target.value;
+
+  const campusId = this.selectedCompany()?.id;
+
+ 
+  const userId=item;
+
+  console.log("CampusId:", campusId);
+  console.log("UserId:", userId);
+  console.log("Status:", status);
+
+  this.http.patch(
+    `${BASE_URL}/api/teacher/SelectionStatus/change/${campusId}/${userId}`,
+    status,
+    {
+      headers: { 'Content-Type': 'text/plain' },  
+     responseType: 'text' 
+    }
+  ).subscribe({
+    next: (res) => {
+      alert(res);
+    },
+    error: (err) => {
+     alert(err);
+    },
+  });
+}
 }

@@ -133,7 +133,7 @@
               <i class="ph-bold ph-map-pin"></i> {{ job.location }}
             </span>
             <span class="meta-item">
-              <i class="ph-bold ph-graduation-cap"></i> Sem {{ job.semester }}
+              <i class="ph-bold ph-graduation-cap"></i> Sem {{ Semester }}
             </span>
           </div>
 
@@ -144,7 +144,7 @@
             </div>
             <div class="highlight-item">
               <span class="h-label">Min CGPA</span>
-              <span class="h-value">{{ job.cgpa }}</span>
+              <span class="h-value">{{ job.minCGPA }}</span>
             </div>
             <div class="highlight-item">
               <span class="h-label">Bond</span>
@@ -152,7 +152,7 @@
             </div>
             <div class="highlight-item">
               <span class="h-label">Branch</span>
-              <span class="h-value">{{ job.eligibleBranch || 'All' }}</span>
+              <span class="h-value">{{ branch || 'All' }}</span>
             </div>
           </div>
 

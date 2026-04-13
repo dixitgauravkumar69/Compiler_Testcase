@@ -111,8 +111,8 @@
             <div class="problem-details">
               <h4>{{ r.problem.title }}</h4>
              <p class="date-time">
-  📅 {{ (r.createdAt + 'Z') | date:'dd MMM yyyy':'+0530' }}
-  • ⏰ {{ (r.createdAt + 'Z') | date:'hh:mm a':'+0530' }}
+  📅 {{ (r.createdAt ) | date:'dd MMM yyyy'}}
+  • ⏰ {{ (r.createdAt) | date:'hh:mm a' }}
 </p>
 
             </div>

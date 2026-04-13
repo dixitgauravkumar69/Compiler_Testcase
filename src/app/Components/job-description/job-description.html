@@ -31,24 +31,47 @@
 
     <!-- HEADER CARD -->
     <div class="jd-header">
-      <div class="jd-company-row">
-        <div class="jd-logo">{{ job.company[0]?.toUpperCase() }}</div>
-        <div class="jd-title-block">
-          <p class="jd-company-name">{{ job.company }}</p>
-          <h1 class="jd-role">{{ job.title }}</h1>
-          <div class="jd-meta-tags">
-            <span class="meta-tag" *ngIf="job.jobType">
-              <i class="ph-bold ph-briefcase"></i> {{ job.jobType }}
-            </span>
-            <span class="meta-tag" *ngIf="job.location">
-              <i class="ph-bold ph-map-pin"></i> {{ job.location }}
-            </span>
-            <span class="meta-tag">
-              <i class="ph-bold ph-graduation-cap"></i> Sem {{ job.semester }}
-            </span>
-          </div>
-        </div>
+     <div class="jd-company-row">
+
+  <!-- LEFT SIDE -->
+  <div class="jd-left">
+    <div class="jd-logo">{{ job.company[0]?.toUpperCase() }}</div>
+
+    <div class="jd-title-block">
+      <p class="jd-company-name">{{ job.company }}</p>
+      <h1 class="jd-role">{{ job.title }}</h1>
+
+      <div class="jd-meta-tags">
+        <span class="meta-tag" *ngIf="job.jobType">
+          <i class="ph-bold ph-briefcase"></i> {{ job.jobType }}
+        </span>
+        <span class="meta-tag" *ngIf="job.location">
+          <i class="ph-bold ph-map-pin"></i> {{ job.location }}
+        </span>
+        <span class="meta-tag">
+          <i class="ph-bold ph-graduation-cap"></i> Sem {{ job.semester }}
+        </span>
       </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE STATUS -->
+  <div class="jd-status">
+    <span 
+      class="status-badge"
+      [ngClass]="{
+        'status-process': selectionStatus === 'Process',
+        'status-selected': selectionStatus === 'Selected',
+        'status-rejected': selectionStatus === 'Rejected'
+      }"
+    >
+      {{ selectionStatus }}
+    </span>
+  </div>
+
+</div>
+
+      
 
       <!-- KEY STATS -->
       <div class="jd-stats-grid">

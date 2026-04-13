@@ -392,3 +392,60 @@
   .jd-logo { width: 52px; height: 52px; font-size: var(--font-size-2xl); }
   .jd-section { padding: var(--spacing-lg); }
 }
+
+
+
+
+/* FIX HEADER LAYOUT */
+.jd-company-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+}
+
+/* LEFT SECTION */
+.jd-left {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: flex-start;
+  flex: 1;
+}
+
+/* RIGHT STATUS */
+.jd-status {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+/* BADGE BASE */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* PROCESS */
+.status-process {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid rgba(133, 100, 4, 0.2);
+}
+
+/* SELECTED */
+.status-selected {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid rgba(21, 87, 36, 0.2);
+}
+
+/* REJECTED */
+.status-rejected {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid rgba(114, 28, 36, 0.2);
+}

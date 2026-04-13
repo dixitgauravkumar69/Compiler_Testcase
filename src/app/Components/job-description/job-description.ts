@@ -20,6 +20,7 @@ export class JobDescription implements OnInit {
   isPageLoading = true;
   isApplied = false;
   isApplying = false;
+  selectionStatus:string="";
 
   toast = {
     message: '',
@@ -34,36 +35,44 @@ export class JobDescription implements OnInit {
     private router: Router,
   ) {}
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) { this.isPageLoading = false; return; }
-
-    this.campusId = Number(id);
-    this.userId = Number(localStorage.getItem('UserId') || '0');
-
-    this.http.get(`${BASE_URL}/placement/student/job/${this.campusId}`).subscribe({
-      next: (res: any) => {
-        this.job = res;
-        this.isPageLoading = false;
-        this.checkIfAlreadyApplied();
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.isPageLoading = false;
-        this.showToast('Failed to load job details.', 'error');
-        this.cdr.detectChanges();
-      }
-    });
-
-    this.selectionStatusStudent(this.userId,this.campusId)
+ ngOnInit(): void {
+  const id = this.route.snapshot.paramMap.get('id');
+  if (!id) { 
+    this.isPageLoading = false; 
+    return; 
   }
+
+  this.campusId = Number(id);
+  this.userId = Number(localStorage.getItem('UserId') || '0');
+
+  this.http.get(`${BASE_URL}/placement/student/job/${this.campusId}`).subscribe({
+    next: (res: any) => {
+      this.job = res;
+      this.isPageLoading = false;
+
+      this.checkIfAlreadyApplied();
+
+      //  CALL HERE (after job loaded)
+      this.selectionStatusStudent(this.userId, this.campusId);
+
+      this.cdr.detectChanges();
+    },
+    error: () => {
+      this.isPageLoading = false;
+      this.showToast('Failed to load job details.', 'error');
+      this.cdr.detectChanges();
+    }
+  });
+}
 
 
 
   selectionStatusStudent(UserId:number,CampusId:number)
   {
       this.http.get(`${BASE_URL}/student/jobSelection/${CampusId}/${UserId}`, { responseType: 'text' } ).subscribe({next:(res)=>{
-            alert(res);
+            
+        this.selectionStatus=res;
+        this.showToast("Data loaded successfully");
       },
     error:(err)=>{
         alert(err.message);

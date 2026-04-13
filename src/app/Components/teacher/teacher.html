@@ -346,9 +346,12 @@
         <tr>
           <th>Student</th>
           <th>Marks</th>
+          <th>Complextity</th>
           <th>Completion Time</th>
           <th>Submission Date</th>
           <th>Submission Time</th>
+          <th>Submission Reason</th>
+
         </tr>
       </thead>
       <tbody>
@@ -363,11 +366,13 @@
             </div>
           </td>
           <td><span class="id-tag">{{ entry.marks }}</span></td>
+          <td><span class="id-tag"> {{entry.complexity}}</span></td>
           <td class="td-muted">🕒 {{ entry.takenTime }}</td>
           <td class="td-muted">{{ entry.createdAt | date:'dd MMM yyyy' }}</td>
 
           <!-- Problem was thattime  formate was in UTC but i want to show IST -->
           <td class="td-muted">{{ entry.createdAt | date:'hh:mm a':'Asia/Kolkata' }}</td>
+         <td>{{ entry.abnormalSubmitionReason || 'Submitted Normally' }}</td>
         </tr>
       </tbody>
     </table>

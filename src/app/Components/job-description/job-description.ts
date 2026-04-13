@@ -54,7 +54,24 @@ export class JobDescription implements OnInit {
         this.cdr.detectChanges();
       }
     });
+
+    this.selectionStatusStudent(this.userId,this.campusId)
   }
+
+
+
+  selectionStatusStudent(UserId:number,CampusId:number)
+  {
+      this.http.get(`${BASE_URL}/student/jobSelection/${CampusId}/${UserId}`, { responseType: 'text' } ).subscribe({next:(res)=>{
+            alert(res);
+      },
+    error:(err)=>{
+        alert(err.message);
+    }})
+  }
+
+
+
 
   checkIfAlreadyApplied() {
 

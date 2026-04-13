@@ -55,6 +55,7 @@ export class CodeExecution implements OnInit, OnDestroy {
   readonly EXAM_DURATION_MIN = 30;
   cheatingCount: number = 0;
   readonly MAX_CHEATING_LIMIT = 3;
+  abnormalSubmition:string='';
 
   constructor(
     private api: CodeExecutionService,
@@ -124,7 +125,11 @@ export class CodeExecution implements OnInit, OnDestroy {
     localStorage.setItem(this.CHEAT_KEY, this.cheatingCount.toString());
 
     if (this.cheatingCount >= this.MAX_CHEATING_LIMIT) {
+   
       this.showToast(`🚫 Limit reached! Auto-submitting due to ${reason}`, 'error');
+
+        this.abnormalSubmition=`Limit reached! Auto-submitting due to ${reason}`;  //ye jo hai backend ke liye actual reason save kr lega jiski vajah se pata chal jaega ky chet hua tha by student
+
       this.submitCode(true); 
     } else {
       const remaining = this.MAX_CHEATING_LIMIT - this.cheatingCount;
@@ -195,7 +200,8 @@ export class CodeExecution implements OnInit, OnDestroy {
       takenTime: this.calculateUsedTime(), 
       userId: this.userId,
       problemId: this.problemId,
-      complexity: this.complexity 
+      complexity: this.complexity,
+      abnormalSubmitionReason:this.abnormalSubmition,
     };
 
     const url = `${BASE_URL}/api/student/SaveStudentCodeInfo/${this.userId}/${this.problemId}`;

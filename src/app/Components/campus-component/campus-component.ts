@@ -142,20 +142,22 @@ export class CampusComponent {
     this.job.selectionProcess = (this.job.selectionProcess || '').trim();
     this.job.jobDescription = (this.job.jobDescription || '').trim();
 
-    if (
-      !this.job.company ||
-      !this.job.title ||
-      !this.job.eligibleBranch ||
-      !this.job.cgpa ||
-      !this.job.bond ||
-      !this.job.salaryPackage ||
-      !this.job.semester ||
-      !this.job.selectionProcess ||
-      !this.job.registrationLastDate
-    ) {
-      return this.showToastMessage('⚠️ Please fill all required fields');
-    }
-
+   if (
+  !this.job.company ||
+  !this.job.title ||
+  !this.job.eligibleBranch ||
+  !this.job.cgpa ||
+  this.job.salaryPackage <= 0 ||
+  this.job.bond < 0 ||
+  !this.job.semester ||
+  !this.job.selectionProcess ||
+  !this.job.registrationLastDate
+) {
+  console.log("Require all");
+ 
+  this.showToastMessage('⚠️ Please fill all required fields');
+  return;
+}
     if (this.job.company.length < 2) {
       return this.showToastMessage('⚠️ Company name is too short');
     }

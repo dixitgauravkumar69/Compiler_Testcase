@@ -126,8 +126,8 @@
           <div class="name-meta">
             <h1>{{ user?.username }}</h1>
             <p>
-              <span class="badge-branch">{{ profile.branch || 'Student' }}</span>
-              <span class="meta-sep">•</span>
+              <span class="badge-branch" >{{ profile.branch || 'Student' }}</span>
+              <span class="meta-sep" >•</span>
               Sem {{ profile.semester || '-' }}
             </p>
           </div>
@@ -151,6 +151,21 @@
             <input *ngIf="editMode" [(ngModel)]="profile.phone" type="tel" />
             <p *ngIf="!editMode">{{ profile.phone || 'Not added' }}</p>
           </div>
+
+
+          <div class="field">
+            <label>Semester</label>
+            <input *ngIf="editMode" [(ngModel)]="profile.semester"  />
+            <p *ngIf="!editMode">{{ profile.semester || 'Not added' }}</p>
+          </div>
+
+          
+          <div class="field">
+            <label>Branch</label>
+            <input *ngIf="editMode" [(ngModel)]="profile.branch"  />
+            <p *ngIf="!editMode">{{ profile.branch || 'Not added' }}</p>
+          </div>
+
 
           <div class="field">
             <label>College / University</label>

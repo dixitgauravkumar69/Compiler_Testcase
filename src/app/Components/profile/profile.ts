@@ -28,7 +28,7 @@ export class Profile {
     github: '',
     linkedin: '',
     bio: '',
-     highSchool:'',
+    highSchool:'',
     highSchoolMarks:'',
     higherSecondary:'',
     higherScondarymarks:'',
@@ -186,8 +186,9 @@ percentageErrorHigh: boolean = false;
         this.editMode = false;
         this.loadProfile();
       },
-      error: () => {
-        this.showToast("Could not save changes. Please try again. 🛠️", "error");
+      error: (err) => {
+        // this.showToast("Could not save changes. Please try again. 🛠️", "error");
+        alert(err.message);
       }
     });
 }

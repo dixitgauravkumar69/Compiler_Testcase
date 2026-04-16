@@ -27,7 +27,7 @@
     <span class="jd-breadcrumb">{{ job.company }} / {{ job.title }}</span>
   </div>
 
-  <div class="jd-container fade-in">
+  <div class="jd-container fade-in" *ngIf="isEligible">
 
     <!-- HEADER CARD -->
     <div class="jd-header">
@@ -178,6 +178,10 @@
       </button>
     </div>
 
+  </div>
+
+  <div *ngIf="!isEligible">
+    <p>You are not eligible for this job because of cgpa , your cgpa is less than compony requirment</p>
   </div>
 </div>
 

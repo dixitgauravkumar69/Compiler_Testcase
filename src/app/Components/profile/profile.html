@@ -159,6 +159,12 @@
             <p *ngIf="!editMode">{{ profile.semester || 'Not added' }}</p>
           </div>
 
+
+           <div class="field">
+            <label>CGPA</label>
+            <input *ngIf="editMode" [(ngModel)]="profile.cgpa"  />
+            <p *ngIf="!editMode">{{ profile.cgpa || 'Not added' }}</p>
+          </div>
           
           <div class="field">
             <label>Branch</label>

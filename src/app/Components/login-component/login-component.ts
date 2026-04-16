@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
@@ -9,11 +9,11 @@ import { BASE_URL } from '../../../Environments/environment';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,FormsModule],
   templateUrl: './login-component.html',
   styleUrls: ['./login-component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   message = "";       // Success message ke liye
@@ -25,6 +25,10 @@ export class LoginComponent {
   toastMessage: string = '';
   toastType: 'success' | 'error' | 'info' = 'info';
 
+  forgotEmail:string='';
+  isForgotModalOpen=false;
+  frontendUrl:string='';
+
   constructor(
     private fb: FormBuilder, 
     private http: HttpClient,
@@ -35,6 +39,12 @@ export class LoginComponent {
       userEmail: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+  }
+
+
+
+  ngOnInit(): void {
+      this.frontendUrl=window.location.origin;
   }
 loginUser() {
 
@@ -111,5 +121,41 @@ loginUser() {
 
   goToSignup() {
     this.router.navigate(['/signUp']);
+  }
+
+
+  forgotPassword()
+  {
+    this.isForgotModalOpen=true;
+  }
+
+  sendResetLink()
+  {
+
+  
+  
+  //  const url=this.frontendUrl;
+
+    if(this.forgotEmail==null)
+    {
+      alert("Please provide your linked mail..");
+    }
+   
+    this.http.post(`${BASE_URL}/api/User/forget/password/${this.forgotEmail}`,{},{ responseType: 'text'} ).subscribe({
+      next:(res)=>
+      {
+        this.showToast("Check your inbox","success");
+        this.closeForgotModal();
+      },
+      error:(err)=>
+      {
+        this.showToast(err.message);
+        this.closeForgotModal();
+      }
+    });
+  }
+  closeForgotModal()
+  {
+    this.isForgotModalOpen=false;
   }
 }

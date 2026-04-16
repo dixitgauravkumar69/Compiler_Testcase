@@ -19,6 +19,8 @@ import { GetLiveProblems } from './Components/get-live-problems/get-live-problem
 import { StudentLeaderBoard } from './Components/student/student-leader-board/student-leader-board';
 import { EditTestCase } from './Components/teacher/edit-test-case/edit-test-case';
 import { ChangePassword } from './Components/change-password/change-password';
+import { NotificationComponent } from './Components/notification-component/notification-component';
+import { ForgetPasswordComponent } from './Components/forget-password-component/forget-password-component';
 
 
 export const routes: Routes = [
@@ -43,4 +45,6 @@ export const routes: Routes = [
      {path:"StudentLeaderBoard",component:StudentLeaderBoard},
     {path:"editTestCases/:id",component:EditTestCase},
     {path:"changePassword",component:ChangePassword},
+    {path:"Notification",component:NotificationComponent},
+    {path:"reset-password",component:ForgetPasswordComponent},
 ];

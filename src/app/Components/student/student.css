@@ -246,7 +246,6 @@
 
 .truncate-text {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -336,4 +335,196 @@
 @media (max-width: 480px) {
   .main-content { padding: 75px var(--spacing-md) var(--spacing-md); }
   .card-content h2 { font-size: var(--font-size-base); }
+}
+
+.notification-bell {
+  position: relative;
+  margin: 0 15px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #1e293b;
+}
+
+.notification-bell i {
+  font-size: 22px;
+}
+
+.notification-bell .badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: red;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+/* Default: dono hide nahi, but control karenge */
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+/* 📱 Mobile screen (max-width: 768px) */
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+}
+
+/* 🔔 Full screen wrapper */
+.notification-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+/* 🌑 Background overlay */
+.modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* 📦 Modal box (top-right dropdown style) */
+.modal-content {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  width: 340px;
+  max-height: 420px;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.3s ease;
+  padding: 10px 0;
+}
+
+/* ✨ Animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 🧾 Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  color: #1e293b;
+  margin: 0;
+}
+
+.modal-header button {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* 📋 Body */
+.modal-body {
+  padding: 5px 0;
+}
+
+/* 🔔 Notification item */
+.notification-item {
+  padding: 12px 15px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+/* hover effect */
+.notification-item:hover {
+  background: #f8fafc;
+}
+
+
+.modal-body div {
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+.notification-item.unread {
+  font-weight: bold;
+  background: #eef2ff;
+}
+.modal-content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #cbd5f5;
+  border-radius: 10px;
+}
+.notification-item {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.notification-item:hover {
+  background: #f8fafc;
+  transform: translateY(-2px);
+}
+
+/* Unread Highlight */
+.notification-item.unread {
+  border-left: 4px solid #4f46e5;
+  background: #eef2ff;
+}
+
+/* Message */
+.notif-message {
+  font-size: 14px;
+  color: #1e293b;
+  margin: 0 0 6px 0;
+}
+
+/* Meta (date + time) */
+.notif-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Scroll body */
+.modal-body {
+  max-height: 350px;
+  overflow-y: auto;
 }

@@ -21,6 +21,7 @@ export class JobDescription implements OnInit {
   isApplied = false;
   isApplying = false;
   selectionStatus:string="";
+  isEligible=true;
 
   toast = {
     message: '',
@@ -45,9 +46,17 @@ export class JobDescription implements OnInit {
   this.campusId = Number(id);
   this.userId = Number(localStorage.getItem('UserId') || '0');
 
-  this.http.get(`${BASE_URL}/placement/student/job/${this.campusId}`).subscribe({
+  this.http.get(`${BASE_URL}/placement/student/job/${this.campusId}/${this.userId}`).subscribe({
     next: (res: any) => {
       this.job = res;
+
+      if(res==null)
+      {
+       this.isEligible=false;
+       console.log("eligible: "+ this.isEligible);
+      }
+
+
       this.isPageLoading = false;
 
       this.checkIfAlreadyApplied();
@@ -84,7 +93,7 @@ export class JobDescription implements OnInit {
 
   checkIfAlreadyApplied() {
 
-      this.http.get(`${BASE_URL}/api/student/studentApplication/isApplied/${this.userId}`).subscribe({
+      this.http.get(`${BASE_URL}/api/student/studentApplication/isApplied/${this.userId}/${this.campusId}`).subscribe({
         next:(res)=>
         { 
           if(res==true)

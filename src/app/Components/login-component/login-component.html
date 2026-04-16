@@ -54,6 +54,11 @@
             </button>
           </div>
 
+          <div class="forgot-password">
+  <a (click)="forgotPassword()">Forgot Password?</a>
+</div>
+
+
           <button type="submit" class="login-btn" [disabled]="isLoading || !loginForm.valid">
             <span *ngIf="!isLoading">Login</span>
             <span *ngIf="isLoading" class="btn-loader"></span>
@@ -65,4 +70,36 @@
     </div>
 
   </div>
+
+
+
+  <!-- Forgot Password Modal -->
+<div class="modal-overlay" *ngIf="isForgotModalOpen" (click)="closeForgotModal()"></div>
+
+<div class="forgot-modal" *ngIf="isForgotModalOpen">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3>Reset Password</h3>
+      <button (click)="closeForgotModal()">✖</button>
+    </div>
+
+    <div class="modal-body">
+      <label>Email Address</label>
+      <input 
+        type="email" 
+        placeholder="Enter your email"
+        [(ngModel)]="forgotEmail"
+      >
+    </div>
+
+    <div class="modal-footer">
+      <button class="reset-btn" (click)="sendResetLink()">Reset Password</button>
+    </div>
+
+  </div>
+</div>
+
+
+
 </div>

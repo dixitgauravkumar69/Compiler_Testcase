@@ -1,0 +1,25 @@
+
+<div class="notification-modal" *ngIf="isNotificationOpen">
+
+  <!-- Overlay -->
+  <div class="modal-overlay" (click)="closeNotifications()"></div>
+
+  <!-- Modal Box -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Notifications</h3>
+      <button (click)="closeNotifications()">✖</button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngIf="myList.length === 0">
+        No notifications 😴
+      </div>
+
+      <div *ngFor="let n of myList" class="notification-item">
+        {{ n }}
+      </div>
+    </div>
+  </div>
+
+</div>

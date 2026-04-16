@@ -7,6 +7,15 @@
     <h3>Dev Campus</h3>
     <div class="mobile-header-right">
       <app-theme-switcher></app-theme-switcher>
+
+      <div  class="notification-bell mobile-only" (click)="openNotifications()">
+    <i class="ph-bold ph-bell"></i>
+    <span class="badge">
+      {{ notificationCount }}
+    </span>
+  </div>
+
+
       <div class="avatar-xs">D</div>
     </div>
   </header>
@@ -23,6 +32,8 @@
     </div>
 
     <nav class="nav-links">
+
+   
        <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active">
           <i class="ph-bold ph-trophy"></i> Coding Performance
        </a>
@@ -63,7 +74,16 @@
           <p style="margin: 5px 0 0; color: #64748b;">Sharpen your skills by solving assigned problems.</p>
         </div>
         
-        
+        <div style="display: flex; align-items: center; gap: 15px;">
+    <div  class="notification-bell desktop-only" (click)="openNotifications()">
+      <i class="ph-bold ph-bell"></i>
+      <span class="badge" >
+        {{ notificationCount }}
+      </span>
+    </div>
+  </div>
+
+
       </div>
 
       <div class="toast-wrapper fade-in" *ngIf="toastMessage" [ngClass]="toastType">
@@ -82,6 +102,10 @@
       <div class="stats-mini" *ngIf="!loading" style="margin-top: 15px; font-size: 0.9rem; color: #94a3b8;">
         Total Tasks: <strong style="color: #4f46e5;">{{ questions.length }}</strong>
       </div>
+
+
+     
+
     </div> <div *ngIf="loading" class="loader-container" style="text-align: center; padding: 50px;">
       <div class="spinner"></div>
       <p style="color: #64748b; margin-top: 10px;">Fetching your challenges...</p>
@@ -121,6 +145,54 @@
         Next &raquo;
       </button>
     </div>
+
+
+
+    
+<div class="notification-modal" *ngIf="isNotificationOpen">
+
+  <!-- Overlay -->
+  <div class="modal-overlay" (click)="closeNotifications()"></div>
+
+  <!-- Modal Box -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Notifications</h3>
+      <button (click)="closeNotifications()">✖</button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngIf="notifications.length === 0">
+        No notifications 
+      </div>
+
+     <div *ngFor="let n of notifications" 
+     class="notification-item">
+
+  <div class="notif-content" (click)="markReadNotification(n)">
+    
+    <!-- Message -->
+    <p class="notif-message">
+      {{ n.message }}
+    </p>
+
+    <!-- Date + Time -->
+    <div class="notif-meta">
+      <span class="notif-date">
+        {{ n.createdAt | date:"dd MMM yyyy" }}
+      </span>
+      <span class="notif-time">
+        {{ n.createdAt | date:"hh:mm a" }}
+      </span>
+    </div>
+
+  </div>
+</div>
+    </div>
+  </div>
+
+</div>
+
 
   </main>
 </div>

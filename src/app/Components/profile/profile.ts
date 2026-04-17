@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BASE_URL } from '../../../Environments/environment';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
+import { ProfileService } from '../../Services/ProfileService/profile-service';
 
 @Component({
   selector: 'app-profile',
@@ -53,6 +54,7 @@ isUploading = false;
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private router:Router,
+    private userGet:ProfileService,
   ) {}
 
   ngOnInit(): void {
@@ -66,9 +68,8 @@ isUploading = false;
     this.isLoading = true;
 
     // get user
-    this.http
-      .get(`${BASE_URL}/api/User/profile?email=` + this.email)
-      .subscribe((data: any) => {
+    
+      this.userGet.getUser(this.email).subscribe((data: any) => {
 
         this.user = data;
         this.userId = this.user.userid;
@@ -104,8 +105,8 @@ percentageErrorHigh: boolean = false;
     const formData = new FormData();
     formData.append('file', file);
 
-    this.http.post(`${BASE_URL}/api/student/uploadImg/${this.userId}`, formData)
-      .subscribe({
+    
+    this.userGet.uploadImg(this.userId,formData).subscribe({
         next: (res: any) => {
           this.isUploading = false;
           //backend sends img url.......
@@ -124,8 +125,7 @@ percentageErrorHigh: boolean = false;
   }
 }
  loadProfile() {
-  this.http
-    .get(`${BASE_URL}/api/student/Profile/` + this.userId)
+  this.userGet.fetchProfileByUserId(this.userId)
     .subscribe({
       next: (data: any) => {
         if (data) {
@@ -177,8 +177,7 @@ percentageErrorHigh: boolean = false;
     return;
   }
 
-  this.http
-    .post(`${BASE_URL}/api/student/addProfile/` + this.userId, this.profile)
+  this.userGet.updateProfile(this.userId,this.profile)
     .subscribe({
       next: (res) => {
         this.showToast("Profile updated successfully! 🚀", "success");

@@ -6,6 +6,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { BASE_URL } from '../../../Environments/environment';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
+import { ResumeService } from '../../Services/ResumeService/resume-service';
 
 @Component({
   selector: 'app-resume-generate',
@@ -52,6 +53,7 @@ toastType = 'success';
   constructor(private http: HttpClient,
     private cdr:ChangeDetectorRef,
     private router:Router,
+    private resume:ResumeService,
   ) {}
 
   ngOnInit() {
@@ -64,9 +66,8 @@ toastType = 'success';
     }
 
     //  user fetch from user table via email --------------------
-    this.http
-      .get(`${BASE_URL}/api/User/profile?email=` + this.email)
-      .subscribe((data: any) => {
+    
+      this.resume.fetchUser(this.email).subscribe((data: any) => {
 
         this.userId = data.userid;
 
@@ -89,8 +90,7 @@ toastType = 'success';
   //for filling available data in profile section---------------
   loadProfile() {
 
-    this.http
-      .get(`${BASE_URL}/api/student/Profile/` + this.userId)
+    this.resume.loadProfile(this.userId)
       .subscribe((data: any) => {
 
         if (data) {
@@ -136,7 +136,7 @@ toastType = 'success';
 
   const resumeData = { ...this.profile, ...this.extra };
 
-  this.http.post(`${BASE_URL}/api/student/addResumeInfo/` + this.userId, resumeData)
+  this.resume.addResume(this.userId,resumeData)
     .subscribe({
       next: (res) => {
  
@@ -192,7 +192,7 @@ getResume() {
 
 downloadResume(id: number) {
   this.showToast("Generating your PDF... please wait. ⏳", "info");
-  this.http.get(`${BASE_URL}/api/student/downloadResume/${id}`, { responseType: 'blob' })
+  this.resume.downLoadResume(id)
     .subscribe({
       next: (res: any) => {
         const blob = new Blob([res], { type: 'application/pdf' });

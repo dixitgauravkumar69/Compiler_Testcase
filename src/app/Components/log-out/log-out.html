@@ -1,30 +1,42 @@
-<div class="logout_container">
-  <div class="logout-page">
-  <div class="logout-card fade-in">
+<div class="logout-wrapper white-theme">
+  <div class="bg-pattern"></div>
 
-    <!-- Spinner / Success -->
-    <div class="status-icon">
-      <div class="spinner" *ngIf="!done"></div>
-      <div class="checkmark" *ngIf="done">
-        <svg viewBox="0 0 52 52">
-          <path d="M14 27l10 10 14-20" fill="none" stroke="#4BB543" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+  <div class="logout-card shadow-premium fade-in">
+    <div class="status-box">
+      <div class="spinner-container" *ngIf="!done">
+        <div class="double-bounce-spinner"></div>
+      </div>
+
+      <div class="success-anim" *ngIf="done">
+        <div class="icon-circle">
+          <svg class="checkmark-svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
       </div>
     </div>
 
-    <!-- Titles -->
-    <h1 class="title" *ngIf="!done">Logging you out</h1>
-    <h1 class="title success" *ngIf="done">Logged out successfully</h1>
+    <div class="content-box">
+      <h2 class="status-title" [class.success-text]="done">
+        {{ done ? 'Securely Logged Out' : 'Logging Out...' }}
+      </h2>
+      <p class="status-subtitle">
+        {{ done ? 'Redirecting you to the login portal safely.' : 'We are ending your session and clearing workspace data.' }}
+      </p>
+    </div>
 
-    <!-- Subtitles -->
-    <p class="subtitle" *ngIf="!done">
-      Please wait while we end your secure session...
-    </p>
+    <div class="progress-container" *ngIf="done">
+      <div class="progress-bar-fill"></div>
+    </div>
 
-    <p class="subtitle" *ngIf="done">
-      Redirecting to login page...
-    </p>
+    <div class="logout-footer">
 
+      
+  <div class="avatar-xs">
+        <img src="favicon.ico" alt="Logo" style="width: 100%; height: 100%; object-fit: cover" />
+      </div>
+      <span>Dev Campus Security</span>
+    </div>
   </div>
-</div>
 </div>

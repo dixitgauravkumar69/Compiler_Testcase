@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { BASE_URL } from '../../../Environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
+import { FindJobInfo } from '../../Services/find-job-info';
 
 @Component({
   selector: 'app-find-placement-info',
@@ -29,7 +30,8 @@ export class FindPlacementInfo implements OnInit {
     private http: HttpClient, 
     private router: Router, 
     private cdr: ChangeDetectorRef,
-    private zone: NgZone
+    private zone: NgZone,
+    private findJob:FindJobInfo,
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class FindPlacementInfo implements OnInit {
   this.userId = parseInt(localStorage.getItem("UserId") || "0");
 
   // First API call: get user profile
-  this.http.get(`${BASE_URL}/api/student/Profile/${this.userId}`)
+this.findJob.findStudentProfile(this.userId)
     .subscribe({
       next: (res: any) => {
         // Save semester & Branch to localStorage
@@ -53,7 +55,7 @@ export class FindPlacementInfo implements OnInit {
         this.branch=res.branch;
 
         // Now call second API using the semester
-        this.http.get<any[]>(`${BASE_URL}/placement/getJobInfo/${this.Semester}/${res.branch}`)
+        this.findJob.getJobViaSemAndBranch(this.Semester,this.branch)
           .subscribe({
             next: (jobsRes) => {
               this.zone.run(() => {
@@ -88,6 +90,8 @@ export class FindPlacementInfo implements OnInit {
       }
     });
 }
+
+
 
   //  Professional Toast Trigger
   showToast(msg: string, type: 'success' | 'error' | 'info' = 'info') {

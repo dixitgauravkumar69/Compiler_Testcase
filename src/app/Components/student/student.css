@@ -1,3 +1,23 @@
+.avatar-xs, .logo-box {
+  width: 35px;        /* Jitna bada aapko chahiye */
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;    /* Taki image corners se bahar na nikle */
+  background: transparent; /* Background hata dena agar image transparent hai */
+}
+
+.avatar-xs img {
+  border-radius: 50%;  /* Circle avatar ke liye */
+}
+
+.logo-box img {
+  border-radius: 4px;  /* Sidebar logo ke liye thoda square cut */
+}
+
+
+
 /* =========================================
    STUDENT DASHBOARD
    ========================================= */

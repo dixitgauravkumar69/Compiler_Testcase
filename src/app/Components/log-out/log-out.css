@@ -1,66 +1,154 @@
-/* =========================================
-   LOGOUT PAGE
-   ========================================= */
-.logout_container {
-  max-height: 100vh;
-  max-width: 100vw;
-  overflow: hidden;
-  position: relative;
+:root {
+  --primary-indigo: #241ae9; /* Professional Soft Blue/Indigo */
+  --success-green: #10b981;
+  --bg-main: #f9fafb;
+  --card-white: #ffffff;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --border-light: #f3f4f6;
 }
 
-.logout-page {
+.logout-wrapper.white-theme {
   height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--gradient-auth);
-  transition: background var(--transition-slow) ease;
+  background-color: var(--bg-main);
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 20px 20px; /* Subtle dot pattern */
+  overflow: hidden;
+  position: relative;
+  font-family: 'Inter', sans-serif;
 }
 
+/* Premium White Card */
 .logout-card {
-  background: var(--color-bg-card);
-  padding: var(--spacing-3xl) var(--spacing-2xl);
-  border-radius: var(--radius-xl);
+  background: var(--card-white);
+  border: 1px solid var(--border-light);
+  padding: 3.5rem 2.5rem;
+  border-radius: 24px;
   text-align: center;
-  box-shadow: var(--shadow-xl);
-  width: 320px;
+  width: 400px;
   max-width: 90%;
-  position: relative;
+  z-index: 10;
+  /* Multi-layered soft shadow */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 20px 25px -5px rgba(0,0,0,0.05);
+}
+
+/* Spinner Animation */
+.status-box {
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.double-bounce-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #eef2ff;
+  border-top-color: var(--primary-indigo);
+  border-radius: 50%;
+  animation: spin-pure 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes spin-pure { to { transform: rotate(360deg); } }
+
+/* Success Checkmark */
+.icon-circle {
+  width: 70px;
+  height: 70px;
+  background: #ecfdf5; /* Very light green */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scale-up 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.checkmark-svg {
+  width: 35px;
+  height: 35px;
+  stroke: var(--success-green);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.checkmark-check {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: draw-check 0.5s 0.3s ease-out forwards;
+}
+
+@keyframes draw-check { to { stroke-dashoffset: 0; } }
+@keyframes scale-up { from { transform: scale(0); } to { transform: scale(1); } }
+
+/* Typography */
+.status-title {
+  color: var(--text-main);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.success-text { color: var(--success-green); }
+
+.status-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Progress Bar */
+.progress-container {
+  width: 100%;
+  height: 6px;
+  background: #f3f4f6;
+  border-radius: 10px;
+  margin-top: 2.5rem;
   overflow: hidden;
 }
 
-.spinner {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto var(--spacing-lg);
-  border: 6px solid var(--color-border);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.progress-bar-fill {
+  height: 100%;
+  background: var(--primary-indigo);
+  width: 0%;
+  animation: progress-fill 2s linear forwards;
 }
 
-.checkmark svg {
-  width: 60px;
-  height: 60px;
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-  animation: draw var(--transition-slow) ease forwards;
-  margin: 0 auto var(--spacing-lg);
+@keyframes progress-fill { to { width: 100%; } }
+
+/* Footer Branding */
+.logout-footer {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-@keyframes draw { to { stroke-dashoffset: 0; } }
-
-.title {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
-  margin: var(--spacing-sm) 0;
-  color: var(--color-text-primary);
+.mini-logo {
+  background: #f3f4f6;
+  color: #4b5563;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5e7eb;
 }
 
-.title.success { color: #4BB543; }
-
-.subtitle {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-  margin-top: var(--spacing-xs);
+.logout-footer span
+{
+  color:#104ac7;
 }

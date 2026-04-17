@@ -144,7 +144,7 @@ loginUser() {
     this.http.post(`${BASE_URL}/api/User/forget/password/${this.forgotEmail}`,{},{ responseType: 'text'} ).subscribe({
       next:(res)=>
       {
-        this.showToast("Check your inbox","success");
+        this.showToast(res,"success");
         this.closeForgotModal();
       },
       error:(err)=>

@@ -164,14 +164,27 @@ getResume() {
   this.http.get(`${BASE_URL}/api/student/getResume/` + this.userId)
     .subscribe({
       next: (res: any) => {
-       setTimeout(() => {
-          this.showToast("Resumes loaded successfully.. ✨", "success");
-         
+      
+
+      
+      
+        setTimeout(() => {
+
+          if(res.length<=0)
+         {
+           this.showToast("There is no any stored resume prersent","info");
+         }
+         else
+         {
+           this.showToast("Resumes loaded successfully.. ✨", "success");
+         }
           this.isProcessing = false;
           this.cdr.detectChanges();
         }, 1500);
         this.resumes = res;
         this.cdr.detectChanges();
+      
+       
       },
       error: () => this.showToast("Could not fetch resumes list. 📂", "error")
     });

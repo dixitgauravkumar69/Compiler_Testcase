@@ -33,6 +33,8 @@ showConfirmPassword: boolean = false;
 toastMessage: string = '';
 toastType: 'success' | 'error' | 'info' = 'info';
 
+isLoading: boolean = false;
+
 
    ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -63,24 +65,26 @@ isStrongPassword(password: string): boolean {
   this.success = '';
 
   if (!this.password || !this.confirmPassword) {
-    this.showToast("All fields are required ", "info");
+    this.showToast("All fields are required", "info");
     return;
   }
 
   if (this.password !== this.confirmPassword) {
-    this.showToast("Passwords do not match ", "error");
+    this.showToast("Passwords do not match", "error");
     return;
   }
 
   if (!this.isStrongPassword(this.password)) {
-    this.showToast("Weak password! Use A-Z, a-z, 0-9 & special char ", "info");
+    this.showToast("Weak password! Use A-Z, a-z, 0-9 & special char", "info");
     return;
   }
 
   if (!this.token) {
-    this.showToast("Invalid or expired link ", "error");
+    this.showToast("Invalid or expired link", "error");
     return;
   }
+
+  this.isLoading = true; //  loader start
 
   const payload = {
     token: this.token,
@@ -91,9 +95,9 @@ isStrongPassword(password: string): boolean {
     responseType: 'text'
   }).subscribe({
 
-    next: (res: any) => {
-
-      this.showToast("Password reset successfully ", "success");
+    next: () => {
+      this.isLoading = false; //  loader stop
+      this.showToast("Password reset successfully", "success");
 
       setTimeout(() => {
         this.router.navigate(['/']);
@@ -101,15 +105,16 @@ isStrongPassword(password: string): boolean {
     },
 
     error: (err) => {
+      this.isLoading = false; //  loader stop
 
       if (err.status === 400) {
-        this.showToast("Invalid or expired token ", "error");
+        this.showToast("Invalid or expired token", "error");
       } 
       else if (err.status === 404) {
-        this.showToast("User not found ", "error");
+        this.showToast("User not found", "error");
       } 
       else if (err.status === 500) {
-        this.showToast("Server error ", "error");
+        this.showToast("Server error", "error");
       } 
       else {
         this.showToast(err.error || "Something went wrong", "error");
@@ -117,7 +122,6 @@ isStrongPassword(password: string): boolean {
     }
   });
 }
-
 
 showToast(msg: string, type: 'success' | 'error' | 'info' = 'info') {
   this.toastMessage = msg;

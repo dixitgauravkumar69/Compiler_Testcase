@@ -54,6 +54,8 @@ export class JobDescription implements OnInit {
       {
        this.isEligible=false;
        console.log("eligible: "+ this.isEligible);
+
+       this.showToast("You are not eligible for this campus , your cgpa less than criteria");
       }
 
 
@@ -84,7 +86,7 @@ export class JobDescription implements OnInit {
         this.showToast("Data loaded successfully");
       },
     error:(err)=>{
-        alert(err.message);
+        console.log("From job discription: "+err.message);
     }})
   }
 

@@ -7,10 +7,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 import { FindJobInfo } from '../../Services/find-job-info';
 
+import { StudentSidebar } from '../student-sidebar/student-sidebar';
+
 @Component({
   selector: 'app-find-placement-info',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, RouterLinkActive, ThemeSwitcher],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, RouterLinkActive, ThemeSwitcher, StudentSidebar],
   templateUrl: './find-placement-info.html',
   styleUrl: './find-placement-info.css',
 })

@@ -1,22 +1,31 @@
-/* =========================================
-   GET LIVE PROBLEMS
-   ========================================= */
-.dashboard-container {
+/* This makes the sidebar and content sit side-by-side */
+.dashboard-wrapper {
   display: flex;
-  background: var(--color-bg-page);
   min-height: 100vh;
+  width: 100%;
+  background: var(--color-bg-page);
 }
 
+/* This makes the main content take up the remaining space */
 .main-content {
   flex: 1;
-  padding: var(--spacing-3xl);
+  padding: 2rem; /* adjust as needed */
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
-.content-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-2xl);
+/* Ensure the sidebar doesn't shrink */
+app-student-sidebar {
+  flex-shrink: 0;
+}
+
+/* Optional: Fix the spacing of your empty state box now that it's in the side panel */
+.empty-state-container {
+  margin-top: 20px; /* Reduced from 50px so it's higher up */
+  width: 100%;
+  max-width: 600px;
+  align-self: center; /* Centers it within the right-side panel */
 }
 
 .title-section h2 {

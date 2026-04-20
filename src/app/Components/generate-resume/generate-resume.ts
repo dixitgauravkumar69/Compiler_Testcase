@@ -8,10 +8,12 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 import { ResumeService } from '../../Services/ResumeService/resume-service';
 
+import { StudentSidebar } from '../student-sidebar/student-sidebar';
+
 @Component({
   selector: 'app-resume-generate',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, ThemeSwitcher],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, ThemeSwitcher, StudentSidebar],
   templateUrl: './generate-resume.html',
   styleUrl: './generate-resume.css'
 })

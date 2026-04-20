@@ -1,0 +1,40 @@
+<div class="dashboard-container">
+
+  <app-teacher-sidebar
+    pageTitle="Analysis"
+    [isOpen]="isSidebarOpen"
+    [activeSection]="activeSection"
+    (toggle)="toggleSidebar()"
+    (close)="closeSidebar()"
+    (goProblems)="activeSection = 'see'"
+    (goAddStatement)="goToAddStatement()"
+    (goCampus)="goToAddCampus()"
+    (logoutClick)="logout()">
+  </app-teacher-sidebar>
+
+  <main class="content">
+    <h2>Problem Analytics</h2>
+
+    <!--  Show charts when loading is done -->
+    <div class="charts-grid" *ngIf="!isLoading; else loader">
+
+      <div class="chart-card">
+        <h3>Submissions by Semester</h3>
+        <canvas #semesterChartCanvas></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Violation Reasons</h3>
+        <canvas #reasonChartCanvas></canvas>
+      </div>
+
+    </div>
+
+    <!--  Loader -->
+    <ng-template #loader>
+      <p>Loading analytics data...</p>
+    </ng-template>
+
+  </main>
+
+</div>

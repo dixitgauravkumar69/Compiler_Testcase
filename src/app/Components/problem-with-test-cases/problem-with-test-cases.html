@@ -1,55 +1,16 @@
 <div class="dashboard-container">
 
-  <!-- ===== MOBILE HEADER ===== -->
-  <header class="mobile-header">
-    <div class="header-left">
-      <button class="menu-trigger" (click)="toggleSidebar()">
-        <span class="burger-icon"></span>
-      </button>
-      <h3>Dev Campus</h3>
-    </div>
-    <div class="mobile-header-right">
-      <app-theme-switcher></app-theme-switcher>
-      <div class="avatar-xs">T</div>
-    </div>
-  </header>
-
-  <!-- ===== OVERLAY ===== -->
-  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="closeSidebar()"></div>
-
-  <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar" [class.active]="isSidebarOpen" routerLink="/teacher">
-    <div class="sidebar-header">
-      <div class="sidebar-brand">
-        <div class="logo-box">D</div>
-        <span>Dev Campus</span>
-      </div>
-      <p class="sidebar-subtitle">Teacher Dashboard</p>
-    </div>
-
-    <nav class="nav-links">
-    
-      <button [class.active]="activeSection === 'see'" (click)="handleProblemsClick()">
-        <i class="ph-bold ph-list-checks"></i> Problems List
-      </button>
-      <button [class.active]="activeSection === 'add'" (click)="handleAddStatement()">
-        <i class="ph-bold ph-plus-circle"></i> Add Statement
-      </button>
-      <button [class.active]="activeSection === 'campus'" (click)="handleCampus()">
-        <i class="ph-bold ph-buildings"></i> Campus Info
-      </button>
-      <a [routerLink]="['/changePassword']" [queryParams]="{from:'teacher'}" class="nav-item" routerLinkActive="active" (click)="closeSidebar()">
-        <i class="ph-bold ph-lock-key"></i> Change Password
-      </a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <app-theme-switcher></app-theme-switcher>
-      <button class="logout-btn" (click)="logout()">
-        <i class="ph-bold ph-sign-out"></i> Logout
-      </button>
-    </div>
-  </aside>
+  <app-teacher-sidebar
+    pageTitle="Dev Campus"
+    [isOpen]="isSidebarOpen"
+    [activeSection]="activeSection"
+    (toggle)="toggleSidebar()"
+    (close)="closeSidebar()"
+    (goProblems)="handleProblemsClick()"
+    (goAddStatement)="handleAddStatement()"
+    (goCampus)="handleCampus()"
+    (logoutClick)="logout()">
+  </app-teacher-sidebar>
 
   <!-- ===== MAIN CONTENT ===== -->
   <main class="main-content">

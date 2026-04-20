@@ -21,7 +21,7 @@ import { EditTestCase } from './Components/teacher/edit-test-case/edit-test-case
 import { ChangePassword } from './Components/change-password/change-password';
 import { NotificationComponent } from './Components/notification-component/notification-component';
 import { ForgetPasswordComponent } from './Components/forget-password-component/forget-password-component';
-
+import { AnalysisComponent } from './Components/teacher/analysis-component/analysis-component';
 
 export const routes: Routes = [
     {path:"signUp",component:UserComponent},
@@ -47,4 +47,5 @@ export const routes: Routes = [
     {path:"changePassword",component:ChangePassword},
     {path:"Notification",component:NotificationComponent},
     {path:"reset-password",component:ForgetPasswordComponent},
+    {path:"analysis",component:AnalysisComponent},
 ];

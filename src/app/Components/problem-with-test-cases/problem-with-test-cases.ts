@@ -6,10 +6,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
+import { TeacherSidebar } from '../teacher-sidebar/teacher-sidebar';
+
 @Component({
   selector: 'app-problem-with-test-cases',
   standalone: true,
-  imports: [FormsModule, CommonModule, ThemeSwitcher, RouterLink, RouterLinkActive],
+  imports: [FormsModule, CommonModule, ThemeSwitcher, RouterLink, RouterLinkActive, TeacherSidebar],
   templateUrl: './problem-with-test-cases.html',
   styleUrl: './problem-with-test-cases.css',
 })

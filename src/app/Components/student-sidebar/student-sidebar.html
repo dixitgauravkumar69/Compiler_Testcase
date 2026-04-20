@@ -1,0 +1,62 @@
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+  <div class="header-left">
+    <button class="menu-trigger" (click)="toggle.emit()">
+      <span class="burger-icon"></span>
+    </button>
+    <div class="mobile-logo">
+      <img src="favicon.ico" alt="Dev Campus" />
+    </div>
+    <h3>{{ pageTitle }}</h3>
+  </div>
+  <div class="mobile-header-right">
+    <app-theme-switcher></app-theme-switcher>
+  </div>
+</header>
+
+<!-- OVERLAY -->
+<div class="sidebar-overlay" [class.show]="isOpen" (click)="close.emit()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" [class.active]="isOpen">
+  <div class="sidebar-header">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo">
+        <img src="favicon.ico" alt="Dev Campus" />
+      </div>
+      <span>Dev Campus</span>
+    </div>
+    <p class="sidebar-subtitle">Student Panel</p>
+  </div>
+
+  <nav class="nav-links">
+    <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-trophy"></i> Coding Performance
+    </a>
+    <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-user-circle"></i> My Profile
+    </a>
+    <a routerLink="/generateResume" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-file-text"></i> Resume Builder
+    </a>
+    <a routerLink="/findJobInfo" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-briefcase"></i> Placement Info
+    </a>
+    <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-code"></i> Coding Arena
+    </a>
+    <a routerLink="/studentLive" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-broadcast"></i> Live Stream Test
+    </a>
+    <a routerLink="/changePassword" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-lock-key"></i> Change Password
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <app-theme-switcher></app-theme-switcher>
+    <a routerLink="/logout" class="logout-btn">
+      <i class="ph-bold ph-sign-out"></i> Logout
+    </a>
+  </div>
+</aside>

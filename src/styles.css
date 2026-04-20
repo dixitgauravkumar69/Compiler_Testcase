@@ -307,6 +307,37 @@ body {
   flex-shrink: 0;
 }
 
+.sidebar-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--color-border-light);
+}
+
+.sidebar-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mobile-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mobile-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .sidebar-subtitle {
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
@@ -749,3 +780,27 @@ textarea {
   }
 }
 
+
+/* ============================================================
+   SHARED SIDEBAR COMPONENT — host element layout
+   The sidebar components render as inline elements by default;
+   make them participate in the flex layout correctly.
+   ============================================================ */
+app-student-sidebar,
+app-teacher-sidebar {
+  display: contents; /* children participate directly in parent flex */
+}
+
+/* On mobile, main-content needs top padding for the fixed header */
+@media (max-width: 992px) {
+  app-student-sidebar + .main-content,
+  app-student-sidebar + main,
+  app-teacher-sidebar + .main-content,
+  app-teacher-sidebar + main,
+  app-student-sidebar ~ .main-content,
+  app-student-sidebar ~ main,
+  app-teacher-sidebar ~ .main-content,
+  app-teacher-sidebar ~ main {
+    padding-top: 80px;
+  }
+}

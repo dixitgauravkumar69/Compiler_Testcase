@@ -4,10 +4,12 @@ import { BASE_URL } from '../../../Environments/environment';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { StudentSidebar } from '../student-sidebar/student-sidebar';
+
 @Component({
   selector: 'app-get-live-problems',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, StudentSidebar],
   templateUrl: './get-live-problems.html',
   styleUrls: ['./get-live-problems.css'],
 })
@@ -21,6 +23,7 @@ export class GetLiveProblems implements OnInit, OnDestroy {
   private initialFetchTimer: any;
   private statusUpdateTimer: any;
   private countdownTimer: any;
+  isSidebarOpen = false;
  
 
   constructor(
@@ -156,6 +159,9 @@ export class GetLiveProblems implements OnInit, OnDestroy {
     this.stopStatusTimer();
     if (this.countdownTimer) clearInterval(this.countdownTimer);
   }
+
+  toggleSidebar() { this.isSidebarOpen = !this.isSidebarOpen; }
+  closeSidebar() { this.isSidebarOpen = false; }
 
   // --- Time Helpers (Synced with IST) ---
 

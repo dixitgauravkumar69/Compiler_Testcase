@@ -20,10 +20,13 @@ function matchPasswords(group: AbstractControl): ValidationErrors | null {
   return np && cp && np !== cp ? { mismatch: true } : null;
 }
 
+import { StudentSidebar } from '../student-sidebar/student-sidebar';
+import { TeacherSidebar } from '../teacher-sidebar/teacher-sidebar';
+
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterLinkActive, ThemeSwitcher],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterLinkActive, ThemeSwitcher, StudentSidebar, TeacherSidebar],
   templateUrl: './change-password.html',
   styleUrls: ['./change-password.css']
 })
@@ -46,7 +49,7 @@ export class ChangePassword {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {

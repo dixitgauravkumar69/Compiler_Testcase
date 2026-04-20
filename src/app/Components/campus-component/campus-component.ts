@@ -10,10 +10,12 @@ import { Router } from '@angular/router';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
+import { TeacherSidebar } from '../teacher-sidebar/teacher-sidebar';
+
 @Component({
   selector: 'app-campus-component',
   standalone: true,
-  imports: [FormsModule, CommonModule, ThemeSwitcher, RouterLink, RouterLinkActive],
+  imports: [FormsModule, CommonModule, ThemeSwitcher, RouterLink, RouterLinkActive, TeacherSidebar],
   templateUrl: './campus-component.html',
   styleUrls: ['./campus-component.css'],
 })

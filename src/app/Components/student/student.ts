@@ -24,10 +24,12 @@ interface PageResponse {
   size: number;
 }
 
+import { StudentSidebar } from '../student-sidebar/student-sidebar';
+
 @Component({
   selector: 'app-student-questions',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterLinkActive, ThemeSwitcher],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterLinkActive, ThemeSwitcher, StudentSidebar],
   templateUrl: './student.html',
   styleUrls: ['./student.css'],
 })

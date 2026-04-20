@@ -8,10 +8,12 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 import { ProfileService } from '../../Services/ProfileService/profile-service';
 
+import { StudentSidebar } from '../student-sidebar/student-sidebar';
+
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, RouterLinkActive, ThemeSwitcher],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, RouterLinkActive, ThemeSwitcher, StudentSidebar],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })

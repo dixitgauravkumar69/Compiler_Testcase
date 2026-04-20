@@ -6,10 +6,12 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { BASE_URL } from '../../../../Environments/environment';
 import { ThemeSwitcher } from '../../theme-switcher/theme-switcher';
 
+import { StudentSidebar } from '../../student-sidebar/student-sidebar';
+
 @Component({
   selector: 'app-student-leader-board',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, ThemeSwitcher],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ThemeSwitcher, StudentSidebar],
   templateUrl: './student-leader-board.html',
   styleUrl: './student-leader-board.css',
 })

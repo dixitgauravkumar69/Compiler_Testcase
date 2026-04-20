@@ -9,10 +9,12 @@ import { BASE_URL } from '../../../Environments/environment';
 import { LiveComponent } from '../live-component/live-component';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
+import { TeacherSidebar } from '../teacher-sidebar/teacher-sidebar';
+
 @Component({
   selector: 'app-teacher',
   standalone: true,
-  imports: [CommonModule, LiveComponent, FormsModule, ThemeSwitcher, RouterLink, RouterLinkActive],
+  imports: [CommonModule, LiveComponent, FormsModule, ThemeSwitcher, RouterLink, RouterLinkActive, TeacherSidebar],
   templateUrl: './teacher.html',
   styleUrls: ['./teacher.css'],
 })
@@ -150,6 +152,9 @@ studentSearchQuery: string = '';
   fetchSolvedStudents(problemId: number) {
     this.isLoading = true;
     this.selectedProblemId = problemId;
+
+    localStorage.setItem("SelectedProblemId", problemId.toString());
+    
     this.http.get<any[]>(`${BASE_URL}/api/teacher/getStudents/${problemId}`).subscribe({
       next: (data) => {
         this.solvedStudents = data;
@@ -372,4 +377,9 @@ editTestCase(problemId:Number)
 {
   this.router.navigate(["/editTestCases",problemId]);
 }
+
+goToAnalysis(){
+  this.router.navigate(['/analysis']);
+}
+
 }

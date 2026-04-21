@@ -90,7 +90,7 @@ studentSearchQuery: string = '';
     if (this.globalTimer) clearInterval(this.globalTimer);
     this.searchSubject.complete();
   }
-
+  
   // --- TOAST HELPER ---
   showToast(msg: string, type: 'success' | 'error' | 'info' | 'warning' = 'info') {
     this.toast = { show: true, message: msg, type: type };

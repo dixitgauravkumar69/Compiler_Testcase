@@ -27,6 +27,7 @@ export class Teacher implements OnInit, OnDestroy {
   
   // --- UI States ---
   activeSection = 'see';
+  activeTab='';
   isLoading = false;
   showLiveModal = false;
   selectedProblemId: number = 0;
@@ -250,6 +251,8 @@ studentSearchQuery: string = '';
     }
   }
 
+
+
   liveStream(id: number) { this.selectedProblemId = id; this.showLiveModal = true; }
   toggleSidebar() { this.isSidebarOpen = !this.isSidebarOpen; }
   closeSidebar() { this.isSidebarOpen = false; }
@@ -382,4 +385,17 @@ goToAnalysis(){
   this.router.navigate(['/analysis']);
 }
 
+goTOSimilarity(){
+  this.router.navigate(['/code-similarity']);
+}
+
+openAnalysis(){
+  
+      this.goToAnalysis();
+}
+
+openSimilarity()
+{
+  this.goTOSimilarity();
+}
 }

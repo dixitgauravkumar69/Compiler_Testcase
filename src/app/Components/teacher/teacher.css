@@ -856,3 +856,61 @@
 .cancel-btn:hover {
   background: #999;
 }
+.tabs {
+  display: flex;
+  gap: 40px;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+  padding: 0 10px;
+}
+
+/* Tab styling */
+.tab {
+  position: relative;
+  padding: 12px 5px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+/* Hover color */
+.tab:hover {
+  color: #4a90e2;
+}
+
+/* Underline base */
+.tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #4a90e2, #6fc3ff);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Hover underline */
+.tab:hover::after {
+  width: 100%;
+}
+
+/* Active tab */
+.tab.active {
+  color: #4a90e2;
+}
+
+/* Active underline */
+.tab.active::after {
+  width: 100%;
+}
+
+/* Content section */
+.tab-content {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #444;
+}

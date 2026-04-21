@@ -11,6 +11,9 @@ import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
   styleUrls: ['./teacher-sidebar.css']
 })
 export class TeacherSidebar {
+
+constructor(private router: Router) {}
+
   @Input() pageTitle   = 'Dev Campus';
   @Input() isOpen      = false;
   @Input() activeSection = '';
@@ -22,4 +25,6 @@ export class TeacherSidebar {
   @Output() goAddStatement  = new EventEmitter<void>();
   @Output() goCampus        = new EventEmitter<void>();
   @Output() logoutClick     = new EventEmitter<void>();
+
+  goToTeacherHome() { this.router.navigate(['/teacher']); } 
 }

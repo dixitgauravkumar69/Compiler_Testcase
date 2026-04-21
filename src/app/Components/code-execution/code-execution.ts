@@ -43,6 +43,7 @@ export class CodeExecution implements OnInit, OnDestroy {
   totalTestCases: number = 0;
   level: string = '';
   problemid!:number;
+  actualCode:string='';
 
   // --- Config ---
   languages = ['JAVA', 'PYTHON', 'CPP']; // Plural for HTML loop
@@ -211,6 +212,10 @@ export class CodeExecution implements OnInit, OnDestroy {
         this.isProcessing = false; 
         this.cleanupExamData();
         this.showToast(isAutoSubmit ? 'Auto-Submitted!' : '🚀 Submitted Successfully!', 'success');
+
+        this.saveActualCode(this.userId,this.problemId,this.code);
+
+
         setTimeout(() => this.router.navigate(['/student']), 2000);
       },
       error: (err) => {
@@ -294,6 +299,19 @@ export class CodeExecution implements OnInit, OnDestroy {
     this.toastType = type;
     this.cdr.detectChanges();
     setTimeout(() => { this.toastMessage = ''; this.cdr.detectChanges(); }, 4000);
+  }
+
+  saveActualCode(userId:number,problemId:number,code:string)
+  {
+    const payload={code};
+    this.http.post(`${BASE_URL}/api/student/saveStudentCode/${userId}/${problemId}`,payload).subscribe({
+      next:()=>{
+        console.log("Actual code saved for user:",userId,"problem:",problemId);
+      },
+      error:(err)=>{
+        console.error("Failed to save actual code:",err);
+      }
+    });
   }
 
   ngOnDestroy() {

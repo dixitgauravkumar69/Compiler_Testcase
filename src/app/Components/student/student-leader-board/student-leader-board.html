@@ -1,5 +1,6 @@
 <div class="dashboard-container">
 
+  <!-- SIDEBAR -->
   <app-student-sidebar
     pageTitle="Performance"
     [isOpen]="isSidebarOpen"
@@ -7,88 +8,72 @@
     (close)="closeSidebar()">
   </app-student-sidebar>
 
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
     <div class="performance-container">
 
-      <!-- HEADER -->
-      <div class="stats-header" *ngIf="!loading">
+      <h2 class="title">🏆 Leaderboard</h2>
 
-        
+      <div class="table-wrapper">
 
-        <div class="stats-cards">
+        <table class="performance-table">
 
-          <div class="stat-card blue">
-            <div class="stat-icon">🎯</div>
-            <div>
-              <h3>{{ reports.length }}</h3>
-              <p>Total Submissions</p>
-            </div>
-          </div>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Problem</th>
+              <th>Date</th>
+              <th>Marks</th>
+              <th>Complexity</th>
+              <th>Time</th>
+              <th>Level</th>
+             
+            </tr>
+          </thead>
 
-          <div class="stat-card purple">
-            <div class="stat-icon">💎</div>
-            <div>
-              <h3>{{ totalPoints }}</h3>
-              <p>Total Marks</p>
-            </div>
-          </div>
+          <tbody>
+            <tr *ngFor="let r of reports; let i = index">
 
-        </div>
+              <td class="rank" border="2">
+                <span class="rank-badge">{{ i + 1 }}</span>
+              </td>
+
+              <td class="problem-cell">
+                <b>{{ r.problem.title }}</b>
+                <small>
+                  {{ r.createdAt | date:'dd MMM yyyy' }} • {{ r.createdAt | date:'HH:mm' }}
+                </small>
+              </td>
+
+              <td>{{ r.createdAt | date:'dd MMM yyyy' }}</td>
+
+              <td>
+                <div class="marks-box">
+                  <span [class.zero]="r.marks === 0">{{ r.marks }}</span>
+                  <div class="progress">
+                    <div class="progress-fill" [style.width.%]="r.marks"></div>
+                  </div>
+                </div>
+              </td>
+
+              <td>{{ r.complexity }}</td>
+
+              <td>{{ r.takenTime }}</td>
+
+              <td>
+                <span class="level" [ngClass]="r.problem.level.toLowerCase()">
+                  {{ r.problem.level }}
+                </span>
+              </td>
+
+            </tr>
+          </tbody>
+
+        </table>
+
       </div>
-
-      <!-- LOADER -->
-      <div *ngIf="loading" >
-        <p>Analyzing your performance...</p>
-      </div>
-
-      <!-- LIST -->
-      <div class="list-wrapper" *ngIf="!loading && reports.length">
-
-        <h2>Submission History</h2>
-
-        <div class="report-item" *ngFor="let r of reports">
-
-          <div class="left-section">
-            <span class="id-badge">#{{ r.problem.id }}</span>
-
-            <div class="problem-details">
-              <h4>{{ r.problem.title }}</h4>
-             <p class="date-time">
-
-  📅 {{ (r.createdAt ) | date:'dd MMM yyyy'}}
-  • ⏰ {{ (r.createdAt ) | date:'HH:mm ' }}
-
-</p>
-
-            </div>
-          </div>
-
-          <div class="right-section">
-
-            <div class="metric">
-              <span>Marks</span>
-              <b [class.zero]="r.marks === 0">{{ r.marks }}</b>
-            </div>
-
-            <div class="metric">
-              <span>Time</span>
-              <b>{{ r.takenTime }}</b>
-            </div>
-
-            <div class="metric">
-              <span>Complexity</span>
-              <b>{{ r.complexity }}</b>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <!-- EMPTY -->
-      <div *ngIf="!loading && !reports.length" class="empty-state">
-        <p>No data found 🚀</p>
-        <button class="btn-back" (click)="goBack()">Go Solve Problems</button>
-      </div>
-
     </div>
+
+  </div>
 </div>

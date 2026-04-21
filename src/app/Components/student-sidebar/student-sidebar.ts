@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive ,Router} from '@angular/router';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
+
 
 @Component({
   selector: 'app-student-sidebar',
@@ -11,8 +12,15 @@ import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
   styleUrls: ['./student-sidebar.css']
 })
 export class StudentSidebar {
+  constructor(private router: Router) {}
+
+  
   @Input() pageTitle = 'Dev Campus';
   @Input() isOpen = false;
   @Output() toggle = new EventEmitter<void>();
   @Output() close  = new EventEmitter<void>();
+
+
+
+  goToStudentHome() { this.router.navigate(['/student']); }
 }

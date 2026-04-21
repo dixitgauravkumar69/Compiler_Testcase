@@ -1,0 +1,19 @@
+<div class="dashboard-container">
+      <app-teacher-sidebar
+    pageTitle="Dev Campus"
+    [isOpen]="isSidebarOpen"
+    [activeSection]="activeSection"
+    (toggle)="toggleSidebar()"
+    (close)="closeSidebar()"
+    (goProblems)="activeSection = 'see'"
+    (goAddStatement)="goToAddStatement()"
+    (goCampus)="goToAddCampus()"
+    (logoutClick)="logout()">
+  </app-teacher-sidebar>
+
+  <p>code-simiplarity works!</p>
+
+</div>
+
+
+

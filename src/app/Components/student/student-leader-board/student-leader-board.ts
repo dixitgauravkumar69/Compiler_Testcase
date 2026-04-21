@@ -33,7 +33,7 @@ export class StudentLeaderBoard implements OnInit {
     this.http.get<any[]>(`${BASE_URL}/api/student/getYourPerformance/${this.userId}`)
       .subscribe({
         next: (data) => {
-          this.reports = data;
+         this.reports = data.sort((a, b) => (b.marks || 0) - (a.marks || 0));
           
           this.calculateTotalPoints();
           this.loading = false;

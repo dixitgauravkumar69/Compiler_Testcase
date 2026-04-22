@@ -1,5 +1,6 @@
 <div class="dashboard-container">
-      <app-teacher-sidebar
+
+  <app-teacher-sidebar
     pageTitle="Dev Campus"
     [isOpen]="isSidebarOpen"
     [activeSection]="activeSection"
@@ -11,9 +12,44 @@
     (logoutClick)="logout()">
   </app-teacher-sidebar>
 
-  <p>code-simiplarity works!</p>
+  <div class="main-content">
 
+    <table>
+      <thead>
+        <tr>
+          <th>Similar With</th>
+          <th>Similar Student</th>
+          <th>Similarity Score</th>
+          <th>Remark</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let entry of solvedStudents">
+
+          <td>
+            <span class="label">Similar With</span>
+            <span class="value">{{ entry.similarWith }}</span>
+          </td>
+
+          <td>
+            <span class="label">Similar Student</span>
+            <span class="value">{{ entry.studentName }}</span>
+          </td>
+
+          <td>
+            <span class="label">Similarity</span>
+            <span class="value highlight">{{ entry.simialrityPercentage }}%</span>
+          </td>
+
+          <td>
+            <span class="label">Remark</span>
+            <span class="value">{{ entry.remark }}</span>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
 </div>
-
-
-

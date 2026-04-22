@@ -37,6 +37,8 @@ export class Teacher implements OnInit, OnDestroy {
   filteredStudents: any[] = [];
 studentSearchQuery: string = '';
 
+studentId!: number; // Store the student ID for similarity analysis
+
   // --- Toast Notification State ---
   toast = {
     show: false,
@@ -394,8 +396,10 @@ openAnalysis(){
       this.goToAnalysis();
 }
 
-openSimilarity()
+openSimilarity(studentId: number)
 {
+    localStorage.removeItem("SelectedStudentId");
+  localStorage.setItem("SelectedStudentId", studentId.toString());
   this.goTOSimilarity();
 }
 }

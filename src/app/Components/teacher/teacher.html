@@ -188,7 +188,7 @@
         <!-- // Actual grid based cards for problems and there options for teacher(Controll)... -->
         <div class="problem-grid" *ngIf="filteredProblems.length > 0">
           <div class="modern-card" *ngFor="let ps of filteredProblems">
-            <div class="card-header">
+            <div class="card-header" >
               <span class="id-tag">#{{ ps.id }}</span>
               <span class="status-badge" [ngClass]="ps.statusClass">
                 {{ ps.statusText }}
@@ -297,11 +297,7 @@
     Analysis
   </div>
 
-  <div 
-    class="tab" 
-    (click)="openSimilarity()">
-    Code Similarity
-  </div>
+  
 
 </div>
 
@@ -328,7 +324,7 @@
     </div>
   </div>
 
-  <div class="table-outer-wrapper" *ngIf="filteredStudents.length > 0">
+  <div class="table-outer-wrapper" *ngIf="filteredStudents.length > 0" >
     <table class="modern-table">
       <thead>
         <tr>
@@ -343,9 +339,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let entry of filteredStudents">
+        <tr *ngFor="let entry of filteredStudents" (click)="openSimilarity(entry.user.userid)" class="clickable-row">
           <td>
-            <div class="student-cell">
+            <div class="student-cell"  >
               <div class="avatar-xs student-avatar">{{ entry.user.username[0] }}</div>
               <div>
                 <div class="student-name">{{ entry.user.username }}</div>

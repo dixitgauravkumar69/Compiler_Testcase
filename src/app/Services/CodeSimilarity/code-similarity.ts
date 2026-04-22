@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { B } from '@angular/cdk/keycodes';
+
 import { BASE_URL } from '../../../Environments/environment';
 
 @Injectable({
@@ -15,6 +15,6 @@ export class CodeSimilarity {
     );
   }
 
-  
+
 
 }

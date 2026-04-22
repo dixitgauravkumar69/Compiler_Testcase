@@ -104,3 +104,8 @@
     height: 220px !important;
   }
 }
+.chart-container {
+  width: 350px;      /* 🔥 control width */
+  height: 350px;     /* height fix */
+  margin: 20px auto; /* center align */
+}

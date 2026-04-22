@@ -114,8 +114,8 @@ export class GetLiveProblems implements OnInit, OnDestroy {
         next: (res) => {
           this.problemStatements = res || [];
           this.isLoading = false;
-          this.cdr.detectChanges();
-          if (this.problemStatements.length > 0) {
+        this.cdr.detectChanges();
+         if (this.problemStatements.length > 0) {
             this.stopInitialTimer();
             this.startStatusSync();
           }

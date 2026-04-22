@@ -30,23 +30,28 @@
   </div>
 
   <nav class="nav-links">
+
+     <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-code"></i> Coding Home
+    </a>
+
     <a routerLink="/StudentLeaderBoard" class="nav-item" routerLinkActive="active" (click)="close.emit()">
       <i class="ph-bold ph-trophy"></i> Coding Performance
     </a>
-    <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="close.emit()">
-      <i class="ph-bold ph-user-circle"></i> My Profile
-    </a>
+    
     <a routerLink="/generateResume" class="nav-item" routerLinkActive="active" (click)="close.emit()">
       <i class="ph-bold ph-file-text"></i> Resume Builder
     </a>
     <a routerLink="/findJobInfo" class="nav-item" routerLinkActive="active" (click)="close.emit()">
       <i class="ph-bold ph-briefcase"></i> Placement Info
     </a>
-    <a routerLink="/student" class="nav-item" routerLinkActive="active" (click)="close.emit()">
-      <i class="ph-bold ph-code"></i> Coding Arena
-    </a>
+   
     <a routerLink="/studentLive" class="nav-item" routerLinkActive="active" (click)="close.emit()">
       <i class="ph-bold ph-broadcast"></i> Live Stream Test
+    </a>
+    
+    <a routerLink="/profile" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-user-circle"></i> My Profile
     </a>
     <a routerLink="/changePassword" class="nav-item" routerLinkActive="active" (click)="close.emit()">
       <i class="ph-bold ph-lock-key"></i> Change Password

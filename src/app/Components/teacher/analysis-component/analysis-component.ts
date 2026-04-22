@@ -136,42 +136,81 @@ export class AnalysisComponent implements OnInit {
   }
 
   createReasonChart() {
-    if (!this.studentData?.countOfSubmitionOnReason) return;
+  if (!this.studentData?.countOfSubmitionOnReason) return;
 
-    const ctx = this.reasonChartRef.nativeElement.getContext('2d');
-    if (!ctx) return;
+  const ctx = this.reasonChartRef.nativeElement.getContext('2d');
+  if (!ctx) return;
 
-    const labels = this.studentData.countOfSubmitionOnReason.map((item: any) =>
-      item[0]?.includes("Focus Lost") ? "Focus Lost" : "Tab Switch"
-    );
+  //  Labels (fixed mapping)
+  const labels = this.studentData.countOfSubmitionOnReason.map((item: any) => {
+    const reason = item[0]?.trim();
 
-    const values = this.studentData.countOfSubmitionOnReason.map(
-      (item: any) => item[1]
-    );
+    return reason ? reason : "Normal submission";
+  });
 
-    if (!values.length) return;
+  // Values
+  const values = this.studentData.countOfSubmitionOnReason.map(
+    (item: any) => item[1]
+  );
 
-    if (this.reasonChart) {
-      this.reasonChart.destroy();
+  if (!values.length) return;
+
+  //  Dynamic colors based on reason
+  const backgroundColors = labels.map((label: string) => {
+    switch (label) {
+      case "Focus Lost":
+        return "#ef4444";   // red
+      case "Tab Switch":
+        return "#f59e0b";   // yellow
+      case "Reload":
+        return "#3b82f6";   // blue
+      case "Normal submission":
+        return "#9ca3af";   // gray
+      default:
+        return "#6366f1";   // fallback
     }
+  });
 
-    this.reasonChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels,
-        datasets: [{
-          data: values,
-          backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6']
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'bottom' }
+  // Destroy old chart if exists
+  if (this.reasonChart) {
+    this.reasonChart.destroy();
+  }
+
+  // Create chart
+  this.reasonChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        backgroundColor: backgroundColors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: {
+              size: 12
+            }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context: any) {
+              const label = context.label || '';
+              const value = context.raw || 0;
+              return `${label}: ${value}`;
+            }
+          }
         }
       }
-    });
-  }
+    }
+  });
+}
 
   // ================= UI =================
 

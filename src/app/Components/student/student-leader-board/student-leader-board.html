@@ -33,6 +33,11 @@
           </thead>
 
           <tbody>
+            <tr *ngIf="reports.length === 0" class="no-data" >
+              <td colspan="7" class="NotSubmitted">You have not submitted any solutions yet.</td>
+            </tr>
+
+
             <tr *ngFor="let r of reports; let i = index">
 
               <td class="rank" border="2">

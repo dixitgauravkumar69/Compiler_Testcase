@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ export class ForgetPasswordComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private router:Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   token: string = '';
@@ -95,13 +96,15 @@ isStrongPassword(password: string): boolean {
     responseType: 'text'
   }).subscribe({
 
-    next: () => {
+    next: (res) => {
       this.isLoading = false; //  loader stop
-      this.showToast("Password reset successfully", "success");
 
+      alert(res);
+      
+    
       setTimeout(() => {
         this.router.navigate(['/']);
-      }, 2000);
+      }, 4000);
     },
 
     error: (err) => {
@@ -110,6 +113,9 @@ isStrongPassword(password: string): boolean {
       if (err.status === 400) {
         this.showToast("Invalid or expired token", "error");
       } 
+      if (err.status === 403) {
+        this.showToast("Token already used", "error");
+      }
       else if (err.status === 404) {
         this.showToast("User not found", "error");
       } 

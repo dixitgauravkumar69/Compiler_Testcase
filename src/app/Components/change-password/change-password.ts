@@ -7,6 +7,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { BASE_URL } from '../../../Environments/environment';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
+
 function passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
   const val = control.value || '';
   if (!/[A-Z]/.test(val)) return { noUppercase: true };
@@ -22,11 +23,12 @@ function matchPasswords(group: AbstractControl): ValidationErrors | null {
 
 import { StudentSidebar } from '../student-sidebar/student-sidebar';
 import { TeacherSidebar } from '../teacher-sidebar/teacher-sidebar';
+import { AdminSidebar } from '../AdminComponents/admin-sidebar/admin-sidebar';
 
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterLinkActive, ThemeSwitcher, StudentSidebar, TeacherSidebar],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterLinkActive, ThemeSwitcher, StudentSidebar, TeacherSidebar, AdminSidebar],
   templateUrl: './change-password.html',
   styleUrls: ['./change-password.css']
 })
@@ -38,7 +40,10 @@ export class ChangePassword {
   showNew = false;
   showConfirm = false;
   isSidebarOpen = false;
+  
+    isAdmin = false;
   isTeacher = false;
+
 
   toastMessage = '';
   toastType: 'success' | 'error' | 'info' | 'warning' = 'info';
@@ -59,7 +64,9 @@ export class ChangePassword {
       confirmPassword: ['', Validators.required]
     }, { validators: matchPasswords });
 
+     this.isAdmin = this.route.snapshot.queryParamMap.get('from') === 'admin';
     this.isTeacher = this.route.snapshot.queryParamMap.get('from') === 'teacher';
+   
   }
 
   get f() { return this.form.controls; }

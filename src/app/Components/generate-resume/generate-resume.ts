@@ -95,7 +95,11 @@ toastType = 'success';
     this.resume.loadProfile(this.userId)
       .subscribe((data: any) => {
 
-        if (data) {
+        if(data === null) {
+          this.showToast("No profile data found. Please complete your profile to generate a resume. ", "info");
+        }
+
+        else if (data) {
           
           this.profile.phone = data.phone || '';
           this.profile.college = data.college || '';

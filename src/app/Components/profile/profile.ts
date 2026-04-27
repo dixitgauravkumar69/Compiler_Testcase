@@ -130,6 +130,15 @@ percentageErrorHigh: boolean = false;
   this.userGet.fetchProfileByUserId(this.userId)
     .subscribe({
       next: (data: any) => {
+        if(!data)
+        {
+          this.isLoading = false;
+          this.showToast("No profile data found. Please complete your profile . ", "info");
+          this.cdr.detectChanges();
+          return;
+        }
+
+
         if (data) {
           this.profile = data;
 

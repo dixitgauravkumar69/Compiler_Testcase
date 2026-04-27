@@ -23,6 +23,9 @@ import { NotificationComponent } from './Components/notification-component/notif
 import { ForgetPasswordComponent } from './Components/forget-password-component/forget-password-component';
 import { AnalysisComponent } from './Components/teacher/analysis-component/analysis-component';
 import { CodeSimiplarity } from './Components/teacher/code-simiplarity/code-simiplarity';
+import { Admin } from './Components/AdminComponents/admin/admin';
+import { AuditViewComponent } from './Components/AdminComponents/audit-view-component/audit-view-component';
+
 
 export const routes: Routes = [
     {path:"signUp",component:UserComponent},
@@ -49,5 +52,8 @@ export const routes: Routes = [
     {path:"Notification",component:NotificationComponent},
     {path:"reset-password",component:ForgetPasswordComponent},
     {path:"analysis",component:AnalysisComponent},
-    {path:"code-similarity",component:CodeSimiplarity}
+    {path:"code-similarity",component:CodeSimiplarity},
+    {path:"admin",component:Admin},
+    {path:"audit-view",component:AuditViewComponent},
+    
 ];

@@ -473,6 +473,10 @@
   transform: none;
 }
 
+.otp-box {
+  ime-mode: disabled;
+}
+
 /* Resend */
 .otp-resend {
   display: flex;

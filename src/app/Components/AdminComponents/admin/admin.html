@@ -1,0 +1,157 @@
+<div class="dashboard-container">
+
+<app-admin-sidebar
+(close)="isSidebarOpen = false"
+[isOpen]="isSidebarOpen"   
+ (toggle)="isSidebarOpen = !isSidebarOpen"> </app-admin-sidebar>
+
+  <div class="main-content">
+
+
+<!-- TOASTER -->
+<div *ngIf="showToast" class="toast" [ngClass]="toasterType">
+  {{ toasterMessage }}
+</div>
+
+<!-- Tabs -->
+<header class="tabs-header">
+  <div 
+    class="tab" 
+    [class.active]="activeTab === 'users'" 
+    (click)="activeTab = 'users'">
+    Users
+  </div>
+
+  <div 
+    class="tab" 
+    [class.active]="activeTab === 'approve'" 
+    (click)="activeTab = 'approve'; getApprovalRequest()">
+    Approvals
+  </div>
+</header>
+
+<main>
+
+  <!-- USERS -->
+  <div *ngIf="activeTab === 'users'" class="card">
+    <h3 class="section-title">All Users</h3>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let user of USERS">
+            <td data-label="Username">{{ user.username }}</td>
+            <td data-label="Email">{{ user.userEmail }}</td>
+
+            <!-- ROLE -->
+            <td data-label="Role"
+              [ngClass]="{
+                'role-admin': user.userRole === 'ADMIN',
+                'role-teacher': user.userRole === 'TEACHER',
+                'role-student': user.userRole === 'STUDENT'
+              }">
+              {{ user.userRole }}
+            </td>
+
+            <!-- STATUS + TOGGLE -->
+           <td data-label="Status">
+
+  <!-- DROPDOWN -->
+  <select 
+    class="status-dropdown"
+    [value]="user.status"
+    (change)="changeStatus(user, $event)">
+
+    <option value="ACTIVATE">Activate</option>
+    <option value="DEACTIVATE">Deactivate</option>
+
+  </select>
+
+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <div class="modal-overlay" *ngIf="isReasonModalOpen">
+
+  <div class="modal-box">
+
+    <h3>Enter Reason</h3>
+
+    <textarea 
+      [(ngModel)]="reasonText" 
+      placeholder="Enter reason here..."
+      rows="4">
+    </textarea>
+
+    <div class="modal-actions">
+      <button class="cancel-btn" (click)="closeReasonModal()">Cancel</button>
+      <button class="submit-btn" (click)="AddReason(reasonText, 'Deactivation')">Add</button>
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- APPROVAL -->
+  <div *ngIf="activeTab === 'approve'" class="card">
+    <h3 class="section-title">Pending Approvals</h3>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>UserId</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <ng-container *ngIf="GetApprovalRequests && GetApprovalRequests.length > 0">
+            
+            <tr *ngFor="let req of GetApprovalRequests">
+              <td data-label="UserId">{{ req.userid }}</td>
+              <td data-label="Username">{{ req.username }}</td>
+              <td data-label="Email">{{ req.userEmail }}</td>
+
+              <td data-label="Action" class="action-cell">
+                <button class="approve-btn" (click)="approveRequest(req.userid)">
+                  ✔ Approve
+                </button>
+
+                <button class="reject-btn" (click)="rejectRequest(req.userid)">
+                  ✖ Reject
+                </button>
+              </td>
+            </tr>
+
+          </ng-container>
+
+          <!-- NO DATA -->
+          <tr *ngIf="GetApprovalRequests && GetApprovalRequests.length === 0">
+            <td colspan="4" class="no-data">No pending approvals.</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+</main>
+
+  </div>
+</div>

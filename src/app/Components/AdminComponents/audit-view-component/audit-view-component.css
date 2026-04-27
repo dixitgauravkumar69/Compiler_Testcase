@@ -1,0 +1,226 @@
+/* ===== BACKGROUND ===== */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #f1f5f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== MAIN ===== */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ===== CARD ===== */
+.audit-container {
+  width: 100%;
+  max-width: 1100px;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  padding: 15px;
+}
+
+/* ===== HEADER ===== */
+.audit-container h2 {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+
+  background: #ffffff;
+  padding: 10px 5px;
+  margin-bottom: 10px;
+
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* ===== TABLE WRAPPER ===== */
+.table-wrapper {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* ===== TABLE ===== */
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* HEADER */
+.audit-table thead {
+  position: sticky;
+
+  z-index: 2;
+  background: #334155;
+  color: white;
+}
+
+.audit-table th {
+  padding: 12px;
+  font-size: 13px;
+  text-align: left;
+}
+
+/* BODY */
+.audit-table td {
+  padding: 12px;
+  font-size: 14px;
+  color: #334155;
+}
+
+/* Alternating rows 🔥 */
+.audit-table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+/* Hover */
+.audit-table tbody tr:hover {
+  background: #e2e8f0;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+}
+
+.badge.approve {
+  background: #22c55e;
+}
+
+.badge.delete {
+  background: #ef4444;
+}
+
+.badge.deactivation {
+  background: #f59e0b;
+}
+
+/* ===== SCROLLBAR CLEAN ===== */
+.table-wrapper::-webkit-scrollbar {
+  width: 5px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+/* Loader overlay */
+.loader-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 10;
+  border-radius: 12px;
+}
+
+/* Spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-overlay p {
+  font-size: 14px;
+  color: #334155;
+}
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .main-content {
+    padding: 10px;
+  }
+
+  .audit-container {
+    height: 90vh;
+    padding: 12px;
+  }
+
+  .audit-container h2 {
+    font-size: 18px;
+  }
+
+  /* Hide table header */
+  .audit-table thead {
+    display: none;
+  }
+
+  /* Convert to cards */
+  .audit-table,
+  .audit-table tbody,
+  .audit-table tr,
+  .audit-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .audit-table tr {
+    background: #ffffff;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  }
+
+  .audit-table td {
+    text-align: right;
+    padding: 8px;
+    position: relative;
+    font-size: 12px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .audit-table td:last-child {
+    border-bottom: none;
+  }
+
+  .audit-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 8px;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+}

@@ -31,22 +31,24 @@
     </div>
 
     <!-- OTP Boxes -->
-    <div class="otp-boxes" (paste)="onOtpPaste($event)">
-      <input
-        *ngFor="let digit of otpDigits; let i = index"
-        #otpInput
-        type="text"
-        inputmode="numeric"
-        maxlength="1"
-        class="otp-box"
-        [class.filled]="otpDigits[i]"
-        [class.error]="otpError"
-        [(ngModel)]="otpDigits[i]"
-        (ngModelChange)="onOtpChange(i, $event)"
-        (keydown)="onOtpKeydown(i, $event)"
-        autocomplete="off"
-      >
-    </div>
+   
+ <div class="otp-boxes" (paste)="onOtpPaste($event)">
+  <input
+    *ngFor="let _ of otpDigits; let i = index ; trackBy: trackByIndex"
+    #otpInput
+    type="tel"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    maxlength="1"
+    class="otp-box"
+
+    (input)="onOtpInput(i, $event)"
+    (keydown)="onOtpKeydown(i, $event)"
+
+    autocomplete="off"
+  />
+</div>
+
 
     <!-- Error -->
     <p class="otp-error-msg" *ngIf="otpError">

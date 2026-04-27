@@ -1,0 +1,52 @@
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+  <div class="header-left">
+    <button class="menu-trigger" (click)="toggle.emit()">
+      <span class="burger-icon"></span>
+    </button>
+    <div class="mobile-logo">
+      <img src="favicon.ico" alt="Dev Campus" />
+    </div>
+    <h3>{{ pageTitle }}</h3>
+  </div>
+  <div class="mobile-header-right">
+    <app-theme-switcher></app-theme-switcher>
+  </div>
+</header>
+
+<!-- OVERLAY -->
+<div class="sidebar-overlay" [class.show]="isOpen" (click)="close.emit()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" [class.active]="isOpen">
+  <div class="sidebar-header" (click)="goToAdminHome()">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo">
+        <img src="favicon.ico" alt="Dev Campus" />
+      </div>
+      <span>Dev Campus</span>
+    </div>
+    <p class="sidebar-subtitle">Admin Panel</p>
+  </div>
+
+  <nav class="nav-links">
+
+    <a routerLink="/admin" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-house"></i> Home
+    </a>
+
+    <a routerLink="/audit-view" class="nav-item" routerLinkActive="active" (click)="close.emit()">
+      <i class="ph-bold ph-clipboard-text"></i> Audit View
+    </a>
+    
+
+    
+  </nav>
+
+  <div class="sidebar-footer">
+    <app-theme-switcher></app-theme-switcher>
+    <a routerLink="/logout" class="logout-btn">
+      <i class="ph-bold ph-sign-out"></i> Logout
+    </a>
+  </div>
+</aside>

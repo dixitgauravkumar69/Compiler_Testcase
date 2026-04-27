@@ -1,0 +1,46 @@
+<div class="dashboard-container">
+
+    <app-admin-sidebar
+(close)="isSidebarOpen = false"
+[isOpen]="isSidebarOpen"   
+ (toggle)="isSidebarOpen = !isSidebarOpen"> </app-admin-sidebar>
+
+    <div class="main-content">
+        <div class="audit-container">
+  <h2>Audit History</h2>
+
+  <div class="table-wrapper">
+    
+    <div class="loader-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading audit data...</p>
+  </div>
+
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>Reason</th>
+          <th>User</th>
+          <th>Updated By</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of auditData">
+          <td data-label="Action">
+            {{ item.action }}
+          </td>
+          <td data-label="Reason">{{ item.reason }}</td>
+          <td data-label="User">{{ item.effectedUser }}</td>
+          <td data-label="Updated By">{{ item.updatedByName }}</td>
+          <td data-label="Date">{{ item.actionDate | customDate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+    </div>
+</div>
+

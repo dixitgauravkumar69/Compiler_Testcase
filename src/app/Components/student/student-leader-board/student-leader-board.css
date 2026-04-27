@@ -224,4 +224,18 @@ app-student-sidebar {
     font-size: 12px;
     padding: 4px 8px;
   }
+
+  .NotSubmitted {
+  text-align: center;
+  color: white;
+  font-weight: 900;
+  padding: 20px;
+}
+}
+
+.NotSubmitted {
+  text-align: center;
+  color: #141313;
+  font-weight: 900;
+  padding: 20px;
 }

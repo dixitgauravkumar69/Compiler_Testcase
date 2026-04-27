@@ -48,13 +48,32 @@ export class FindPlacementInfo implements OnInit {
 this.findJob.findStudentProfile(this.userId)
     .subscribe({
       next: (res: any) => {
-        // Save semester & Branch to localStorage
+        if(!res) {
+          this.isLoading = false;
+          this.showToast("You have no any specific semester or branch information in your profile. Please update your profile to see relevant job opportunities.", "info");
+          this.cdr.detectChanges();
+          return;
+        }
+
+        else
+        {
+               // Save semester & Branch to localStorage
         localStorage.setItem("Semester", String(res.semester));
         localStorage.setItem("Branch:",String(res.branch) );
 
 
         this.Semester = res.semester; // update local variable
         this.branch=res.branch;
+        }
+       
+
+        if(this.Semester === null || this.branch === null) 
+          {
+             this.isLoading = false;
+             this.showToast("Semester or Branch information is missing in your profile. Please update your profile to see relevant job opportunities.", "error");
+             this.cdr.detectChanges();
+             return;
+          }
 
         // Now call second API using the semester
         this.findJob.getJobViaSemAndBranch(this.Semester,this.branch)
@@ -108,6 +127,7 @@ this.findJob.findStudentProfile(this.userId)
     }, 3500);
   }
 
+  
   viewDescription(id: number) {
     this.showToast("Opening position details...", "info");
     this.router.navigate(['/jobDescription', id]);

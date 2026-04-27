@@ -79,11 +79,23 @@ loginUser() {
         setTimeout(() => {
           this.isLoading = false;
 
-          const route = res.userRole === "ROLE_TEACHER" 
-            ? '/teacher' 
-            : '/student';
-
-          this.router.navigate([route]);
+          if(res.userRole==="ROLE_ADMIN")
+          {
+            this.router.navigate(['/admin']);
+            return;
+          }
+          
+          else if(res.userRole==="ROLE_TEACHER")
+          {
+            this.router.navigate(['/teacher']);
+            return;
+          }
+          else if(res.userRole==="ROLE_STUDENT")
+          {
+            this.router.navigate(['/student']);
+            return;
+          }
+         
         }, 1200);
       },
 
@@ -98,7 +110,8 @@ loginUser() {
           this.showToast("User not found 🔍", "error");
         } 
         else if (err.status === 403) {
-          this.showToast("Access denied 🚫", "error");
+           const backendMessage = err.error?.message || err.error || "Access denied";
+          this.showToast(backendMessage + " 🚫", "error");
         } 
         else {
           this.showToast("Server error. Please try again later 🌐", "error");

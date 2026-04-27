@@ -107,45 +107,64 @@ export class UserComponent {
     });
   }
 
-  // ── OTP input navigation ──────────────────────────────────────────
-  onOtpChange(index: number, value: string) {
-    // Keep only last digit typed, strip non-numeric
-    const digit = value.replace(/\D/g, '').slice(-1);
-    this.otpDigits[index] = digit;
-    this.otpError = '';
+ private isNavigating = false;
 
-    if (digit && index < 5) {
-      const inputs = this.otpInputs.toArray();
-      inputs[index + 1]?.nativeElement.focus();
-    }
+onOtpInput(index: number, event: any) {
+  const input = event.target as HTMLInputElement;
+  const value = input.value.replace(/\D/g, '');
 
-    if (this.otpDigits.every(d => d !== '')) {
-      this.verifyOtp();
-    }
+  if (!value) {
+    this.otpDigits[index] = '';
+    return;
   }
 
-  onOtpKeydown(index: number, event: KeyboardEvent) {
-    if (event.key === 'Backspace' && !this.otpDigits[index] && index > 0) {
-      const inputs = this.otpInputs.toArray();
-      inputs[index - 1]?.nativeElement.focus();
-    }
+  const digit = value[0]; // ONLY FIRST DIGIT (important fix)
+  this.otpDigits[index] = digit;
+  input.value = digit;
+
+  const inputs = this.otpInputs.toArray();
+
+  //  move focus only if next box is empty
+  if (index < inputs.length - 1 && !this.otpDigits[index + 1]) {
+    inputs[index + 1].nativeElement.focus();
   }
 
+  if (this.otpDigits.every(d => d !== '')) {
+    this.verifyOtp();
+  }
+}
+
+onOtpKeydown(index: number, event: KeyboardEvent) {
+  const inputs = this.otpInputs.toArray();
+
+  if (event.key === 'Backspace') {
+    if (!this.otpDigits[index] && index > 0) {
+      inputs[index - 1].nativeElement.focus();
+    }
+  }
+}
   onOtpPaste(event: ClipboardEvent) {
-    event.preventDefault();
-    const text   = event.clipboardData?.getData('text') || '';
-    const digits = text.replace(/\D/g, '').slice(0, 6).split('');
-    // Fill boxes
-    for (let i = 0; i < 6; i++) {
-      this.otpDigits[i] = digits[i] || '';
-    }
-    // Focus last filled or last box
-    const focusIdx = Math.min(digits.length, 5);
-    setTimeout(() => {
-      this.otpInputs.toArray()[focusIdx]?.nativeElement.focus();
-      if (digits.length === 6) this.verifyOtp();
-    }, 50);
+  event.preventDefault();
+
+  const text = event.clipboardData?.getData('text') || '';
+  const digits = text.replace(/\D/g, '').slice(0, 6).split('');
+
+  const inputs = this.otpInputs.toArray();
+
+  digits.forEach((d, i) => {
+    this.otpDigits[i] = d;
+    inputs[i].nativeElement.value = d;
+  });
+
+  if (digits.length === 6) {
+    this.verifyOtp();
+  } else {
+    inputs[digits.length]?.nativeElement.focus();
   }
+}
+trackByIndex(index: number) {
+  return index;
+}
 
   get otpValue(): string {
     return this.otpDigits.join('');

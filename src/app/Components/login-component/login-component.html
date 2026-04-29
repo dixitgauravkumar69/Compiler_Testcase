@@ -1,3 +1,4 @@
+<!-- TOAST -->
 <div class="toast-wrapper" *ngIf="toastMessage" [ngClass]="toastType">
   <div class="toast-content">
     <div class="icon">
@@ -5,101 +6,166 @@
       <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
       <i *ngIf="toastType === 'info'"    class="ph-bold ph-info"></i>
     </div>
-    <p>{{ toastMessage }}</p>
+    <div class="toast-body">
+      <p class="toast-title">
+        {{ toastType === 'success' ? 'Success' : toastType === 'error' ? 'Error' : 'Notice' }}
+      </p>
+      <p class="toast-msg">{{ toastMessage }}</p>
+    </div>
   </div>
   <div class="toast-progress"></div>
 </div>
 
+<!-- Floating theme toggle -->
+<div class="theme-float-btn">
+  <app-theme-switcher variant="float"></app-theme-switcher>
+</div>
+
 <div class="main">
   <div class="auth-container">
-    
+
+    <!-- ═══ INFO SIDE ═══ -->
     <div class="info-side">
       <div class="info-content">
-        <h1>Welcome Back!</h1>
-        <p>Log in to continue your coding journey and access your personalized dashboard.</p>
-        <div class="illustration-box">
-          <div class="code-badge"><span>&lt;/&gt;</span> Keep Coding</div>
+
+        <div class="brand-badge">
+          <i class="ph-bold ph-code"></i>
+          <span>Dev Campus</span>
         </div>
+
+        <h1>Welcome<br>Back!</h1>
+        <p>Continue your coding journey. Access challenges, placement drives, and your personalized dashboard.</p>
+
+        <div class="feature-pills">
+          <div class="pill">
+            <i class="ph-bold ph-lightning"></i>
+            <span>Live Contests</span>
+          </div>
+          <div class="pill">
+            <i class="ph-bold ph-briefcase"></i>
+            <span>Placement Drives</span>
+          </div>
+          <div class="pill">
+            <i class="ph-bold ph-chart-line-up"></i>
+            <span>Performance Tracking</span>
+          </div>
+        </div>
+
+        <div class="illustration-box">
+          <div class="code-badge">
+            <span>&lt;/&gt;</span> Keep Coding
+          </div>
+        </div>
+
       </div>
     </div>
 
+    <!-- ═══ FORM SIDE ═══ -->
     <div class="form-side">
       <div class="form-wrapper">
+
         <div class="header">
-          <h2>User Login</h2>
-          <p>Don't have an account? <a (click)="goToSignup()" class="link">Create one here</a></p>
+          <div class="header-icon">
+            <i class="ph-bold ph-user-circle"></i>
+          </div>
+          <h2>Sign In</h2>
+          <p>New here? <a (click)="goToSignup()" class="link">Create an account</a></p>
         </div>
 
         <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+
           <div class="input-box">
             <label>Email Address</label>
-            <input 
-              type="email" 
-              placeholder="example@gmail.com" 
-              formControlName="userEmail" 
-              required
-            >
+            <div class="input-wrap">
+              <i class="ph-bold ph-envelope input-icon"></i>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                formControlName="userEmail"
+                required
+              >
+            </div>
           </div>
 
           <div class="input-box password-box">
             <label>Password</label>
-            <input
-              [type]="showPassword ? 'text' : 'password'"
-              placeholder="Password"
-              formControlName="password"
-              required
-            >
-            <button type="button" class="eye-btn" (click)="showPassword = !showPassword" [title]="showPassword ? 'Hide password' : 'Show password'">
-              <i class="ph-bold" [class.ph-eye]="!showPassword" [class.ph-eye-slash]="showPassword"></i>
-            </button>
+            <div class="input-wrap">
+              <i class="ph-bold ph-lock input-icon"></i>
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                placeholder="Enter your password"
+                formControlName="password"
+                required
+              >
+              <button type="button" class="eye-btn" (click)="showPassword = !showPassword"
+                [title]="showPassword ? 'Hide password' : 'Show password'">
+                <i class="ph-bold" [class.ph-eye]="!showPassword" [class.ph-eye-slash]="showPassword"></i>
+              </button>
+            </div>
           </div>
 
           <div class="forgot-password">
-  <a (click)="forgotPassword()">Forgot Password?</a>
-</div>
-
+            <a (click)="forgotPassword()">Forgot Password?</a>
+          </div>
 
           <button type="submit" class="login-btn" [disabled]="isLoading || !loginForm.valid">
-            <span *ngIf="!isLoading">Login</span>
-            <span *ngIf="isLoading" class="btn-loader"></span>
+            <span *ngIf="!isLoading">
+              <i class="ph-bold ph-sign-in"></i> Sign In
+            </span>
+            <span *ngIf="isLoading" class="btn-loading">
+              <span class="btn-loader"></span>
+              Signing in...
+            </span>
           </button>
+
         </form>
 
-        <p class="status-msg error" *ngIf="errorMessage">{{errorMessage}}</p>
+        <p class="status-msg error" *ngIf="errorMessage">
+          <i class="ph-bold ph-warning-circle"></i> {{ errorMessage }}
+        </p>
+
       </div>
     </div>
 
   </div>
 
+  <!-- ═══ FORGOT PASSWORD MODAL ═══ -->
+  <div class="modal-overlay" *ngIf="isForgotModalOpen" (click)="closeForgotModal()"></div>
 
+  <div class="forgot-modal" *ngIf="isForgotModalOpen">
+    <div class="modal-box" (click)="$event.stopPropagation()">
 
-  <!-- Forgot Password Modal -->
-<div class="modal-overlay" *ngIf="isForgotModalOpen" (click)="closeForgotModal()"></div>
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon">
+            <i class="ph-bold ph-lock-key-open"></i>
+          </div>
+          <div>
+            <h3>Reset Password</h3>
+            <p>We'll send a reset link to your email</p>
+          </div>
+        </div>
+        <button (click)="closeForgotModal()">
+          <i class="ph-bold ph-x"></i>
+        </button>
+      </div>
 
-<div class="forgot-modal" *ngIf="isForgotModalOpen">
-  <div class="modal-box" (click)="$event.stopPropagation()">
-    
-    <div class="modal-header">
-      <h3>Reset Password</h3>
-      <button (click)="closeForgotModal()">✖</button>
+      <div class="modal-body">
+        <label>Email Address</label>
+        <input
+          type="email"
+          placeholder="Enter your registered email"
+          [(ngModel)]="forgotEmail"
+        >
+      </div>
+
+      <div class="modal-footer">
+        <button class="reset-btn" (click)="sendResetLink()">
+          <i class="ph-bold ph-paper-plane-tilt"></i> Send Reset Link
+        </button>
+      </div>
+
     </div>
-
-    <div class="modal-body">
-      <label>Email Address</label>
-      <input 
-        type="email" 
-        placeholder="Enter your email"
-        [(ngModel)]="forgotEmail"
-      >
-    </div>
-
-    <div class="modal-footer">
-      <button class="reset-btn" (click)="sendResetLink()">Reset Password</button>
-    </div>
-
   </div>
-</div>
-
-
 
 </div>

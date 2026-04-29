@@ -1,4 +1,4 @@
-<div class="toast-wrapper fade-in" *ngIf="toast.show" [ngClass]="toast.type">
+<div class="toast-wrapper" *ngIf="toast.show" [ngClass]="toast.type">
   <div class="toast-content">
     <div class="icon">
       <i *ngIf="toast.type === 'success'" class="ph-bold ph-check-circle"></i>
@@ -6,7 +6,12 @@
       <i *ngIf="toast.type === 'warning'" class="ph-bold ph-warning"></i>
       <i *ngIf="toast.type === 'info'"    class="ph-bold ph-info"></i>
     </div>
-    <p>{{ toast.message }}</p>
+    <div class="toast-body">
+      <p class="toast-title">
+        {{ toast.type === 'success' ? 'Success' : toast.type === 'error' ? 'Error' : toast.type === 'warning' ? 'Warning' : 'Info' }}
+      </p>
+      <p class="toast-msg">{{ toast.message }}</p>
+    </div>
   </div>
   <div class="toast-progress"></div>
 </div>
@@ -15,17 +20,18 @@
 
 <!-- Side bar for ui -->
 <div class="dashboard-container">
-  <app-teacher-sidebar
-    pageTitle="Dev Campus"
-    [isOpen]="isSidebarOpen"
-    [activeSection]="activeSection"
-    (toggle)="toggleSidebar()"
-    (close)="closeSidebar()"
-    (goProblems)="activeSection = 'see'"
-    (goAddStatement)="goToAddStatement()"
-    (goCampus)="goToAddCampus()"
-    (logoutClick)="logout()">
-  </app-teacher-sidebar>
+    <app-teacher-sidebar
+      pageTitle="Dev Campus"
+      [isOpen]="isSidebarOpen"
+      [activeSection]="activeSection"
+      (toggle)="toggleSidebar()"
+      (close)="closeSidebar()"
+      (goProblems)="goToProblems()"
+     (goProblemWithoutTestCase)="loadWithoutTestCases()"
+      (goAddStatement)="goToAddStatement()"
+      (goCampus)="goToAddCampus()"
+      (logoutClick)="logout()">
+    </app-teacher-sidebar>
 
 
   <!-- //Place in which operation will perform ....... -->

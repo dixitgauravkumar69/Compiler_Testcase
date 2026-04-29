@@ -9,7 +9,12 @@
       <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
       <i *ngIf="toastType === 'warning'" class="ph-bold ph-warning"></i>
     </div>
-    <p>{{ toastMessage }}</p>
+    <div class="toast-body">
+      <p class="toast-title">
+        {{ toastType === 'success' ? 'Success' : toastType === 'error' ? 'Error' : 'Notice' }}
+      </p>
+      <p class="toast-msg">{{ toastMessage }}</p>
+    </div>
   </div>
   <div class="toast-progress"></div>
 </div>

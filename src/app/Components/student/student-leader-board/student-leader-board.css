@@ -1,36 +1,38 @@
-/* MAIN CONTENT AREA */
-
+/* =========================================
+   STUDENT LEADERBOARD
+   ========================================= */
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-}
-
-app-student-sidebar {
-  width: 260px;
-  flex-shrink: 0;
+  background: var(--gradient-page);
 }
 
 .main-content {
   flex: 1;
-  padding: 30px;
+  padding: var(--spacing-xl) var(--spacing-3xl);
   overflow-x: auto;
 }
+
 /* TITLE */
 .title {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xl);
 }
 
 /* TABLE WRAPPER */
 .table-wrapper {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border);
   overflow: hidden;
 }
-/* ===== LEADERBOARD PREMIUM UI ===== */
 
+/* ===== LEADERBOARD TABLE ===== */
 .performance-table {
   width: 100%;
   border-collapse: collapse;
@@ -38,126 +40,167 @@ app-student-sidebar {
 
 /* HEADER */
 .performance-table thead {
-  background: linear-gradient(135deg, #4a90e2, #6a5acd);
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.25), rgba(167, 139, 250, 0.2));
+  border-bottom: 1px solid var(--glass-border-strong);
 }
 
 .performance-table th {
-  padding: 16px;
-  color: white;
-  font-weight: 600;
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--color-primary-light);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: left;
 }
 
 /* ROW */
 .performance-table tbody tr {
-  background: #fff;
-  transition: all 0.3s ease;
-  border-bottom: 1px solid #eee;
+  background: transparent;
+  transition: background var(--transition-fast);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.performance-table tbody tr:last-child {
+  border-bottom: none;
 }
 
 /* HOVER */
 .performance-table tbody tr:hover {
-  transform: scale(1.01);
-  background: #f5f9ff;
+  background: var(--color-bg-hover);
 }
 
 /* TOP 3 */
 .performance-table tbody tr:nth-child(1) {
-  background: linear-gradient(90deg, #fff3cd, #fff);
+  background: rgba(251, 191, 36, 0.06);
 }
 .performance-table tbody tr:nth-child(2) {
-  background: linear-gradient(90deg, #e8f0ff, #fff);
+  background: rgba(148, 163, 184, 0.06);
 }
 .performance-table tbody tr:nth-child(3) {
-  background: linear-gradient(90deg, #f3f3f3, #fff);
+  background: rgba(205, 127, 50, 0.06);
 }
 
 /* CELLS */
 .performance-table td {
-  padding: 14px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 /* ===== RANK BADGE ===== */
 .rank-badge {
-  display: inline-block;
-  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: #e3ecff;
-  font-weight: 600;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--glass-border);
 }
 
 .performance-table tbody tr:nth-child(1) .rank-badge {
-  background: gold;
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.4);
 }
 .performance-table tbody tr:nth-child(2) .rank-badge {
-  background: silver;
+  background: rgba(148, 163, 184, 0.2);
+  color: #94a3b8;
+  border-color: rgba(148, 163, 184, 0.4);
 }
 .performance-table tbody tr:nth-child(3) .rank-badge {
-  background: #cd7f32;
+  background: rgba(205, 127, 50, 0.2);
+  color: #cd7f32;
+  border-color: rgba(205, 127, 50, 0.4);
 }
 
 /* ===== PROBLEM CELL ===== */
 .problem-cell small {
   display: block;
-  font-size: 12px;
-  color: #888;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: 2px;
 }
 
 /* ===== MARKS ===== */
 .marks-box span {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
   display: block;
 }
 
 /* PROGRESS BAR */
 .progress {
-  height: 6px;
-  background: #eee;
-  border-radius: 10px;
-  margin-top: 5px;
+  height: 5px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  margin-top: var(--spacing-xs);
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4a90e2, #6a5acd);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: var(--radius-full);
 }
 
 /* ZERO */
 .zero {
-  color: red;
+  color: var(--color-danger);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* ===== LEVEL BADGES ===== */
 .level {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
 }
 
 .level.easy {
-  background: #e6f4ea;
-  color: #2e7d32;
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--color-success);
+  border: 1px solid rgba(52, 211, 153, 0.25);
 }
 
 .level.medium {
-  background: #fff4e5;
-  color: #ff9800;
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--color-warning);
+  border: 1px solid rgba(251, 191, 36, 0.25);
 }
 
 .level.hard {
-  background: #ffeaea;
-  color: #d32f2f;
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--color-danger);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+/* NOT SUBMITTED */
+.NotSubmitted {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--spacing-xl);
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+@media (max-width: 992px) {
+  .main-content { padding: 80px var(--spacing-lg) var(--spacing-lg); }
 }
 
 @media (max-width: 768px) {
+  .performance-table thead { display: none; }
 
-  /* Hide table header */
-  .performance-table thead {
-    display: none;
-  }
-
-  /* Each row becomes card */
   .performance-table,
   .performance-table tbody,
   .performance-table tr,
@@ -167,75 +210,42 @@ app-student-sidebar {
   }
 
   .performance-table tr {
-    background: #fff;
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    box-shadow: var(--glass-shadow);
+    border: 1px solid var(--glass-border);
   }
 
-  /* Each cell becomes row inside card */
   .performance-table td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    border: none;
-    font-size: 13px;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--font-size-sm);
   }
 
-  /* Add labels (left side text) */
+  .performance-table td:last-child { border-bottom: none; }
+
   .performance-table td::before {
     content: attr(data-label);
-    font-weight: 600;
-    color: #666;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
   }
 
-  /* Problem special styling */
   .problem-cell {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .problem-cell::before {
-    margin-bottom: 5px;
-  }
+  .marks-box { width: 60%; }
+  .progress  { height: 4px; }
+  .rank-badge { font-size: var(--font-size-xs); width: 28px; height: 28px; }
 
-  .problem-cell b {
-    font-size: 14px;
-  }
-
-  .problem-cell small {
-    font-size: 11px;
-    color: #999;
-  }
-
-  /* Marks alignment */
-  .marks-box {
-    width: 60%;
-  }
-
-  .progress {
-    height: 4px;
-  }
-
-  /* Rank badge */
-  .rank-badge {
-    font-size: 12px;
-    padding: 4px 8px;
-  }
-
-  .NotSubmitted {
-  text-align: center;
-  color: white;
-  font-weight: 900;
-  padding: 20px;
-}
-}
-
-.NotSubmitted {
-  text-align: center;
-  color: #141313;
-  font-weight: 900;
-  padding: 20px;
+  .main-content { padding: 80px var(--spacing-md) var(--spacing-md); }
 }

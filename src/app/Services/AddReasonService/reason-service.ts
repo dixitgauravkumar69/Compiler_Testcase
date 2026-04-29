@@ -17,7 +17,8 @@ export class ReasonService {
       reason: reason, // Replace with actual user ID
     action: action,
     };
-   
+
+    
     this.addAuditService.addAudit(auditData,auditingUser,auditedBy ).subscribe({
       next: (res) => {
         alert("Audit added successfully") ;

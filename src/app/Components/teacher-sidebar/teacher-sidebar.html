@@ -31,12 +31,27 @@
   </div>
 
   <nav class="nav-links">
-    <button
-      [class.active]="activeSection === 'see' || activeSection === 'studentsList'"
-      (click)="goProblems.emit(); close.emit()">
+    <button (click)="toggleAccordian()">
       <i class="ph-bold ph-list-checks"></i>
       <span class="text">Problems List</span>
     </button>
+
+     <ul class="accor-dropdown" [class.open]="isAccordianExpanded()">
+             <li [class.active]="activeSection === 'see' || activeSection === 'studentsList'"
+      (click)="goProblems.emit(); close.emit()">-Fully Ready Problems</li>
+             <li [class.active]="activeSection === 'see' || activeSection === 'studentsList'"
+      (click)="goProblemWithoutTestCase.emit(); close.emit()">-With Drafted Problems</li>
+      </ul>
+
+     <!-- <button
+      [class.active]="activeSection === 'see' || activeSection === 'studentsList'"
+      [class.include-test-cases]="includeTestCases==true"
+      (click)="goProblemWithoutTestCase.emit(); close.emit()">
+      <i class="ph-bold ph-list-checks"></i>
+      <span class="text">WithOut Test Cases</span>
+    
+      
+    </button> -->
     <button (click)="goAddStatement.emit(); close.emit()">
       <i class="ph-bold ph-plus-circle"></i>
       <span class="text">Add Statement</span>

@@ -6,6 +6,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { BASE_URL } from '../../../Environments/environment';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 function nameValidator(control: AbstractControl): ValidationErrors | null {
   const val = (control.value || '').trim();
@@ -26,7 +27,7 @@ function passwordStrengthValidator(control: AbstractControl): ValidationErrors |
 @Component({
   selector: 'app-user-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule, ThemeSwitcher],
   templateUrl: './user-component.html',
   styleUrls: ['./user-component.css']
 })

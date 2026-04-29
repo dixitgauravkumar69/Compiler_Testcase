@@ -87,7 +87,7 @@ export class Admin implements OnInit {
       next: (res) => {
         console.log('Approvement updated successfully:', res);
         this.showToaster('Request approved successfully!', 'success');
-        this.Status = 'APPROVED';
+        this.Status = 'Approved';
 
         this.getApprovalRequest();
 

@@ -33,6 +33,7 @@ export class Teacher implements OnInit, OnDestroy {
   selectedProblemId: number = 0;
   solvedStudents: any[] = [];
   isSidebarOpen = false;
+  includeTestCases: boolean = false;
 
   filteredStudents: any[] = [];
 studentSearchQuery: string = '';
@@ -84,7 +85,7 @@ studentId!: number; // Store the student ID for similarity analysis
   }
 
   ngOnInit() {
-    this.getProblemStatements();
+    this.getProblemStatements(this.includeTestCases);
     this.globalTimer = setInterval(() => this.updateLiveStatuses(), 5000);
   }
 
@@ -123,9 +124,9 @@ studentId!: number; // Store the student ID for similarity analysis
   }
 
   // --- API CALLS WITH ROBUST HANDLING ---
-  getProblemStatements() {
+  getProblemStatements(includeTestCase: boolean) {
     this.isLoading = true;
-    this.http.get<any[]>(`${BASE_URL}/api/User/getProblemStatements`, { withCredentials: true, observe: 'response' })
+    this.http.get<any[]>(`${BASE_URL}/api/User/getProblemStatements/${includeTestCase}`, { withCredentials: true, observe: 'response' })
       .subscribe({
         next: (res) => {
           this.problemStatements = res.body || [];
@@ -146,7 +147,7 @@ studentId!: number; // Store the student ID for similarity analysis
       next: (res) => {
         this.isLoading = false;
         this.showToast("Problem assigned successfully!", "success");
-        this.getProblemStatements(); 
+        this.getProblemStatements(this.includeTestCases); 
       },
       error: (err) => this.handleError(err, "Assignment failed")
     });
@@ -295,7 +296,7 @@ showDeleteModal = false;
       
       this.showToast(" Deleted successfully");
       this.cdr.detectChanges();
-      this.getProblemStatements(); // reload data
+      this.getProblemStatements(this.includeTestCases); // reload data
       this.showDeleteModal = false;
 
       this.cdr.detectChanges();
@@ -367,7 +368,7 @@ updateProblem() {
         this.isLoading = false;
         this.isEditMode = false;
         this.showToast("Problem updated successfully!", "success");
-        this.getProblemStatements();
+        this.getProblemStatements(this.includeTestCases);
       },
       error: (err) => {
         this.isLoading = false;
@@ -401,5 +402,15 @@ openSimilarity(studentId: number)
     localStorage.removeItem("SelectedStudentId");
   localStorage.setItem("SelectedStudentId", studentId.toString());
   this.goTOSimilarity();
+}
+
+loadWithoutTestCases() {
+  this.includeTestCases = true;
+  this.getProblemStatements(true);  
+ 
+}
+
+goToProblems() {
+ this.getProblemStatements(false);
 }
 }

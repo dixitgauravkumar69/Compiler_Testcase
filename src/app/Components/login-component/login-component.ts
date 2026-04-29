@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BASE_URL } from '../../../Environments/environment';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule, ThemeSwitcher],
   templateUrl: './login-component.html',
   styleUrls: ['./login-component.css']
 })

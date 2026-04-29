@@ -7,7 +7,12 @@
       <i *ngIf="toast.type === 'warning'" class="ph-bold ph-warning"></i>
       <i *ngIf="toast.type === 'info'"    class="ph-bold ph-info"></i>
     </div>
-    <p>{{ toast.message }}</p>
+    <div class="toast-body">
+      <p class="toast-title">
+        {{ toast.type === 'success' ? 'Success' : toast.type === 'error' ? 'Error' : toast.type === 'warning' ? 'Warning' : 'Info' }}
+      </p>
+      <p class="toast-msg">{{ toast.message }}</p>
+    </div>
   </div>
   <div class="toast-progress"></div>
 </div>

@@ -125,63 +125,49 @@
 }
 
 .delete-btn {
-  padding: 6px 14px;
+  padding: var(--spacing-xs) var(--spacing-md);
   border: none;
-  border-radius: 8px;
-  background: #db6c6e;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
+  border-radius: var(--radius-md);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all var(--transition-fast);
 }
 
 /* Hover Effect */
 .delete-btn:hover {
-  background: #d2545a;
-  box-shadow: 0 4px 10px rgba(255, 77, 79, 0.4);
+  background: var(--color-danger);
+  color: var(--color-text-inverse);
+  box-shadow: 0 4px 12px rgba(248, 113, 113, 0.3);
 }
 
 /* Container for spacing */
 .action-buttons {
   display: flex;
-  gap: 8px;
+  gap: var(--spacing-sm);
 }
 
 /* Edit Button */
 .edit-btn {
-  padding: 6px 14px;
+  padding: var(--spacing-xs) var(--spacing-md);
   border: none;
-  border-radius: 8px;
-  background: #91afb6;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-ring);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all var(--transition-fast);
 }
 
 .edit-btn:hover {
-  background: #52b476;
-  box-shadow: 0 4px 10px rgba(89, 116, 153, 0.4);
-}
-
-/* Delete Button (improved) */
-.delete-btn {
-  padding: 6px 14px;
-  border: none;
-  border-radius: 8px;
-  background: #eb7072;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.delete-btn:hover {
-  background: #e7585f;
-  box-shadow: 0 4px 10px rgba(255, 77, 79, 0.4);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3);
 }
 
 /* Click effect */
@@ -192,98 +178,95 @@
 
 .tabs-nav {
   display: flex;
-  gap: 12px;
-
-  padding: 10px;
-  border-radius: 12px;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-lg);
   width: fit-content;
 }
 
 /* Common Button Style */
 .tabs-nav button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-
-  /* color: #555; */
-  font-size: 14px;
-  font-weight: 500;
+  padding: var(--spacing-sm) var(--spacing-xl);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-fast);
 }
 
+.tabs-nav button:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-primary);
+  border-color: var(--color-primary-ring);
+}
 
 /* Active Tab */
 .tabs-nav button.active {
- 
-  font-weight: 600;
- 
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border-color: var(--color-primary-ring);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* Optional: Click Effect */
-.tabs-nav button:active {
-  transform: scale(0.96);
-}
-
-
-
+.tabs-nav button:active { transform: scale(0.96); }
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 20px;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
 }
 
 /* Cancel Button */
 .btn-cancel {
-  padding: 10px 18px;
-  border: 1px solid #d9d9d9;
-  border-radius: 10px;
-  background: #fff;
-  color: #555;
-  font-size: 14px;
-  font-weight: 500;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-subtle);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all var(--transition-fast);
 }
 
 .btn-cancel:hover {
-  background: #f5f5f5;
-  color: #222;
-  border-color: #bbb;
+  background: var(--color-border);
+  color: var(--color-text-primary);
 }
 
 /* Submit Button */
 .submit-btn {
-  padding: 10px 20px;
+  padding: var(--spacing-sm) var(--spacing-xl);
   border: none;
-  border-radius: 10px;
-  background:rgb(79, 79, 162);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-primary);
 }
 
 .submit-btn:hover {
+  background: var(--color-primary-dark);
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4);
+  box-shadow: 0 8px 20px rgba(129, 140, 248, 0.4);
 }
 
-/* Click Effect */
 .submit-btn:active,
-.btn-cancel:active {
-  transform: scale(0.96);
-}
+.btn-cancel:active { transform: scale(0.96); }
 
-/* Disabled State */
 .submit-btn:disabled {
-  background: #ccc;
+  background: var(--color-text-muted);
   cursor: not-allowed;
   box-shadow: none;
+  transform: none;
 }
 
 /* =========================================
@@ -480,35 +463,30 @@
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 9999;
+  z-index: var(--z-toast);
 }
 
 /* Toast Box */
 .toast-box {
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-  color: #fff;
-  padding: 12px 18px;
-  border-radius: 8px;
-  font-size: 14px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--color-primary-light);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border-strong);
   animation: slideIn 0.3s ease, fadeOut 0.3s ease 1.7s forwards;
 }
 
 /* Animation */
 @keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes fadeOut {
-  to {
-    opacity: 0;
-    transform: translateX(100%);
-  }
+  to { opacity: 0; transform: translateX(100%); }
 }

@@ -7,9 +7,19 @@
       <i *ngIf="toastType === 'warning'" class="ph-bold ph-warning"></i>
       <i *ngIf="toastType === 'info'"    class="ph-bold ph-info"></i>
     </div>
-    <p>{{ toastMessage }}</p>
+    <div class="toast-body">
+      <p class="toast-title">
+        {{ toastType === 'success' ? 'Success' : toastType === 'error' ? 'Error' : 'Notice' }}
+      </p>
+      <p class="toast-msg">{{ toastMessage }}</p>
+    </div>
   </div>
   <div class="toast-progress"></div>
+</div>
+
+<!-- Floating theme toggle -->
+<div class="theme-float-btn">
+  <app-theme-switcher variant="float"></app-theme-switcher>
 </div>
 
 <!-- ═══════════════════════════════════════════
@@ -18,7 +28,6 @@
 <div class="otp-overlay" *ngIf="showOtpPanel" (click)="closeOtpPanel()">
   <div class="otp-card" (click)="$event.stopPropagation()">
 
-    <!-- Header -->
     <div class="otp-header">
       <div class="otp-icon-wrap">
         <i class="ph-bold ph-envelope-open"></i>
@@ -30,32 +39,25 @@
       </p>
     </div>
 
-    <!-- OTP Boxes -->
-   
- <div class="otp-boxes" (paste)="onOtpPaste($event)">
-  <input
-    *ngFor="let _ of otpDigits; let i = index ; trackBy: trackByIndex"
-    #otpInput
-    type="tel"
-    inputmode="numeric"
-    pattern="[0-9]*"
-    maxlength="1"
-    class="otp-box"
+    <div class="otp-boxes" (paste)="onOtpPaste($event)">
+      <input
+        *ngFor="let _ of otpDigits; let i = index; trackBy: trackByIndex"
+        #otpInput
+        type="tel"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        maxlength="1"
+        class="otp-box"
+        (input)="onOtpInput(i, $event)"
+        (keydown)="onOtpKeydown(i, $event)"
+        autocomplete="off"
+      />
+    </div>
 
-    (input)="onOtpInput(i, $event)"
-    (keydown)="onOtpKeydown(i, $event)"
-
-    autocomplete="off"
-  />
-</div>
-
-
-    <!-- Error -->
     <p class="otp-error-msg" *ngIf="otpError">
       <i class="ph-bold ph-warning-circle"></i> {{ otpError }}
     </p>
 
-    <!-- Verify Button -->
     <button
       class="otp-verify-btn"
       (click)="verifyOtp()"
@@ -69,14 +71,9 @@
       </span>
     </button>
 
-    <!-- Resend -->
     <div class="otp-resend">
       <span>Didn't receive the code?</span>
-      <button
-        class="resend-btn"
-        (click)="resendOtp()"
-        [disabled]="resendCooldown > 0"
-      >
+      <button class="resend-btn" (click)="resendOtp()" [disabled]="resendCooldown > 0">
         <span *ngIf="resendCooldown > 0">Resend in {{ resendCooldown }}s</span>
         <span *ngIf="resendCooldown === 0">
           <i class="ph-bold ph-arrows-clockwise"></i> Resend OTP
@@ -84,7 +81,6 @@
       </button>
     </div>
 
-    <!-- Close -->
     <button class="otp-close-btn" (click)="closeOtpPanel()" title="Go back">
       <i class="ph-bold ph-x"></i>
     </button>
@@ -98,24 +94,48 @@
 <div class="main">
   <div class="auth-container fade-in">
 
-    <!-- INFO SIDE -->
+    <!-- ═══ INFO SIDE ═══ -->
     <div class="info-side">
       <div class="info-content">
-        <h1>Welcome!</h1>
-        <p>Join our community of developers and start your coding journey today.</p>
-        <div class="feature-list">
-          <div class="feature-item"><span>✓</span> Multi-language Compiler</div>
-          <div class="feature-item"><span>✓</span> Real-time Performance</div>
-          <div class="feature-item"><span>✓</span> Campus Placement Drives</div>
+
+        <div class="brand-badge">
+          <i class="ph-bold ph-code"></i>
+          <span>Dev Campus</span>
         </div>
+
+        <h1>Start Your<br>Journey!</h1>
+        <p>Join thousands of developers. Solve challenges, ace placements, and build your career.</p>
+
+        <div class="feature-list">
+          <div class="feature-item">
+            <span><i class="ph-bold ph-code"></i></span>
+            Multi-language Compiler
+          </div>
+          <div class="feature-item">
+            <span><i class="ph-bold ph-lightning"></i></span>
+            Real-time Performance
+          </div>
+          <div class="feature-item">
+            <span><i class="ph-bold ph-briefcase"></i></span>
+            Campus Placement Drives
+          </div>
+          <div class="feature-item">
+            <span><i class="ph-bold ph-trophy"></i></span>
+            Leaderboard & Rankings
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- FORM SIDE -->
+    <!-- ═══ FORM SIDE ═══ -->
     <div class="form-side">
       <div class="form-wrapper">
 
         <div class="header">
+          <div class="header-icon">
+            <i class="ph-bold ph-user-plus"></i>
+          </div>
           <h2>Create Account</h2>
           <p>Already have an account? <a (click)="goToLogin()" class="link">Sign in</a></p>
         </div>
@@ -125,8 +145,11 @@
           <!-- Full Name -->
           <div class="input-box" [class.has-error]="fieldError('userName')">
             <label>Full Name <span class="req">*</span></label>
-            <input type="text" placeholder="e.g. Rahul Sharma"
-              formControlName="userName" autocomplete="name" maxlength="50">
+            <div class="input-wrap">
+              <i class="ph-bold ph-user input-icon"></i>
+              <input type="text" placeholder="e.g. Rahul Sharma"
+                formControlName="userName" autocomplete="name" maxlength="50">
+            </div>
             <span class="error-msg" *ngIf="fieldError('userName')">
               <i class="ph-bold ph-warning-circle"></i> {{ fieldError('userName') }}
             </span>
@@ -135,8 +158,11 @@
           <!-- Email -->
           <div class="input-box" [class.has-error]="fieldError('userEmail')">
             <label>Email Address <span class="req">*</span></label>
-            <input type="email" placeholder="you@example.com"
-              formControlName="userEmail" autocomplete="email" maxlength="100">
+            <div class="input-wrap">
+              <i class="ph-bold ph-envelope input-icon"></i>
+              <input type="email" placeholder="you@example.com"
+                formControlName="userEmail" autocomplete="email" maxlength="100">
+            </div>
             <span class="error-msg" *ngIf="fieldError('userEmail')">
               <i class="ph-bold ph-warning-circle"></i> {{ fieldError('userEmail') }}
             </span>
@@ -145,11 +171,14 @@
           <!-- Role -->
           <div class="input-box" [class.has-error]="fieldError('userRole')">
             <label>Role <span class="req">*</span></label>
-            <select formControlName="userRole">
-              <option value="" disabled selected>Select your role</option>
-              <option value="STUDENT">Student</option>
-              <option value="TEACHER">Teacher</option>
-            </select>
+            <div class="input-wrap">
+              <i class="ph-bold ph-identification-badge input-icon"></i>
+              <select formControlName="userRole">
+                <option value="" disabled selected>Select your role</option>
+                <option value="STUDENT">Student</option>
+                <option value="TEACHER">Teacher</option>
+              </select>
+            </div>
             <span class="error-msg" *ngIf="fieldError('userRole')">
               <i class="ph-bold ph-warning-circle"></i> {{ fieldError('userRole') }}
             </span>
@@ -158,12 +187,15 @@
           <!-- Password -->
           <div class="input-box password-box" [class.has-error]="fieldError('password') && !f['password'].dirty">
             <label>Password <span class="req">*</span></label>
-            <input [type]="showPassword ? 'text' : 'password'"
-              placeholder="Min 8 chars, uppercase, number, symbol"
-              formControlName="password" autocomplete="new-password" maxlength="64">
-            <button type="button" class="eye-btn" (click)="showPassword = !showPassword">
-              <i class="ph-bold" [class.ph-eye]="!showPassword" [class.ph-eye-slash]="showPassword"></i>
-            </button>
+            <div class="input-wrap">
+              <i class="ph-bold ph-lock input-icon"></i>
+              <input [type]="showPassword ? 'text' : 'password'"
+                placeholder="Min 8 chars, uppercase, number, symbol"
+                formControlName="password" autocomplete="new-password" maxlength="64">
+              <button type="button" class="eye-btn" (click)="showPassword = !showPassword">
+                <i class="ph-bold" [class.ph-eye]="!showPassword" [class.ph-eye-slash]="showPassword"></i>
+              </button>
+            </div>
 
             <!-- Strength meter -->
             <div class="strength-meter" *ngIf="f['password'].value">

@@ -359,26 +359,29 @@
 
 .notification-bell {
   position: relative;
-  margin: 0 15px;
+  margin: 0 var(--spacing-md);
   cursor: pointer;
-  font-size: 20px;
-  color: #1e293b;
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
 }
 
-.notification-bell i {
-  font-size: 22px;
-}
+.notification-bell:hover { color: var(--color-primary); }
+
+.notification-bell i { font-size: 22px; }
 
 .notification-bell .badge {
   position: absolute;
   top: -6px;
   right: -8px;
-  background: red;
-  color: white;
-  font-size: 11px;
-  padding: 2px 6px;
+  background: var(--color-danger);
+  color: var(--color-text-inverse);
+  font-size: 10px;
+  padding: 2px 5px;
   border-radius: 50%;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
+  min-width: 18px;
+  text-align: center;
 }
 
 /* Default: dono hide nahi, but control karenge */
@@ -427,23 +430,20 @@
   width: 340px;
   max-height: 420px;
   overflow-y: auto;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border-strong);
   animation: slideDown 0.3s ease;
-  padding: 10px 0;
+  padding: var(--spacing-sm) 0;
 }
 
 /* ✨ Animation */
 @keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* 🧾 Header */
@@ -451,100 +451,82 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
-  border-bottom: 1px solid #eee;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .modal-header h3 {
-  font-size: 16px;
-  color: #1e293b;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
   margin: 0;
+  font-weight: var(--font-weight-bold);
 }
 
 .modal-header button {
   border: none;
   background: transparent;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   cursor: pointer;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
 }
+
+.modal-header button:hover { color: var(--color-danger); }
 
 /* 📋 Body */
 .modal-body {
-  padding: 5px 0;
+  padding: var(--spacing-xs) 0;
+  max-height: 350px;
+  overflow-y: auto;
 }
 
 /* 🔔 Notification item */
 .notification-item {
-  padding: 12px 15px;
-  font-size: 14px;
-  color: #334155;
-  border-bottom: 1px solid #f1f5f9;
-  transition: background 0.2s ease;
+  background: transparent;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md) var(--spacing-md);
+  margin: var(--spacing-xs) var(--spacing-sm);
   cursor: pointer;
-}
-
-/* hover effect */
-.notification-item:hover {
-  background: #f8fafc;
-}
-
-
-.modal-body div {
-  text-align: center;
-  padding: 20px;
-  color: #94a3b8;
-  font-size: 14px;
-}
-.notification-item.unread {
-  font-weight: bold;
-  background: #eef2ff;
-}
-.modal-content::-webkit-scrollbar {
-  width: 5px;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-  background: #cbd5f5;
-  border-radius: 10px;
-}
-.notification-item {
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 12px 15px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: 0.2s ease;
-  border: 1px solid #e2e8f0;
+  transition: background var(--transition-fast);
+  border: 1px solid var(--color-border);
 }
 
 .notification-item:hover {
-  background: #f8fafc;
-  transform: translateY(-2px);
+  background: var(--color-bg-hover);
+  transform: translateY(-1px);
 }
 
-/* Unread Highlight */
 .notification-item.unread {
-  border-left: 4px solid #4f46e5;
-  background: #eef2ff;
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-primary-soft);
 }
 
 /* Message */
 .notif-message {
-  font-size: 14px;
-  color: #1e293b;
-  margin: 0 0 6px 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: var(--line-height-relaxed);
 }
 
 /* Meta (date + time) */
 .notif-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  color: #64748b;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
 }
 
-/* Scroll body */
-.modal-body {
-  max-height: 350px;
-  overflow-y: auto;
+/* Scrollbar */
+.modal-content::-webkit-scrollbar { width: 5px; }
+.modal-content::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.modal-body div {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
 }

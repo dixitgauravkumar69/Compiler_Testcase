@@ -34,7 +34,8 @@ export class StudentLeaderBoard implements OnInit {
       .subscribe({
         next: (data) => {
          this.reports = data.sort((a, b) => (b.marks || 0) - (a.marks || 0));
-          
+         
+          console.log(this.reports);
           this.calculateTotalPoints();
           this.loading = false;
           this.cdr.detectChanges();

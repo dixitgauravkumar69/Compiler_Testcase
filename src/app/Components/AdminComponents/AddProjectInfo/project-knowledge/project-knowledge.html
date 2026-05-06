@@ -1,0 +1,90 @@
+<div class="dashboard-container">
+
+  <app-admin-sidebar
+    (close)="isSidebarOpen = false"
+    [isOpen]="isSidebarOpen"
+    (toggle)="isSidebarOpen = !isSidebarOpen">
+  </app-admin-sidebar>
+
+  <div class="main-content">
+
+    <!-- Toast -->
+    @if (showToast) {
+      <div class="toast" [ngClass]="toastType">
+        <i class="ph-bold" [ngClass]="toastType === 'success' ? 'ph-check-circle' : 'ph-warning-circle'"></i>
+        {{ toastMessage }}
+      </div>
+    }
+
+    <div class="page-header">
+      <div class="page-icon">
+        <i class="ph-bold ph-brain"></i>
+      </div>
+      <div>
+        <h1 class="page-title">Project Knowledge</h1>
+        <p class="page-subtitle">Add information entries for the AI assistant to learn from</p>
+      </div>
+    </div>
+
+    <div class="form-card">
+
+      <div class="card-header">
+        <i class="ph-bold ph-plus-circle"></i>
+        <span>New Entry</span>
+      </div>
+
+      <form (ngSubmit)="submitForm()" #knowledgeForm="ngForm" novalidate>
+
+        <div class="form-group">
+          <label for="title">
+            <i class="ph-bold ph-text-t"></i> Title
+          </label>
+          <input
+            id="title"
+            type="text"
+            [(ngModel)]="formData.title"
+            name="title"
+            required
+            #titleField="ngModel"
+            placeholder="e.g. Authentication Flow"
+            [class.invalid]="titleField.invalid && titleField.touched" />
+          @if (titleField.invalid && titleField.touched) {
+            <span class="field-error">Title is required</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="content">
+            <i class="ph-bold ph-article"></i> Content
+          </label>
+          <textarea
+            id="content"
+            [(ngModel)]="formData.content"
+            name="content"
+            rows="7"
+            required
+            #contentField="ngModel"
+            placeholder="Describe the project knowledge in detail..."
+            [class.invalid]="contentField.invalid && contentField.touched">
+          </textarea>
+          @if (contentField.invalid && contentField.touched) {
+            <span class="field-error">Content is required</span>
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="knowledgeForm.invalid || isSubmitting">
+          @if (isSubmitting) {
+            <span class="btn-spinner"></span> Submitting...
+          } @else {
+            <i class="ph-bold ph-paper-plane-tilt"></i> Submit Entry
+          }
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+</div>

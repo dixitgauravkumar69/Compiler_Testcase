@@ -20,7 +20,7 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 15px">
-          <div class="notification-bell desktop-only" (click)="openNotifications()">
+          <div class="notification-bell desktop-only" (click)="openNotifications()" (keydown.enter)="openNotifications()">
             <i class="ph-bold ph-bell"></i>
             <span class="badge">
               {{ notificationCount }}
@@ -120,7 +120,7 @@
           <div *ngIf="notifications.length === 0">No notifications</div>
 
           <div *ngFor="let n of notifications" class="notification-item">
-            <div class="notif-content" (click)="markReadNotification(n)">
+            <div class="notif-content" (click)="markReadNotification(n)" (keydown.enter)="markReadNotification(n)">
               <!-- Message -->
               <p class="notif-message">
                 {{ n.message }}

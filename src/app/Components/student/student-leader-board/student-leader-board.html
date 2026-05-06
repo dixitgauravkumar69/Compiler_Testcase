@@ -1,10 +1,7 @@
 <div class="dashboard-container">
 
   <!-- SIDEBAR -->
-  <app-student-sidebar
-    pageTitle="Performance"
-    [isOpen]="isSidebarOpen"
-    (toggle)="toggleSidebar()"
+  <app-student-sidebar pageTitle="Performance" [isOpen]="isSidebarOpen" (toggle)="toggleSidebar()"
     (close)="closeSidebar()">
   </app-student-sidebar>
 
@@ -28,12 +25,12 @@
               <th>Complexity</th>
               <th>Time</th>
               <th>Level</th>
-             
+
             </tr>
           </thead>
 
           <tbody>
-            <tr *ngIf="reports.length === 0" class="no-data" >
+            <tr *ngIf="reports.length === 0" class="no-data">
               <td colspan="7" class="NotSubmitted">You have not submitted any solutions yet.</td>
             </tr>
 
@@ -47,7 +44,8 @@
               <td class="problem-cell">
                 <b>{{ r.problem.title }}</b>
                 <small>
-                  {{ r.createdAt | date:'dd MMM yyyy' }} • {{ r.createdAt | date:'HH:mm' }}
+                  {{ (r.createdAt + 'Z') | date:'dd MMM yyyy' }} •
+                  {{ (r.createdAt + 'Z') | date:'HH:mm' }}
                 </small>
               </td>
 

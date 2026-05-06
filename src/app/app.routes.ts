@@ -25,7 +25,7 @@ import { AnalysisComponent } from './Components/teacher/analysis-component/analy
 import { CodeSimiplarity } from './Components/teacher/code-simiplarity/code-simiplarity';
 import { Admin } from './Components/AdminComponents/admin/admin';
 import { AuditViewComponent } from './Components/AdminComponents/audit-view-component/audit-view-component';
-
+import { ProjectKnowledge } from './Components/AdminComponents/AddProjectInfo/project-knowledge/project-knowledge';
 
 export const routes: Routes = [
     {path:"signUp",component:UserComponent},
@@ -55,5 +55,7 @@ export const routes: Routes = [
     {path:"code-similarity",component:CodeSimiplarity},
     {path:"admin",component:Admin},
     {path:"audit-view",component:AuditViewComponent},
+
+    {path:"project-knowledge",component:ProjectKnowledge}   
     
 ];

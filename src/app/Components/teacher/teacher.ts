@@ -146,7 +146,7 @@ studentId!: number; // Store the student ID for similarity analysis
     this.http.get(`${BASE_URL}/teacher/assignProblem/${psID}`, { responseType: 'text' }).subscribe({
       next: (res) => {
         this.isLoading = false;
-        this.showToast("Problem assigned successfully!", "success");
+        this.showToast(res, "success");
         this.getProblemStatements(this.includeTestCases); 
       },
       error: (err) => this.handleError(err, "Assignment failed")

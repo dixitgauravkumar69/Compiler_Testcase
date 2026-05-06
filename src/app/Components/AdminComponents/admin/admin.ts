@@ -8,11 +8,11 @@ import { UpdateStatus } from '../../../Services/AdminService/update-status';
 import { FormsModule } from '@angular/forms';
 
 import { AddAuditService } from '../../../Services/add-audit-service';
-import { ReasonService } from '../../../Services/AddReasonService/reason-service';  
+import { ReasonService } from '../../../Services/AddReasonService/reason-service';
 
 @Component({
   selector: 'app-admin',
-  imports: [AdminSidebar, CommonModule,FormsModule],
+  imports: [AdminSidebar, CommonModule, FormsModule],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
 })
@@ -44,7 +44,7 @@ export class Admin implements OnInit {
     private updateStatus: UpdateStatus,
     private addAuditService: AddAuditService,
     private reasonService: ReasonService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getAllUsers();
@@ -67,7 +67,7 @@ export class Admin implements OnInit {
   getApprovalRequest() {
     this.getApprovalRequests.getApprovalRequests().subscribe(
       (response: any[]) => {
-        
+
         this.GetApprovalRequests = response.map((req) => ({
           ...req,
           status: 'PENDING', // default state
@@ -91,9 +91,9 @@ export class Admin implements OnInit {
 
         this.getApprovalRequest();
 
-        this.auditUser=requestId;
-        this.reasonService.AddReason("Request approved", "APPROVE",requestId,this.auditedBy) ;
-          this.closeReasonModal();
+        this.auditUser = requestId;
+        this.reasonService.AddReason("Request approved", "APPROVE", requestId, this.auditedBy);
+        this.closeReasonModal();
 
         this.cdr.detectChanges();
       },
@@ -112,9 +112,9 @@ export class Admin implements OnInit {
 
         this.getApprovalRequest();
 
-        this.auditUser=requestId;
-        this.reasonService.AddReason("Request rejected", "REJECT",requestId,this.auditedBy) ;
-          this.closeReasonModal();
+        this.auditUser = requestId;
+        this.reasonService.AddReason("Request rejected", "REJECT", requestId, this.auditedBy);
+        this.closeReasonModal();
 
         this.cdr.detectChanges();
       },
@@ -141,13 +141,14 @@ export class Admin implements OnInit {
 
   changeStatus(user: any, event: any) {
     console.log(user);
-   
-    const newStatus =event.target.value;
-    const oldStatus = user.status;
-  
 
-   const status = { status: newStatus,
-    
+    const newStatus = event.target.value;
+    const oldStatus = user.status;
+
+
+    const status = {
+      status: newStatus,
+
     };
 
     // UI update
@@ -155,28 +156,34 @@ export class Admin implements OnInit {
 
     //Deactivation logic jisme  reason stored hoga kyu deactivate kiya ja rha h user ko
 
-  if(newStatus=="DEACTIVATE")
-  {
+    if (newStatus == "DEACTIVATE") {
       this.openReasonModal();
-      this.auditUser=user.userId;
-  }
+      this.auditUser = user.userId;
+      console.log(user.userId);
+      console.log(this.auditUser);
+    }
 
-  if(user.userRole=="ADMIN")
-  {
-    this.showToaster("Cannot change status of an admin user! 🚫", "error");
-    this.cdr.detectChanges();
-    user.status = oldStatus; // Revert UI change
-    return;
-  }
+    if (user.userRole == "ADMIN") {
+      this.showToaster("Cannot change status of an admin user! 🚫", "error");
+      this.cdr.detectChanges();
+      user.status = oldStatus; // Revert UI change
+      return;
+    }
 
 
     // API call
 
     this.updateStatus.updateStatus(user.userId, status).subscribe({
       next: (res) => {
-        console.log('Status updated successfully:', res);
-        this.showToaster(`User status updated to ${newStatus}!`, 'success');
-        this.cdr.detectChanges();
+
+        if (!this.isReasonModalOpen) {
+          console.log('Status updated successfully:', res);
+          this.showToaster(`User status updated to ${newStatus}!`, 'success');
+          this.cdr.detectChanges();
+        }
+
+        
+
       },
       error: (err) => {
         console.error('Error updating status:', err);
@@ -195,11 +202,12 @@ export class Admin implements OnInit {
 
   openReasonModal() {
     this.isReasonModalOpen = true;
-   
+
   }
 
   closeReasonModal() {
     this.isReasonModalOpen = false;
+
   }
 
 
@@ -212,7 +220,7 @@ export class Admin implements OnInit {
   //     reason: reason, // Replace with actual user ID
   //   action: action,
   //   };
-   
+
   //   this.addAuditService.addAudit(auditData,auditingUser,auditedBy ).subscribe({
   //     next: (res) => {
   //       alert("Audit added successfully") ;
@@ -227,12 +235,12 @@ export class Admin implements OnInit {
   //   this.closeReasonModal();
   // }
 
-  auditedBy:number =parseInt(localStorage.getItem('UserId') || '0');
- auditingUser:number = this.auditUser;
+  auditedBy: number = parseInt(localStorage.getItem('UserId') || '0');
+  auditingUser: number = this.auditUser;
 
-  AddReason(reason: string, action: string)
-  {
-    this.reasonService.AddReason(reason, action,this.auditingUser,this.auditedBy) ;
+  AddReason(reason: string, action: string) {
+    console.log("Auditing User: "+ this.auditUser);
+    this.reasonService.AddReason(reason, action, this.auditUser, this.auditedBy);
     this.closeReasonModal();
   }
 

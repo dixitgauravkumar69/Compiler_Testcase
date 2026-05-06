@@ -113,6 +113,7 @@
   box-shadow: var(--glass-shadow);
   border: 1px solid var(--glass-border);
   overflow: hidden;
+  margin-left: 180px;
 }
 
 .card-header {

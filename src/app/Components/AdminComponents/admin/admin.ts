@@ -156,6 +156,14 @@ export class Admin implements OnInit {
 
     //Deactivation logic jisme  reason stored hoga kyu deactivate kiya ja rha h user ko
 
+    if (user.userRole == "ADMIN") {
+      this.showToaster("Cannot change status of an admin user! 🚫", "error");
+      this.cdr.detectChanges();
+      user.status = oldStatus; // Revert UI change
+      return;
+    }
+    
+
     if (newStatus == "DEACTIVATE") {
       this.openReasonModal();
       this.auditUser = user.userId;
@@ -163,12 +171,7 @@ export class Admin implements OnInit {
       console.log(this.auditUser);
     }
 
-    if (user.userRole == "ADMIN") {
-      this.showToaster("Cannot change status of an admin user! 🚫", "error");
-      this.cdr.detectChanges();
-      user.status = oldStatus; // Revert UI change
-      return;
-    }
+    
 
 
     // API call

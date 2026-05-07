@@ -10,73 +10,97 @@
 
     <div class="performance-container">
 
-      <h2 class="title">🏆 Leaderboard</h2>
-
-      <div class="table-wrapper">
-
-        <table class="performance-table">
-
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Problem</th>
-              <th>Date</th>
-              <th>Marks</th>
-              <th>Complexity</th>
-              <th>Time</th>
-              <th>Level</th>
-
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr *ngIf="reports.length === 0" class="no-data">
-              <td colspan="7" class="NotSubmitted">You have not submitted any solutions yet.</td>
-            </tr>
-
-
-            <tr *ngFor="let r of reports; let i = index">
-
-              <td class="rank" border="2">
-                <span class="rank-badge">{{ i + 1 }}</span>
-              </td>
-
-              <td class="problem-cell">
-                <b>{{ r.problem.title }}</b>
-                <small>
-                  {{ (r.createdAt + 'Z') | date:'dd MMM yyyy' }} •
-                  {{ (r.createdAt + 'Z') | date:'HH:mm' }}
-                </small>
-              </td>
-
-              <td>{{ r.createdAt | date:'dd MMM yyyy' }}</td>
-
-              <td>
-                <div class="marks-box">
-                  <span [class.zero]="r.marks === 0">{{ r.marks }}</span>
-                  <div class="progress">
-                    <div class="progress-fill" [style.width.%]="r.marks"></div>
-                  </div>
-                </div>
-              </td>
-
-              <td>{{ r.complexity }}</td>
-
-              <td>{{ r.takenTime }}</td>
-
-              <td>
-                <span class="level" [ngClass]="r.problem.level.toLowerCase()">
-                  {{ r.problem.level }}
-                </span>
-              </td>
-
-            </tr>
-          </tbody>
-
-        </table>
-
+      <!-- Header -->
+      <div class="page-header">
+        <div class="page-header-left">
+          <h2 class="title">🏆 Leaderboard</h2>
+          <p class="subtitle">Your coding performance ranked by score</p>
+        </div>
+        @if (reports.length > 0) {
+          <div class="total-points-chip">
+            <span class="chip-label">Total Points</span>
+            <span class="chip-value">{{ totalPoints }}</span>
+          </div>
+        }
       </div>
-    </div>
 
+      <!-- Loading -->
+      @if (loading) {
+        <div class="loader-box">
+          <div class="spinner"></div>
+          <span>Loading performance data...</span>
+        </div>
+      }
+
+      <!-- Table -->
+      @if (!loading) {
+        <div class="table-wrapper">
+          <table class="performance-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Problem</th>
+                <th>Date</th>
+                <th>Marks</th>
+                <th>Complexity</th>
+                <th>Time</th>
+                <th>Level</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @if (reports.length === 0) {
+                <tr class="no-data">
+                  <td colspan="7" class="NotSubmitted">
+                    <div class="empty-state">
+                      <span class="empty-icon">📭</span>
+                      <p>You haven't submitted any solutions yet.</p>
+                    </div>
+                  </td>
+                </tr>
+              }
+
+              @for (r of reports; track $index) {
+                <tr>
+                  <td data-label="#">
+                    <span class="rank-badge">{{ $index + 1 }}</span>
+                  </td>
+
+                  <td data-label="Problem" class="problem-cell">
+                    <b>{{ r.problem.title }}</b>
+                    <small>
+                      {{ r.createdAt | date:'dd MMM yyyy' }} •
+                      {{ r.createdAt | date:'HH:mm' }}
+                    </small>
+                  </td>
+
+                  <td data-label="Date">{{ r.createdAt | date:'dd MMM yyyy' }}</td>
+
+                  <td data-label="Marks">
+                    <div class="marks-box">
+                      <span [class.zero]="r.marks === 0">{{ r.marks }}</span>
+                      <div class="progress">
+                        <div class="progress-fill" [style.width.%]="r.marks"></div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td data-label="Complexity">{{ r.complexity }}</td>
+
+                  <td data-label="Time">{{ r.takenTime }}</td>
+
+                  <td data-label="Level">
+                    <span class="level" [ngClass]="r.problem.level.toLowerCase()">
+                      {{ r.problem.level }}
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    </div>
   </div>
 </div>

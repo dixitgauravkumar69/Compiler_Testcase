@@ -1,1 +1,21 @@
-<h1>500 - Server Error 💥</h1>
+<div class="error-page">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="error-card fade-in">
+    <div class="error-visual">
+      <span class="error-number">500</span>
+      <div class="error-icon">💥</div>
+    </div>
+    <h1>Server Error</h1>
+    <p>Something went wrong on our end. We're working to fix it — please try again shortly.</p>
+    <div class="actions">
+      <button class="btn-primary" routerLink="/auth">
+        <i class="ph-bold ph-house"></i> Go Home
+      </button>
+      <button class="btn-secondary" onclick="location.reload()">
+        <i class="ph-bold ph-arrow-clockwise"></i> Retry
+      </button>
+    </div>
+  </div>
+</div>

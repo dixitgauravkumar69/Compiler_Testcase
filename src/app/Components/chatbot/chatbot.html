@@ -1,9 +1,15 @@
-<!-- Floating Chat Button -->
+<!-- Floating Action Button (Draggable) -->
 <button
   class="chat-fab"
-  (click)="toggleChat()"
   [class.open]="isOpen()"
-  aria-label="Toggle chatbot">
+  [class.dark]="ts.isDark()"
+  [ngStyle]="fabStyle"
+  (pointerdown)="onFabPointerDown($event)"
+  (pointermove)="onFabPointerMove($event)"
+  (pointerup)="onFabPointerUp($event)"
+  (click)="toggleChat()"
+  aria-label="Toggle chatbot"
+  title="Drag to move · Click to open">
   <span class="fab-icon">
     @if (isOpen()) {
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -25,7 +31,7 @@
 
 <!-- Chat Window -->
 @if (isOpen()) {
-  <div class="chat-window" role="dialog" aria-label="Chatbot">
+  <div class="chat-window" [class.dark]="ts.isDark()" [ngStyle]="chatWindowStyle" role="dialog" aria-label="Chatbot">
     <!-- Header -->
     <div class="chat-header">
       <div class="header-avatar">
@@ -63,7 +69,9 @@
               </svg>
             </div>
           }
-          <div class="message-bubble" [class.user-bubble]="msg.role === 'user'" [class.bot-bubble]="msg.role === 'bot'">
+          <div class="message-bubble"
+            [class.user-bubble]="msg.role === 'user'"
+            [class.bot-bubble]="msg.role === 'bot'">
             @if (msg.loading) {
               <div class="typing-indicator">
                 <span></span><span></span><span></span>

@@ -3,11 +3,12 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BASE_URL } from '../../../Environments/environment';
+import { StudentSidebar } from '../student-sidebar/student-sidebar';
 
 @Component({
   selector: 'app-job-description',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, StudentSidebar],
   templateUrl: './job-description.html',
   styleUrl: './job-description.css',
 })
@@ -20,8 +21,10 @@ export class JobDescription implements OnInit {
   isPageLoading = true;
   isApplied = false;
   isApplying = false;
-  selectionStatus:string="";
-  isEligible=true;
+  selectionStatus: string = '';
+  isEligible = true;
+
+  isSidebarOpen = false;
 
   toast = {
     message: '',
@@ -36,85 +39,64 @@ export class JobDescription implements OnInit {
     private router: Router,
   ) {}
 
- ngOnInit(): void {
-  const id = this.route.snapshot.paramMap.get('id');
-  if (!id) { 
-    this.isPageLoading = false; 
-    return; 
-  }
-
-  this.campusId = Number(id);
-  this.userId = Number(localStorage.getItem('UserId') || '0');
-
-  this.http.get(`${BASE_URL}/placement/student/job/${this.campusId}/${this.userId}`).subscribe({
-    next: (res: any) => {
-      this.job = res;
-
-      if(res==null)
-      {
-       this.isEligible=false;
-       console.log("eligible: "+ this.isEligible);
-
-       this.showToast("You are not eligible for this campus , your cgpa less than criteria");
-      }
-
-
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
       this.isPageLoading = false;
-
-      this.checkIfAlreadyApplied();
-
-      //  CALL HERE (after job loaded)
-      this.selectionStatusStudent(this.userId, this.campusId);
-
-      this.cdr.detectChanges();
-    },
-    error: () => {
-      this.isPageLoading = false;
-      this.showToast('Failed to load job details.', 'error');
-      this.cdr.detectChanges();
+      return;
     }
-  });
-}
 
+    this.campusId = Number(id);
+    this.userId = Number(localStorage.getItem('UserId') || '0');
 
+    this.http.get(`${BASE_URL}/placement/student/job/${this.campusId}/${this.userId}`).subscribe({
+      next: (res: any) => {
+        this.job = res;
 
-  selectionStatusStudent(UserId:number,CampusId:number)
-  {
-      this.http.get(`${BASE_URL}/student/jobSelection/${CampusId}/${UserId}`, { responseType: 'text' } ).subscribe({next:(res)=>{
-            
-        this.selectionStatus=res;
-        this.showToast("Data loaded successfully");
+        if (res == null) {
+          this.isEligible = false;
+          this.showToast('You are not eligible for this campus — your CGPA is below the requirement.', 'error');
+        }
+
+        this.isPageLoading = false;
+        this.checkIfAlreadyApplied();
+        this.selectionStatusStudent(this.userId, this.campusId);
+        this.cdr.detectChanges();
       },
-    error:(err)=>{
-        console.log("From job discription: "+err.message);
-    }})
+      error: () => {
+        this.isPageLoading = false;
+        this.showToast('Failed to load job details.', 'error');
+        this.cdr.detectChanges();
+      }
+    });
   }
 
-
-
+  selectionStatusStudent(UserId: number, CampusId: number) {
+    this.http.get(`${BASE_URL}/student/jobSelection/${CampusId}/${UserId}`, { responseType: 'text' }).subscribe({
+      next: (res) => {
+        this.selectionStatus = res;
+        this.showToast('Data loaded successfully');
+      },
+      error: (err) => {
+        console.log('From job description: ' + err.message);
+      }
+    });
+  }
 
   checkIfAlreadyApplied() {
-
-      this.http.get(`${BASE_URL}/api/student/studentApplication/isApplied/${this.userId}/${this.campusId}`).subscribe({
-        next:(res)=>
-        { 
-          if(res==true)
-            {
-              this.isApplied=true;
-              this.showToast("You have already applied")
-            }  
-            else
-            {
-              this.isApplied=false;
-            }
-
-         },
-        error:(err)=>
-        {
-         alert(err.message);
+    this.http.get(`${BASE_URL}/api/student/studentApplication/isApplied/${this.userId}/${this.campusId}`).subscribe({
+      next: (res) => {
+        if (res == true) {
+          this.isApplied = true;
+          this.showToast('You have already applied');
+        } else {
+          this.isApplied = false;
         }
-      })
-    
+      },
+      error: (err) => {
+        console.error(err.message);
+      }
+    });
   }
 
   apply() {
@@ -138,7 +120,7 @@ export class JobDescription implements OnInit {
       {},
       { responseType: 'text' }
     ).subscribe({
-      next: (res: string) => {
+      next: () => {
         this.isApplying = false;
         this.isApplied = true;
         this.showToast('Application submitted successfully!', 'success');
@@ -192,4 +174,7 @@ export class JobDescription implements OnInit {
   Back() {
     this.router.navigate(['/findJobInfo']);
   }
+
+  toggleSidebar() { this.isSidebarOpen = !this.isSidebarOpen; }
+  closeSidebar()  { this.isSidebarOpen = false; }
 }

@@ -14,6 +14,7 @@ interface Question {
   problemStatement: string;
   assigned: boolean;
   title: string;
+  level?: string;
 }
 
 interface PageResponse {
@@ -51,7 +52,7 @@ export class Student implements OnInit {
   toastType: string = 'success'; // success | error | warning | info
 
   notifications: any = [];
-  notificationCount: Number = 0;
+  notificationCount: number = 0;
   notifiactionTime: string = '';
 
   notificationRead=false;

@@ -15,45 +15,81 @@
   </div>
   <div class="toast-progress"></div>
 </div>
+
 <div class="arena-container">
-  
+
+  <!-- ── Mobile Tab Bar ── -->
   <div class="mobile-tabs">
-    <button [class.active]="activeTab === 'problem'" (click)="activeTab = 'problem'">Description</button>
-    <button [class.active]="activeTab === 'code'" (click)="activeTab = 'code'">Code</button>
-    <button [class.active]="activeTab === 'output'" (click)="activeTab = 'output'">Result</button>
+    <button [class.active]="activeTab === 'problem'" (click)="activeTab = 'problem'">
+      <i class="ph-bold ph-file-text"></i> Problem
+    </button>
+    <button [class.active]="activeTab === 'code'" (click)="activeTab = 'code'">
+      <i class="ph-bold ph-code"></i> Code
+    </button>
+    <button [class.active]="activeTab === 'output'" (click)="activeTab = 'output'">
+      <i class="ph-bold ph-terminal"></i> Result
+    </button>
   </div>
 
+  <!-- ══════════════════════════════════════
+       LEFT PANE — Problem Description
+  ══════════════════════════════════════ -->
   <aside class="problem-pane fade-in" [class.mobile-hidden]="activeTab !== 'problem'">
+
+    <!-- Pane header -->
     <div class="pane-header">
-      <span class="difficulty-badge">{{level}}</span>
-      <div class="timer-chip">
-        <span class="icon">⏱️</span> {{minutes}}:{{seconds < 10 ? '0'+seconds : seconds}}
+      <span class="difficulty-badge">{{ level }}</span>
+      <div class="timer-chip" [class.timer-warning]="minutes < 5">
+        <i class="ph-bold ph-timer"></i>
+        {{ minutes }}:{{ seconds < 10 ? '0' + seconds : seconds }}
       </div>
     </div>
-      
-    
+
+    <!-- Problem content -->
     <div class="problem-content">
+      <div class="problem-meta-row">
+        <span class="problem-id-tag">#{{ problemId }}</span>
+      </div>
+      <h1 class="problem-title">{{ title || 'Loading...' }}</h1>
+      <div class="description-text">
+        <p>{{ description }}</p>
+      </div>
 
-     <b> <h1>ProblemID: {{problemId}}</h1></b>
-      <h1 class="problem-title">Title: {{title || 'Problem Title'}}</h1>
-      <div class="description-text"><p>Description: {{description}}</p></div>
-
-      <div class="example-box">
-        <h4>💡 Example 1</h4>
+      <!-- Example box -->
+      <div class="example-box" *ngIf="testCases.length > 0">
+        <div class="example-header">
+          <i class="ph-bold ph-lightbulb"></i> Example
+        </div>
         <div class="example-content">
-          <div><strong>Input:</strong> <code>{{testCases[0].inputData}}</code></div>
-          <div><strong>Output:</strong> <code>{{testCases[0].expectedOutput}}</code></div>
+          <div class="example-row">
+            <span class="ex-label">Input</span>
+            <code>{{ testCases[0].inputData }}</code>
+          </div>
+          <div class="example-row">
+            <span class="ex-label">Output</span>
+            <code class="ex-output">{{ testCases[0].expectedOutput }}</code>
+          </div>
         </div>
       </div>
 
+      <!-- Test cases -->
       <div class="testcases-section">
-        <h3>🧪 Test Cases</h3>
+        <h3 class="tc-heading">
+          <i class="ph-bold ph-test-tube"></i> Test Cases
+          <span class="tc-count">{{ testCases.length }}</span>
+        </h3>
         <div class="tc-grid">
           <div *ngFor="let tc of testCases; let i = index" class="tc-card">
-            <header>Case {{ i + 1 }}</header>
+            <div class="tc-header">Case {{ i + 1 }}</div>
             <div class="tc-body">
-              <label>Input</label><pre>{{ tc.inputData }}</pre>
-              <label>Expected</label><pre class="success-pre">{{ tc.expectedOutput }}</pre>
+              <div class="tc-row">
+                <span class="tc-label">Input</span>
+                <pre>{{ tc.inputData }}</pre>
+              </div>
+              <div class="tc-row">
+                <span class="tc-label">Expected</span>
+                <pre class="tc-expected">{{ tc.expectedOutput }}</pre>
+              </div>
             </div>
           </div>
         </div>
@@ -61,36 +97,95 @@
     </div>
   </aside>
 
+  <!-- ══════════════════════════════════════
+       RIGHT PANE — Editor + Terminal
+  ══════════════════════════════════════ -->
   <main class="editor-pane" [class.mobile-hidden]="activeTab !== 'code' && activeTab !== 'output'">
-    
+
+    <!-- Code section -->
     <div class="code-section" [class.mobile-hidden]="activeTab === 'output'">
+
+      <!-- Editor header -->
       <header class="editor-header">
         <div class="lang-selector">
+          <i class="ph-bold ph-code-block"></i>
           <select [(ngModel)]="language">
-            <option *ngFor="let lang of languages" [value]="lang">{{lang}}</option>
+            <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
           </select>
         </div>
-        
+
         <div class="action-btns">
-          <button (click)="runCode(); activeTab = 'output'" class="btn-run">▶ Run</button>
-          <button (click)="submitCode()" class="btn-submit">🚀 Submit</button>
+          <button (click)="runCode(); activeTab = 'output'" class="btn-run" [disabled]="isProcessing">
+            <i class="ph-bold ph-play"></i> Run
+          </button>
+          <button (click)="submitCode()" class="btn-submit" [disabled]="isProcessing">
+            <span *ngIf="isProcessing" class="btn-spinner"></span>
+            <i *ngIf="!isProcessing" class="ph-bold ph-rocket-launch"></i>
+            {{ isProcessing ? 'Processing...' : 'Submit' }}
+          </button>
         </div>
       </header>
 
+      <!-- Code editor -->
       <div class="editor-wrapper">
-        <textarea [(ngModel)]="code" class="code-editor" placeholder="// Write logic..." spellcheck="false"></textarea>
+        <textarea
+          [(ngModel)]="code"
+          class="code-editor"
+          placeholder="// Write your solution here..."
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off">
+        </textarea>
       </div>
     </div>
 
-    <div class="terminal-container" [class.mobile-full]="activeTab === 'output'" [class.mobile-hidden]="activeTab === 'code'">
+    <!-- Terminal / Result panel -->
+    <div class="terminal-container"
+      [class.mobile-full]="activeTab === 'output'"
+      [class.mobile-hidden]="activeTab === 'code'">
+
       <div class="terminal-header">
-        <span>Terminal Output</span>
-        <button class="clear-btn" (click)="output = ''">Clear</button>
+        <div class="terminal-title">
+          <i class="ph-bold ph-terminal-window"></i>
+          <span>Terminal Output</span>
+        </div>
+        <div class="terminal-actions">
+          <!-- Marks chip — shown after run -->
+          <div class="marks-chip" *ngIf="Marks > 0">
+            <i class="ph-bold ph-star"></i>
+            {{ Marks | number:'1.0-0' }}%
+          </div>
+          <!-- Complexity chip -->
+          <div class="complexity-chip" *ngIf="complexity && complexity !== 'There is no code'">
+            <i class="ph-bold ph-chart-line-up"></i>
+            {{ complexity }}
+          </div>
+          <button class="clear-btn" (click)="output = ''" title="Clear output">
+            <i class="ph-bold ph-trash"></i>
+          </button>
+        </div>
       </div>
+
       <div class="terminal-body">
-        <pre *ngIf="output" class="fade-in">{{output}}</pre>
-        <div *ngIf="!output" class="empty-terminal">Run code to see results...</div>
+        <!-- Processing state -->
+        <div *ngIf="isProcessing" class="terminal-processing">
+          <div class="processing-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <p>Executing test cases...</p>
+        </div>
+
+        <!-- Output -->
+        <pre *ngIf="output && !isProcessing" class="terminal-output fade-in">{{ output }}</pre>
+
+        <!-- Empty state -->
+        <div *ngIf="!output && !isProcessing" class="terminal-empty">
+          <i class="ph-bold ph-terminal"></i>
+          <p>Run your code to see results here</p>
+        </div>
       </div>
     </div>
+
   </main>
 </div>

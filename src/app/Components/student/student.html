@@ -7,138 +7,126 @@
   </app-student-sidebar>
 
   <main class="main-content">
-    <div class="content-header" style="margin-bottom: 30px">
-      <div
-        class="header-main-flex"
-        style="display: flex; justify-content: space-between; align-items: center; width: 100%"
-      >
-        <div class="title-section">
-          <h2 style="margin: 0; color: #1e293b">Coding Challenges</h2>
-          <p style="margin: 5px 0 0; color: #64748b">
-            Sharpen your skills by solving assigned problems.
+
+    <!-- TOAST -->
+    <div class="toast-wrapper fade-in" *ngIf="toastMessage" [ngClass]="toastType">
+      <div class="toast-content">
+        <div class="icon">
+          <i *ngIf="toastType === 'success'" class="ph-bold ph-check-circle"></i>
+          <i *ngIf="toastType === 'error'"   class="ph-bold ph-x-circle"></i>
+          <i *ngIf="toastType === 'warning'" class="ph-bold ph-warning"></i>
+          <i *ngIf="toastType === 'info'"    class="ph-bold ph-info"></i>
+        </div>
+        <div class="toast-body">
+          <p class="toast-title">
+            {{ toastType === 'success' ? 'Success' : toastType === 'error' ? 'Error' : 'Notice' }}
           </p>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 15px">
-          <div class="notification-bell desktop-only" (click)="openNotifications()" (keydown.enter)="openNotifications()">
-            <i class="ph-bold ph-bell"></i>
-            <span class="badge">
-              {{ notificationCount }}
-            </span>
-          </div>
+          <p class="toast-msg">{{ toastMessage }}</p>
         </div>
       </div>
+      <div class="toast-progress"></div>
+    </div>
 
-      <div class="toast-wrapper fade-in" *ngIf="toastMessage" [ngClass]="toastType">
-        <div class="toast-content">
-          <div class="icon">
-            <i *ngIf="toastType === 'success'" class="ph-bold ph-check-circle"></i>
-            <i *ngIf="toastType === 'error'" class="ph-bold ph-x-circle"></i>
-            <i *ngIf="toastType === 'warning'" class="ph-bold ph-warning"></i>
-            <i *ngIf="toastType === 'info'" class="ph-bold ph-info"></i>
-          </div>
-          <div class="toast-body">
-            <p class="toast-title">
-              {{ toastType === 'success' ? 'Success' : toastType === 'error' ? 'Error' : 'Notice' }}
-            </p>
-            <p class="toast-msg">{{ toastMessage }}</p>
-          </div>
-        </div>
-        <div class="toast-progress"></div>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="header-left">
+        <h2 class="page-title">Coding Challenges</h2>
+        <p class="page-subtitle">Sharpen your skills by solving assigned problems.</p>
       </div>
-
-      <div
-        class="stats-mini"
-        *ngIf="!loading"
-        style="margin-top: 15px; font-size: 0.9rem; color: #94a3b8"
-      >
-        Total In page: <strong style="color: #4f46e5">{{ questions.length }}</strong>
+      <div class="header-right">
+        <button class="notif-btn desktop-only" (click)="openNotifications()" title="Notifications">
+          <i class="ph-bold ph-bell"></i>
+          <span class="notif-badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>
+        </button>
       </div>
     </div>
-    <div *ngIf="loading" class="loader-container" style="text-align: center; padding: 50px">
+
+    <!-- STATS BAR -->
+    <div class="stats-bar" *ngIf="!loading">
+      <span class="stat-item">
+        <i class="ph-bold ph-stack"></i>
+        <span>Total: <strong>{{ questions.length }}</strong></span>
+      </span>
+      <span class="stat-item" *ngIf="totalPages > 1">
+        <i class="ph-bold ph-book-open"></i>
+        <span>Page <strong>{{ currentPage + 1 }}</strong> of <strong>{{ totalPages }}</strong></span>
+      </span>
+    </div>
+
+    <!-- LOADING -->
+    <div *ngIf="loading" class="loader-box">
       <div class="spinner"></div>
-      <p style="color: #64748b; margin-top: 10px">Fetching your challenges...</p>
+      <p>Fetching your challenges...</p>
     </div>
 
+    <!-- PROBLEMS GRID -->
     <div class="problems-grid" *ngIf="!loading && questions.length > 0">
       <div *ngFor="let q of questions" class="problem-card">
-        <div class="card-tag">#{{ q.id }}</div>
-        <div class="card-content">
-          <h2>{{ q.title }}</h2>
-          <p class="truncate-text">{{ q.problemStatement }}</p>
+        <div class="card-header">
+          <span class="card-id">#{{ q.id }}</span>
+          <span class="card-level" *ngIf="q.level" [ngClass]="q.level?.toLowerCase()">{{ q.level }}</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">{{ q.title }}</h3>
+          <p class="card-desc">{{ q.problemStatement }}</p>
         </div>
         <div class="card-footer">
-          <button class="solve-btn" (click)="solve(q.id)">Solve Now <span>→</span></button>
+          <button class="solve-btn" (click)="solve(q.id)">
+            <i class="ph-bold ph-code"></i>
+            Solve Now
+            <i class="ph-bold ph-arrow-right"></i>
+          </button>
         </div>
       </div>
     </div>
 
-    <div
-      *ngIf="!loading && questions.length === 0"
-      class="empty-state"
-      style="text-align: center; padding: 80px 20px"
-    >
-      <div class="empty-icon" style="font-size: 3rem; margin-bottom: 15px">📂</div>
-      <h3 style="color: #1e293b">No challenges assigned</h3>
-      <p style="color: #64748b">Take a rest or check back later!</p>
+    <!-- EMPTY STATE -->
+    <div *ngIf="!loading && questions.length === 0" class="empty-state">
+      <div class="empty-icon">📂</div>
+      <h3>No challenges assigned</h3>
+      <p>Take a rest or check back later!</p>
     </div>
 
+    <!-- PAGINATION -->
     <div class="pagination-wrapper" *ngIf="!loading && totalPages > 1">
-      <button
-        class="pag-btn"
-        [disabled]="currentPage === 0"
-        (click)="getQuestions(currentPage - 1)"
-      >
-        &laquo; Previous
+      <button class="pag-btn" [disabled]="currentPage === 0" (click)="getQuestions(currentPage - 1)">
+        <i class="ph-bold ph-caret-left"></i> Previous
       </button>
-
       <div class="page-numbers">
         Page <strong>{{ currentPage + 1 }}</strong> of {{ totalPages }}
       </div>
-
-      <button
-        class="pag-btn"
-        [disabled]="currentPage >= totalPages - 1"
-        (click)="getQuestions(currentPage + 1)"
-      >
-        Next &raquo;
+      <button class="pag-btn" [disabled]="currentPage >= totalPages - 1" (click)="getQuestions(currentPage + 1)">
+        Next <i class="ph-bold ph-caret-right"></i>
       </button>
     </div>
 
+    <!-- NOTIFICATION MODAL -->
     <div class="notification-modal" *ngIf="isNotificationOpen">
-      <!-- Overlay -->
       <div class="modal-overlay" (click)="closeNotifications()"></div>
-
-      <!-- Modal Box -->
       <div class="modal-content">
         <div class="modal-header">
-          <h3>Notifications</h3>
-          <button (click)="closeNotifications()">✖</button>
+          <h3><i class="ph-bold ph-bell"></i> Notifications</h3>
+          <button (click)="closeNotifications()" title="Close">
+            <i class="ph-bold ph-x"></i>
+          </button>
         </div>
-
         <div class="modal-body">
-          <div *ngIf="notifications.length === 0">No notifications</div>
-
-          <div *ngFor="let n of notifications" class="notification-item">
-            <div class="notif-content" (click)="markReadNotification(n)" (keydown.enter)="markReadNotification(n)">
-              <!-- Message -->
-              <p class="notif-message">
-                {{ n.message }}
-              </p>
-
-              <!-- Date + Time -->
+          <div class="empty-notif" *ngIf="notifications.length === 0">
+            <i class="ph-bold ph-bell-slash"></i>
+            <p>No notifications yet</p>
+          </div>
+          <div *ngFor="let n of notifications" class="notification-item" [class.unread]="!n.read">
+            <div class="notif-content" (click)="markReadNotification(n)">
+              <p class="notif-message">{{ n.message }}</p>
               <div class="notif-meta">
-                <span class="notif-date">
-                  {{ n.createdAt | date: 'dd MMM yyyy' }}
-                </span>
-                <span class="notif-time">
-                  {{ n.createdAt | date: 'hh:mm a' }}
-                </span>
+                <span class="notif-date">{{ n.createdAt | date:'dd MMM yyyy' }}</span>
+                <span class="notif-time">{{ n.createdAt | date:'hh:mm a' }}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   </main>
 </div>

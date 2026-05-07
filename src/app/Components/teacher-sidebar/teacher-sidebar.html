@@ -31,40 +31,45 @@
   </div>
 
   <nav class="nav-links">
-    <button (click)="toggleAccordian()">
-      <i class="ph-bold ph-list-checks"></i>
-      <span class="text">Problems List</span>
+
+    <!-- Problems accordion trigger -->
+    <button class="accordion-trigger" [class.accordion-open]="isAccordianExpanded()" (click)="toggleAccordian()">
+      <span class="nav-item-inner">
+        <i class="ph-bold ph-list-checks"></i>
+        <span class="text">Problems List</span>
+      </span>
+      <i class="ph-bold ph-caret-down accordion-arrow"></i>
     </button>
 
-     <ul class="accor-dropdown" [class.open]="isAccordianExpanded()">
-             <li [class.active]="activeSection === 'see' || activeSection === 'studentsList'"
-      (click)="goProblems.emit(); close.emit()">-Fully Ready Problems</li>
-             <li [class.active]="activeSection === 'see' || activeSection === 'studentsList'"
-      (click)="goProblemWithoutTestCase.emit(); close.emit()">-With Drafted Problems</li>
-      </ul>
+    <ul class="accor-dropdown" [class.open]="isAccordianExpanded()">
+      <li
+        [class.active]="activeSection === 'see' && !includeTestCases"
+        (click)="goProblems.emit(); close.emit()">
+        <i class="ph-bold ph-check-circle"></i> Fully Ready
+      </li>
+      <li
+        [class.active]="includeTestCases"
+        (click)="goProblemWithoutTestCase.emit(); close.emit()">
+        <i class="ph-bold ph-pencil-line"></i> With Drafts
+      </li>
+    </ul>
 
-     <!-- <button
-      [class.active]="activeSection === 'see' || activeSection === 'studentsList'"
-      [class.include-test-cases]="includeTestCases==true"
-      (click)="goProblemWithoutTestCase.emit(); close.emit()">
-      <i class="ph-bold ph-list-checks"></i>
-      <span class="text">WithOut Test Cases</span>
-    
-      
-    </button> -->
     <button (click)="goAddStatement.emit(); close.emit()">
       <i class="ph-bold ph-plus-circle"></i>
       <span class="text">Add Statement</span>
     </button>
+
     <button (click)="goCampus.emit(); close.emit()">
       <i class="ph-bold ph-buildings"></i>
       <span class="text">Campus Info</span>
     </button>
+
     <a [routerLink]="['/changePassword']" [queryParams]="{from:'teacher'}"
        class="nav-item" routerLinkActive="active" (click)="close.emit()">
       <i class="ph-bold ph-lock-key"></i>
       <span class="text">Change Password</span>
     </a>
+
   </nav>
 
   <div class="sidebar-footer">
